@@ -1,0 +1,147 @@
+//===========
+// Cluster.h
+//===========
+
+#pragma once
+
+
+//=======
+// Using
+//=======
+
+#include "Default\StringClass.h"
+
+
+//======================
+// Forward-Declarations
+//======================
+
+namespace Clusters
+{
+namespace Details
+	{
+	namespace Index
+		{
+		template <class ITEM, class ID, UINT _GroupSize, BOOL _ReadOnly> class IndexIteratorBase;
+		}
+	}
+}
+
+
+//===========
+// Namespace
+//===========
+
+namespace Clusters {
+	namespace Details {
+		namespace Cluster {
+
+
+//====================
+// Base-Class Cluster
+//====================
+
+template <class GROUP, class ITEMGROUP, class PARENTGROUP>
+class ClusterBase
+{
+public:
+	// Friends
+	template <class ITEM, class GROUP, class ITEMGROUP, class PARENTGROUP, BOOL _ReadOnly> friend class IteratorBase;
+	template <class ITEM, class ID, UINT _GroupSize, BOOL _ReadOnly> friend class ::Clusters::Details::Index::IndexIteratorBase;
+
+	// Access
+	inline operator BOOL()const { return PointerValid(this)&&pRoot->GetCount()>0; }
+	virtual inline UINT64 GetCount()const { return pRoot->GetItemCount(); }
+
+	// Modification
+	VOID Clear()
+		{
+		delete pRoot;
+		pRoot=new ITEMGROUP();
+		}
+	virtual VOID RemoveAt(UINT64 Position)
+		{
+		pRoot->RemoveAt(Position);
+		UpdateRoot();
+		}
+
+protected:
+	// Con-/Destructors
+	ClusterBase(): pRoot(new ITEMGROUP()) {}
+	~ClusterBase() { delete pRoot; }
+
+	// Common
+	VOID UpdateRoot()
+		{
+		if(pRoot->GetChildCount()==1&&pRoot->GetLevel()>0)
+			{
+			auto proot=(PARENTGROUP*)pRoot;
+			GROUP* pnewroot=proot->GetChild(0);
+			proot->SetChildCount(0);
+			delete proot;
+			pRoot=pnewroot;
+			}
+		}
+	GROUP* pRoot;
+};
+
+
+//=========
+// Cluster
+//=========
+
+// Cluster
+template <class ITEM, class GROUP, class ITEMGROUP, class PARENTGROUP, class IT_R, class IteratorReadWrite>
+class Cluster: public ClusterBase<GROUP, ITEMGROUP, PARENTGROUP>
+{
+public:
+	// Access
+	inline IT_R At(IT_R const& It)const { return IT_R(It); }
+	inline IT_R At(IteratorReadWrite const& It)const { return IT_R(It); }
+	inline IteratorReadWrite First() { return IteratorReadWrite(this, 0); }
+	inline IT_R First()const { return IT_R(this, 0); }
+};
+
+// Pointer-Cluster
+template <class ITEM, class GROUP, class ITEMGROUP, class PARENTGROUP, class IT_R, class IteratorReadWrite>
+class Cluster<ITEM*, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IteratorReadWrite>: public ClusterBase<GROUP, ITEMGROUP, PARENTGROUP>
+{
+public:
+	// Access
+	inline IT_R At(IT_R const& It)const { return IT_R(It); }
+	inline IT_R At(IteratorReadWrite const& It)const { return IT_R(It); }
+	inline IteratorReadWrite First() { return IteratorReadWrite(this, 0); }
+	inline IT_R First()const { return IT_R(this, 0); }
+	inline ITEM* GetAt(UINT64 Position)const { return pRoot->GetAt(Position); }
+};
+
+
+#ifdef __cplusplus_winrt
+// Handle-Cluster
+template <class ITEM, class GROUP, class ITEMGROUP, class PARENTGROUP, class IT_R, class IteratorReadWrite>
+class Cluster<ITEM^, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IteratorReadWrite>: public ClusterBase<GROUP, ITEMGROUP, PARENTGROUP>
+{
+public:
+	// Access
+	inline IT_R At(IT_R const& It)const { return IT_R(It); }
+	inline IT_R At(IteratorReadWrite const& It)const { return IT_R(It); }
+	inline IteratorReadWrite First() { return IteratorReadWrite(this, 0); }
+	inline IT_R First()const { return IT_R(this, 0); }
+	inline ITEM^ GetAt(UINT64 Position)const { return pRoot->GetAt(Position); }
+};
+#endif
+
+// String-Cluster
+template <class CHAR, BOOL _Alloc, class GROUP, class ITEMGROUP, class PARENTGROUP, class IT_R, class IteratorReadWrite>
+class Cluster<String<CHAR, _Alloc>, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IteratorReadWrite>: public ClusterBase<GROUP, ITEMGROUP, PARENTGROUP>
+{
+public:
+	// Access
+	inline IT_R At(IT_R const& It)const { return IT_R(It); }
+	inline IT_R At(IteratorReadWrite const& It)const { return IT_R(It); }
+	inline IteratorReadWrite First() { return IteratorReadWrite(this, 0); }
+	inline IT_R First()const { return IT_R(this, 0); }
+	inline CHAR const* GetAt(UINT64 Position)const { return pRoot->GetAt(Position); }
+};
+
+}}}
