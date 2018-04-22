@@ -91,26 +91,26 @@ protected:
 //=========
 
 // Cluster
-template <class ITEM, class GROUP, class ITEMGROUP, class PARENTGROUP, class IT_R, class IteratorReadWrite>
+template <class ITEM, class GROUP, class ITEMGROUP, class PARENTGROUP, class IT_R, class IT_W>
 class Cluster: public ClusterBase<GROUP, ITEMGROUP, PARENTGROUP>
 {
 public:
 	// Access
 	inline IT_R At(IT_R const& It)const { return IT_R(It); }
-	inline IT_R At(IteratorReadWrite const& It)const { return IT_R(It); }
-	inline IteratorReadWrite First() { return IteratorReadWrite(this, 0); }
+	inline IT_R At(IT_W const& It)const { return IT_R(It); }
+	inline IT_W First() { return IT_W(this, 0); }
 	inline IT_R First()const { return IT_R(this, 0); }
 };
 
 // Pointer-Cluster
-template <class ITEM, class GROUP, class ITEMGROUP, class PARENTGROUP, class IT_R, class IteratorReadWrite>
-class Cluster<ITEM*, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IteratorReadWrite>: public ClusterBase<GROUP, ITEMGROUP, PARENTGROUP>
+template <class ITEM, class GROUP, class ITEMGROUP, class PARENTGROUP, class IT_R, class IT_W>
+class Cluster<ITEM*, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>: public ClusterBase<GROUP, ITEMGROUP, PARENTGROUP>
 {
 public:
 	// Access
 	inline IT_R At(IT_R const& It)const { return IT_R(It); }
-	inline IT_R At(IteratorReadWrite const& It)const { return IT_R(It); }
-	inline IteratorReadWrite First() { return IteratorReadWrite(this, 0); }
+	inline IT_R At(IT_W const& It)const { return IT_R(It); }
+	inline IT_W First() { return IT_W(this, 0); }
 	inline IT_R First()const { return IT_R(this, 0); }
 	inline ITEM* GetAt(UINT64 Position)const { return pRoot->GetAt(Position); }
 };
@@ -118,28 +118,28 @@ public:
 
 #ifdef __cplusplus_winrt
 // Handle-Cluster
-template <class ITEM, class GROUP, class ITEMGROUP, class PARENTGROUP, class IT_R, class IteratorReadWrite>
-class Cluster<ITEM^, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IteratorReadWrite>: public ClusterBase<GROUP, ITEMGROUP, PARENTGROUP>
+template <class ITEM, class GROUP, class ITEMGROUP, class PARENTGROUP, class IT_R, class IT_W>
+class Cluster<ITEM^, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>: public ClusterBase<GROUP, ITEMGROUP, PARENTGROUP>
 {
 public:
 	// Access
 	inline IT_R At(IT_R const& It)const { return IT_R(It); }
-	inline IT_R At(IteratorReadWrite const& It)const { return IT_R(It); }
-	inline IteratorReadWrite First() { return IteratorReadWrite(this, 0); }
+	inline IT_R At(IT_W const& It)const { return IT_R(It); }
+	inline IT_W First() { return IT_W(this, 0); }
 	inline IT_R First()const { return IT_R(this, 0); }
 	inline ITEM^ GetAt(UINT64 Position)const { return pRoot->GetAt(Position); }
 };
 #endif
 
 // String-Cluster
-template <class CHAR, BOOL _Alloc, class GROUP, class ITEMGROUP, class PARENTGROUP, class IT_R, class IteratorReadWrite>
-class Cluster<String<CHAR, _Alloc>, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IteratorReadWrite>: public ClusterBase<GROUP, ITEMGROUP, PARENTGROUP>
+template <class CHAR, BOOL _Alloc, class GROUP, class ITEMGROUP, class PARENTGROUP, class IT_R, class IT_W>
+class Cluster<String<CHAR, _Alloc>, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>: public ClusterBase<GROUP, ITEMGROUP, PARENTGROUP>
 {
 public:
 	// Access
 	inline IT_R At(IT_R const& It)const { return IT_R(It); }
-	inline IT_R At(IteratorReadWrite const& It)const { return IT_R(It); }
-	inline IteratorReadWrite First() { return IteratorReadWrite(this, 0); }
+	inline IT_R At(IT_W const& It)const { return IT_R(It); }
+	inline IT_W First() { return IT_W(this, 0); }
 	inline IT_R First()const { return IT_R(this, 0); }
 	inline CHAR const* GetAt(UINT64 Position)const { return pRoot->GetAt(Position); }
 };
