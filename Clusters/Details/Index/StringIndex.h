@@ -34,8 +34,8 @@ class StringIndex: public IndexBase<String<CHAR, _Alloc>, ITEM, _GroupSize>
 {
 public:
 	// Access
-	inline ITEM& operator[](LPCSTR Id) { return *GetInternalAddress(Id, 0, false); }
-	inline ITEM const& operator[](LPCSTR Id)const { return *GetInternalAddress(Id, 0, false); }
+	inline ITEM& operator[](CHAR const* Id) { return *GetInternalAddress(Id, 0, false); }
+	inline ITEM const& operator[](CHAR const* Id)const { return *GetInternalAddress(Id, 0, false); }
 	inline BOOL Contains(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return pRoot->Contains(Id, Length, CaseSensitive); }
 	inline IteratorReadWrite Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return IteratorReadWrite(this, Id, Length, CaseSensitive); }
 	inline IteratorReadOnly Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return IteratorReadOnly(this, Id, Length, CaseSensitive); }
@@ -264,8 +264,8 @@ class StringIndex<CHAR, false, ITEM, _GroupSize>: public IndexBase<String<CHAR, 
 {
 public:
 	// Access
-	inline ITEM& operator[](LPCSTR Id) { return *GetInternalAddress(Id, 0, false); }
-	inline ITEM const& operator[](LPCSTR Id)const { return *GetInternalAddress(Id, 0, false); }
+	inline ITEM& operator[](CHAR const* Id) { return *GetInternalAddress(Id, 0, false); }
+	inline ITEM const& operator[](CHAR const* Id)const { return *GetInternalAddress(Id, 0, false); }
 	inline BOOL Contains(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return pRoot->Contains(Id, Length, CaseSensitive); }
 	inline IteratorReadWrite Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return IteratorReadWrite(this, Id, Length, CaseSensitive); }
 	inline IteratorReadOnly Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return IteratorReadOnly(this, Id, Length, CaseSensitive); }
