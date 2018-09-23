@@ -9,9 +9,9 @@
 // Using
 //=======
 
-#include "Default\StringClass.h"
 #include "..\Cluster\Cluster.h"
 #include "..\Cluster\Iterator.h"
+#include "..\StringClass.h"
 #include "IndexParentGroup.h"
 
 

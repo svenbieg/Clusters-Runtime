@@ -77,5 +77,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Details\Vector\VectorParentGroup.h">
       <Filter>Details\Vector</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Details\StringClass.h">
+      <Filter>Details</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

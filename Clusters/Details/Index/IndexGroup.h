@@ -9,8 +9,8 @@
 // Using
 //=======
 
-#include "Default\StringClass.h"
 #include "..\Cluster\Group.h"
+#include "..\StringClass.h"
 #include "IndexItem.h"
 
 
