@@ -5,13 +5,6 @@
 #pragma once
 
 
-//=======
-// Using
-//=======
-
-#include "pch.h"
-
-
 //====================
 // Typed Array-Helper
 //====================

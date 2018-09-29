@@ -10,13 +10,12 @@
     <Filter Include="Details\Index">
       <UniqueIdentifier>{989762a5-ca97-4a59-9a6f-bee82dcf5fd4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Details\Vector">
+    <Filter Include="Details\List">
       <UniqueIdentifier>{68b8a5c1-baf6-43d5-b3ad-2d66a81da34a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Index.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Vector.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Details\Cluster\Cluster.h">
       <Filter>Details\Cluster</Filter>
     </ClInclude>
@@ -56,29 +55,30 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Details\Index\StringIndex.h">
       <Filter>Details\Index</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Details\Vector\StringVector.h">
-      <Filter>Details\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Details\Vector\Vector.h">
-      <Filter>Details\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Details\Vector\VectorBase.h">
-      <Filter>Details\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Details\Vector\VectorGroup.h">
-      <Filter>Details\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Details\Vector\VectorItemGroup.h">
-      <Filter>Details\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Details\Vector\VectorIterator.h">
-      <Filter>Details\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Details\Vector\VectorParentGroup.h">
-      <Filter>Details\Vector</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Details\StringClass.h">
       <Filter>Details</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)List.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Details\List\List.h">
+      <Filter>Details\List</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Details\List\ListBase.h">
+      <Filter>Details\List</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Details\List\ListGroup.h">
+      <Filter>Details\List</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Details\List\ListItemGroup.h">
+      <Filter>Details\List</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Details\List\ListIterator.h">
+      <Filter>Details\List</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Details\List\ListParentGroup.h">
+      <Filter>Details\List</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Details\List\StringList.h">
+      <Filter>Details\List</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -53,19 +53,13 @@ return (SIZE_T)Value;
 template <typename S>
 inline UINT ToUINT(S Value)
 {
-IF64(ASSERT(Value<=0xFFFFFFFF));
+ASSERT(Value<=0xFFFFFFFF);
 return (UINT)Value;
-}
-
-inline UINT ToUINT(WORD High, WORD Low)
-{
-return ((UINT)High<<16)|Low;
 }
 
 inline UINT64 ToUINT64(UINT High, UINT Low)
 {
-UINT64 u=(UINT64)High<<32;
-return u|Low;
+return ((UINT64)High<<32)|Low;
 }
 
 inline WORD ToWORD(UINT Value)

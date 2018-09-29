@@ -3,10 +3,6 @@
   <PropertyGroup Label="Globals">
     <HasSharedItems>true</HasSharedItems>
     <ItemsProjectGuid>{9997C0B0-5248-4573-877D-185CE6CEE621}</ItemsProjectGuid>
-    <ItemsSccProjectName>$/Clusters/Clusters</ItemsSccProjectName>
-    <ItemsSccAuxPath>https://svenbieg.visualstudio.com</ItemsSccAuxPath>
-    <ItemsSccLocalPath>.</ItemsSccLocalPath>
-    <ItemsSccProvider>{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}</ItemsSccProvider>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
   <ItemDefinitionGroup>
@@ -31,15 +27,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Details\Index\IndexIterator.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Details\Index\IndexParentGroup.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Details\Index\StringIndex.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Details\List\List.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Details\List\ListBase.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Details\List\ListGroup.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Details\List\ListItemGroup.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Details\List\ListIterator.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Details\List\ListParentGroup.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Details\List\StringList.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Details\StringClass.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Details\Vector\StringVector.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Details\Vector\Vector.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Details\Vector\VectorBase.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Details\Vector\VectorGroup.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Details\Vector\VectorItemGroup.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Details\Vector\VectorIterator.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Details\Vector\VectorParentGroup.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Index.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Vector.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)List.h" />
   </ItemGroup>
 </Project>

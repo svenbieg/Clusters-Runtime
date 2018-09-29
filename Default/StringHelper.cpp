@@ -9,6 +9,7 @@
 // Using
 //=======
 
+#include <cstdio>
 #include <stdarg.h>
 #include "CharHelper.h"
 #include "StringHelper.h"
@@ -1270,7 +1271,7 @@ return i;
 #else
 NTSTATUS status=RtlStringCchPrintfA(pstr, usize, pformat, lst);
 if(!NT_SUCCESS(status))
-	THROW(E_FAIL);
+	throw ref new Platform::FailureException();
 return StringLength(pstr);
 #endif
 }
@@ -1286,7 +1287,7 @@ return i;
 #else
 NTSTATUS status=RtlStringCchPrintfW(pstr, usize, pformat, lst);
 if(!NT_SUCCESS(status))
-	THROW(E_FAIL);
+	throw ref new Platform::FailureException();
 return StringLength(pstr);
 #endif
 }
@@ -1313,7 +1314,7 @@ return i;
 #else
 NTSTATUS status=RtlStringCchPrintfA(pstr, 1024, pformat, lst);
 if(!NT_SUCCESS(status))
-	THROW(E_FAIL);
+	throw ref new Platform::FailureException();
 return StringLength(pstr);
 #endif
 }
@@ -1330,7 +1331,7 @@ return i;
 #else
 NTSTATUS status=RtlStringCchPrintfW(pstr, 1024, pformat, lst);
 if(!NT_SUCCESS(status))
-	THROW(E_FAIL);
+	throw ref new Platform::FailureException();
 return StringLength(pstr);
 #endif
 }

@@ -24,13 +24,14 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Guid.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemoryHelper.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Platform.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)StringClass.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ResourceHelper.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BufferHelper.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CharHelper.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ResourceHelper.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StringHelper.cpp" />
   </ItemGroup>
 </Project>
