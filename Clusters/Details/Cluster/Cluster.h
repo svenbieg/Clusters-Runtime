@@ -111,6 +111,8 @@ public:
 	inline IT_R At(IT_W const& It)const { return IT_R(It); }
 	inline IT_W First() { return IT_W(this, 0); }
 	inline IT_R First()const { return IT_R(this, 0); }
+	inline IT_W Last() { return IT_W(this, pRoot->GetItemCount()-1); }
+	inline IT_R Last()const { return IT_R(this, pRoot->GetItemCount()-1); }
 };
 
 // Pointer-Cluster
@@ -123,6 +125,8 @@ public:
 	inline IT_R At(IT_W const& It)const { return IT_R(It); }
 	inline IT_W First() { return IT_W(this, 0); }
 	inline IT_R First()const { return IT_R(this, 0); }
+	inline IT_W Last() { return IT_W(this, pRoot->GetItemCount()-1); }
+	inline IT_R Last()const { return IT_R(this, pRoot->GetItemCount()-1); }
 	inline ITEM* GetAt(UINT64 Position)const { return pRoot->GetAt(Position); }
 };
 
@@ -138,6 +142,8 @@ public:
 	inline IT_R At(IT_W const& It)const { return IT_R(It); }
 	inline IT_W First() { return IT_W(this, 0); }
 	inline IT_R First()const { return IT_R(this, 0); }
+	inline IT_W Last() { return IT_W(this, pRoot->GetItemCount()-1); }
+	inline IT_R Last()const { return IT_R(this, pRoot->GetItemCount()-1); }
 	inline ITEM^ GetAt(UINT64 Position)const { return pRoot->GetAt(Position); }
 };
 #endif
@@ -152,6 +158,8 @@ public:
 	inline IT_R At(IT_W const& It)const { return IT_R(It); }
 	inline IT_W First() { return IT_W(this, 0); }
 	inline IT_R First()const { return IT_R(this, 0); }
+	inline IT_W Last() { return IT_W(this, pRoot->GetItemCount()-1); }
+	inline IT_R Last()const { return IT_R(this, pRoot->GetItemCount()-1); }
 	inline CHAR const* GetAt(UINT64 Position)const { return pRoot->GetAt(Position); }
 };
 
