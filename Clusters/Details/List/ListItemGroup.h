@@ -32,9 +32,13 @@ class ListItemGroup: public ::Clusters::Details::Cluster::ItemGroup<ITEM, ListGr
 private:
 	// Using
 	using ARRAYHELPER=ArrayHelper<ITEM, UINT>;
+	using BASE=::Clusters::Details::Cluster::ItemGroup<ITEM, ListGroup<ITEM>, _GroupSize>;
 	using ITEMGROUP=ItemGroup<ITEM, ListGroup<ITEM>, _GroupSize>;
 
 public:
+	// Con-/Destructors
+	using BASE::BASE;
+
 	// Modification
 	inline ITEM* Append(BOOL Again)override { return ITEMGROUP::Append(); }
 	inline VOID Append(ITEM const* Items, UINT Count, BOOL CopyOnly) { ARRAYHELPER::Append(cItems.Get(), _GroupSize, &uItemCount, Items, Count, CopyOnly); }

@@ -31,23 +31,24 @@ class ListBase: public ::Clusters::Details::Cluster::Cluster<ITEM, ListGroup<ITE
 {
 public:
 	// Types
-	typedef ListItemGroup<ITEM, _GroupSize> ItemGroup;
 	typedef ListIterator<ITEM, _GroupSize, true> IteratorReadOnly;
 	typedef ListIterator<ITEM, _GroupSize, false> IteratorReadWrite;
-	typedef ListParentGroup<ITEM, _GroupSize> ParentGroup;
 
 	// Access
 	inline IteratorReadWrite At(UINT64 Position) { return IteratorReadWrite(this, Position); }
 	inline IteratorReadOnly At(UINT64 Position)const { return IteratorReadOnly(this, Position); }
 
 protected:
+	// Using
+	using PARENTGROUP=ListParentGroup<ITEM, _GroupSize>;
+
 	// Modification
 	ITEM* AppendInternal()
 		{
 		ITEM* pitem=pRoot->Append(false);
 		if(pitem)
 			return pitem;
-		pRoot=new ParentGroup(pRoot);
+		pRoot=new PARENTGROUP(pRoot);
 		pitem=pRoot->Append(true);
 		ASSERT(pitem);
 		return pitem;
@@ -57,7 +58,7 @@ protected:
 		ITEM* pitem=pRoot->InsertAt(Position, false);
 		if(pitem)
 			return pitem;
-		pRoot=new ParentGroup(pRoot);
+		pRoot=new PARENTGROUP(pRoot);
 		pitem=pRoot->InsertAt(Position, true);
 		ASSERT(pitem);
 		return pitem;

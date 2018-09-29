@@ -40,31 +40,31 @@ public:
 	inline IteratorReadOnly Find(ID const& Id)const { return IteratorReadOnly(this, 0, Id); }
 	inline ITEM& Get(ID const& Id) { return *GetInternalAddress<ID const&>(Id); }
 	inline ITEM const& Get(ID const& Id)const { return *GetInternalAddress<ID const&>(Id); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 	inline ITEM* TryGet(ID const& Id)const { return GetInternalAddress<ID const&>(Id); }
 
 	// Modification
-	inline Item* Add(ID const& Id)
+	inline INDEXITEM* Add(ID const& Id)
 		{
-		Item* pitem=AddInternal<ID const&>(Id);
+		INDEXITEM* pitem=AddInternal<ID const&>(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id);
+		new (pitem) INDEXITEM(Id);
 		return pitem;
 		}
-	inline Item* Add(ID const& Id, ITEM const& Value)
+	inline INDEXITEM* Add(ID const& Id, ITEM const& Value)
 		{
-		Item* pitem=AddInternal<ID const&>(Id);
+		INDEXITEM* pitem=AddInternal<ID const&>(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Value);
+		new (pitem) INDEXITEM(Id, Value);
 		return pitem;
 		}
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
-	inline Item* Set(ID const& Id, ITEM const& Value)
+	inline INDEXITEM* Set(ID const& Id, ITEM const& Value)
 		{
-		Item* pitem=pRoot->Get(Id);
+		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
@@ -87,12 +87,12 @@ public:
 	inline ID const& GetAt(UINT64 Position)const { return pRoot->GetAt(Position)->GetId(); }
 
 	// Modification
-	inline Item* Add(ID const& Id)
+	inline INDEXITEM* Add(ID const& Id)
 		{
-		Item* pitem=AddInternal<ID const&>(Id);
+		INDEXITEM* pitem=AddInternal<ID const&>(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id);
+		new (pitem) INDEXITEM(Id);
 		return pitem;
 		}
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
@@ -109,23 +109,23 @@ public:
 	inline IteratorReadWrite Find(ID const& Id) { return IteratorReadWrite(this, 0, Id); }
 	inline IteratorReadOnly Find(ID const& Id)const { return IteratorReadOnly(this, 0, Id); }
 	inline ITEM* Get(ID const& Id)const { return GetInternal<ITEM*, ID const& Id>(Id); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(ID const& Id, ITEM* Value)
+	inline INDEXITEM* Add(ID const& Id, ITEM* Value)
 		{
-		Item* pitem=AddInternal<ID const&>(Id);
+		INDEXITEM* pitem=AddInternal<ID const&>(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Value);
+		new (pitem) INDEXITEM(Id, Value);
 		return pitem;
 		}
 	inline ITEM* ReleaseAt(UINT64 Position) { return ReleaseInternal<ITEM*>(Position); }
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
-	inline Item* Set(ID const& Id, ITEM* Value)
+	inline INDEXITEM* Set(ID const& Id, ITEM* Value)
 		{
-		Item* pitem=pRoot->Get(Id);
+		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
@@ -147,22 +147,22 @@ public:
 	inline IteratorReadWrite Find(ID const& Id) { return IteratorReadWrite(this, 0, Id); }
 	inline IteratorReadOnly Find(ID const& Id)const { return IteratorReadOnly(this, 0, Id); }
 	inline ITEM^ Get(ID const& Id)const { return GetInternal<ITEM^, ID const&>(Id); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(ID const& Id, ITEM^ Value)
+	inline INDEXITEM* Add(ID const& Id, ITEM^ Value)
 		{
-		Item* pitem=AddInternal<ID const&>(Id);
+		INDEXITEM* pitem=AddInternal<ID const&>(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Value);
+		new (pitem) INDEXITEM(Id, Value);
 		return pitem;
 		}
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
-	inline Item* Set(ID const& Id, ITEM^ Value)
+	inline INDEXITEM* Set(ID const& Id, ITEM^ Value)
 		{
-		Item* pitem=pRoot->Get(Id);
+		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
@@ -184,23 +184,23 @@ public:
 	inline IteratorReadWrite Find(ID const& Id) { return IteratorReadWrite(this, 0, Id); }
 	inline IteratorReadOnly Find(ID const& Id)const { return IteratorReadOnly(this, 0, Id); }
 	inline CHAR const* Get(ID const& Id)const { return GetInternal<CHAR const*, ID const&>(Id); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(ID const& Id, CHAR const* Value, UINT Length=0)
+	inline INDEXITEM* Add(ID const& Id, CHAR const* Value, UINT Length=0)
 		{
-		Item* pitem=AddInternal<ID const&>(Id);
+		INDEXITEM* pitem=AddInternal<ID const&>(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Value, Length);
+		new (pitem) INDEXITEM(Id, Value, Length);
 		return pitem;
 		}
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
-	inline Item* Set(ID const& Id, CHAR const* Value, UINT Length=0)
+	inline INDEXITEM* Set(ID const& Id, CHAR const* Value, UINT Length=0)
 		{
-		Item* pitem=pRoot->Get(Id);
+		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value, Length);
@@ -221,23 +221,23 @@ public:
 	inline IteratorReadWrite Find(ID const& Id) { return IteratorReadWrite(this, 0, Id); }
 	inline IteratorReadOnly Find(ID const& Id)const { return IteratorReadOnly(this, 0, Id); }
 	inline CHAR const* Get(ID const& Id)const { return GetInternal<CHAR const*, ID const&>(Id); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(ID const& Id, CHAR const* Value)
+	inline INDEXITEM* Add(ID const& Id, CHAR const* Value)
 		{
-		Item* pitem=AddInternal<ID const&>(Id);
+		INDEXITEM* pitem=AddInternal<ID const&>(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Value);
+		new (pitem) INDEXITEM(Id, Value);
 		return pitem;
 		}
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
-	inline Item* Set(ID const& Id, CHAR const* Value)
+	inline INDEXITEM* Set(ID const& Id, CHAR const* Value)
 		{
-		Item* pitem=pRoot->Get(Id);
+		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
@@ -269,31 +269,31 @@ public:
 	inline IteratorReadOnly Find(ID* Id)const { return IteratorReadOnly(this, Id); }
 	inline ITEM& Get(ID* Id) { return *GetInternalAddress(Id); }
 	inline ITEM const& Get(ID* Id)const { return *GetInternalAddress(Id); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 	inline ITEM* TryGet(ID* Id)const { return GetInternalAdd(Id); }
 
 	// Modification
-	inline Item* Add(ID* Id)
+	inline INDEXITEM* Add(ID* Id)
 		{
-		Item* pitem=AddInternal(Id);
+		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id);
+		new (pitem) INDEXITEM(Id);
 		return pitem;
 		}
-	inline Item* Add(ID* Id, ITEM const& Value)
+	inline INDEXITEM* Add(ID* Id, ITEM const& Value)
 		{
-		Item* pitem=AddInternal(Id);
+		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Value);
+		new (pitem) INDEXITEM(Id, Value);
 		return pitem;
 		}
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
-	inline Item* Set(ID* Id, ITEM const& Value)
+	inline INDEXITEM* Set(ID* Id, ITEM const& Value)
 		{
-		Item* pitem=pRoot->Get(Id);
+		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
@@ -316,12 +316,12 @@ public:
 	inline ID* GetAt(UINT64 Position)const { return pRoot->GetAt(Position)->GetItem(); }
 
 	// Modification
-	inline Item* Add(ID* Id)
+	inline INDEXITEM* Add(ID* Id)
 		{
-		Item* pitem=AddInternal(Id);
+		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id);
+		new (pitem) INDEXITEM(Id);
 		return pitem;
 		}
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
@@ -338,23 +338,23 @@ public:
 	inline IteratorReadWrite Find(ID* Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID* Id)const { return IteratorReadOnly(this, Id); }
 	inline ITEM* Get(ID* Id)const { return GetInternal<ITEM*, ID*>(Id); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(ID* Id, ITEM* Value)
+	inline INDEXITEM* Add(ID* Id, ITEM* Value)
 		{
-		Item* pitem=AddInternal(Id);
+		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Value);
+		new (pitem) INDEXITEM(Id, Value);
 		return pitem;
 		}
 	inline ITEM* ReleaseAt(UINT64 Position) { return ReleaseInternal<ITEM*>(Position); }
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
-	inline Item* Set(ID* Id, ITEM* Value)
+	inline INDEXITEM* Set(ID* Id, ITEM* Value)
 		{
-		Item* pitem=pRoot->Get(Id);
+		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
@@ -376,22 +376,22 @@ public:
 	inline IteratorReadWrite Find(ID* Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID* Id)const { return IteratorReadOnly(this, Id); }
 	inline ITEM^ Get(ID* Id)const { return GetInternal<ITEM^, ID*>(Id); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(ID* Id, ITEM^ Value)
+	inline INDEXITEM* Add(ID* Id, ITEM^ Value)
 		{
-		Item* pitem=AddInternal(Id);
+		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Value);
+		new (pitem) INDEXITEM(Id, Value);
 		return pitem;
 		}
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
-	inline Item* Set(ID* Id, ITEM^ Value)
+	inline INDEXITEM* Set(ID* Id, ITEM^ Value)
 		{
-		Item* pitem=pRoot->Get(Id);
+		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
@@ -413,23 +413,23 @@ public:
 	inline IteratorReadWrite Find(ID* Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID* Id)const { return IteratorReadOnly(this, Id); }
 	inline CHAR const* Get(ID* Id)const { return GetInternal<CHAR const*, ID*>(Id); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(ID* Id, CHAR const* Value, UINT Length=0)
+	inline INDEXITEM* Add(ID* Id, CHAR const* Value, UINT Length=0)
 		{
-		Item* pitem=AddInternal(Id);
+		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Value, Length);
+		new (pitem) INDEXITEM(Id, Value, Length);
 		return pitem;
 		}
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
-	inline Item* Set(ID* Id, CHAR const* Value, UINT Length=0)
+	inline INDEXITEM* Set(ID* Id, CHAR const* Value, UINT Length=0)
 		{
-		Item* pitem=pRoot->Get(Id);
+		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value, Length);
@@ -450,23 +450,23 @@ public:
 	inline IteratorReadWrite Find(ID* Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID* Id)const { return IteratorReadOnly(this, Id); }
 	inline CHAR const* Get(ID* Id)const { return GetInternal<CHAR const*, ID*>(Id); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(ID* Id, CHAR const* Value)
+	inline INDEXITEM* Add(ID* Id, CHAR const* Value)
 		{
-		Item* pitem=AddInternal(Id);
+		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Value);
+		new (pitem) INDEXITEM(Id, Value);
 		return pitem;
 		}
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
-	inline Item* Set(ID Id, CHAR const* Value)
+	inline INDEXITEM* Set(ID Id, CHAR const* Value)
 		{
-		Item* pitem=pRoot->Get(Id);
+		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
@@ -500,31 +500,31 @@ public:
 	inline IteratorReadOnly Find(ID^ Id)const { return IteratorReadOnly(this, Id); }
 	inline ITEM& Get(ID^ Id) { return *GetInternalAddress(Id); }
 	inline ITEM const& Get(ID^ Id)const { return *GetInternalAddress(Id); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 	inline ITEM* TryGet(ID^ Id)const { return GetInternalAdd(Id); }
 
 	// Modification
-	inline Item* Add(ID^ Id)
+	inline INDEXITEM* Add(ID^ Id)
 		{
-		Item* pitem=AddInternal(Id);
+		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id);
+		new (pitem) INDEXITEM(Id);
 		return pitem;
 		}
-	inline Item* Add(ID^ Id, ITEM const& Value)
+	inline INDEXITEM* Add(ID^ Id, ITEM const& Value)
 		{
-		Item* pitem=AddInternal(Id);
+		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Value);
+		new (pitem) INDEXITEM(Id, Value);
 		return pitem;
 		}
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
-	inline Item* Set(ID^ Id, ITEM const& Value)
+	inline INDEXITEM* Set(ID^ Id, ITEM const& Value)
 		{
-		Item* pitem=pRoot->Get(Id);
+		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
@@ -547,12 +547,12 @@ public:
 	inline ID^ GetAt(UINT64 Position)const { return pRoot->GetAt(Position)->GetItem(); }
 
 	// Modification
-	inline Item* Add(ID^ Id)
+	inline INDEXITEM* Add(ID^ Id)
 		{
-		Item* pitem=AddInternal(Id);
+		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id);
+		new (pitem) INDEXITEM(Id);
 		return pitem;
 		}
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
@@ -569,23 +569,23 @@ public:
 	inline IteratorReadWrite Find(ID^ Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID^ Id)const { return IteratorReadOnly(this, Id); }
 	inline ITEM* Get(ID^ Id)const { return GetInternal<ITEM*, ID^>(Id); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(ID^ Id, ITEM* Value)
+	inline INDEXITEM* Add(ID^ Id, ITEM* Value)
 		{
-		Item* pitem=AddInternal(Id);
+		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Value);
+		new (pitem) INDEXITEM(Id, Value);
 		return pitem;
 		}
 	inline ITEM* ReleaseAt(UINT64 Position) { return ReleaseInternal<ITEM*>(Position); }
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
-	inline Item* Set(ID^ Id, ITEM* Value)
+	inline INDEXITEM* Set(ID^ Id, ITEM* Value)
 		{
-		Item* pitem=pRoot->Get(Id);
+		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
@@ -606,22 +606,22 @@ public:
 	inline IteratorReadWrite Find(ID^ Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID^ Id)const { return IteratorReadOnly(this, Id); }
 	inline ITEM^ Get(ID^ Id)const { return GetInternal<ITEM^, ID^>(Id); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(ID^ Id, ITEM^ Value)
+	inline INDEXITEM* Add(ID^ Id, ITEM^ Value)
 		{
-		Item* pitem=AddInternal(Id);
+		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Value);
+		new (pitem) INDEXITEM(Id, Value);
 		return pitem;
 		}
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
-	inline Item* Set(ID^ Id, ITEM^ Value)
+	inline INDEXITEM* Set(ID^ Id, ITEM^ Value)
 		{
-		Item* pitem=pRoot->Get(Id);
+		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
@@ -642,23 +642,23 @@ public:
 	inline IteratorReadWrite Find(ID^ Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID^ Id)const { return IteratorReadOnly(this, Id); }
 	inline CHAR const* Get(ID^ Id)const { return GetInternal<CHAR const*, ID^>(Id); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(ID^ Id, CHAR const* Value, UINT Length=0)
+	inline INDEXITEM* Add(ID^ Id, CHAR const* Value, UINT Length=0)
 		{
-		Item* pitem=AddInternal(Id);
+		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Value, Length);
+		new (pitem) INDEXITEM(Id, Value, Length);
 		return pitem;
 		}
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
-	inline Item* Set(ID^ Id, CHAR const* Value, UINT Length=0)
+	inline INDEXITEM* Set(ID^ Id, CHAR const* Value, UINT Length=0)
 		{
-		Item* pitem=pRoot->Get(Id);
+		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value, Length);
@@ -679,23 +679,23 @@ public:
 	inline IteratorReadWrite Find(ID^ Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID^ Id)const { return IteratorReadOnly(this, Id); }
 	inline CHAR const* Get(ID^ Id)const { return GetInternal<CHAR const*, ID^>(Id); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(ID^ Id, CHAR const* Value)
+	inline INDEXITEM* Add(ID^ Id, CHAR const* Value)
 		{
-		Item* pitem=AddInternal(Id);
+		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Value);
+		new (pitem) INDEXITEM(Id, Value);
 		return pitem;
 		}
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
-	inline Item* Set(ID^ Id, CHAR const* Value)
+	inline INDEXITEM* Set(ID^ Id, CHAR const* Value)
 		{
-		Item* pitem=pRoot->Get(Id);
+		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);

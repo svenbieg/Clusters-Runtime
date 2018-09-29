@@ -68,6 +68,17 @@ public:
 protected:
 	// Con-/Destructors
 	ClusterBase(): pRoot(new ITEMGROUP()) {}
+	ClusterBase(ClusterBase const& Cluster)
+		{
+		if(Cluster.pRoot->GetLevel()>1)
+			{
+			pRoot=new PARENTGROUP((PARENTGROUP const&)*Cluster.pRoot);
+			}
+		else
+			{
+			pRoot=new ITEMGROUP((ITEMGROUP const&)*Cluster.pRoot);
+			}
+		}
 	~ClusterBase() { delete pRoot; }
 
 	// Common

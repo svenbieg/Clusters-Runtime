@@ -197,6 +197,22 @@ protected:
 		{
 		ppChildren[0]=Child;
 		}
+	ParentGroupBase(ParentGroupBase const& Group):
+		uChildCount(Group.uChildCount),
+		uItemCount(Group.GetItemCount()),
+		uLevel(Group.GetLevel())
+		{
+		if(uLevel>1)
+			{
+			for(UINT u=0; u<uChildCount; u++)
+				ppChildren[u]=new PARENTGROUP((PARENTGROUP const&)*Group.ppChildren[u]);
+			}
+		else
+			{
+			for(UINT u=0; u<uChildCount; u++)
+				ppChildren[u]=new ITEMGROUP((ITEMGROUP const&)*Group.ppChildren[u]);
+			}
+		}
 	~ParentGroupBase()override
 		{
 		for(UINT u=0; u<uChildCount; u++)
@@ -307,9 +323,8 @@ public:
 
 protected:
 	// Con-/Destructors
-	ParentGroup() {}
-	ParentGroup(UINT Level): ParentGroupBase(Level) {}
-	ParentGroup(GROUP* Child): ParentGroupBase(Child) {}
+	using PARENTGROUPBASE=ParentGroupBase<ITEM, GROUP, ITEMGROUP, PARENTGROUP, _GroupSize>;
+	using PARENTGROUPBASE::PARENTGROUPBASE;
 };
 
 // Parent-Group Pointer-Cluster
@@ -330,9 +345,8 @@ public:
 
 protected:
 	// Con-/Destructors
-	ParentGroup() {}
-	ParentGroup(UINT Level): ParentGroupBase(Level) {}
-	ParentGroup(GROUP* Child): ParentGroupBase(Child) {}
+	using PARENTGROUPBASE=ParentGroupBase<ITEM*, GROUP, ITEMGROUP, PARENTGROUP, _GroupSize>;
+	using PARENTGROUPBASE::PARENTGROUPBASE;
 };
 
 #ifdef __cplusplus_winrt
@@ -351,9 +365,8 @@ public:
 
 protected:
 	// Con-/Destructors
-	ParentGroup() {}
-	ParentGroup(UINT Level): ParentGroupBase(Level) {}
-	ParentGroup(GROUP* Child): ParentGroupBase(Child) {}
+	using PARENTGROUPBASE=ParentGroupBase<ITEM^, GROUP, ITEMGROUP, PARENTGROUP, _GroupSize>;
+	using PARENTGROUPBASE::PARENTGROUPBASE;
 };
 #endif
 
@@ -375,9 +388,8 @@ public:
 
 protected:
 	// Con-/Destructors
-	ParentGroup() {}
-	ParentGroup(UINT Level): ParentGroupBase(Level) {}
-	ParentGroup(GROUP* Child): ParentGroupBase(Child) {}
+	using PARENTGROUPBASE=ParentGroupBase<String<CHAR, _Alloc>, GROUP, ITEMGROUP, PARENTGROUP, _GroupSize>;
+	using PARENTGROUPBASE::PARENTGROUPBASE;
 };
 
 }}}

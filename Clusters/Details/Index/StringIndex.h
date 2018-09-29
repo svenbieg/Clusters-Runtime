@@ -41,31 +41,31 @@ public:
 	inline IteratorReadOnly Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return IteratorReadOnly(this, Id, Length, CaseSensitive); }
 	inline ITEM& Get(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return *GetInternalAddress(Id, Length, CaseSensitive); }
 	inline ITEM const& Get(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return *GetInternalAddress(Id, Length, CaseSensitive); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 	inline ITEM* TryGet(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return GetInternalAddress(Id, Length, CaseSensitive); }
 
 	// Modification
-	inline Item* Add(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)
+	inline INDEXITEM* Add(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)
 		{
-		Item* pitem=AddInternal(Id, Length, CaseSensitive);
+		INDEXITEM* pitem=AddInternal(Id, Length, CaseSensitive);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Length);
+		new (pitem) INDEXITEM(Id, Length);
 		return pitem;
 		}
-	inline Item* Add(CHAR const* Id, ITEM const& Value, UINT Length=0, BOOL CaseSensitive=false)
+	inline INDEXITEM* Add(CHAR const* Id, ITEM const& Value, UINT Length=0, BOOL CaseSensitive=false)
 		{
-		Item* pitem=AddInternal(Id, Length, CaseSensitive);
+		INDEXITEM* pitem=AddInternal(Id, Length, CaseSensitive);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Length, Value);
+		new (pitem) INDEXITEM(Id, Length, Value);
 		return pitem;
 		}
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
-	inline Item* Set(CHAR const* Id, ITEM const& Value, UINT Length=0, BOOL CaseSensitive=false)
+	inline INDEXITEM* Set(CHAR const* Id, ITEM const& Value, UINT Length=0, BOOL CaseSensitive=false)
 		{
-		Item* pitem=pRoot->Get(Id, Length, CaseSensitive);
+		INDEXITEM* pitem=pRoot->Get(Id, Length, CaseSensitive);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
@@ -88,12 +88,12 @@ public:
 	inline CHAR const* GetAt(UINT64 Position)const { return pRoot->GetAt(Position)->GetItem(); }
 
 	// Modification
-	inline Item* Add(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)
+	inline INDEXITEM* Add(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)
 		{
-		Item* pitem=AddInternal(Id, Length, CaseSensitive);
+		INDEXITEM* pitem=AddInternal(Id, Length, CaseSensitive);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Length);
+		new (pitem) INDEXITEM(Id, Length);
 		return pitem;
 		}
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
@@ -111,23 +111,23 @@ public:
 	inline IteratorReadWrite Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return IteratorReadWrite(this, Id, Length, CaseSensitive); }
 	inline IteratorReadOnly Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return IteratorReadOnly(this, Id, Length, CaseSensitive); }
 	inline ITEM* Get(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return GetInternal<ITEM*, CHAR const*, UINT, BOOL>(Id, Length, CaseSensitive); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(CHAR const* Id, ITEM* Value, UINT Length=0, BOOL CaseSensitive=false)
+	inline INDEXITEM* Add(CHAR const* Id, ITEM* Value, UINT Length=0, BOOL CaseSensitive=false)
 		{
-		Item* pitem=AddInternal(Id, Length, CaseSensitive);
+		INDEXITEM* pitem=AddInternal(Id, Length, CaseSensitive);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Length, Value);
+		new (pitem) INDEXITEM(Id, Length, Value);
 		return pitem;
 		}
 	inline ITEM* ReleaseAt(UINT64 Position) { return ReleaseInternal<ITEM*>(Position); }
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
-	inline Item* Set(CHAR const* Id, ITEM* Value, UINT Length=0, BOOL CaseSensitive=false)
+	inline INDEXITEM* Set(CHAR const* Id, ITEM* Value, UINT Length=0, BOOL CaseSensitive=false)
 		{
-		Item* pitem=pRoot->Get(Id, Length, CaseSensitive);
+		INDEXITEM* pitem=pRoot->Get(Id, Length, CaseSensitive);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
@@ -149,22 +149,22 @@ public:
 	inline IteratorReadWrite Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return IteratorReadWrite(this, Id, Length, CaseSensitive); }
 	inline IteratorReadOnly Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return IteratorReadOnly(this, Id, Length, CaseSensitive); }
 	inline ITEM^ Get(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return GetInternal<ITEM^, CHAR const*, UINT, BOOL>(Id, Length, CaseSensitive); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(CHAR const* Id, ITEM^ Value, UINT Length=0, BOOL CaseSensitive=false)
+	inline INDEXITEM* Add(CHAR const* Id, ITEM^ Value, UINT Length=0, BOOL CaseSensitive=false)
 		{
-		Item* pitem=AddInternal(Id, Length, CaseSensitive);
+		INDEXITEM* pitem=AddInternal(Id, Length, CaseSensitive);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, Length, Value);
+		new (pitem) INDEXITEM(Id, Length, Value);
 		return pitem;
 		}
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
-	inline Item* Set(CHAR const* Id, ITEM^ Value, UINT Length=0, BOOL CaseSensitive=false)
+	inline INDEXITEM* Set(CHAR const* Id, ITEM^ Value, UINT Length=0, BOOL CaseSensitive=false)
 		{
-		Item* pitem=pRoot->Get(Id, Length, CaseSensitive);
+		INDEXITEM* pitem=pRoot->Get(Id, Length, CaseSensitive);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
@@ -186,23 +186,23 @@ public:
 	inline IteratorReadWrite Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return IteratorReadWrite(this, Id, Length, CaseSensitive); }
 	inline IteratorReadOnly Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return IteratorReadOnly(this, Id, Length, CaseSensitive); }
 	inline CHAR const* Get(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return GetInternal<CHAR const*, CHAR const*, UINT, BOOL>(Id, Length, CaseSensitive); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(CHAR const* Id, CHAR const* Value, UINT IdLength=0, UINT ValueLength=0, BOOL CaseSensitive=false)
+	inline INDEXITEM* Add(CHAR const* Id, CHAR const* Value, UINT IdLength=0, UINT ValueLength=0, BOOL CaseSensitive=false)
 		{
-		Item* pitem=AddInternal(Id, IdLength, CaseSensitive);
+		INDEXITEM* pitem=AddInternal(Id, IdLength, CaseSensitive);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, IdLength, Value, ValueLength);
+		new (pitem) INDEXITEM(Id, IdLength, Value, ValueLength);
 		return pitem;
 		}
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
-	inline Item* Set(CHAR const* Id, CHAR const* Value, UINT IdLength=0, UINT ValueLength=0, BOOL CaseSensitive=false)
+	inline INDEXITEM* Set(CHAR const* Id, CHAR const* Value, UINT IdLength=0, UINT ValueLength=0, BOOL CaseSensitive=false)
 		{
-		Item* pitem=pRoot->Get(Id, IdLength, CaseSensitive);
+		INDEXITEM* pitem=pRoot->Get(Id, IdLength, CaseSensitive);
 		if(pitem)
 			{
 			pitem->SetItem(Value, ValueLength);
@@ -223,23 +223,23 @@ public:
 	inline IteratorReadWrite Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return IteratorReadWrite(this, Id, Length, CaseSensitive); }
 	inline IteratorReadOnly Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return IteratorReadOnly(this, Id, Length, CaseSensitive); }
 	inline CHAR const* Get(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return GetInternal<CHAR const*, CHAR const*, UINT, BOOL>(Id, Length, CaseSensitive); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(CHAR const* Id, CHAR const* Value, UINT IdLength=0, UINT ValueLength=0, BOOL CaseSensitive=false)
+	inline INDEXITEM* Add(CHAR const* Id, CHAR const* Value, UINT IdLength=0, UINT ValueLength=0, BOOL CaseSensitive=false)
 		{
-		Item* pitem=AddInternal(Id, IdLength, CaseSensitive);
+		INDEXITEM* pitem=AddInternal(Id, IdLength, CaseSensitive);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, IdLength, Value, ValueLength);
+		new (pitem) INDEXITEM(Id, IdLength, Value, ValueLength);
 		return pitem;
 		}
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
-	inline Item* Set(CHAR const* Id, CHAR const* Value, UINT IdLength=0, UINT ValueLength=0, BOOL CaseSensitive=false)
+	inline INDEXITEM* Set(CHAR const* Id, CHAR const* Value, UINT IdLength=0, UINT ValueLength=0, BOOL CaseSensitive=false)
 		{
-		Item* pitem=pRoot->Get(Id, IdLength, CaseSensitive);
+		INDEXITEM* pitem=pRoot->Get(Id, IdLength, CaseSensitive);
 		if(pitem)
 			{
 			pitem->SetItem(Value, ValueLength);
@@ -271,31 +271,31 @@ public:
 	inline IteratorReadOnly Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return IteratorReadOnly(this, Id, Length, CaseSensitive); }
 	inline ITEM& Get(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return *GetInternalAddress(Id, Length, CaseSensitive); }
 	inline ITEM const& Get(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return *GetInternalAddress(Id, Length, CaseSensitive); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 	inline ITEM* TryGet(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return GetInternalAddress(Id, Length, CaseSensitive); }
 
 	// Modification
-	inline Item* Add(CHAR const* Id, BOOL CaseSensitive=false)
+	inline INDEXITEM* Add(CHAR const* Id, BOOL CaseSensitive=false)
 		{
-		Item* pitem=AddInternal(Id, 0, CaseSensitive);
+		INDEXITEM* pitem=AddInternal(Id, 0, CaseSensitive);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, 0);
+		new (pitem) INDEXITEM(Id, 0);
 		return pitem;
 		}
-	inline Item* Add(CHAR const* Id, ITEM const& Value, BOOL CaseSensitive=false)
+	inline INDEXITEM* Add(CHAR const* Id, ITEM const& Value, BOOL CaseSensitive=false)
 		{
-		Item* pitem=AddInternal(Id, 0, CaseSensitive);
+		INDEXITEM* pitem=AddInternal(Id, 0, CaseSensitive);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, 0, Value);
+		new (pitem) INDEXITEM(Id, 0, Value);
 		return pitem;
 		}
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
-	inline Item* Set(CHAR const* Id, ITEM const& Value, BOOL CaseSensitive=false)
+	inline INDEXITEM* Set(CHAR const* Id, ITEM const& Value, BOOL CaseSensitive=false)
 		{
-		Item* pitem=pRoot->Get(Id, 0, CaseSensitive);
+		INDEXITEM* pitem=pRoot->Get(Id, 0, CaseSensitive);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
@@ -318,12 +318,12 @@ public:
 	inline CHAR const* GetAt(UINT64 Position)const { return pRoot->GetAt(Position)->GetItem(); }
 
 	// Modification
-	inline Item* Add(CHAR const* Id, BOOL CaseSensitive=false)
+	inline INDEXITEM* Add(CHAR const* Id, BOOL CaseSensitive=false)
 		{
-		Item* pitem=AddInternal(Id, 0, CaseSensitive);
+		INDEXITEM* pitem=AddInternal(Id, 0, CaseSensitive);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, 0);
+		new (pitem) INDEXITEM(Id, 0);
 		return pitem;
 		}
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
@@ -341,23 +341,23 @@ public:
 	inline IteratorReadWrite Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return IteratorReadWrite(this, Id, Length, CaseSensitive); }
 	inline IteratorReadOnly Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return IteratorReadOnly(this, Id, Length, CaseSensitive); }
 	inline ITEM* Get(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return GetInternal<ITEM*, CHAR const*, UINT, BOOL>(Id, Length, CaseSensitive); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(CHAR const* Id, ITEM* Value, BOOL CaseSensitive=false)
+	inline INDEXITEM* Add(CHAR const* Id, ITEM* Value, BOOL CaseSensitive=false)
 		{
-		Item* pitem=AddInternal(Id, 0, CaseSensitive);
+		INDEXITEM* pitem=AddInternal(Id, 0, CaseSensitive);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, 0, Value);
+		new (pitem) INDEXITEM(Id, 0, Value);
 		return pitem;
 		}
 	inline ITEM* ReleaseAt(UINT64 Position) { return ReleaseInternal<ITEM*>(Position); }
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
-	inline Item* Set(CHAR const* Id, ITEM* Value, BOOL CaseSensitive=false)
+	inline INDEXITEM* Set(CHAR const* Id, ITEM* Value, BOOL CaseSensitive=false)
 		{
-		Item* pitem=pRoot->Get(Id, 0, CaseSensitive);
+		INDEXITEM* pitem=pRoot->Get(Id, 0, CaseSensitive);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
@@ -379,22 +379,22 @@ public:
 	inline IteratorReadWrite Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return IteratorReadWrite(this, Id, Length, CaseSensitive); }
 	inline IteratorReadOnly Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return IteratorReadOnly(this, Id, Length, CaseSensitive); }
 	inline ITEM^ Get(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return GetInternal<ITEM^, CHAR const*, UINT, BOOL>(Id, Length, CaseSensitive); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(CHAR const* Id, ITEM^ Value, BOOL CaseSensitive=false)
+	inline INDEXITEM* Add(CHAR const* Id, ITEM^ Value, BOOL CaseSensitive=false)
 		{
-		Item* pitem=AddInternal(Id, 0, CaseSensitive);
+		INDEXITEM* pitem=AddInternal(Id, 0, CaseSensitive);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, 0, Value);
+		new (pitem) INDEXITEM(Id, 0, Value);
 		return pitem;
 		}
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
-	inline Item* Set(CHAR const* Id, ITEM^ Value, BOOL CaseSensitive=false)
+	inline INDEXITEM* Set(CHAR const* Id, ITEM^ Value, BOOL CaseSensitive=false)
 		{
-		Item* pitem=pRoot->Get(Id, 0, CaseSensitive);
+		INDEXITEM* pitem=pRoot->Get(Id, 0, CaseSensitive);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
@@ -416,23 +416,23 @@ public:
 	inline IteratorReadWrite Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return IteratorReadWrite(this, Id, Length, CaseSensitive); }
 	inline IteratorReadOnly Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return IteratorReadOnly(this, Id, Length, CaseSensitive); }
 	inline CHAR const* Get(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return GetInternal<CHAR const*, CHAR const*, UINT, BOOL>(Id, Length, CaseSensitive); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(CHAR const* Id, CHAR const* Value, UINT ValueLength=0, BOOL CaseSensitive=false)
+	inline INDEXITEM* Add(CHAR const* Id, CHAR const* Value, UINT ValueLength=0, BOOL CaseSensitive=false)
 		{
-		Item* pitem=AddInternal(Id, 0, CaseSensitive);
+		INDEXITEM* pitem=AddInternal(Id, 0, CaseSensitive);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, 0, Value, ValueLength);
+		new (pitem) INDEXITEM(Id, 0, Value, ValueLength);
 		return pitem;
 		}
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
-	inline Item* Set(CHAR const* Id, CHAR const* Value, UINT ValueLength=0, BOOL CaseSensitive=false)
+	inline INDEXITEM* Set(CHAR const* Id, CHAR const* Value, UINT ValueLength=0, BOOL CaseSensitive=false)
 		{
-		Item* pitem=pRoot->Get(Id, 0, CaseSensitive);
+		INDEXITEM* pitem=pRoot->Get(Id, 0, CaseSensitive);
 		if(pitem)
 			{
 			pitem->SetItem(Value, ValueLength);
@@ -453,26 +453,26 @@ public:
 	inline IteratorReadWrite Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return IteratorReadWrite(this, Id, Length, CaseSensitive); }
 	inline IteratorReadOnly Find(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return IteratorReadOnly(this, Id, Length, CaseSensitive); }
 	inline CHAR const* Get(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)const { return GetInternal<CHAR const*, CHAR const*, UINT, BOOL>(Id, Length, CaseSensitive); }
-	inline Item& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline Item const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
+	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline Item* Add(CHAR const* Id, CHAR const* Value, BOOL CaseSensitive=false)
+	inline INDEXITEM* Add(CHAR const* Id, CHAR const* Value, BOOL CaseSensitive=false)
 		{
-		Item* pitem=AddInternal(Id, 0, CaseSensitive);
+		INDEXITEM* pitem=AddInternal(Id, 0, CaseSensitive);
 		if(!pitem)
 			return nullptr;
-		new (pitem) Item(Id, 0, Value, 0);
+		new (pitem) INDEXITEM(Id, 0, Value, 0);
 		return pitem;
 		}
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
-	inline Item* Set(CHAR const* Id, CHAR const* Value, BOOL CaseSensitive=false)
+	inline INDEXITEM* Set(CHAR const* Id, CHAR const* Value, BOOL CaseSensitive=false)
 		{
-		Item* pitem=pRoot->Get(Id, 0, CaseSensitive);
+		INDEXITEM* pitem=pRoot->Get(Id, 0, CaseSensitive);
 		if(pitem)
 			{
-			pitem->SetItem(Item, 0);
+			pitem->SetItem(INDEXITEM, 0);
 			return pitem;
 			}
 		return Add(Id, Value, CaseSensitive);

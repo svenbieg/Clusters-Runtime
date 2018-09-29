@@ -59,7 +59,7 @@ public:
 	IndexItem(ID const& Id): tId(Id) {}
 
 	// Access
-	inline ID const& GetId()const { return tItem; }
+	inline ID const& GetId()const { return tId; }
 	
 private:
 	// Common
@@ -200,7 +200,7 @@ public:
 	~IndexItem() { delete pId; }
 
 	// Access
-	inline ID* GetId()const { return pItem; }
+	inline ID* GetId()const { return pId; }
 
 private:
 	// Common

@@ -31,43 +31,46 @@ class IndexBase: public ::Clusters::Details::Cluster::Cluster<IndexItem<ID, ITEM
 {
 public:
 	// Types
-	typedef IndexItem<ID, ITEM> Item;
-	typedef IndexItemGroup<ID, ITEM, _GroupSize> ItemGroup;
 	typedef IndexIterator<ID, ITEM, _GroupSize, true> IteratorReadOnly;
 	typedef IndexIterator<ID, ITEM, _GroupSize, false> IteratorReadWrite;
-	typedef IndexParentGroup<ID, ITEM, _GroupSize> ParentGroup;
 
 protected:
+	// Using
+	using INDEXITEM=IndexItem<ID, ITEM>;
+	using GROUP=IndexGroup<ID, ITEM>;
+	using ITEMGROUP=IndexItemGroup<ID, ITEM, _GroupSize>;
+	using PARENTGROUP=IndexParentGroup<ID, ITEM, _GroupSize>;
+
 	// Access
 	template <class RET, class... PARAMS> RET GetInternal(PARAMS... Id)const
 		{
-		Item* pitem=pRoot->Get(Id...);
+		INDEXITEM* pitem=pRoot->Get(Id...);
 		if(!pitem)
 			return nullptr;
 		return pitem->GetItem();
 		}
 	template <class... PARAMS> ITEM* GetInternalAddress(PARAMS... Id)
 		{
-		Item* pitem=pRoot->Get(Id...);
+		INDEXITEM* pitem=pRoot->Get(Id...);
 		if(!pitem)
 			return nullptr;
 		return &pitem->GetItem();
 		}
 	template <class... PARAMS> ITEM const* GetInternalAddress(PARAMS... Id)const
 		{
-		Item* pitem=pRoot->Get(Id...);
+		INDEXITEM* pitem=pRoot->Get(Id...);
 		if(!pitem)
 			return nullptr;
 		return &pitem->GetItem();
 		}
 
 	// Modification
-	template <class... PARAMS> Item* AddInternal(PARAMS... Id)
+	template <class... PARAMS> INDEXITEM* AddInternal(PARAMS... Id)
 		{
-		Item* pitem=nullptr;
+		INDEXITEM* pitem=nullptr;
 		if(pRoot->Add(&pitem, Id..., false))
 			return pitem;
-		pRoot=new ParentGroup(pRoot);
+		pRoot=new PARENTGROUP(pRoot);
 		BOOL badded=pRoot->Add(&pitem, Id..., true);
 		ASSERT(badded);
 		return pitem;

@@ -77,6 +77,8 @@ public:
 	// Access
 	virtual BOOL Contains(ID* Id)const=0;
 	virtual INT Find(ID* Id)const=0;
+	virtual INDEXITEM* Get(ID* Id)=0;
+	virtual INDEXITEM const* Get(ID* Id)const=0;
 
 	// Modification
 	virtual BOOL Add(INDEXITEM** Item, ID* Id, BOOL Again)=0;

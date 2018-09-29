@@ -28,16 +28,13 @@ class Index: public Details::Index::Index<ID, ITEM, _GroupSize>
 {
 private:
 	// Using
+	using BASE=Details::Index::Index<ID, ITEM, _GroupSize>;
 	using INDEX=Index<ID, ITEM, _GroupSize>;
 
 public:
 	// Con-/Destructors
 	Index() {}
-	Index(INDEX const& Index)
-		{
-		for(auto it=Index.First(); it.HasCurrent(); it.MoveNext())
-			Add(it.GetCurrentId(), it.GetCurrentItem());
-		}
+	Index(INDEX const& Index): BASE(Index) {}
 };
 
 }

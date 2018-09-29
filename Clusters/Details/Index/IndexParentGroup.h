@@ -70,9 +70,10 @@ public:
 
 protected:
 	// Con-/Destructors
-	IndexParentGroupBase() {}
-	IndexParentGroupBase(UINT Level): BASE(Level) {}
+	IndexParentGroupBase(): BASE(), pFirst(nullptr), pLast(nullptr) {}
+	IndexParentGroupBase(UINT Level): BASE(Level), pFirst(nullptr), pLast(nullptr) {}
 	IndexParentGroupBase(GROUP* Child): BASE(Child), pFirst(Child->GetFirst()), pLast(Child->GetLast()) {}
+	IndexParentGroupBase(IndexParentGroupBase const& Group): BASE(Group), pFirst(ppChildren[0]->GetFirst()), pLast(ppChildren[uChildCount-1]->GetLast()) {}
 
 	// Access
 	template <class... PARAMS> INDEXITEM* GetInternal(PARAMS... Id)
@@ -284,11 +285,16 @@ protected:
 template <class ID, class ITEM, UINT _GroupSize>
 class IndexParentGroup: public IndexParentGroupBase<ID, ITEM, IndexParentGroup<ID, ITEM, _GroupSize>, _GroupSize>
 {
+private:
+	// Using
+	using BASE=IndexParentGroupBase<ID, ITEM, IndexParentGroup<ID, ITEM, _GroupSize>, _GroupSize>;
+
 public:
 	// Con-/Destructors
-	IndexParentGroup() {}
-	IndexParentGroup(UINT Level): IndexParentGroupBase(Level) {}
-	IndexParentGroup(GROUP* Child): IndexParentGroupBase(Child) {}
+	IndexParentGroup(): BASE() {}
+	IndexParentGroup(UINT Level): BASE(Level) {}
+	IndexParentGroup(GROUP* Group): BASE(Group) {}
+	IndexParentGroup(IndexParentGroup const& Group): BASE(Group) {}
 
 	// Access
 	inline BOOL Contains(ID const& Id)const override { return GetItemPos<ID const&>(Id)>=0; }
@@ -305,11 +311,16 @@ public:
 template <class ID, class ITEM, UINT _GroupSize>
 class IndexParentGroup<ID*, ITEM, _GroupSize>: public IndexParentGroupBase<ID*, ITEM, IndexParentGroup<ID*, ITEM, _GroupSize>, _GroupSize>
 {
+private:
+	// Using
+	using BASE=IndexParentGroupBase<ID*, ITEM, IndexParentGroup<ID*, ITEM, _GroupSize>, _GroupSize>;
+
 public:
 	// Con-/Destructors
-	IndexParentGroup() {}
-	IndexParentGroup(UINT Level): IndexParentGroupBase(Level) {}
-	IndexParentGroup(GROUP* Child): IndexParentGroupBase(Child) {}
+	IndexParentGroup(): BASE() {}
+	IndexParentGroup(UINT Level): BASE(Level) {}
+	IndexParentGroup(GROUP* Group): BASE(Group) {}
+	IndexParentGroup(IndexParentGroup const& Group): BASE(Group) {}
 
 	// Access
 	inline BOOL Contains(ID* Id)const override { return GetItemPos(Id)>=0; }
@@ -327,11 +338,16 @@ public:
 template <class ID, class ITEM, UINT _GroupSize>
 class IndexParentGroup<ID^, ITEM, _GroupSize>: public IndexParentGroupBase<ID^, ITEM, IndexParentGroup<ID^, ITEM, _GroupSize>, _GroupSize>
 {
+private:
+	// Using
+	using BASE=IndexParentGroupBase<ID^, ITEM, IndexParentGroup<ID^, ITEM, _GroupSize>, _GroupSize>;
+
 public:
 	// Con-/Destructors
-	IndexParentGroup() {}
-	IndexParentGroup(UINT Level): IndexParentGroupBase(Level) {}
-	IndexParentGroup(GROUP* Child): IndexParentGroupBase(Child) {}
+	IndexParentGroup(): BASE() {}
+	IndexParentGroup(UINT Level): BASE(Level) {}
+	IndexParentGroup(GROUP* Group): BASE(Group) {}
+	IndexParentGroup(IndexParentGroup const& Group): BASE(Group) {}
 
 	// Access
 	inline BOOL Contains(ID^ Id)const override { return GetItemPos(Id)>=0; }
@@ -349,11 +365,16 @@ public:
 template <class CHAR, BOOL _AllocId, class ITEM, UINT _GroupSize>
 class IndexParentGroup<String<CHAR, _AllocId>, ITEM, _GroupSize>: public IndexParentGroupBase<String<CHAR, _AllocId>, ITEM, IndexParentGroup<String<CHAR, _AllocId>, ITEM, _GroupSize>, _GroupSize>
 {
+private:
+	// Using
+	using BASE=IndexParentGroupBase<String<CHAR, _AllocId>, ITEM, IndexParentGroup<String<CHAR, _AllocId>, ITEM, _GroupSize>, _GroupSize>;
+
 public:
 	// Con-/Destructors
-	IndexParentGroup() {}
-	IndexParentGroup(UINT Level): IndexParentGroupBase(Level) {}
-	IndexParentGroup(GROUP* Child): IndexParentGroupBase(Child) {}
+	IndexParentGroup(): BASE() {}
+	IndexParentGroup(UINT Level): BASE(Level) {}
+	IndexParentGroup(GROUP* Group): BASE(Group) {}
+	IndexParentGroup(IndexParentGroup const& Group): BASE(Group) {}
 
 	// Access
 	inline BOOL Contains(CHAR const* Id, UINT Length, BOOL CaseSensitive)const override { return GetItemPos(Id, Length, CaseSensitive)>=0; }

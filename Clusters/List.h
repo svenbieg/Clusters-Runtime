@@ -28,16 +28,13 @@ class List: public Details::List::List<ITEM, _GroupSize>
 {
 private:
 	// Using
-	using VECTOR=List<ITEM, _GroupSize>;
+	using BASE=Details::List::List<ITEM, _GroupSize>;
+	using LIST=List<ITEM, _GroupSize>;
 
 public:
 	// Con-/Destructors
 	List() {}
-	List(VECTOR const& List)
-		{
-		for(auto it=List.First(); it.HasCurrent(); it.MoveNext())
-			Append(it.GetCurrent());
-		}
+	List(LIST const& List): BASE(List) {}
 };
 
 }

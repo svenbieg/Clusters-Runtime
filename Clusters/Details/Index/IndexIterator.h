@@ -138,9 +138,9 @@ public:
 	inline VOID SetCurrentItem(ITEM const& Item) { pCurrent->SetItem(Item); }
 };
 
-// Iterator Index with Empty Items
-template <class ID, UINT _GroupSize, BOOL _ReadOnly>
-class IndexIterator<ID, VOID, _GroupSize, _ReadOnly>: public IndexIteratorBase<ID, VOID, _GroupSize, _ReadOnly>
+// Iterator Index with Empty Items Read-Only
+template <class ID, UINT _GroupSize>
+class IndexIterator<ID, VOID, _GroupSize, true>: public IndexIteratorBase<ID, VOID, _GroupSize, true>
 {
 private:
 	// Using
@@ -157,7 +157,28 @@ public:
 
 	// Access
 	inline BOOL Find(ID const& Id) { return FindInternal<ID const&>(Id); }
-	inline ID const& GetCurrent()const { return pCurrent->GetItem(); }
+	inline ID const& GetCurrent()const { return pCurrent->GetId(); }
+};
+
+// Iterator Index with Empty Items Read-Write
+template <class ID, UINT _GroupSize>
+class IndexIterator<ID, VOID, _GroupSize, false>: public IndexIteratorBase<ID, VOID, _GroupSize, false>
+{
+private:
+	// Using
+	using IT_R=IndexIterator<ID, VOID, _GroupSize, true>;
+	using IT_W=IndexIterator<ID, VOID, _GroupSize, false>;
+	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+
+public:
+	// Con-/Destructors
+	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
+	IndexIterator(CLUSTER* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
+	IndexIterator(CLUSTER* Cluster, UINT64, ID const& Id): IndexIteratorBase(Cluster) { FindInternal<ID const&>(Id); }
+
+	// Access
+	inline BOOL Find(ID const& Id) { return FindInternal<ID const&>(Id); }
+	inline ID const& GetCurrent()const { return pCurrent->GetId(); }
 };
 
 // Iterator Index with Pointers Read-Only

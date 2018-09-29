@@ -62,6 +62,7 @@ public:
 protected:
 	// Con-/Destructors
 	ItemGroupBase(): uItemCount(0) {}
+	ItemGroupBase(ItemGroupBase const& Group): uItemCount(Group.uItemCount) { ARRAYHELPER::OverWriteItems(cItems.Get(), Group.cItems.Get(), uItemCount); }
 	~ItemGroupBase()override { ARRAYHELPER::DestroyItems(cItems.Get(), uItemCount); }
 
 	// Common
@@ -82,6 +83,11 @@ public:
 	// Access
 	inline ITEM* GetAt(UINT64 Position)override { return ARRAYHELPER::GetAt(cItems.Get(), uItemCount, ToUINT(Position)); }
 	inline ITEM const* GetAt(UINT64 Position)const override { return ARRAYHELPER::GetAt(cItems.Get(), uItemCount, ToUINT(Position)); }
+
+protected:
+	// Con-/Destructors
+	using ITEMGROUPBASE=ItemGroupBase<ITEM, GROUP, _GroupSize>;
+	using ITEMGROUPBASE::ITEMGROUPBASE;
 };
 
 // Item-Group Pointer-Cluster
@@ -94,6 +100,11 @@ public:
 
 	// Modification
 	inline ITEM* ReleaseAt(UINT64 Position) { return ARRAYHELPER::ReleaseAt(cItems.Get(), &uItemCount, ToUINT(Position)); }
+
+protected:
+	// Con-/Destructors
+	using ITEMGROUPBASE=ItemGroupBase<ITEM*, GROUP, _GroupSize>;
+	using ITEMGROUPBASE::ITEMGROUPBASE;
 };
 
 #ifdef __cplusplus_winrt
@@ -104,6 +115,11 @@ class ItemGroup<ITEM^, GROUP, _GroupSize>: public ItemGroupBase<ITEM^, GROUP, _G
 public:
 	// Access
 	inline ITEM^ GetAt(UINT64 Position)const override { return ARRAYHELPER::GetAt(cItems.Get(), uItemCount, ToUINT(Position)); }
+
+protected:
+	// Con-/Destructors
+	using ITEMGROUPBASE=ItemGroupBase<ITEM^, GROUP, _GroupSize>;
+	using ITEMGROUPBASE::ITEMGROUPBASE;
 };
 #endif
 
@@ -122,6 +138,11 @@ public:
 		ARRAYHELPER::RemoveAt(cItems.Get(), &uItemCount, ToUINT(Position));
 		return pstr;
 		}
+
+protected:
+	// Con-/Destructors
+	using ITEMGROUPBASE=ItemGroupBase<String<CHAR, _Alloc>, GROUP, _GroupSize>;
+	using ITEMGROUPBASE::ITEMGROUPBASE;
 };
 
 }}}

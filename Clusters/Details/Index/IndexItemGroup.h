@@ -31,10 +31,17 @@ class IndexItemGroupBase: public ::Clusters::Details::Cluster::ItemGroup<IndexIt
 {
 protected:
 	// Using
-	using ARRAYHELPER=ArrayHelper<IndexItem<ID, ITEM>, UINT>;
 	using INDEXITEM=IndexItem<ID, ITEM>;
 
+private:
+	// Using
+	using ARRAYHELPER=ArrayHelper<IndexItem<ID, ITEM>, UINT>;
+	using BASE=::Clusters::Details::Cluster::ItemGroup<INDEXITEM, IndexGroup<ID, ITEM>, _GroupSize>;
+
 public:
+	// Con-/Destructors
+	using BASE::BASE;
+
 	// Access
 	inline INDEXITEM* GetFirst()override { return ARRAYHELPER::GetFirst(cItems.Get(), uItemCount); }
 	inline INDEXITEM const* GetFirst()const override { return ARRAYHELPER::GetFirst(cItems.Get(), uItemCount); }
