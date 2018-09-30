@@ -5,14 +5,12 @@
 #pragma once
 
 
-//====================
-// Typed Array-Helper
-//====================
-
-namespace Details {
+//=========================
+// Array-Helper Base-Class
+//=========================
 
 template <class T, class S>
-class ArrayHelperTyped
+class ArrayHelperBase
 {
 public:
 	// Access
@@ -53,8 +51,9 @@ public:
 		return &Items[Count-1];
 		}
 
+protected:
 	// Search
-	static inline BOOL Contains(T const* Items, S Count, T const& Item)
+	template <class PARAM> BOOL Contains(T const* Items, S Count, PARAM Item)
 		{
 		for(S u=0; u<Count; u++)
 			{
@@ -63,7 +62,7 @@ public:
 			}
 		return false;
 		}
-	static inline BOOL GetPosition(T const* Items, S Count, T const& Item, UINT* Position)
+	template <class PARAM> BOOL GetPosition(T const* Items, S Count, PARAM Item, S* Position)
 		{
 		for(S u=0; u<Count; u++)
 			{
@@ -75,6 +74,58 @@ public:
 			}
 		return false;
 		}
+};
+
+
+//====================
+// Typed Array-Helper
+//====================
+
+namespace Details {
+
+template <class T, class S, bool _IntegratedType>
+class ArrayHelperTyped
+{};
+
+// Array-Helper Integrated Types
+template <class T, class S>
+class ArrayHelperTyped<T, S, true>: public ArrayHelperBase<T, S>
+{
+public:
+	// Search
+	static inline BOOL Contains(T const* Items, S Count, T Item) { return Contains<T>(Items, Count, Item); }
+	static inline BOOL GetPosition(T const* Items, S Count, T Item, S* Position) { return GetPosition<T>(Items, Count, Item, Position); }
+
+	// Assignment
+	static inline VOID InitItem(T* Item) {}
+	static inline VOID InitItems(T* Items, S Count) {}
+
+	// Modification
+	static inline VOID DestroyItem(T* Item) {}
+	static inline VOID DestroyItems(T* Items, S Count) {}
+	static inline VOID MoveItems(T* Destination, T const* Source, S Count) { MoveMemory(Destination, Source, Count*sizeof(T)); }
+	static inline VOID OverWriteItem(T* Item, T const& NewItem) { *Item=NewItem; }
+	static inline VOID OverWriteItems(T* Items, T const* NewItems, S Count) { CopyMemory(Items, NewItems, Count*sizeof(T)); }
+	static inline VOID SetAt(T* Items, S Count, S Position, T Set)
+		{
+		ASSERT(Position<Count);
+		Items[Position]=Set;
+		}
+	static inline VOID SetItem(T* Item, T NewItem) { *Item=NewItem; }
+
+private:
+	// Con-/Destructors
+	ArrayHelperTyped() {}
+};
+
+// Array-Helper Non-Integrated Types
+template <class T, class S>
+class ArrayHelperTyped<T, S, false>: public ArrayHelperBase<T, S>
+{
+public:
+	// Search
+	static inline BOOL Contains(T const* Items, S Count, T const& Item) { return ContainsInternal<T const&>(Items, Count, Item); }
+	static inline BOOL GetPosition(T const* Items, S Count, T const& Item, S* Position) { return GetPositionInternal<T const&>(Items, Count, Item, Position); }
 
 	// Assignment
 	static inline VOID InitItem(T* Item) { new (Item) T(); }
@@ -91,16 +142,17 @@ public:
 		for(S u=0; u<Count; u++)
 			Items[u].~T();
 		}
+	static inline VOID MoveItems(T* Destination, T const* Source, S Count) { MoveMemory(Destination, Source, Count*sizeof(T)); }
 	static inline VOID OverWriteItem(T* Item, T const& NewItem) { new(Item) T(NewItem); }
 	static inline VOID OverWriteItems(T* Items, T const* NewItems, S Count)
 		{
 		for(S u=0; u<Count; u++)
 			new (&Items[u]) T(NewItems[u]);
 		}
-	static inline VOID SetAt(T* Items, S Count, S Position, T const* Set)
+	static inline VOID SetAt(T* Items, S Count, S Position, T const& Set)
 		{
 		ASSERT(Position<Count);
-		Items[Position]=*Set;
+		Items[Position]=Set;
 		}
 	static inline VOID SetItem(T* Item, T const& NewItem) { *Item=NewItem; }
 
@@ -111,51 +163,12 @@ private:
 
 // Typed Array-Helper Pointers
 template <class T, class S>
-class ArrayHelperTyped<T*, S>
+class ArrayHelperTyped<T*, S, false>: public ArrayHelperBase<T*, S>
 {
 public:
-	// Access
-	static inline T* GetAt(T* const* Items, S Count, S Position)
-		{
-		if(Position>=Count)
-			return nullptr;
-		return Items[Position];
-		}
-	static inline T* GetFirst(T* const* Items, S Count)
-		{
-		if(Count==0)
-			return nullptr;
-		return Items[0];
-		}
-	static inline T* GetLast(T* const* Items, S Count)
-		{
-		if(Count==0)
-			return nullptr;
-		return Items[Count-1];
-		}
-
 	// Search
-	static inline BOOL Contains(T* const* Items, S Count, T* Item)
-		{
-		for(S u=0; u<Count; u++)
-			{
-			if(Items[u]==Item)
-				return true;
-			}
-		return false;
-		}
-	static inline BOOL GetPosition(T* const* Items, S Count, T* Item, UINT* Position)
-		{
-		for(S u=0; u<Count; u++)
-			{
-			if(Items[u]==Item)
-				{
-				*Position=u;
-				return true;
-				}
-			}
-		return false;
-		}
+	static inline BOOL Contains(T* const* Items, S Count, T* Item) { return ContainsInternal(Items, Count, Item); }
+	static inline BOOL GetPosition(T* const* Items, S Count, T* Item, S* Position) { return GetPositionInternal(Items, Count, Item, Position); }
 
 	// Assignment
 	static inline VOID InitItem(T** Item) { *Item=nullptr; }
@@ -168,6 +181,7 @@ public:
 		for(S u=0; u<Count; u++)
 			PointerFree(Items[u]);
 		}
+	static inline VOID MoveItems(T** Destination, T* const* Source, S Count) { MoveMemory(Destination, Source, Count*sizeof(T*)); }
 	static inline VOID OverWriteItem(T** Item, T* NewItem) { *Item=NewItem; }
 	static inline VOID OverWriteItems(T** Items, T* const* NewItems, S Count) { CopyMemory(Items, NewItems, Count*sizeof(T*)); }
 	static inline VOID SetAt(T** Items, S Count, S Position, T* Set)
@@ -185,51 +199,12 @@ private:
 #ifdef __cplusplus_winrt
 // Typed Array-Helper Handles
 template <class T, class S>
-class ArrayHelperTyped<T^, S>
+class ArrayHelperTyped<T^, S, false>: public ArrayHelperBase<T^, S>
 {
 public:
-	// Access
-	static inline T^ GetAt(T^ const* Items, S Count, S Position)
-		{
-		if(Position>=Count)
-			return nullptr;
-		return Items[Position];
-		}
-	static inline T^ GetFirst(T^ const* Items, S Count)
-		{
-		if(Count==0)
-			return nullptr;
-		return Items[0];
-		}
-	static inline T^ GetLast(T^ const* Items, S Count)
-		{
-		if(Count==0)
-			return nullptr;
-		return Items[Count-1];
-		}
-
 	// Search
-	static inline BOOL Contains(T^ const* Items, S Count, T^ Item)
-		{
-		for(S u=0; u<Count; u++)
-			{
-			if(Items[u]==Item)
-				return true;
-			}
-		return false;
-		}
-	static inline BOOL GetPosition(T^ const* Items, S Count, T^ Item, UINT* Position)
-		{
-		for(S u=0; u<Count; u++)
-			{
-			if(Items[u]==Item)
-				{
-				*Position=u;
-				return true;
-				}
-			}
-		return false;
-		}
+	static inline BOOL Contains(T^ const* Items, S Count, T^ Item) { return ContainsInternal(Items, Count, Item); }
+	static inline BOOL GetPosition(T^ const* Items, S Count, T^ Item, S* Position) { return GetPositionInternal(Items, Count, Item, Position); }
 
 	// Assignment
 	static inline VOID InitItem(T^* Item) { ZeroMemory(Item, sizeof(T^)); }
@@ -242,6 +217,7 @@ public:
 		for(S u=0; u<Count; u++)
 			Items[u]=nullptr;
 		}
+	static inline VOID MoveItems(T^* Destination, T^ const* Source, S Count) { MoveMemory(Destination, Source, Count*sizeof(T^)); }
 	static inline VOID OverWriteItem(T^* Item, T^ NewItem) { ZeroMemory(Item, sizeof(T^)); *Item=NewItem; }
 	static inline VOID OverWriteItems(T^* Items, T^ const* NewItems, S Count)
 		{
@@ -272,12 +248,8 @@ private:
 namespace Details {
 
 template <class T, class S>
-class ArrayHelperShared: public ArrayHelperTyped<T, S>
+class ArrayHelperShared: public ArrayHelperTyped<T, S, IsIntegratedType<T>::value>
 {
-private:
-	// Using
-	using BASE=ArrayHelperTyped<T, S>;
-
 public:
 	// Assignment
 	static S Assign(T** Items, S* Size, S* Count, UINT BlockSize, T const* NewItems, S NewCount)
@@ -288,8 +260,8 @@ public:
 		S unewsize=BlockAlign<S>(NewCount, BlockSize);
 		if(unewsize>usize)
 			{
-			::Free(pitems);
-			pitems=(T*)Alloc(unewsize*sizeof(T));
+			operator delete pitems;
+			pitems=(T*)operator new(unewsize*sizeof(T));
 			usize=unewsize;
 			*Items=pitems;
 			if(Size)
@@ -319,7 +291,7 @@ public:
 		*Count=unewcount;
 		return &pitems[ucount];
 		}
-	static S Append(T* Items, S Size, S* Count, T const* Insert, S InsertCount, BOOL CopyOnly)
+	static S Append(T* Items, S Size, S* Count, T const* Insert, S InsertCount, BOOL CopyOnly=false)
 		{
 		S ucount=*Count;
 		S unewcount=ucount+InsertCount;
@@ -348,7 +320,7 @@ public:
 		}
 	static VOID Clear(T** Items, S* Size, S* Count)
 		{
-		BASE::DestroyItems(*Items, *Count);
+		DestroyItems(*Items, *Count);
 		::Free(*Items);
 		*Items=nullptr;
 		*Size=0;
@@ -360,7 +332,7 @@ public:
 		ASSERT(ucount<Size);
 		ASSERT(Position<=ucount);
 		if(Position<ucount)
-			MoveMemory(&Items[Position+1], &Items[Position], (ucount-Position)*sizeof(T));
+			MoveItems(&Items[Position+1], &Items[Position], ucount-Position);
 		*Count=ucount+1;
 		return &Items[Position];
 		}
@@ -373,7 +345,7 @@ public:
 			SetSize(Items, Size, Count, BlockSize, unewcount);
 		T* pitems=*Items;
 		if(Position<ucount)
-			MoveMemory(&pitems[Position+1], &pitems[Position], (ucount-Position)*sizeof(T));
+			MoveItems(&pitems[Position+1], &pitems[Position], ucount-Position);
 		*Count=unewcount;
 		return &pitems[Position];
 		}
@@ -384,7 +356,7 @@ public:
 		S unewcount=ucount+InsertCount;
 		ASSERT(unewcount<=Size);
 		if(Position<ucount)
-			MoveMemory(&Items[Position+InsertCount], &Items[Position], (ucount-Position)*sizeof(T));
+			MoveItems(&Items[Position+InsertCount], &Items[Position], ucount-Position);
 		if(CopyOnly)
 			{
 			CopyMemory(&Items[Position], Insert, InsertCount*sizeof(T));
@@ -403,7 +375,7 @@ public:
 		if(unewcount>*Size)
 			SetSize(Items, Size, Count, unewcount, BlockSize);
 		T* pitems=*Items;
-		MoveMemory(&pitems[Position+NewCount], &pitems[Position], (ucount-Position)*sizeof(T));
+		MoveItems(&pitems[Position+NewCount], &pitems[Position], ucount-Position);
 		OverWriteItems(&pitems[Position], NewItems, NewCount);
 		*Count=unewcount;
 		return unewcount;
@@ -450,7 +422,7 @@ public:
 		ASSERT(Position+RemoveCount<=ucount);
 		if(!RemoveOnly)
 			DestroyItems(&Items[Position], RemoveCount);
-		MoveMemory(&Items[Position], &Items[Position+RemoveCount], (ucount-Position-RemoveCount)*sizeof(T));
+		MoveItems(&Items[Position], &Items[Position+RemoveCount], ucount-Position-RemoveCount);
 		ucount-=RemoveCount;
 		*Count=ucount;
 		return ucount;
@@ -462,7 +434,7 @@ public:
 		T* pitems=*Items;
 		if(!RemoveOnly)
 			DestroyItems(&pitems[Position], RemoveCount);
-		MoveMemory(&pitems[Position], &pitems[Position+RemoveCount], (ucount-Position-RemoveCount)*sizeof(T));
+		MoveItems(&pitems[Position], &pitems[Position+RemoveCount], ucount-Position-RemoveCount);
 		ucount-=RemoveCount;
 		*Count=ucount;
 		if(DoShrink)
@@ -485,15 +457,11 @@ public:
 		S unewsize=BlockAlign<S>(NewCount, BlockSize);
 		if(unewsize!=*Size)
 			{
-			#ifndef _DRIVER
-			pitems=(T*)ReAlloc(pitems, unewsize*sizeof(T));
-			#else
 			T* pold=pitems;
-			pitems=(T*)Alloc(unewsize*sizeof(T));
+			pitems=(T*)operator new(unewsize*sizeof(T));
 			S ucopy=min(ucount, NewCount);
-			CopyMemory(pitems, pold, ucopy*sizeof(T));
-			Free(pold);
-			#endif
+			MoveItems(pitems, pold, ucopy);
+			operator delete pold;
 			*Items=pitems;
 			*Size=unewsize;
 			}
@@ -517,14 +485,10 @@ public:
 		S unewcount=min(unewsize, ucount);
 		if(unewcount<ucount)
 			DestroyItems(&pitems[unewcount], ucount-unewcount);
-		#ifndef _DRIVER
-		*Items=(T*)ReAlloc(pitems, unewsize*sizeof(T));
-		#else
-		*Items=(T*)Alloc(unewsize*sizeof(T));
+		*Items=(T*)operator new(unewsize*sizeof(T));
 		S ucopy=min(ucount, unewcount);
-		CopyMemory(*Items, pitems, ucopy*sizeof(T));
-		Free(pitems);
-		#endif
+		MoveItems(*Items, pitems, ucopy);
+		operator delete pitems;
 		*Size=unewsize;
 		*Count=unewcount;
 		}
@@ -535,37 +499,11 @@ public:
 		S unewsize=BlockAlign(ucount, BlockSize);
 		if(unewsize==usize)
 			return;
-		#ifndef _DRIVER
-		*Items=(T*)ReAlloc(*Items, unewsize*sizeof(T));
-		#else
-		T* pitems=(T*)Alloc(unewsize*sizeof(T));
-		CopyMemory(pitems, *Items, ucount*sizeof(T));
-		Free(*Items);
+		T* pitems=(T*)operator new(unewsize*sizeof(T));
+		MoveItems(pitems, *Items, ucount);
+		operator delete *Items;
 		*Items=pitems;
-		#endif
 		*Size=unewsize;
-		}
-
-protected:
-	// Modification
-	static T ReleaseInternal(T* Items, S* Count, S Position)
-		{
-		S ucount=*Count;
-		ASSERT(Position<ucount);
-		T pitem=Items[Position];
-		MoveMemory(&Items[Position], &Items[Position+1], (ucount-Position-1)*sizeof(T));
-		*Count--;
-		return pitem;
-		}
-	static T ReleaseInternal(T** Items, S* Size, S* Count, UINT BlockSize, S Position)
-		{
-		T* ppitems=*Items;
-		S ucount=*Count;
-		ASSERT(Position<ucount);
-		T pitem=ppitems[Position];
-		ppitems[Position]=nullptr;
-		RemoveAt(Items, Size, Count, BlockSize, Position, 1);
-		return pitem;
 		}
 
 private:
@@ -596,35 +534,44 @@ public:
 	// Modification
 	static BOOL Release(T** Items, S* Count, T* Item)
 		{
-		S ucount=*Count;
-		for(S u=0; u<ucount; u++)
+		S upos=0;
+		if(GetItemPos(Items, *Count, Item, &upos))
 			{
-			if(Items[u]==Item)
-				{
-				MoveMemory(&Items[u], &Items[u+1], (ucount-u-1)*sizeof(T*));
-				*Count--;
-				return true;
-				}
+			ReleaseAt(Items, Count, upos);
+			return true;
 			}
 		return false;
 		}
 	static BOOL Release(T*** Items, S* Size, S* Count, T* Item, UINT BlockSize)
 		{
-		T** ppitems=*Items;
-		S ucount=*Count;
-		for(S u=0; u<ucount; u++)
+		S upos=0;
+		if(GetItemPos(*Items, Count, Item, &upos))
 			{
-			if(ppitems[u]==Item)
-				{
-				ppitems[u]=nullptr;
-				RemoveAt(Items, Size, Count, BlockSize, u, 1);
-				return true;
-				}
+			ReleaseAt(Items, Size, Count, BlockSize, upos);
+			return true;
 			}
 		return false;
 		}
-	static T* ReleaseAt(T** Items, S* Count, S Position) { return ReleaseInternal(Items, Count, Position); }
-	static T* ReleaseAt(T*** Items, S* Size, S* Count, UINT BlockSize, S Position) { return ReleaseInternal(Items, Size, Count, BlockSize, Position); }
+	static T* ReleaseAt(T** Items, S* Count, S Position)
+		{
+		S ucount=*Count;
+		ASSERT(Position<ucount);
+		T* pitem=Items[Position];
+		MoveItems(&Items[Position], &Items[Position+1], ucount-Position-1);
+		*Count--;
+		return pitem;
+		}
+	static T* ReleaseAt(T*** Items, S* Size, S* Count, UINT BlockSize, S Position)
+		{
+		S ucount=*Count;
+		ASSERT(Position+1<=ucount);
+		T* pitems=*Items;
+		T pitem=ppitems[Position];
+		MoveItems(&pitems[Position], &pitems[Position+1], ucount-Position-1);
+		*Count--;
+		Shrink(Items, Size, Count, BlockSize);
+		return pitem;
+		}
 
 private:
 	// Con-/Destructors

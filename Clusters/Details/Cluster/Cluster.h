@@ -50,7 +50,7 @@ public:
 	template <class ITEM, class ID, UINT _GroupSize, BOOL _ReadOnly> friend class ::Clusters::Details::Index::IndexIteratorBase;
 
 	// Access
-	inline operator BOOL()const { return PointerValid(this)&&pRoot->GetCount()>0; }
+	inline operator bool()const { return PointerValid(this)&&pRoot->GetCount()>0; }
 	virtual inline UINT64 GetCount()const { return pRoot->GetItemCount(); }
 
 	// Modification
@@ -59,7 +59,7 @@ public:
 		delete pRoot;
 		pRoot=new ITEMGROUP();
 		}
-	virtual VOID RemoveAt(UINT64 Position)
+	virtual inline VOID RemoveAt(UINT64 Position)
 		{
 		pRoot->RemoveAt(Position);
 		UpdateRoot();
@@ -107,6 +107,8 @@ class Cluster: public ClusterBase<GROUP, ITEMGROUP, PARENTGROUP>
 {
 public:
 	// Access
+	inline IT_W At(UINT64 Position) { return IT_W(this, Position); }
+	inline IT_R At(UINT64 Position)const { return IT_R(this, Position); }
 	inline IT_R At(IT_R const& It)const { return IT_R(It); }
 	inline IT_R At(IT_W const& It)const { return IT_R(It); }
 	inline IT_W First() { return IT_W(this, 0); }
@@ -121,6 +123,8 @@ class Cluster<ITEM*, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>: public ClusterB
 {
 public:
 	// Access
+	inline IT_W At(UINT64 Position) { return IT_W(this, Position); }
+	inline IT_R At(UINT64 Position)const { return IT_R(this, Position); }
 	inline IT_R At(IT_R const& It)const { return IT_R(It); }
 	inline IT_R At(IT_W const& It)const { return IT_R(It); }
 	inline IT_W First() { return IT_W(this, 0); }
@@ -138,6 +142,8 @@ class Cluster<ITEM^, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>: public ClusterB
 {
 public:
 	// Access
+	inline IT_W At(UINT64 Position) { return IT_W(this, Position); }
+	inline IT_R At(UINT64 Position)const { return IT_R(this, Position); }
 	inline IT_R At(IT_R const& It)const { return IT_R(It); }
 	inline IT_R At(IT_W const& It)const { return IT_R(It); }
 	inline IT_W First() { return IT_W(this, 0); }
@@ -154,6 +160,8 @@ class Cluster<String<CHAR, _Alloc>, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>: 
 {
 public:
 	// Access
+	inline IT_W At(UINT64 Position) { return IT_W(this, Position); }
+	inline IT_R At(UINT64 Position)const { return IT_R(this, Position); }
 	inline IT_R At(IT_R const& It)const { return IT_R(It); }
 	inline IT_R At(IT_W const& It)const { return IT_R(It); }
 	inline IT_W First() { return IT_W(this, 0); }

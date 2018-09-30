@@ -11,6 +11,7 @@
 
 #include <malloc.h>
 #include <memory.h>
+#include <new>
 #include "Architecture.h"
 #include "ErrorHelper.h"
 
@@ -195,3 +196,20 @@ ASSERT(Destination);
 if(Size)
 	memset(Destination, 0, Size);
 }
+
+
+//==================
+// Integrated Types
+//==================
+
+template <class T> struct IsIntegratedType { static const bool value=false; };
+template <> struct IsIntegratedType<bool> { static const bool value=true; };
+template <> struct IsIntegratedType<char> { static const bool value=true; };
+template <> struct IsIntegratedType<wchar_t> { static const bool value=true; };
+template <> struct IsIntegratedType<unsigned char> { static const bool value=true; };
+template <> struct IsIntegratedType<short> { static const bool value=true; };
+template <> struct IsIntegratedType<unsigned short> { static const bool value=true; };
+template <> struct IsIntegratedType<int> { static const bool value=true; };
+template <> struct IsIntegratedType<unsigned int> { static const bool value=true; };
+template <> struct IsIntegratedType<long int> { static const bool value=true; };
+template <> struct IsIntegratedType<unsigned long int> { static const bool value=true; };

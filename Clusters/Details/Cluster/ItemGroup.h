@@ -96,7 +96,7 @@ class ItemGroup<ITEM*, GROUP, _GroupSize>: public ItemGroupBase<ITEM*, GROUP, _G
 {
 public:
 	// Access
-	inline ITEM* GetAt(UINT64 Position)const override { return ARRAYHELPER::GetAt(cItems.Get(), uItemCount, ToUINT(Position)); }
+	inline ITEM* GetAt(UINT64 Position)const override { return *ARRAYHELPER::GetAt(cItems.Get(), uItemCount, ToUINT(Position)); }
 
 	// Modification
 	inline ITEM* ReleaseAt(UINT64 Position) { return ARRAYHELPER::ReleaseAt(cItems.Get(), &uItemCount, ToUINT(Position)); }
@@ -114,7 +114,7 @@ class ItemGroup<ITEM^, GROUP, _GroupSize>: public ItemGroupBase<ITEM^, GROUP, _G
 {
 public:
 	// Access
-	inline ITEM^ GetAt(UINT64 Position)const override { return ARRAYHELPER::GetAt(cItems.Get(), uItemCount, ToUINT(Position)); }
+	inline ITEM^ GetAt(UINT64 Position)const override { return *ARRAYHELPER::GetAt(cItems.Get(), uItemCount, ToUINT(Position)); }
 
 protected:
 	// Con-/Destructors

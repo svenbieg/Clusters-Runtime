@@ -219,9 +219,10 @@ protected:
 			}
 		ustart=min(ustart, uChildCount-1);
 		Groups[0]=ustart;
-		if(IsAbove(pfirst->GetId(), Id...))
+		if(ustart>0)
 			{
-			if(ustart>0)
+			pfirst=ppChildren[ustart]->GetFirst();
+			if(IsAbove(pfirst->GetId(), Id...))
 				{
 				UINT64 ufree=ppChildren[ustart]->GetFreeCount();
 				UINT64 ufree1=ppChildren[ustart-1]->GetFreeCount();
@@ -235,9 +236,10 @@ protected:
 				return 2;
 				}
 			}
-		if(IsBelow(plast->GetId(), Id...))
+		if(ustart+1<uChildCount)
 			{
-			if(ustart+1<uChildCount)
+			plast=ppChildren[ustart]->GetLast();
+			if(IsBelow(plast->GetId(), Id...))
 				{
 				UINT64 ufree=ppChildren[ustart]->GetFreeCount();
 				UINT64 ufree1=ppChildren[ustart+1]->GetFreeCount();
@@ -293,7 +295,7 @@ public:
 	// Con-/Destructors
 	IndexParentGroup(): BASE() {}
 	IndexParentGroup(UINT Level): BASE(Level) {}
-	IndexParentGroup(GROUP* Group): BASE(Group) {}
+	IndexParentGroup(GROUP* Child): BASE(Child) {}
 	IndexParentGroup(IndexParentGroup const& Group): BASE(Group) {}
 
 	// Access
@@ -319,7 +321,7 @@ public:
 	// Con-/Destructors
 	IndexParentGroup(): BASE() {}
 	IndexParentGroup(UINT Level): BASE(Level) {}
-	IndexParentGroup(GROUP* Group): BASE(Group) {}
+	IndexParentGroup(GROUP* Child): BASE(Child) {}
 	IndexParentGroup(IndexParentGroup const& Group): BASE(Group) {}
 
 	// Access
@@ -346,7 +348,7 @@ public:
 	// Con-/Destructors
 	IndexParentGroup(): BASE() {}
 	IndexParentGroup(UINT Level): BASE(Level) {}
-	IndexParentGroup(GROUP* Group): BASE(Group) {}
+	IndexParentGroup(GROUP* Child): BASE(Child) {}
 	IndexParentGroup(IndexParentGroup const& Group): BASE(Group) {}
 
 	// Access
@@ -373,7 +375,7 @@ public:
 	// Con-/Destructors
 	IndexParentGroup(): BASE() {}
 	IndexParentGroup(UINT Level): BASE(Level) {}
-	IndexParentGroup(GROUP* Group): BASE(Group) {}
+	IndexParentGroup(GROUP* Child): BASE(Child) {}
 	IndexParentGroup(IndexParentGroup const& Group): BASE(Group) {}
 
 	// Access

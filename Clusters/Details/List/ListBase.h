@@ -34,10 +34,6 @@ public:
 	typedef ListIterator<ITEM, _GroupSize, true> IteratorReadOnly;
 	typedef ListIterator<ITEM, _GroupSize, false> IteratorReadWrite;
 
-	// Access
-	inline IteratorReadWrite At(UINT64 Position) { return IteratorReadWrite(this, Position); }
-	inline IteratorReadOnly At(UINT64 Position)const { return IteratorReadOnly(this, Position); }
-
 protected:
 	// Using
 	using PARENTGROUP=ListParentGroup<ITEM, _GroupSize>;

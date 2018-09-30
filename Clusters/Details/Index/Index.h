@@ -534,7 +534,7 @@ public:
 		}
 };
 
-// Handle-Index with Empty Items
+// Handle-Index without Items
 template<class ID, UINT _GroupSize>
 class Index<ID^, VOID, _GroupSize>: public IndexBase<ID^, VOID, _GroupSize>
 {

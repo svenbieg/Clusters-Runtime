@@ -75,7 +75,7 @@ public:
 		}
 };
 
-// String-Index with Empty Items
+// String-Index without Items
 template <class CHAR, UINT _GroupSize>
 class StringIndex<CHAR, true, VOID, _GroupSize>: public IndexBase<String<CHAR, true>, VOID, _GroupSize>
 {
@@ -305,7 +305,7 @@ public:
 		}
 };
 
-// Shared String-Index with Empty Items
+// Shared String-Index without Items
 template <class CHAR, UINT _GroupSize>
 class StringIndex<CHAR, false, VOID, _GroupSize>: public IndexBase<String<CHAR, false>, VOID, _GroupSize>
 {

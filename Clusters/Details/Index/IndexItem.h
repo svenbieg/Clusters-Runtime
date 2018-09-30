@@ -73,7 +73,7 @@ class IndexItem<ID, ITEM*>
 public:
 	// Con-/Destructors
 	IndexItem(ID const& Id, ITEM* Item): pItem(Item), tId(Id) {}
-	~IndexItem() { PointerFree(pItem); }
+	~IndexItem() { delete pItem; }
 
 	// Access
 	inline ID const& GetId()const { return tId; }
@@ -120,7 +120,6 @@ class IndexItem<ID, String<CHAR, true>>
 public:
 	// Con-/Destructors
 	IndexItem(ID const& Id, CHAR const* Item, UINT Length): cItem(Item, Length), tId(Id) {}
-	~IndexItem() {}
 
 	// Access
 	inline ID const& GetId()const { return tId; }
@@ -174,7 +173,7 @@ public:
 	// Con-/Destructors
 	IndexItem(ID* Id): pId(Id) { ASSERT(Id); }
 	IndexItem(ID* Id, ITEM const& Item): pId(Id), tItem(Item) { ASSERT(Id); }
-	~IndexItem() { PointerFree(pId); }
+	~IndexItem() { delete pId; }
 
 	// Access
 	inline ID* GetId()const { return pId; }
@@ -216,8 +215,8 @@ public:
 	IndexItem(ID* Id, ITEM* Item): pId(Id), pItem(Item) { ASSERT(Id); }
 	~IndexItem()
 		{
-		PointerFree(pId);
-		PointerFree(pItem);
+		delete pId;
+		delete pItem;
 		}
 
 	// Access
@@ -244,7 +243,7 @@ public:
 	IndexItem(ID* Id, ITEM^ Item): pId(Id), hItem(Item) { ASSERT(pId); }
 	~IndexItem()
 		{
-		PointerFree(pId);
+		delete pId;
 		hItem=nullptr;
 		}
 
@@ -269,7 +268,7 @@ class IndexItem<ID*, String<CHAR, true>>
 public:
 	// Con-/Destructors
 	IndexItem(ID* Id, CHAR const* Item, UINT Length): cItem(Item, Length), pId(Id) { ASSERT(pId); }
-	~IndexItem() { PointerFree(pId); }
+	~IndexItem() { delete pId; }
 
 	// Access
 	inline ID* GetId()const { return pId; }
@@ -292,7 +291,7 @@ class IndexItem<ID*, String<CHAR, false>>
 public:
 	// Con-/Destructors
 	IndexItem(ID* Id, CHAR const* Item): cItem(Item), pId(Id) { ASSERT(pId); }
-	~IndexItem() { PointerFree(pId); }
+	~IndexItem() { delete pId; }
 
 	// Access
 	inline ID* GetId()const { return pId; }
@@ -369,7 +368,7 @@ public:
 	~IndexItem()
 		{
 		hId=nullptr;
-		PointerFree(pItem);
+		delete pItem;
 		}
 
 	// Access
@@ -517,7 +516,7 @@ public:
 	IndexItem(CHAR const* Id, UINT Length, ITEM* Item): cId(Id, Length), pItem(Item) {}
 	~IndexItem()
 		{
-		PointerFree(pItem);
+		delete pItem;
 		}
 
 	// Access

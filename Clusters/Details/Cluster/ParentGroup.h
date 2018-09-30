@@ -164,16 +164,14 @@ public:
 		ASSERT(Position<uChildCount);
 		UINT uspace=Position+1;
 		MoveMemory(&ppChildren[uspace+1], &ppChildren[uspace], (uChildCount-uspace)*sizeof(VOID*));
-		GROUP* pgroup=nullptr;
 		if(uLevel==1)
 			{
-			pgroup=new ITEMGROUP();
+			ppChildren[uspace]=new ITEMGROUP();
 			}
 		else
 			{
-			pgroup=new PARENTGROUP(uLevel-1);
+			ppChildren[uspace]=new PARENTGROUP(uLevel-1);
 			}
-		ppChildren[uspace]=pgroup;
 		uChildCount++;
 		return true;
 		}
