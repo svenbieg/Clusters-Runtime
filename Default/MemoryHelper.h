@@ -176,25 +176,31 @@ return memcmp(Buffer1, Buffer2, Size);
 #undef CopyMemory
 inline VOID CopyMemory(VOID* Destination, const VOID* Source, SIZE_T Size)
 {
-ASSERT(Destination&&Source);
 if(Size)
+	{
+	ASSERT(Destination&&Source);
 	memcpy(Destination, Source, Size);
+	}
 }
 
 #undef MoveMemory
 inline VOID MoveMemory(VOID* Destination, const VOID* Source, SIZE_T Size)
 {
-ASSERT(Destination&&Source);
 if(Size)
+	{
+	ASSERT(Destination&&Source);
 	memmove(Destination, Source, Size);
+	}
 }
 
 #undef ZeroMemory
 inline VOID ZeroMemory(VOID* Destination, SIZE_T Size)
 {
-ASSERT(Destination);
 if(Size)
+	{
+	ASSERT(Destination);
 	memset(Destination, 0, Size);
+	}
 }
 
 

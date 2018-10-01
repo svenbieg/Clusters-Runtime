@@ -53,7 +53,7 @@ public:
 
 protected:
 	// Search
-	template <class PARAM> BOOL Contains(T const* Items, S Count, PARAM Item)
+	template <class PARAM> static BOOL ContainsInternal(T const* Items, S Count, PARAM Item)
 		{
 		for(S u=0; u<Count; u++)
 			{
@@ -62,7 +62,7 @@ protected:
 			}
 		return false;
 		}
-	template <class PARAM> BOOL GetPosition(T const* Items, S Count, PARAM Item, S* Position)
+	template <class PARAM> static BOOL GetPositionInternal(T const* Items, S Count, PARAM Item, S* Position)
 		{
 		for(S u=0; u<Count; u++)
 			{
@@ -93,8 +93,8 @@ class ArrayHelperTyped<T, S, true>: public ArrayHelperBase<T, S>
 {
 public:
 	// Search
-	static inline BOOL Contains(T const* Items, S Count, T Item) { return Contains<T>(Items, Count, Item); }
-	static inline BOOL GetPosition(T const* Items, S Count, T Item, S* Position) { return GetPosition<T>(Items, Count, Item, Position); }
+	static inline BOOL Contains(T const* Items, S Count, T Item) { return ContainsInternal(Items, Count, Item); }
+	static inline BOOL GetPosition(T const* Items, S Count, T Item, S* Position) { return GetPositionInternal(Items, Count, Item, Position); }
 
 	// Assignment
 	static inline VOID InitItem(T* Item) {}
@@ -260,7 +260,7 @@ public:
 		S unewsize=BlockAlign<S>(NewCount, BlockSize);
 		if(unewsize>usize)
 			{
-			operator delete pitems;
+			operator delete(pitems);
 			pitems=(T*)operator new(unewsize*sizeof(T));
 			usize=unewsize;
 			*Items=pitems;
@@ -461,7 +461,7 @@ public:
 			pitems=(T*)operator new(unewsize*sizeof(T));
 			S ucopy=min(ucount, NewCount);
 			MoveItems(pitems, pold, ucopy);
-			operator delete pold;
+			operator delete(pold);
 			*Items=pitems;
 			*Size=unewsize;
 			}
@@ -488,7 +488,7 @@ public:
 		*Items=(T*)operator new(unewsize*sizeof(T));
 		S ucopy=min(ucount, unewcount);
 		MoveItems(*Items, pitems, ucopy);
-		operator delete pitems;
+		operator delete(pitems);
 		*Size=unewsize;
 		*Count=unewcount;
 		}
@@ -501,7 +501,7 @@ public:
 			return;
 		T* pitems=(T*)operator new(unewsize*sizeof(T));
 		MoveItems(pitems, *Items, ucount);
-		operator delete *Items;
+		operator delete(*Items);
 		*Items=pitems;
 		*Size=unewsize;
 		}
@@ -558,7 +558,8 @@ public:
 		ASSERT(Position<ucount);
 		T* pitem=Items[Position];
 		MoveItems(&Items[Position], &Items[Position+1], ucount-Position-1);
-		*Count--;
+		ucount--;
+		*Count=ucount;
 		return pitem;
 		}
 	static T* ReleaseAt(T*** Items, S* Size, S* Count, UINT BlockSize, S Position)
