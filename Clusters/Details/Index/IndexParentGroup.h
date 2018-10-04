@@ -115,8 +115,12 @@ protected:
 				}
 			return u;
 			}
-		if(IsAbove(pfirst->GetId(), Id...)&&ustart>0)
-			ustart--;
+		if(ustart>0)
+			{
+			pfirst=ppChildren[ustart]->GetFirst();
+			if(IsAbove(pfirst->GetId(), Id...))
+				ustart--;
+			}
 		return -(INT)ustart-1;
 		}
 
