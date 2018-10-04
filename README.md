@@ -2,7 +2,7 @@
 
 <p>
 Here You can find the Windows-Runtime-Component of
-<a href="http://github.com/svenbieg/cluster">Clusters</a>,
+<a href="http://github.com/svenbieg/cluster">Clusters</a>,<br />
 which is compatible with all programming-languages and works on all platforms.<br />
 You can find further information on my website at
 <a href="http://svenbieg.azurewebsites.net/ClustersRuntime" target="_blank">http://svenbieg.azurewebsites.net/ClustersRuntime</a>.
