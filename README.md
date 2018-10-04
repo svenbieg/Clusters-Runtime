@@ -4,6 +4,7 @@
 Here You can find the Windows-Runtime-Component of
 <a href="http://github.com/svenbieg/cluster">Clusters</a>,<br />
 which is compatible with all programming-languages and works on all platforms.<br />
+<br />
 You can find further information on my website at
 <a href="http://svenbieg.azurewebsites.net/ClustersRuntime" target="_blank">http://svenbieg.azurewebsites.net/ClustersRuntime</a>.
 </p>
@@ -30,24 +31,24 @@ This guide assumes that You already have installed Visual Studio from Microsoft,
 and that You know how to write a universal Windows application. 
 </p>
 
-1.)Create a new project for the Universal Windows platform!<br />
+1.)&emsp;Create a new project for the Universal Windows platform!<br />
 &emsp;&emsp;Which programming-language You are using doesn't matter,<br />
 &emsp;&emsp;You can use C++, C#, JavaScript or Visual Basic. I've chosen C# for this example.<br />
 <br />
 <img src="http://svenbieg.azurewebsites.net/ClustersRuntime/Setup/NewProject.jpg" /><br />
 <br />
 
-2.)Copy the files from GitHub into the solution-directory!<br />
+2.)&emsp;Copy the files from GitHub into the solution-directory!<br />
 <br />
 <img src="http://svenbieg.azurewebsites.net/ClustersRuntime/Setup/CopyFiles.jpg" /><br />
 <br />
 
-3.)Add the Clusters-Runtime project to the solution!<br />
+3.)&emsp;Add the Clusters-Runtime project to the solution!<br />
 <br />
 <img src="http://svenbieg.azurewebsites.net/ClustersRuntime/Setup/AddProject.jpg" /><br />
 <br />
 
-4.)Add a reference to Clusters-Runtime!<br />
+4.)&emsp;Add a reference to Clusters-Runtime!<br />
 <br />
 <img src="http://svenbieg.azurewebsites.net/ClustersRuntime/Setup/AddReference.jpg" /><br />
 <br />
