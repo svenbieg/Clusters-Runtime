@@ -70,52 +70,6 @@ return (WORD)Value;
 }
 
 
-//============
-// Allocation
-//============
-
-inline VOID* Alloc(SIZE_T Size)
-{
-ASSERT(Size);
-VOID* pbuf=malloc(Size);
-if(!pbuf)
-	throw ENOMEM;
-return pbuf;
-}
-
-inline VOID Free(VOID* Buffer)
-{
-if(!Buffer)
-	return;
-free(Buffer);
-}
-
-inline VOID* ReAlloc(VOID* Buffer, SIZE_T Size)
-{
-if(!Size)
-	{
-	Free(Buffer);
-	return 0;
-	}
-VOID* pbuf=realloc(Buffer, Size);
-if(!pbuf)
-	throw ENOMEM;
-return pbuf;
-}
-
-inline VOID Alloc(VOID** Buffer, SIZE_T Size)
-{
-if(*Buffer)
-	{
-	*Buffer=ReAlloc(*Buffer, Size);
-	}
-else
-	{
-	*Buffer=Alloc(Size);
-	}
-}
-
-
 //==========
 // Pointers
 //==========

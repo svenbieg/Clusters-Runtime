@@ -31,7 +31,7 @@ public:
 	// Con-/Destructors
 	String(): pValue(nullptr) {}
 	String(T const* Value, UINT Length=0): pValue(nullptr) { StringAssign(&pValue, nullptr, Value, Length); }
-	~String() { StringFree(pValue); }
+	~String() { delete pValue; }
 
 	// Access
 	inline T const* Get()const { return pValue; }

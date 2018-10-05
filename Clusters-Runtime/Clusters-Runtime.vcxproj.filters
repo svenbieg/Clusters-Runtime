@@ -14,6 +14,9 @@
       <Filter>Details\Map</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Details\Guid.cpp">
+      <Filter>Details</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="List.h" />
@@ -29,6 +32,9 @@
       <Filter>Details\Map</Filter>
     </ClInclude>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Details\Guid.h">
+      <Filter>Details</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Details">

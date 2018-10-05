@@ -13,14 +13,6 @@
 
 
 //========
-// Common
-//========
-
-template <class T> inline T* StringAlloc(UINT Size) { return (T*)::Alloc(Size*sizeof(T)); }
-template <class T> inline VOID StringFree(T* String) { ::Free(String); }
-
-
-//========
 // Access
 //========
 
@@ -68,11 +60,6 @@ UINT StringAssign(LPSTR* Value, UINT* Size, LPCSTR Assign, UINT Length=0);
 UINT StringAssign(LPSTR* Value, UINT* Size, LPCWSTR Assign, UINT Length=0);
 UINT StringAssign(LPWSTR* Value, UINT* Size, LPCSTR Assign, UINT Length=0);
 UINT StringAssign(LPWSTR* Value, UINT* Size, LPCWSTR Assign, UINT Length=0);
-UINT StringAssignBytesPerSec(LPSTR* Value, UINT* Size, UINT BytesPerSec);
-UINT StringAssignBytesPerSec(LPWSTR* Value, UINT* Size, UINT BytesPerSec);
-UINT StringAssignTimeSpan(LPSTR* Value, UINT* Size, UINT MilliSeconds, BOOL ShowMilliSeconds=true, BOOL ShowDaysAndWeeks=true);
-UINT StringAssignTimeSpan(LPWSTR* Value, UINT* Size, UINT MilliSeconds, BOOL ShowMilliSeconds=true, BOOL ShowDaysAndWeeks=true);
-UINT StringAssignTimeSpanLength(UINT MilliSeconds, BOOL ShowMilliSeconds=true, BOOL ShowDaysAndWeeks=true);
 UINT StringCopy(LPSTR Destination, UINT Size, LPCSTR Source, UINT Length=0);
 UINT StringCopy(LPSTR Destination, UINT Size, LPCWSTR Source, UINT Length=0);
 UINT StringCopy(LPWSTR Destination, UINT Size, LPCSTR Source, UINT Length=0);
@@ -121,21 +108,3 @@ INT StringToInt(LPCSTR Value, UINT* Length=nullptr);
 INT StringToInt(LPCWSTR Value, UINT* Length=nullptr);
 INT64 StringToInt64(LPCSTR Value, UINT* Length=nullptr);
 INT64 StringToInt64(LPCWSTR Value, UINT* Length=nullptr);
-
-
-//============
-// Formatting
-//============
-
-UINT StringPrintf(LPSTR String, UINT Size, LPCSTR Format, ...);
-UINT StringPrintf(LPSTR* String, UINT* Size, LPCSTR Format, ...);
-UINT StringPrintf(LPWSTR String, UINT Size, LPCWSTR Format, ...);
-UINT StringPrintf(LPWSTR* String, UINT* Size, LPCWSTR Format, ...);
-UINT StringPrintfLength(LPCSTR Format, ...);
-UINT StringPrintfLength(LPCWSTR Format, ...);
-UINT StringVPrintf(LPSTR String, UINT Size, LPCSTR Format, va_list List);
-UINT StringVPrintf(LPWSTR String, UINT Size, LPCWSTR Format, va_list List);
-UINT StringVPrintf(LPSTR* String, UINT* Size, LPCSTR Format, va_list List);
-UINT StringVPrintf(LPWSTR* String, UINT* Size, LPCWSTR Format, va_list List);
-UINT StringVPrintfLength(LPCSTR Format, va_list List);
-UINT StringVPrintfLength(LPCWSTR Format, va_list List);

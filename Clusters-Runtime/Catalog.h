@@ -10,8 +10,8 @@
 //=======
 
 #include "Clusters\Index.h"
-#include "Default\Guid.h"
 #include "Details\Catalog\CatalogIterator.h"
+#include "Details\Guid.h"
 
 namespace WFM=Windows::Foundation::Metadata;
 
@@ -35,10 +35,10 @@ public ref class Catalog sealed
 {
 private:
 	// Using
-	using CriticalSection=Concurrency::critical_section;
-	using Lock=Concurrency::critical_section::scoped_lock;
-	using Object=Platform::Object;
 	using CatalogIterator=Details::Catalog::CatalogIterator;
+	using CriticalSection=Concurrency::critical_section;
+	using Object=Platform::Object;
+	using ScopedLock=Concurrency::critical_section::scoped_lock;
 
 internal:
 	// Friends
@@ -68,7 +68,7 @@ public:
 private:
 	// Common
 	CriticalSection cCriticalSection;
-	Index<Guid, Object^> cIndex;
+	Index<Details::Guid, Object^> cIndex;
 	UINT uItCount;
 };
 

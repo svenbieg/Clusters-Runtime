@@ -54,25 +54,25 @@ hMap->uItCount++;
 
 Platform::String^ MapIterator::CurrentKey::get()
 {
-Lock lock(hMap->cCriticalSection);
+ScopedLock lock(hMap->cCriticalSection);
 return cIt.GetCurrentId();
 }
 
 Platform::Object^ MapIterator::CurrentValue::get()
 {
-Lock lock(hMap->cCriticalSection);
+ScopedLock lock(hMap->cCriticalSection);
 return cIt.GetCurrentItem();
 }
 
 VOID MapIterator::CurrentValue::set(Object^ hvalue)
 {
-Lock lock(hMap->cCriticalSection);
+ScopedLock lock(hMap->cCriticalSection);
 cIt.SetCurrentItem(hvalue);
 }
 
 bool MapIterator::HasCurrent::get()
 {
-Lock lock(hMap->cCriticalSection);
+ScopedLock lock(hMap->cCriticalSection);
 return cIt.HasCurrent();
 }
 
@@ -83,7 +83,7 @@ return cIt.HasCurrent();
 
 VOID MapIterator::RemoveCurrent()
 {
-Lock lock(hMap->cCriticalSection);
+ScopedLock lock(hMap->cCriticalSection);
 if(hMap->uItCount>1)
 	throw ref new Platform::InvalidArgumentException();
 cIt.RemoveCurrent();
@@ -96,31 +96,31 @@ cIt.RemoveCurrent();
 
 bool MapIterator::Find(String^ hkey)
 {
-Lock lock(hMap->cCriticalSection);
+ScopedLock lock(hMap->cCriticalSection);
 return cIt.Find(hkey);
 }
 
 bool MapIterator::MoveNext()
 {
-Lock lock(hMap->cCriticalSection);
+ScopedLock lock(hMap->cCriticalSection);
 return cIt.MoveNext();
 }
 
 bool MapIterator::MovePrevious()
 {
-Lock lock(hMap->cCriticalSection);
+ScopedLock lock(hMap->cCriticalSection);
 return cIt.MovePrevious();
 }
 
 UINT64 MapIterator::Position::get()
 {
-Lock lock(hMap->cCriticalSection);
+ScopedLock lock(hMap->cCriticalSection);
 return cIt.GetPosition();
 }
 
 VOID MapIterator::Position::set(UINT64 upos)
 {
-Lock lock(hMap->cCriticalSection);
+ScopedLock lock(hMap->cCriticalSection);
 cIt.SetPosition(upos);
 }
 
@@ -131,7 +131,7 @@ cIt.SetPosition(upos);
 
 MapIterator::~MapIterator()
 {
-Lock lock(hMap->cCriticalSection);
+ScopedLock lock(hMap->cCriticalSection);
 hMap->uItCount--;
 }
 

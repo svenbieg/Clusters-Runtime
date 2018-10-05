@@ -43,8 +43,8 @@ public ref class ListIterator sealed
 {
 private:
 	// Using
-	using Lock=Concurrency::critical_section::scoped_lock;
 	using Object=Platform::Object;
+	using ScopedLock=Concurrency::critical_section::scoped_lock;
 
 public:
 	// Access

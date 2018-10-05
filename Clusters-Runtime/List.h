@@ -36,8 +36,8 @@ private:
 	// Using
 	using CriticalSection=Concurrency::critical_section;
 	using ListIterator=Details::List::ListIterator;
-	using Lock=Concurrency::critical_section::scoped_lock;
 	using Object=Platform::Object;
+	using ScopedLock=Concurrency::critical_section::scoped_lock;
 
 internal:
 	// Friends

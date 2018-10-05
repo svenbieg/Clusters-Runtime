@@ -32,7 +32,7 @@ SIZE_T BufferAssign(BYTE** Buffer, SIZE_T* Size, VOID const* Source, SIZE_T Sour
 inline VOID BufferClear(BYTE** Buffer, SIZE_T* Size)
 	{
 	ASSERT(Buffer&&Size);
-	Free(*Buffer);
+	operator delete(*Buffer);
 	*Buffer=(BYTE*)0;
 	*Size=0;
 	}

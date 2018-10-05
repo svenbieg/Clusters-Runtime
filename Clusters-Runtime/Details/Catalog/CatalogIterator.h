@@ -10,7 +10,7 @@
 //=======
 
 #include "Clusters\Index.h"
-#include "Default\Guid.h"
+#include "..\Guid.h"
 
 namespace WFM=Windows::Foundation::Metadata;
 
@@ -49,8 +49,8 @@ public ref class CatalogIterator sealed
 {
 private:
 	// Using
-	using Lock=Concurrency::critical_section::scoped_lock;
 	using Object=Platform::Object;
+	using ScopedLock=Concurrency::critical_section::scoped_lock;
 
 public:
 	// Access

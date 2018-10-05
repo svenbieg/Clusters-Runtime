@@ -5,6 +5,15 @@
 #pragma once
 
 
+//===========
+// Namespace
+//===========
+
+namespace Clusters {
+	namespace Runtime {
+		namespace Details {
+
+
 //======
 // Guid
 //======
@@ -38,3 +47,5 @@ private:
 	static inline BOOL IsEqual(GUID const& Id1, GUID const& Id2) { return memcmp(&Id1, &Id2, sizeof(GUID))==0; }
 	GUID uId;
 };
+
+}}}

@@ -19,13 +19,13 @@
 SIZE_T BufferAssign(BYTE** ppbuf, SIZE_T* psize, VOID const* psrc, SIZE_T usrcsize)
 {
 ASSERT(ppbuf&&psize);
-Free(*ppbuf);
+operator delete(*ppbuf);
 if(!psrc||!usrcsize)
 	{
 	*psize=0;
 	return 0;
 	}
-*ppbuf=(BYTE*)Alloc(usrcsize);
+*ppbuf=(BYTE*)operator new(usrcsize);
 CopyMemory(*ppbuf, psrc, usrcsize);
 *psize=usrcsize;
 return usrcsize;
@@ -50,12 +50,12 @@ SIZE_T BufferInsert(BYTE** ppbuf, SIZE_T* psize, SIZE_T upos, VOID const* psrc, 
 {
 SIZE_T usize=*psize;
 SIZE_T unewsize=usize+usrcsize;
-BYTE* pnew=(BYTE*)Alloc(unewsize);
+BYTE* pnew=(BYTE*)operator new(unewsize);
 BYTE* pbuf=*ppbuf;
 CopyMemory(pnew, pbuf, upos);
 CopyMemory(&pnew[upos], psrc, usrcsize);
 CopyMemory(&pnew[upos+usrcsize], &pbuf[upos], usize-upos);
-Free(pbuf);
+operator delete(pbuf);
 *ppbuf=pnew;
 return usrcsize;
 }
@@ -81,18 +81,14 @@ if(!pbuf)
 	{
 	if(!unewsize)
 		return;
-	*ppbuf=(BYTE*)Alloc(unewsize);
+	*ppbuf=(BYTE*)operator new(unewsize);
 	*psize=unewsize;
 	return;
 	}
-#ifndef _DRIVER
-*ppbuf=(BYTE*)ReAlloc(pbuf, unewsize);
-#else
-*ppbuf=(BYTE*)Alloc(unewsize);
+*ppbuf=(BYTE*)operator new(unewsize);
 SIZE_T ucopy=min(*psize, unewsize);
 CopyMemory(*ppbuf, pbuf, ucopy);
-Free(pbuf);
-#endif
+operator delete(pbuf);
 *psize=unewsize;
 }
 

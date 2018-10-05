@@ -17,4 +17,12 @@
 //========
 
 #undef ASSERT
-#define ASSERT(Condition) if(!(Condition))throw EINVAL
+#define ASSERT(Condition) if(!(Condition))throw(EFAULT)
+
+
+//============
+// Exceptions
+//============
+
+#define EXCEPT catch(HRESULT _hexc)
+#define GetExceptionStatus() _hexc

@@ -42,7 +42,7 @@
     <ProjectGuid>{7913F99B-79EE-4B4F-8552-9850FD8A65CD}</ProjectGuid>
     <RootNamespace>Clusters.Runtime</RootNamespace>
     <WindowsTargetPlatformMinVersion>10.0.10240.0</WindowsTargetPlatformMinVersion>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="Configuration">
@@ -67,7 +67,6 @@
   <PropertyGroup>
     <IntDir>$(ProjectDir)$(Configuration)\$(Platform)\Temp\</IntDir>
     <OutDir>$(ProjectDir)$(Configuration)\$(Platform)\</OutDir>
-    <TargetName>Clusters.Runtime</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -133,6 +132,7 @@
   <ItemGroup>
     <ClInclude Include="Catalog.h" />
     <ClInclude Include="Details\Catalog\CatalogIterator.h" />
+    <ClInclude Include="Details\Guid.h" />
     <ClInclude Include="Details\List\ListIterator.h" />
     <ClInclude Include="Details\Map\MapIterator.h" />
     <ClInclude Include="List.h" />
@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClCompile Include="Catalog.cpp" />
     <ClCompile Include="Details\Catalog\CatalogIterator.cpp" />
+    <ClCompile Include="Details\Guid.cpp" />
     <ClCompile Include="Details\List\ListIterator.cpp" />
     <ClCompile Include="Details\Map\MapIterator.cpp" />
     <ClCompile Include="Map.cpp" />

@@ -48,8 +48,8 @@ public ref class MapIterator sealed
 {
 private:
 	// Using
-	using Lock=Concurrency::critical_section::scoped_lock;
 	using Object=Platform::Object;
+	using ScopedLock=Concurrency::critical_section::scoped_lock;
 	using String=Platform::String;
 
 public:

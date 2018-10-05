@@ -14,15 +14,6 @@
 #include "CharHelper.h"
 #include "StringHelper.h"
 
-#ifdef _WINDOWS
-#ifdef _DRIVER
-#include <ntstrsafe.h>
-#endif
-#else
-#include <cstdio>
-#include <cwchar>
-#endif
-
 
 //========
 // Common
@@ -361,9 +352,9 @@ if(psize)
 UINT ulen=StringLength(passign, ucopy);
 if(ulen+1>usize)
 	{
-	StringFree(pstr);
+	delete pstr;
 	usize=ulen+1;
-	pstr=StringAlloc<T>(usize);
+	pstr=new T[usize];
 	*ppstr=pstr;
 	if(psize)
 		*psize=usize;
@@ -390,185 +381,6 @@ return StringAssign<WCHAR, CHAR>(ppstr, psize, passign, ulen);
 UINT StringAssign(LPWSTR* ppstr, UINT* psize, LPCWSTR passign, UINT ulen)
 {
 return StringAssign<WCHAR, WCHAR>(ppstr, psize, passign, ulen);
-}
-
-LPCSTR ppBytesPerSecA[]={"%u Bytes/s", "%.2f KB/s", "%.2f MB/s"};
-LPCWSTR ppBytesPerSecW[]={L"%u Bytes/s", L"%.2f KB/s", L"%.2f MB/s"};
-
-template <class T>
-UINT StringAssignBytesPerSec(T** ppstr, UINT* psize, UINT ubps, T const** ppstrs)
-{
-if(ubps<1024)
-	return StringPrintf(ppstr, psize, ppstrs[0], ubps);
-FLOAT fkb=(FLOAT)ubps/1024.f;
-if(fkb<1024.f)
-	return StringPrintf(ppstr, psize, ppstrs[1], fkb);
-FLOAT fmb=fkb/1024.f;
-return StringPrintf(ppstr, psize, ppstrs[2], fmb);
-}
-
-UINT StringAssignBytesPerSec(LPSTR* ppstr, UINT* psize, UINT ubps)
-{
-return StringAssignBytesPerSec<CHAR>(ppstr, psize, ubps, ppBytesPerSecA);
-}
-
-UINT StringAssignBytesPerSec(LPWSTR* ppstr, UINT* psize, UINT ubps)
-{
-return StringAssignBytesPerSec<WCHAR>(ppstr, psize, ubps, ppBytesPerSecW);
-}
-
-LPCSTR ppTimeSpanA[]={"%uw", "%ud", "%uh", "%um", "%us", "%ums"};
-LPCWSTR ppTimeSpanW[]={L"%uw", L"%ud", L"%uh", L"%um", L"%us", L"%ums"};
-
-template <class T>
-UINT StringAssignTimeSpan(T** ppstr, UINT* psize, UINT ums, BOOL bshowms, BOOL bshowdw, T const** ppstrs)
-{
-T* pstr=*ppstr;
-UINT usize=0;
-if(psize)
-	usize=*psize;
-UINT ulen=StringAssignTimeSpanLength(ums, bshowms, bshowdw);
-if(ulen+1>usize)
-	{
-	StringFree(pstr);
-	usize=ulen+1;
-	pstr=StringAlloc<T>(usize);
-	*ppstr=pstr;
-	if(psize)
-		*psize=usize;
-	}
-UINT useconds=ums/1000;
-ums-=useconds*1000;
-UINT uminutes=useconds/60;
-useconds-=uminutes*60;
-UINT uhours=uminutes/60;
-uminutes-=uhours*60;
-UINT udays=0;
-UINT uweeks=0;
-if(bshowdw)
-	{
-	udays=uhours/24;
-	uhours-=udays*24;
-	uweeks=udays/7;
-	udays-=uweeks*7;
-	}
-UINT upos=0;
-if(uweeks)
-	upos+=StringPrintf(&pstr[upos], usize-upos, ppstrs[0], uweeks);
-if(udays)
-	{
-	if(upos)
-		{
-		CharAssign(pstr[upos], ' ');
-		upos++;
-		}
-	upos+=StringPrintf(&pstr[upos], usize-upos, ppstrs[1], udays);
-	}
-if(uhours)
-	{
-	if(upos)
-		{
-		CharAssign(pstr[upos], ' ');
-		upos++;
-		}
-	upos+=StringPrintf(&pstr[upos], usize-upos, ppstrs[2], uhours);
-	}
-if(uminutes)
-	{
-	if(upos)
-		{
-		CharAssign(pstr[upos], ' ');
-		upos++;
-		}
-	upos+=StringPrintf(&pstr[upos], usize-upos, ppstrs[3], uminutes);
-	}
-if(useconds)
-	{
-	if(upos)
-		{
-		CharAssign(pstr[upos], ' ');
-		upos++;
-		}
-	upos+=StringPrintf(&pstr[upos], usize-upos, ppstrs[4], useconds);
-	}
-if(ums&&bshowms)
-	{
-	if(upos)
-		{
-		CharAssign(pstr[upos], ' ');
-		upos++;
-		}
-	upos+=StringPrintf(&pstr[upos], usize-upos, ppstrs[5], ums);
-	}
-if(!upos)
-	upos=StringCopy(pstr, usize, "0s");
-*ppstr=pstr;
-return upos;
-}
-
-UINT StringAssignTimeSpan(LPSTR* ppstr, UINT* psize, UINT ums, BOOL bshowms, BOOL bshowdw)
-{
-return StringAssignTimeSpan<CHAR>(ppstr, psize, ums, bshowms, bshowdw, ppTimeSpanA);
-}
-
-UINT StringAssignTimeSpan(LPWSTR* ppstr, UINT* psize, UINT ums, BOOL bshowms, BOOL bshowdw)
-{
-return StringAssignTimeSpan<WCHAR>(ppstr, psize, ums, bshowms, bshowdw, ppTimeSpanW);
-}
-
-UINT StringAssignTimeSpanLength(UINT ums, BOOL bshowms, BOOL bshowdw)
-{
-UINT useconds=ums/1000;
-ums-=useconds*1000;
-UINT uminutes=useconds/60;
-useconds-=uminutes*60;
-UINT uhours=uminutes/60;
-uminutes-=uhours*60;
-UINT udays=0;
-UINT uweeks=0;
-if(bshowdw)
-	{
-	udays=uhours/24;
-	uhours-=udays*24;
-	uweeks=udays/7;
-	udays-=uweeks*7;
-	}
-UINT ulen=0;
-if(uweeks)
-	ulen+=StringPrintfLength("%uw", uweeks);
-if(udays)
-	{
-	if(ulen)
-		ulen++;
-	ulen+=StringPrintfLength("%ud", udays);
-	}
-if(uhours)
-	{
-	if(ulen)
-		ulen++;
-	ulen+=StringPrintfLength("%uh", uhours);
-	}
-if(uminutes)
-	{
-	if(ulen)
-		ulen++;
-	ulen+=StringPrintfLength("%um", uminutes);
-	}
-if(useconds)
-	{
-	if(ulen)
-		ulen++;
-	ulen+=StringPrintfLength("%us", useconds);
-	}
-if(ums&&bshowms)
-	{
-	if(ulen)
-		ulen++;
-	ulen+=StringPrintfLength("%ums", ums);
-	}
-if(!ulen)
-	ulen=2;
-return ulen;
 }
 
 template <class DST, class SRC>
@@ -664,7 +476,7 @@ return StringAppend<WCHAR, WCHAR>(ppstr, psize, pappend, ulen);
 template <class T>
 VOID StringClear(T** ppstr, UINT* psize)
 {
-StringFree(*ppstr);
+delete *ppstr;
 *ppstr=nullptr;
 if(psize)
 	*psize=0;
@@ -686,7 +498,7 @@ UINT StringInsert(T** ppstr, UINT* psize, const V* pinsert, UINT upos, UINT ucop
 T* pstr=*ppstr;
 UINT ulen=StringLength(pstr);
 if(upos>ulen)
-	throw EINVAL;
+	throw(EINVAL);
 UINT uinsertlen=StringLength(pinsert, ucopy);
 if(uinsertlen==0)
 	return 0;
@@ -697,12 +509,12 @@ UINT unewlen=ulen+uinsertlen;
 if(unewlen+1>usize)
 	{
 	usize=unewlen+1;
-	T* pnew=StringAlloc<T>(usize);
+	T* pnew=new T[usize];
 	StringCopy(pnew, usize, pstr, upos);
 	StringCopy(&pnew[ulen], usize-ulen, pinsert, uinsertlen);
 	if(ulen>upos)
 		StringCopy(&pnew[upos+uinsertlen], usize-upos-uinsertlen, &pstr[upos], ulen-upos);
-	StringFree(pstr);
+	delete pstr;
 	pstr=pnew;
 	*ppstr=pstr;
 	if(psize)
@@ -802,7 +614,7 @@ if(!ball)
 INT idiflen=(INT)uinsertlen-ufindlen;
 UINT unewlen=ulen+idiflen*ucount;
 UINT unewsize=unewlen+1;
-T* pnew=StringAlloc<T>(unewsize);
+T* pnew=new T[unewsize];
 StringCopy(pnew, ustart, pstr, ustart);
 UINT upos=ustart;
 UINT unewpos=ustart;
@@ -826,7 +638,7 @@ if(psize)
 	usize=*psize;
 if(unewsize>usize)
 	{
-	StringFree(pstr);
+	delete pstr;
 	*ppstr=pnew;
 	if(psize)
 		*psize=unewsize;
@@ -870,12 +682,12 @@ if(unewsize==0)
 	return;
 	}
 T* pstr=*ppstr;
-T* pnew=StringAlloc<T>(unewsize);
+T* pnew=new T[unewsize];
 if(pstr)
 	{
 	StringCopy(pnew, unewsize, pstr);
 	pnew[unewsize-1]=0;
-	StringFree(pstr);
+	delete pstr;
 	}
 else
 	{
@@ -1177,161 +989,4 @@ return (INT64)StringToFloat<CHAR, DOUBLE>(pstr, plen);
 INT64 StringToInt64(LPCWSTR pstr, UINT* plen)
 {
 return (INT64)StringToFloat<WCHAR, DOUBLE>(pstr, plen);
-}
-
-
-//============
-// Formatting
-//============
-
-template <class T>
-UINT StringVPrintf(T** ppstr, UINT* psize, T const* pformat, va_list lst)
-{
-ASSERT(ppstr&&psize&&pformat&&pformat[0]);
-T* pstr=*ppstr;
-UINT usize=0;
-if(psize)
-	usize=*psize;
-UINT ulen=StringVPrintfLength(pformat, lst);
-if(ulen+1>usize)
-	{
-	StringFree(pstr);
-	usize=ulen+1;
-	pstr=StringAlloc<T>(usize);
-	*ppstr=pstr;
-	if(psize)
-		*psize=usize;
-	}
-StringVPrintf(pstr, usize, pformat, lst);
-return ulen;
-}
-
-UINT StringPrintf(LPSTR pstr, UINT usize, LPCSTR pformat, ...)
-{
-va_list lst;
-va_start(lst, pformat);
-UINT ulen=StringVPrintf(pstr, usize, pformat, lst);
-va_end(lst);
-return ulen;
-}
-
-UINT StringPrintf(LPSTR* ppstr, UINT* psize, LPCSTR pformat, ...)
-{
-va_list lst;
-va_start(lst, pformat);
-UINT ulen=StringVPrintf<CHAR>(ppstr, psize, pformat, lst);
-va_end(lst);
-return ulen;
-}
-
-UINT StringPrintf(LPWSTR pstr, UINT usize, LPCWSTR pformat, ...)
-{
-va_list lst;
-va_start(lst, pformat);
-UINT ulen=StringVPrintf(pstr, usize, pformat, lst);
-va_end(lst);
-return ulen;
-}
-
-UINT StringPrintf(LPWSTR* ppstr, UINT* psize, LPCWSTR pformat, ...)
-{
-va_list lst;
-va_start(lst, pformat);
-UINT ulen=StringVPrintf<WCHAR>(ppstr, psize, pformat, lst);
-va_end(lst);
-return ulen;
-}
-
-UINT StringPrintfLength(LPCSTR pformat, ...)
-{
-va_list lst;
-va_start(lst, pformat);
-UINT ulen=StringVPrintfLength(pformat, lst);
-va_end(lst);
-return ulen;
-}
-
-UINT StringPrintfLength(LPCWSTR pformat, ...)
-{
-va_list lst;
-va_start(lst, pformat);
-UINT ulen=StringVPrintfLength(pformat, lst);
-va_end(lst);
-return ulen;
-}
-
-UINT StringVPrintf(LPSTR pstr, UINT usize, LPCSTR pformat, va_list lst)
-{
-ASSERT(pstr&&usize&&pformat&&pformat[0]);
-#ifndef _DRIVER
-INT i=vsnprintf(pstr, usize, pformat, lst);
-if(i<0)
-	throw EFAULT;
-return i;
-#else
-NTSTATUS status=RtlStringCchPrintfA(pstr, usize, pformat, lst);
-if(!NT_SUCCESS(status))
-	throw ref new Platform::FailureException();
-return StringLength(pstr);
-#endif
-}
-
-UINT StringVPrintf(LPWSTR pstr, UINT usize, LPCWSTR pformat, va_list lst)
-{
-ASSERT(pstr&&usize&&pformat&&pformat[0]);
-#ifndef _DRIVER
-INT i=vswprintf(pstr, usize, pformat, lst);
-if(i<0)
-	throw EFAULT;
-return i;
-#else
-NTSTATUS status=RtlStringCchPrintfW(pstr, usize, pformat, lst);
-if(!NT_SUCCESS(status))
-	throw ref new Platform::FailureException();
-return StringLength(pstr);
-#endif
-}
-
-UINT StringVPrintf(LPSTR* ppstr, UINT* psize, LPCSTR pformat, va_list lst)
-{
-return StringVPrintf<CHAR>(ppstr, psize, pformat, lst);
-}
-
-UINT StringVPrintf(LPWSTR* ppstr, UINT* psize, LPCWSTR pformat, va_list lst)
-{
-return StringVPrintf<WCHAR>(ppstr, psize, pformat, lst);
-}
-
-UINT StringVPrintfLength(LPCSTR pformat, va_list lst)
-{
-ASSERT(pformat&&pformat[0]);
-CHAR pstr[1024];
-#ifndef _DRIVER
-INT i=vsnprintf(pstr, 1024, pformat, lst);
-if(i<0)
-	throw EFAULT;
-return i;
-#else
-NTSTATUS status=RtlStringCchPrintfA(pstr, 1024, pformat, lst);
-if(!NT_SUCCESS(status))
-	throw ref new Platform::FailureException();
-return StringLength(pstr);
-#endif
-}
-
-UINT StringVPrintfLength(LPCWSTR pformat, va_list lst)
-{
-ASSERT(pformat&&pformat[0]);
-WCHAR pstr[1024];
-#ifndef _DRIVER
-INT i=vswprintf(pstr, 1024, pformat, lst);
-if(i<0)
-	throw EFAULT;
-return i;
-#else
-NTSTATUS status=RtlStringCchPrintfW(pstr, 1024, pformat, lst);
-if(!NT_SUCCESS(status))
-	throw ref new Platform::FailureException();
-return StringLength(pstr);
-#endif
 }

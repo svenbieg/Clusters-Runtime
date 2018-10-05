@@ -12,41 +12,39 @@
 #include "CharHelper.h"
 
 
-//========
-// Common
-//========
+//============
+// Characters
+//============
 
 CHAR cUnknown='_';
 WCHAR wcUnknown=L'_';
 
-#ifdef _WINDOWS
+
+//=========
+// Strings
+//=========
+
 CHAR pStrAlphaA[]="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞ‗אבגדהוזחטיךכלםמןנסעףפץצרשתûü‎‏ÿ";
 WCHAR pStrAlphaW[]=L"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞ‗אבגדהוזחטיךכלםמןנסעףפץצרשתûü‎‏ÿ";
-CHAR pStrCapitalA[]="ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞ";
-WCHAR pStrCapitalW[]=L"ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞ";
-CHAR pStrSmallA[]="abcdefghijklmnopqrstuvwxyzאבגדהוזחטיךכלםמןנסעףפץצרשתûü‎‏‗ÿ";
-WCHAR pStrSmallW[]=L"abcdefghijklmnopqrstuvwxyzאבגדהוזחטיךכלםמןנסעףפץצרשתûü‎‏‗ÿ";
-CHAR pStrSortA[]="0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
-WCHAR pStrSortW[]=L"0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
-#else
-CHAR pStrAlphaA[]="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-WCHAR pStrAlphaW[]=L"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-CHAR pStrCapitalA[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-WCHAR pStrCapitalW[]=L"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-CHAR pStrSmallA[]="abcdefghijklmnopqrstuvwxyz";
-WCHAR pStrSmallW[]=L"abcdefghijklmnopqrstuvwxyz";
-CHAR pStrSortA[]="0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
-WCHAR pStrSortW[]=L"0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
-#endif
-
 CHAR pStrBreakA[]="\n\r\t.:!?,;/|\\";
 WCHAR pStrBreakW[]=L"\n\r\t.:!?,;/|\\";
+CHAR pStrCapitalA[]="ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞ";
+WCHAR pStrCapitalW[]=L"ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞ";
 CHAR pStrDigitA[]="0123456789";
 WCHAR pStrDigitW[]=L"0123456789";
 CHAR pStrHexA[]="0123456789ABCDEFabcdef";
 WCHAR pStrHexW[]=L"0123456789ABCDEFabcdef";
+CHAR pStrSmallA[]="abcdefghijklmnopqrstuvwxyzאבגדהוזחטיךכלםמןנסעףפץצרשתûü‎‏‗ÿ";
+WCHAR pStrSmallW[]=L"abcdefghijklmnopqrstuvwxyzאבגדהוזחטיךכלםמןנסעףפץצרשתûü‎‏‗ÿ";
+CHAR pStrSortA[]="0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
+WCHAR pStrSortW[]=L"0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
 CHAR pStrSpecialA[]="\"*/:<>?\\|";
 WCHAR pStrSpecialW[]=L"\"*/:<>?\\|";
+
+
+//========
+// Common
+//========
 
 BOOL CharIsAlpha(CHAR c)
 {
