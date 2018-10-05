@@ -22,7 +22,7 @@ namespace Details
 	{
 	namespace Index
 		{
-		template <class ITEM, class ID, UINT _GroupSize, BOOL _ReadOnly> class IndexIteratorBase;
+		template <class ID, class ITEM, UINT _GroupSize, BOOL _ReadOnly> class IndexIteratorBase;
 		}
 	}
 }
@@ -47,7 +47,7 @@ class ClusterBase
 public:
 	// Friends
 	template <class ITEM, class GROUP, class ITEMGROUP, class PARENTGROUP, BOOL _ReadOnly> friend class IteratorBase;
-	template <class ITEM, class ID, UINT _GroupSize, BOOL _ReadOnly> friend class ::Clusters::Details::Index::IndexIteratorBase;
+	template <class ID, class ITEM, UINT _GroupSize, BOOL _ReadOnly> friend class ::Clusters::Details::Index::IndexIteratorBase;
 
 	// Access
 	inline operator bool()const { return PointerValid(this)&&pRoot->GetCount()>0; }
