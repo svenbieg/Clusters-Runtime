@@ -93,7 +93,7 @@ protected:
 				}
 			return ugroup;
 			}
-		if(IsAbove(pitem->GetId(), Id...)&&ugroup>0)
+		if(ugroup>0&&IsAbove(pitem->GetId(), Id...))
 			ugroup--;
 		return -(INT)ugroup-1;
 		}

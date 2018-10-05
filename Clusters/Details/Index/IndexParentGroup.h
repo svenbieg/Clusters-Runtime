@@ -96,32 +96,29 @@ protected:
 			return -1;
 		UINT ustart=0;
 		UINT uend=uChildCount;
+		UINT ugroup=0;
 		INDEXITEM* pfirst=nullptr;
 		INDEXITEM* plast=nullptr;
 		while(ustart<uend)
 			{
-			UINT u=ustart+(uend-ustart)/2;
-			pfirst=ppChildren[u]->GetFirst();
+			ugroup=ustart+(uend-ustart)/2;
+			pfirst=ppChildren[ugroup]->GetFirst();
 			if(IsAbove(pfirst->GetId(), Id...))
 				{
-				uend=u;
+				uend=ugroup;
 				continue;
 				}
-			plast=ppChildren[u]->GetLast();
+			plast=ppChildren[ugroup]->GetLast();
 			if(IsBelow(plast->GetId(), Id...))
 				{
-				ustart=u+1;
+				ustart=ugroup+1;
 				continue;
 				}
-			return u;
+			return ugroup;
 			}
-		if(ustart>0)
-			{
-			pfirst=ppChildren[ustart]->GetFirst();
-			if(IsAbove(pfirst->GetId(), Id...))
-				ustart--;
-			}
-		return -(INT)ustart-1;
+		if(ugroup>0&&IsAbove(pfirst->GetId(), Id...))
+			ugroup--;
+		return -(INT)ugroup-1;
 		}
 
 	// Modification
