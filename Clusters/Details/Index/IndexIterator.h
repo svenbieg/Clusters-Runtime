@@ -88,8 +88,6 @@ protected:
 // Iterator Index
 //================
 
-#pragma region Index
-
 // Iterator Index Read-Only
 template <class ID, class ITEM, UINT _GroupSize, BOOL _ReadOnly>
 class IndexIterator: public IndexIteratorBase<ID, ITEM, _GroupSize, true>
@@ -377,14 +375,10 @@ public:
 	inline VOID SetCurrentItem(CHAR const* Item) { pCurrent->SetItem(Item); }
 };
 
-#pragma endregion
-
 
 //========================
 // Iterator Pointer-Index
 //========================
-
-#pragma region Pointer-Index
 
 // Iterator Pointer-Index Read-Only
 template <class ID, class ITEM, UINT _GroupSize>
@@ -673,14 +667,10 @@ public:
 	inline VOID SetCurrentItem(CHAR const* Item) { pCurrent->SetItem(Item); }
 };
 
-#pragma endregion
-
 
 //=======================
 // Iterator Handle-Index
 //=======================
-
-#pragma region Handle-Index
 
 #ifdef __cplusplus_winrt
 
@@ -969,14 +959,10 @@ public:
 
 #endif
 
-#pragma endregion
-
 
 //=======================
 // Iterator String-Index
 //=======================
-
-#pragma region String-Index
 
 // Iterator String-Index Read-Only
 template <class CHAR, BOOL _AllocId, class ITEM, UINT _GroupSize>
@@ -1264,7 +1250,5 @@ public:
 	// Modification
 	inline VOID SetCurrentItem(CHAR_ITEM const* Value) { pCurrent->SetItem(Value); }
 };
-
-#pragma endregion
 
 }}}

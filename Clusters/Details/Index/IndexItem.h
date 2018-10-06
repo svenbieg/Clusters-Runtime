@@ -25,8 +25,6 @@ namespace Clusters {
 // Item Index
 //============
 
-#pragma region Index
-
 // Index-Item
 template <class ID, class ITEM>
 class IndexItem
@@ -155,14 +153,10 @@ private:
 	ID tId;
 };
 
-#pragma endregion
-
 
 //====================
 // Item Pointer-Index
 //====================
-
-#pragma region Pointer-Index
 
 // Item Pointer-Index
 template <class ID, class ITEM>
@@ -304,14 +298,10 @@ private:
 	ID* pId;
 };
 
-#pragma endregion
-
 
 //===================
 // Item Handle-Index
 //===================
-
-#pragma region Handle-Index
 
 #ifdef __cplusplus_winrt
 
@@ -455,14 +445,10 @@ private:
 
 #endif
 
-#pragma endregion
-
 
 //===================
 // Item String-Index
 //===================
-
-#pragma region String-Index
 
 // Item String-Index
 template <class CHAR, BOOL _AllocId, class ITEM>
@@ -598,7 +584,5 @@ private:
 	String<CHAR_ID, _AllocId> cId;
 	String<CHAR_ITEM, false> cItem;
 };
-
-#pragma endregion
 
 }}}

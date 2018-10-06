@@ -26,8 +26,6 @@ namespace Clusters {
 // String-Index
 //==============
 
-#pragma region String-Index
-
 // String-Index
 template<class CHAR, BOOL _Alloc, class ITEM, UINT _GroupSize>
 class StringIndex: public IndexBase<String<CHAR, _Alloc>, ITEM, _GroupSize>
@@ -59,7 +57,6 @@ public:
 
 	// Modification
 	inline BOOL Add(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return AddStringInternal(Id, Length, CaseSensitive); }
-	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
 };
 
@@ -77,7 +74,6 @@ public:
 
 	// Modification
 	inline BOOL Add(CHAR const* Id, ITEM* Item, UINT Length=0, BOOL CaseSensitive=false) { return AddStringInternal(Id, Length, CaseSensitive, Item); }
-	inline ITEM* ReleaseAt(UINT64 Position) { return ReleaseInternal<ITEM*>(Position); }
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
 	inline VOID Set(CHAR const* Id, ITEM* Item, UINT Length=0, BOOL CaseSensitive=false) { SetStringInternal(Id, Length, CaseSensitive, Item); }
 };
@@ -116,7 +112,6 @@ public:
 
 	// Modification
 	inline BOOL Add(CHAR const* Id, CHAR const* Item, UINT IdLength=0, UINT ItemLength=0, BOOL CaseSensitive=false) { return AddStringInternal(Id, IdLength, CaseSensitive, Item, ItemLength); }
-	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
 	inline VOID Set(CHAR const* Id, CHAR const* Item, UINT IdLength=0, UINT ItemLength=0, BOOL CaseSensitive=false) { SetStringInternal(Id, IdLength, CaseSensitive, Item, ItemLength); }
 };
@@ -135,19 +130,13 @@ public:
 
 	// Modification
 	inline BOOL Add(CHAR const* Id, CHAR const* Item, UINT IdLength=0, BOOL CaseSensitive=false) { return AddStringInternal(Id, IdLength, CaseSensitive, Item); }
-	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
-	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
 	inline VOID Set(CHAR const* Id, CHAR const* Item, UINT IdLength=0, BOOL CaseSensitive=false) { SetStringInternal(Id, IdLength, CaseSensitive, Item); }
 };
-
-#pragma endregion
 
 
 //=====================
 // Shared String-Index
 //=====================
-
-#pragma region Shared String-Index
 
 // Shared String-Index
 template<class CHAR, class ITEM, UINT _GroupSize>
@@ -180,7 +169,6 @@ public:
 
 	// Modification
 	inline BOOL Add(CHAR const* Id, BOOL CaseSensitive=false) { return AddStringInternal(Id, 0, CaseSensitive); }
-	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
 };
 
@@ -198,7 +186,6 @@ public:
 
 	// Modification
 	inline BOOL Add(CHAR const* Id, ITEM* Item, BOOL CaseSensitive=false) { return AddStringInternal(Id, 0, CaseSensitive, Item); }
-	inline ITEM* ReleaseAt(UINT64 Position) { return ReleaseInternal<ITEM*>(Position); }
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
 	inline VOID Set(CHAR const* Id, ITEM* Item, BOOL CaseSensitive=false) { SetStringInternal(Id, 0, CaseSensitive, Item); }
 };
@@ -237,7 +224,6 @@ public:
 
 	// Modification
 	inline BOOL Add(CHAR const* Id, CHAR const* Item, UINT ItemLength=0, BOOL CaseSensitive=false) { return AddStringInternal(Id, 0, CaseSensitive, Item, ItemLength); }
-	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
 	inline VOID Set(CHAR const* Id, CHAR const* Item, UINT ItemLength=0, BOOL CaseSensitive=false) { SetStringInternal(Id, 0, CaseSensitive, Item, ItemLength); }
 };
@@ -256,11 +242,8 @@ public:
 
 	// Modification
 	inline BOOL Add(CHAR const* Id, CHAR const* Item, BOOL CaseSensitive=false) { return AddStringInternal(Id, 0, CaseSensitive, Item); }
-	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
 	inline VOID Set(CHAR const* Id, CHAR const* Item, BOOL CaseSensitive=false) { SetStringInternal(Id, 0, CaseSensitive, Item); }
 };
-
-#pragma endregion
 
 }}}

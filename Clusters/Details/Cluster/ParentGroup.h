@@ -255,6 +255,12 @@ protected:
 			}
 		return _GroupSize;
 		}
+	template <class RET> RET GetAtInternal(UINT64 Position)const
+		{
+		UINT ugroup=GetGroup(Position);
+		ASSERT(ugroup<uChildCount);
+		return ppChildren[ugroup]->GetAt(Position);
+		}
 	UINT GetNearestGroup(UINT Position, UINT* Nearest)
 		{
 		for(UINT u=0; u<_GroupSize; u++)
@@ -280,11 +286,11 @@ protected:
 			}
 		return 0;
 		}
-	template <class ITEM_PTR> ITEM_PTR ReleaseInternal(UINT64 Position)
+	template <class RET> RET ReleaseAtInternal(UINT64 Position)
 		{
 		UINT ugroup=GetGroup(Position);
 		ASSERT(ugroup<uChildCount);
-		ITEM_PTR pitem=ppChildren[ugroup]->ReleaseAt(Position);
+		RET pitem=ppChildren[ugroup]->ReleaseAt(Position);
 		uItemCount--;
 		CombineChildren(ugroup);
 		return pitem;
@@ -306,18 +312,8 @@ class ParentGroup: public ParentGroupBase<ITEM, GROUP, ITEMGROUP, PARENTGROUP, _
 {
 public:
 	// Access
-	inline ITEM* GetAt(UINT64 Position)override
-		{
-		UINT ugroup=GetGroup(Position);
-		ASSERT(ugroup<uChildCount);
-		return ppChildren[ugroup]->GetAt(Position);
-		}
-	inline ITEM const* GetAt(UINT64 Position)const override
-		{
-		UINT ugroup=GetGroup(Position);
-		ASSERT(ugroup<uChildCount);
-		return ppChildren[ugroup]->GetAt(Position);
-		}
+	inline ITEM* GetAt(UINT64 Position)override { return GetAtInternal<ITEM*>(Position); }
+	inline ITEM const* GetAt(UINT64 Position)const override { return GetAtInternal<ITEM const*>(Position); }
 
 protected:
 	// Con-/Destructors
@@ -331,15 +327,10 @@ class ParentGroup<ITEM*, GROUP, ITEMGROUP, PARENTGROUP, _GroupSize>: public Pare
 {
 public:
 	// Access
-	inline ITEM* GetAt(UINT64 Position)const override
-		{
-		UINT ugroup=GetGroup(Position);
-		ASSERT(ugroup<uChildCount);
-		return ppChildren[ugroup]->GetAt(Position);
-		}
+	inline ITEM* GetAt(UINT64 Position)const override { return GetAtInternal<ITEM*>(Position); }
 
 	// Modification
-	inline ITEM* ReleaseAt(UINT64 Position)override { return ReleaseInternal<ITEM*>(Position); }
+	inline ITEM* ReleaseAt(UINT64 Position)override { return ReleaseAtInternal<ITEM*>(Position); }
 
 protected:
 	// Con-/Destructors
@@ -354,12 +345,7 @@ class ParentGroup<ITEM^, GROUP, ITEMGROUP, PARENTGROUP, _GroupSize>: public Pare
 {
 public:
 	// Access
-	inline ITEM^ GetAt(UINT64 Position)const override
-		{
-		UINT ugroup=GetGroup(Position);
-		ASSERT(ugroup<uChildCount);
-		return ppChildren[ugroup]->GetAt(Position);
-		}
+	inline ITEM^ GetAt(UINT64 Position)const override { return GetAtInternal<ITEM^>(Position); }
 
 protected:
 	// Con-/Destructors
@@ -374,15 +360,10 @@ class ParentGroup<String<CHAR, _Alloc>, GROUP, ITEMGROUP, PARENTGROUP, _GroupSiz
 {
 public:
 	// Access
-	inline CHAR const* GetAt(UINT64 Position)const override
-		{
-		UINT ugroup=GetGroup(Position);
-		ASSERT(ugroup<uChildCount);
-		return ppChildren[ugroup]->GetAt(Position);
-		}
+	inline CHAR const* GetAt(UINT64 Position)const override { return GetAtInternal<CHAR const*>(Position); }
 
 	// Modification
-	inline CHAR const* ReleaseAt(UINT64 Position)override { return ReleaseInternal<CHAR const*>(Position); }
+	inline CHAR const* ReleaseAt(UINT64 Position)override { return ReleaseAtInternal<CHAR const*>(Position); }
 
 protected:
 	// Con-/Destructors

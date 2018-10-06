@@ -39,9 +39,6 @@ private:
 	using BASE=::Clusters::Details::Cluster::ItemGroup<INDEXITEM, IndexGroup<ID, ITEM>, _GroupSize>;
 
 public:
-	// Con-/Destructors
-	using BASE::BASE;
-
 	// Access
 	inline INDEXITEM* GetFirst()override { return ARRAYHELPER::GetFirst(cItems.Get(), uItemCount); }
 	inline INDEXITEM const* GetFirst()const override { return ARRAYHELPER::GetFirst(cItems.Get(), uItemCount); }
@@ -54,6 +51,9 @@ public:
 	inline VOID RemoveAt(UINT Position, UINT Count, BOOL RemoveOnly) { ARRAYHELPER::RemoveAt(cItems.Get(), &uItemCount, Position, Count, RemoveOnly); }
 
 protected:
+	// Con-/Destructors
+	using BASE::BASE;
+
 	// Access
 	template <class... PARAMS> INDEXITEM* GetInternal(PARAMS... Id)
 		{

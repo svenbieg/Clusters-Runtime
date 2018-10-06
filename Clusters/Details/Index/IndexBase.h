@@ -88,12 +88,6 @@ protected:
 		new (pitem) INDEXITEM(Id, Length, false,  Item...);
 		return true;
 		}
-	template <class PTR> PTR ReleaseInternal(UINT64 Position)
-		{
-		PTR pitem=pRoot->ReleaseAt(Position);
-		UpdateRoot();
-		return pitem;
-		}
 	template <class... PARAMS> BOOL RemoveInternal(PARAMS... Id)
 		{
 		if(!pRoot->Remove(Id...))

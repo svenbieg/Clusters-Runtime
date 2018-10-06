@@ -9,6 +9,8 @@
 // Array-Helper Base-Class
 //=========================
 
+namespace Details {
+
 template <class T, class S>
 class ArrayHelperBase
 {
@@ -75,6 +77,8 @@ protected:
 		return false;
 		}
 };
+
+}
 
 
 //====================

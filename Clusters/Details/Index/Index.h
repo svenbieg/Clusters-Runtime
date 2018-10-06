@@ -25,8 +25,6 @@ namespace Clusters {
 // Index
 //=======
 
-#pragma region Index
-
 // Index
 template<class ID, class ITEM, UINT _GroupSize>
 class Index: public IndexBase<ID, ITEM, _GroupSize>
@@ -75,7 +73,6 @@ public:
 
 	// Modification
 	inline BOOL Add(ID const& Id, ITEM* Item) { return AddInternal<ID const&, ITEM*>(Id, Item); }
-	inline ITEM* ReleaseAt(UINT64 Position) { return ReleaseInternal<ITEM*>(Position); }
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
 	inline VOID Set(ID const& Id, ITEM* Item) { SetInternal<ID const&, ITEM*>(Id, Item); }
 };
@@ -114,7 +111,6 @@ public:
 
 	// Modification
 	inline BOOL Add(ID const& Id, CHAR const* Item, UINT Length=0) { return AddInternal<ID const&, CHAR const*, UINT>(Id, Item, Length); }
-	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
 	inline VOID Set(ID const& Id, CHAR const* Item, UINT Length=0) { SetInternal<ID const&, CHAR const*, UINT>(Id, Item, Length); }
 };
@@ -133,19 +129,14 @@ public:
 
 	// Modification
 	inline BOOL Add(ID const& Id, CHAR const* Item) { return AddInternal<ID const&, CHAR const*>(Id, Item); }
-	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
 	inline VOID Set(ID const& Id, CHAR const* Item) { SetInternal<ID const&, CHAR const*>(Id, Item); }
 };
-
-#pragma endregion
 
 
 //===============
 // Pointer-Index
 //===============
-
-#pragma region Pointer-Index
 
 // Pointer-Index
 template<class ID, class ITEM, UINT _GroupSize>
@@ -195,7 +186,6 @@ public:
 
 	// Modification
 	inline BOOL Add(ID* Id, ITEM* Item) { return AddInternal(Id, Item); }
-	inline ITEM* ReleaseAt(UINT64 Position) { return ReleaseInternal<ITEM*>(Position); }
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
 	inline VOID Set(ID* Id, ITEM* Item) { SetInternal(Id, Item); }
 };
@@ -234,7 +224,6 @@ public:
 
 	// Modification
 	inline BOOL Add(ID* Id, CHAR const* Item, UINT Length=0) { return AddInternal(Id, Item, Length); }
-	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
 	inline VOID Set(ID* Id, CHAR const* Item, UINT Length=0) { SetInternal(Id, Item, Length); }
 };
@@ -253,19 +242,14 @@ public:
 
 	// Modification
 	inline BOOL Add(ID* Id, CHAR const* Item) { return AddInternal(Id, Item); }
-	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
 	inline VOID Set(ID* Id, CHAR const* Item) { SetInternal(Id, Item); }
 };
-
-#pragma endregion
 
 
 //==============
 // Handle-Index
 //==============
-
-#pragma region Handle-Index
 
 #ifdef __cplusplus_winrt
 
@@ -317,7 +301,6 @@ public:
 
 	// Modification
 	inline BOOL Add(ID^ Id, ITEM* Item) { return AddInternal(Id, Item); }
-	inline ITEM* ReleaseAt(UINT64 Position) { return ReleaseInternal<ITEM*>(Position); }
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
 	inline VOID Set(ID^ Id, ITEM* Item) { SetInternal(Id, Item); }
 };
@@ -354,7 +337,6 @@ public:
 
 	// Modification
 	inline BOOL Add(ID^ Id, CHAR const* Item, UINT Length=0) { return AddInternal(Id, Item, Length); }
-	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
 	inline VOID Set(ID^ Id, CHAR const* Item, UINT Length=0) { SetInternal(Id, Item, Length); }
 };
@@ -373,14 +355,11 @@ public:
 
 	// Modification
 	inline BOOL Add(ID^ Id, CHAR const* Item) { return AddInternal(Id, Item); }
-	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
 	inline VOID Set(ID^ Id, CHAR const* Item) { SetInternal(Id, Item); }
 };
 
 #endif
-
-#pragma endregion
 
 
 //============
