@@ -32,23 +32,17 @@ class List: public ListBase<ITEM, _GroupSize>
 public:
 	// Access
 	virtual inline ITEM operator[](UINT64 Position)const { return GetAt(Position); }
-	virtual ITEM GetAt(UINT64 Position)const
-		{
-		ScopedRead lock(cAccessControl);
-		return *pRoot->GetAt(Position);
-		}
+	virtual inline ITEM GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
 	inline ITEM* Append(ITEM const& Item)
 		{
-		ScopedWrite lock(cAccessControl);
 		ITEM* pitem=AppendInternal();
 		new (pitem) ITEM(Item);
 		return pitem;
 		}
 	inline ITEM* InsertAt(UINT64 Position, ITEM const& Item)
 		{
-		ScopedWrite lock(cAccessControl);
 		ITEM* pitem=InsertInternal(Position);
 		new (pitem) ITEM(Item);
 		return pitem;
@@ -62,28 +56,13 @@ class List<ITEM*, _GroupSize>: public ListBase<ITEM*, _GroupSize>
 public:
 	// Access
 	inline ITEM* operator[](UINT64 Position)const { return GetAt(Position); }
-	ITEM* GetAt(UINT64 Position)const
-		{
-		ScopedRead lock(cAccessControl);
-		return pRoot->GetAt(Position);
-		}
+	inline ITEM* GetAt(UINT64 Position)const { return pRoot->GetAt(Position); }
 
 	// Modification
-	inline VOID Append(ITEM* Item)
-		{
-		ScopedWrite lock(cAccessControl);
-		ITEM** pitem=AppendInternal();
-		*pitem=Item;
-		}
-	inline VOID InsertAt(UINT64 Position, ITEM* Item)
-		{
-		ScopedWrite lock(cAccessControl);
-		ITEM** pitem=InsertInternal(Position);
-		*pitem=Item;
-		}
+	inline VOID Append(ITEM* Item) { *AppendInternal()=Item; }
+	inline VOID InsertAt(UINT64 Position, ITEM* Item) { *InsertInternal(Position)=Item; }
 	ITEM* ReleaseAt(UINT64 Position)
 		{
-		ScopedWrite lock(cAccessControl);
 		ITEM* pitem=pRoot->ReleaseAt(Position);
 		UpdateRoot();
 		return pitem;
@@ -98,23 +77,17 @@ class List<ITEM^, _GroupSize>: public ListBase<ITEM^, _GroupSize>
 public:
 	// Access
 	inline ITEM^ operator[](UINT64 Position)const { return GetAt(Position); }
-	ITEM^ GetAt(UINT64 Position)const
-		{
-		ScopedRead lock(cAccessControl);
-		return pRoot->GetAt(Position);
-		}
+	inline ITEM^ GetAt(UINT64 Position)const { return pRoot->GetAt(Position); }
 
 	// Modification
-	inline VOID Append(ITEM^ Item)
+	VOID Append(ITEM^ Item)
 		{
-		ScopedWrite lock(cAccessControl);
 		ITEM^* pitem=AppendInternal();
 		ZeroMemory(pitem, sizeof(ITEM^));
 		*pitem=Item;
 		}
-	inline VOID InsertAt(UINT64 Position, ITEM^ Item)
+	VOID InsertAt(UINT64 Position, ITEM^ Item)
 		{
-		ScopedWrite lock(cAccessControl);
 		ITEM^* pitem=InsertInternal(Position);
 		ZeroMemory(pitem, sizeof(ITEM^));
 		*pitem=Item;

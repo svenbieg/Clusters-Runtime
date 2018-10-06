@@ -179,8 +179,8 @@ protected:
 		}ITERATOR;
 
 	// Con-/Destructors
-	IteratorBase(CLUSTER_PTR Cluster): pCluster(Cluster), pCurrent(nullptr), pIts(nullptr) { pCluster->cAccessControl.AccessRead(); }
-	~IteratorBase() { PointerFree(pIts); pCluster->cAccessControl.ReleaseRead(); }
+	IteratorBase(CLUSTER_PTR Cluster): pCluster(Cluster), pCurrent(nullptr), pIts(nullptr) {}
+	~IteratorBase() { PointerFree(pIts); }
 
 	// Common
 	CLUSTER_PTR pCluster;
@@ -224,6 +224,7 @@ class IteratorShared: public IteratorBase<ITEM, GROUP, ITEMGROUP, PARENTGROUP, t
 protected:
 	// Con-/Destructors
 	IteratorShared(IT_R const& It): IteratorBase(It.pCluster) { Initialize(It); }
+	IteratorShared(IT_W const& It): IteratorBase(It.pCluster) { Initialize(It); }
 	IteratorShared(CLUSTER const* Cluster): IteratorBase(Cluster) {}
 	IteratorShared(CLUSTER const* Cluster, UINT64 Position): IteratorBase(Cluster) { SetPosition(Position); }
 };
@@ -237,10 +238,7 @@ public:
 	VOID RemoveCurrent()
 		{
 		UINT64 upos=GetPosition();
-			{
-			ScopedWrite lock(pCluster->cAccessControl);
-			pCluster->pRoot->RemoveAt(upos);
-			}
+		pCluster->pRoot->RemoveAt(upos);
 		UINT64 ucount=pCluster->GetCount();
 		if(upos>=ucount)
 			{

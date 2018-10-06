@@ -85,7 +85,7 @@ VOID CatalogIterator::RemoveCurrent()
 {
 ScopedLock lock(hCatalog->cCriticalSection);
 if(hCatalog->uItCount>1)
-	throw ref new Platform::InvalidArgumentException();
+	throw ref new Platform::AccessDeniedException();
 cIt.RemoveCurrent();
 }
 

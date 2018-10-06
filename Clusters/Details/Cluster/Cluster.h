@@ -9,7 +9,6 @@
 // Using
 //=======
 
-#include "Default\TaskHelper.h"
 #include "..\StringClass.h"
 
 
@@ -56,19 +55,16 @@ public:
 		{
 		if(!PointerValid(this))
 			return false;
-		ScopedRead lock(cAccessControl);
 		return pRoot->GetCount()>0;
 		}
 	virtual inline UINT64 GetCount()const
 		{
-		ScopedRead lock(cAccessControl);
 		return pRoot->GetItemCount();
 		}
 
 	// Modification
 	VOID Clear()
 		{
-		ScopedWrite lock(cAccessControl);
 		auto proot=pRoot;
 		pRoot=new ITEMGROUP();
 		delete proot;
@@ -101,7 +97,6 @@ protected:
 			delete proot;
 			}
 		}
-	AccessControl cAccessControl;
 	GROUP* pRoot;
 };
 
@@ -119,7 +114,7 @@ public:
 	inline IT_W At(UINT64 Position) { return IT_W(this, Position); }
 	inline IT_R At(UINT64 Position)const { return IT_R(this, Position); }
 	inline IT_R At(IT_R const& It)const { return IT_R(It); }
-	inline IT_W At(IT_W const& It)const { return IT_W(It); }
+	inline IT_R At(IT_W const& It)const { return IT_R(It); }
 	inline IT_W First() { return IT_W(this, 0); }
 	inline IT_R First()const { return IT_R(this, 0); }
 	inline IT_W Last() { return IT_W(this, pRoot->GetItemCount()-1); }
@@ -135,7 +130,7 @@ public:
 	inline IT_W At(UINT64 Position) { return IT_W(this, Position); }
 	inline IT_R At(UINT64 Position)const { return IT_R(this, Position); }
 	inline IT_R At(IT_R const& It)const { return IT_R(It); }
-	inline IT_W At(IT_W const& It)const { return IT_W(It); }
+	inline IT_R At(IT_W const& It)const { return IT_R(It); }
 	inline IT_W First() { return IT_W(this, 0); }
 	inline IT_R First()const { return IT_R(this, 0); }
 	inline IT_W Last() { return IT_W(this, pRoot->GetItemCount()-1); }
@@ -153,7 +148,7 @@ public:
 	inline IT_W At(UINT64 Position) { return IT_W(this, Position); }
 	inline IT_R At(UINT64 Position)const { return IT_R(this, Position); }
 	inline IT_R At(IT_R const& It)const { return IT_R(It); }
-	inline IT_W At(IT_W const& It)const { return IT_W(It); }
+	inline IT_R At(IT_W const& It)const { return IT_R(It); }
 	inline IT_W First() { return IT_W(this, 0); }
 	inline IT_R First()const { return IT_R(this, 0); }
 	inline IT_W Last() { return IT_W(this, pRoot->GetItemCount()-1); }
@@ -170,7 +165,7 @@ public:
 	inline IT_W At(UINT64 Position) { return IT_W(this, Position); }
 	inline IT_R At(UINT64 Position)const { return IT_R(this, Position); }
 	inline IT_R At(IT_R const& It)const { return IT_R(It); }
-	inline IT_W At(IT_W const& It)const { return IT_W(It); }
+	inline IT_R At(IT_W const& It)const { return IT_R(It); }
 	inline IT_W First() { return IT_W(this, 0); }
 	inline IT_R First()const { return IT_R(this, 0); }
 	inline IT_W Last() { return IT_W(this, pRoot->GetItemCount()-1); }

@@ -37,7 +37,6 @@ public:
 	// Modification
 	VOID RemoveAt(UINT64 Position)
 		{
-		ScopedWrite lock(cAccessControl);
 		pRoot->RemoveAt(Position);
 		UpdateRoot();
 		}

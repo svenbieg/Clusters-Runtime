@@ -85,7 +85,7 @@ VOID MapIterator::RemoveCurrent()
 {
 ScopedLock lock(hMap->cCriticalSection);
 if(hMap->uItCount>1)
-	throw ref new Platform::InvalidArgumentException();
+	throw ref new Platform::AccessDeniedException();
 cIt.RemoveCurrent();
 }
 

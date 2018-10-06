@@ -58,10 +58,11 @@ private:
 public:
 	// Con-/Destructors
 	ListIterator(IT_R const& It): ListIteratorBase(It) {}
+	ListIterator(IT_W const& It): ListIteratorBase(It) {}
 	ListIterator(CLUSTER const* Cluster, UINT64 Position): ListIteratorBase(Cluster, Position) {}
 	
 	// Access
-	ITEM const& GetCurrent()const { return *pCurrent; }
+	inline ITEM GetCurrent()const { return *pCurrent; }
 };
 
 // Iterator List Read-Write
@@ -100,6 +101,7 @@ private:
 public:
 	// Con-/Destructors
 	ListIterator(IT_R const& It): ListIteratorBase(It) {}
+	ListIterator(IT_W const& It): ListIteratorBase(It) {}
 	ListIterator(CLUSTER const* Cluster, UINT64 Position): ListIteratorBase(Cluster, Position) {}
 
 	// Access
@@ -142,6 +144,7 @@ private:
 public:
 	// Con-/Destructors
 	ListIterator(IT_R const& It): ListIteratorBase(It) {}
+	ListIterator(IT_W const& It): ListIteratorBase(It) {}
 	ListIterator(CLUSTER const* Cluster, UINT64 Position): ListIteratorBase(Cluster, Position) {}
 
 	// Access
@@ -187,6 +190,7 @@ private:
 public:
 	// Con-/Destructors
 	ListIterator(IT_R const& It): ListIteratorBase(It) {}
+	ListIterator(IT_W const& It): ListIteratorBase(It) {}
 	ListIterator(CLUSTER const* Cluster, UINT64 Position): ListIteratorBase(Cluster, Position) {}
 
 	// Access
@@ -227,6 +231,7 @@ private:
 
 public:
 	// Con-/Destructors
+	ListIterator(IT_W const& It): ListIteratorBase(It) {}
 	ListIterator(CLUSTER* Cluster, UINT64 Position): ListIteratorBase(Cluster, Position) {}
 
 	// Access
