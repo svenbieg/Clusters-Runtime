@@ -92,10 +92,9 @@ protected:
 		if(pRoot->GetChildCount()==1&&pRoot->GetLevel()>0)
 			{
 			auto proot=(PARENTGROUP*)pRoot;
-			GROUP* pnewroot=proot->GetChild(0);
+			pRoot=proot->GetChild(0);
 			proot->SetChildCount(0);
 			delete proot;
-			pRoot=pnewroot;
 			}
 		}
 	AccessControl cAccessControl;
