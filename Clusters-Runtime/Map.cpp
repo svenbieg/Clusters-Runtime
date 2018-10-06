@@ -81,8 +81,7 @@ bool Map::Add(String^ hkey, Object^ hvalue)
 ScopedLock lock(cCriticalSection);
 if(uItCount>0)
 	throw ref new Platform::AccessDeniedException();
-auto pitem=cIndex.Add(hkey, hvalue);
-return pitem!=nullptr;
+return cIndex.Add(hkey, hvalue);
 }
 
 VOID Map::Clear()
@@ -99,14 +98,6 @@ ScopedLock lock(cCriticalSection);
 if(uItCount>0)
 	throw ref new Platform::AccessDeniedException();
 return cIndex.Remove(hkey);
-}
-
-VOID Map::RemoveAt(UINT64 upos)
-{
-ScopedLock lock(cCriticalSection);
-if(uItCount>0)
-	throw ref new Platform::AccessDeniedException();
-cIndex.RemoveAt(upos);
 }
 
 VOID Map::Set(String^ hkey, Object^ hvalue)

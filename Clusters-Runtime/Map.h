@@ -63,7 +63,6 @@ public:
 	bool Add(String^ Key, Object^ Value);
 	VOID Clear();
 	bool Remove(String^ Key);
-	VOID RemoveAt(UINT64 Position);
 	VOID Set(String^ Key, Object^ Value);
 
 private:

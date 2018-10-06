@@ -80,8 +80,7 @@ bool Catalog::Add(Platform::Guid uid, Object^ hvalue)
 ScopedLock lock(cCriticalSection);
 if(uItCount>0)
 	throw ref new Platform::AccessDeniedException();
-auto pitem=cIndex.Add(uid, hvalue);
-return pitem!=nullptr;
+return cIndex.Add(uid, hvalue);
 }
 
 VOID Catalog::Clear()
@@ -98,14 +97,6 @@ ScopedLock lock(cCriticalSection);
 if(uItCount>0)
 	throw ref new Platform::AccessDeniedException();
 return cIndex.Remove(uid);
-}
-
-VOID Catalog::RemoveAt(UINT64 upos)
-{
-ScopedLock lock(cCriticalSection);
-if(uItCount>0)
-	throw ref new Platform::AccessDeniedException();
-cIndex.RemoveAt(upos);
 }
 
 VOID Catalog::Set(Platform::Guid uid, Object^ hvalue)

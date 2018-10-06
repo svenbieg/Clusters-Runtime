@@ -45,7 +45,7 @@ protected:
 	template <class... PARAMS> BOOL ContainsInternal(PARAMS... Id)const
 		{
 		ScopedRead lock(cAccessControl);
-		return pRoot->Contains(Id);
+		return pRoot->Contains(Id...);
 		}
 	template <class RET, class... PARAMS> RET GetInternal(PARAMS... Id)const
 		{
@@ -131,7 +131,7 @@ protected:
 			pitem->SetItem(Item...);
 			return;
 			}
-		return DoAddInternal<ID, ITEM...>(Id, Item...);
+		DoAddInternal<ID, ITEM...>(Id, Item...);
 		}
 	template <class CHAR, class... ITEM> VOID SetStringInternal(CHAR const* Id, UINT Length, BOOL CaseSensitive, ITEM... Item)
 		{

@@ -71,7 +71,7 @@ class ScopedRead
 {
 public:
 	// Con-/Destructors
-	ScopedRead(AccessControl& AccessControl): pAccessControl(nullptr)
+	ScopedRead(AccessControl const& AccessControl): pAccessControl(nullptr)
 		{
 		AccessControl.AccessRead();
 		pAccessControl=&AccessControl;
@@ -93,7 +93,7 @@ public:
 		}
 private:
 	// Common
-	AccessControl* pAccessControl;
+	AccessControl const* pAccessControl;
 };
 
 

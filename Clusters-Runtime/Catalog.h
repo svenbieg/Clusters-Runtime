@@ -62,7 +62,6 @@ public:
 	bool Add(Platform::Guid Id, Object^ Value);
 	VOID Clear();
 	bool Remove(Platform::Guid Id);
-	VOID RemoveAt(UINT64 Position);
 	VOID Set(Platform::Guid Id, Object^ Value);
 
 private:
