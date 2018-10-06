@@ -20,7 +20,7 @@ You can find further information on my website at
     <td><b>Map</b><br />Items are sorted by using a string.</td>
   </tr><tr><td></td></tr><tr>
     <td>{*}</td>
-    <td><b>Catalog</b><br />Items are sorted by using a string.</td>
+    <td><b>Catalog</b><br />Items are sorted by using a GUID.</td>
   </tr>
 </table><br />
 
