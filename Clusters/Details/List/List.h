@@ -31,10 +31,12 @@ class List: public ListBase<ITEM, _GroupSize>
 {
 public:
 	// Access
-	virtual inline ITEM& operator[](UINT64 Position) { return *pRoot->GetAt(Position); }
-	virtual inline ITEM const& operator[](UINT64 Position)const { return *pRoot->GetAt(Position); }
-	virtual inline ITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	virtual inline ITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	virtual inline ITEM operator[](UINT64 Position)const { return GetAt(Position); }
+	virtual ITEM GetAt(UINT64 Position)const
+		{
+		ScopedRead lock(cAccessControl);
+		return *pRoot->GetAt(Position);
+		}
 
 	// Modification
 	inline ITEM* Append(ITEM const& Item)
@@ -59,7 +61,7 @@ class List<ITEM*, _GroupSize>: public ListBase<ITEM*, _GroupSize>
 {
 public:
 	// Access
-	inline ITEM* operator[](UINT64 Position) { return pRoot->GetAt(Position); }
+	inline ITEM* operator[](UINT64 Position)const { return GetAt(Position); }
 
 	// Modification
 	inline VOID Append(ITEM* Item)
@@ -90,7 +92,7 @@ class List<ITEM^, _GroupSize>: public ListBase<ITEM^, _GroupSize>
 {
 public:
 	// Access
-	inline ITEM^ operator[](UINT64 Position) { return pRoot->GetAt(Position); }
+	inline ITEM^ operator[](UINT64 Position)const { return GetAt(Position); }
 
 	// Modification
 	inline VOID Append(ITEM^ Item)

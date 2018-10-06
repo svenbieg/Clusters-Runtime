@@ -33,52 +33,17 @@ class Index: public IndexBase<ID, ITEM, _GroupSize>
 {
 public:
 	// Access
-	inline ITEM& operator[](ID const& Id) { return *GetInternalAddress<ID const&>(Id); }
-	inline ITEM const& operator[](ID const& Id)const { return *GetInternalAddress<ID const&>(Id); }
-	inline BOOL Contains(ID const& Id)const { return pRoot->Contains(Id); }
+	inline ITEM operator[](ID const& Id)const { return GetInternal<ITEM const&, ID const&>(Id); }
+	inline BOOL Contains(ID const& Id)const { return ContainsInternal<ID const&>(Id); }
 	inline IteratorReadWrite Find(ID const& Id) { return IteratorReadWrite(this, 0, Id); }
 	inline IteratorReadOnly Find(ID const& Id)const { return IteratorReadOnly(this, 0, Id); }
-	inline ITEM& Get(ID const& Id) { return *GetInternalAddress<ID const&>(Id); }
-	inline ITEM const& Get(ID const& Id)const { return *GetInternalAddress<ID const&>(Id); }
-	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
-	inline ITEM* TryGet(ID const& Id)const { return GetInternalAddress<ID const&>(Id); }
+	inline ITEM Get(ID const& Id)const { return GetInternal<ITEM const&, ID const&>(Id); }
+	inline BOOL TryGet(ID const& Id, ITEM* Item)const { return TryGetInternal(Id, Item); }
 
 	// Modification
-	INDEXITEM* Add(ID const& Id)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal<ID const&>(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id);
-		return pitem;
-		}
-	INDEXITEM* Add(ID const& Id, ITEM const& Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal<ID const&>(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline BOOL Add(ID const& Id, ITEM const& Item) { return AddInternal<ID const&, ITEM const&>(Id, Item); }
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
-	INDEXITEM* Set(ID const& Id, ITEM const& Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=pRoot->Get(Id);
-		if(pitem)
-			{
-			pitem->SetItem(Value);
-			return pitem;
-			}
-		pitem=AddInternal<ID const&>(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline VOID Set(ID const& Id, ITEM const& Item) { SetInternal<ID const&, ITEM const&>(Id, Item); }
 };
 
 // Index without Items
@@ -87,22 +52,12 @@ class Index<ID, VOID, _GroupSize>: public IndexBase<ID, VOID, _GroupSize>
 {
 public:
 	// Access
-	inline ID const& operator[](UINT64 Position)const { return pRoot->GetAt(Position)->GetId(); }
-	inline BOOL Contains(ID const& Id)const { return pRoot->Contains(Id); }
+	inline BOOL Contains(ID const& Id)const { return ContainsInternal<ID const&>(Id); }
 	inline IteratorReadWrite Find(ID const& Id) { return IteratorReadWrite(this, 0, Id); }
 	inline IteratorReadOnly Find(ID const& Id)const { return IteratorReadOnly(this, 0, Id); }
-	inline ID const& GetAt(UINT64 Position)const { return pRoot->GetAt(Position)->GetId(); }
 
 	// Modification
-	INDEXITEM* Add(ID const& Id)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal<ID const&>(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id);
-		return pitem;
-		}
+	inline BOOL Add(ID const& Id) { return AddInternal<ID const&>(Id); }
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
 };
 
@@ -112,41 +67,17 @@ class Index<ID, ITEM*, _GroupSize>: public IndexBase<ID, ITEM*, _GroupSize>
 {
 public:
 	// Access
-	inline ITEM* operator[](ID const& Id)const { return GetIternal<ITEM*, ID const& Id>(Id); }
-	inline BOOL Contains(ID const& Id)const { return pRoot->Contains(Id); }
+	inline ITEM* operator[](ID const& Id)const { return GetInternal<ITEM*, ID const& Id>(Id); }
+	inline BOOL Contains(ID const& Id)const { return ContainsInternal<ID const&>(Id); }
 	inline IteratorReadWrite Find(ID const& Id) { return IteratorReadWrite(this, 0, Id); }
 	inline IteratorReadOnly Find(ID const& Id)const { return IteratorReadOnly(this, 0, Id); }
 	inline ITEM* Get(ID const& Id)const { return GetInternal<ITEM*, ID const& Id>(Id); }
-	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	INDEXITEM* Add(ID const& Id, ITEM* Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal<ID const&>(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline BOOL Add(ID const& Id, ITEM* Item) { return AddInternal<ID const&, ITEM*>(Id, Item); }
 	inline ITEM* ReleaseAt(UINT64 Position) { return ReleaseInternal<ITEM*>(Position); }
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
-	INDEXITEM* Set(ID const& Id, ITEM* Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=pRoot->Get(Id);
-		if(pitem)
-			{
-			pitem->SetItem(Value);
-			return pitem;
-			}
-		pitem=AddInternal<ID const&>(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline VOID Set(ID const& Id, ITEM* Item) { SetInternal<ID const&, ITEM*>(Id, Item); }
 };
 
 #ifdef __cplusplus_winrt
@@ -157,39 +88,15 @@ class Index<ID, ITEM^, _GroupSize>: public IndexBase<ID, ITEM^, _GroupSize>
 public:
 	// Access
 	inline ITEM^ operator[](ID const& Id)const { return GetInternal<ITEM^, ID const&>(Id); }
-	inline BOOL Contains(ID const& Id)const { return pRoot->Contains(Id); }
+	inline BOOL Contains(ID const& Id)const { return ContainsInternal<ID const&>(Id); }
 	inline IteratorReadWrite Find(ID const& Id) { return IteratorReadWrite(this, 0, Id); }
 	inline IteratorReadOnly Find(ID const& Id)const { return IteratorReadOnly(this, 0, Id); }
 	inline ITEM^ Get(ID const& Id)const { return GetInternal<ITEM^, ID const&>(Id); }
-	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	INDEXITEM* Add(ID const& Id, ITEM^ Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal<ID const&>(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline BOOL Add(ID const& Id, ITEM^ Item) { return AddInternal<ID const&, ITEM^>(Id, Item); }
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
-	INDEXITEM* Set(ID const& Id, ITEM^ Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=pRoot->Get(Id);
-		if(pitem)
-			{
-			pitem->SetItem(Value);
-			return pitem;
-			}
-		pitem=AddInternal<ID const&>(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline VOID Set(ID const& Id, ITEM^ Item) { SetInternal<ID const&, ITEM^>(Id, Item); }
 };
 #endif
 
@@ -200,40 +107,16 @@ class Index<ID, String<CHAR, true>, _GroupSize>: public IndexBase<ID, String<CHA
 public:
 	// Access
 	inline CHAR const* operator[](ID const& Id)const { return GetInternal<CHAR const*, ID const&>(Id); }
-	inline BOOL Contains(ID const& Id)const { return pRoot->Contains(Id); }
+	inline BOOL Contains(ID const& Id)const { return ContainsInternal<ID const&>(Id); }
 	inline IteratorReadWrite Find(ID const& Id) { return IteratorReadWrite(this, 0, Id); }
 	inline IteratorReadOnly Find(ID const& Id)const { return IteratorReadOnly(this, 0, Id); }
 	inline CHAR const* Get(ID const& Id)const { return GetInternal<CHAR const*, ID const&>(Id); }
-	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	INDEXITEM* Add(ID const& Id, CHAR const* Value, UINT Length=0)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal<ID const&>(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value, Length);
-		return pitem;
-		}
+	inline BOOL Add(ID const& Id, CHAR const* Item, UINT Length=0) { return AddInternal<ID const&, CHAR const*, UINT>(Id, Item, Length); }
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
-	INDEXITEM* Set(ID const& Id, CHAR const* Value, UINT Length=0)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=pRoot->Get(Id);
-		if(pitem)
-			{
-			pitem->SetItem(Value, Length);
-			return pitem;
-			}
-		pitem=AddInternal<ID const&>(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value, Length);
-		return pitem;
-		}
+	inline VOID Set(ID const& Id, CHAR const* Item, UINT Length=0) { SetInternal<ID const&, CHAR const*, UINT>(Id, Item, Length); }
 };
 
 // Index with Shared String-Items
@@ -243,40 +126,16 @@ class Index<ID, String<CHAR, false>, _GroupSize>: public IndexBase<ID, String<CH
 public:
 	// Access
 	inline CHAR const* operator[](ID const& Id)const { return GetInternal<CHAR const*, ID const&>(Id); }
-	inline BOOL Contains(ID const& Id)const { return pRoot->Contains(Id); }
+	inline BOOL Contains(ID const& Id)const { return ContainsInternal<ID const&>(Id); }
 	inline IteratorReadWrite Find(ID const& Id) { return IteratorReadWrite(this, 0, Id); }
 	inline IteratorReadOnly Find(ID const& Id)const { return IteratorReadOnly(this, 0, Id); }
 	inline CHAR const* Get(ID const& Id)const { return GetInternal<CHAR const*, ID const&>(Id); }
-	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	INDEXITEM* Add(ID const& Id, CHAR const* Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal<ID const&>(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline BOOL Add(ID const& Id, CHAR const* Item) { return AddInternal<ID const&, CHAR const*>(Id, Item); }
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
-	INDEXITEM* Set(ID const& Id, CHAR const* Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=pRoot->Get(Id);
-		if(pitem)
-			{
-			pitem->SetItem(Value);
-			return pitem;
-			}
-		pitem=AddInternal<ID const&>(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline VOID Set(ID const& Id, CHAR const* Item) { SetInternal<ID const&, CHAR const*>(Id, Item); }
 };
 
 #pragma endregion
@@ -294,52 +153,17 @@ class Index<ID*, ITEM, _GroupSize>: public IndexBase<ID*, ITEM, _GroupSize>
 {
 public:
 	// Access
-	inline ITEM& operator[](ID* Id) { return *GetInternalAddress(Id); }
-	inline ITEM const& operator[](ID* Id)const { return *GetInternalAddress(Id); }
-	inline BOOL Contains(ID* Id)const { return pRoot->Contains(Id); }
+	inline ITEM operator[](ID* Id)const { return GetInternal<ITEM const&, ID*>(Id); }
+	inline BOOL Contains(ID* Id)const { return ContainsInternal(Id); }
 	inline IteratorReadWrite Find(ID* Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID* Id)const { return IteratorReadOnly(this, Id); }
-	inline ITEM& Get(ID* Id) { return *GetInternalAddress(Id); }
-	inline ITEM const& Get(ID* Id)const { return *GetInternalAddress(Id); }
-	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
-	inline ITEM* TryGet(ID* Id)const { return GetInternalAdd(Id); }
+	inline ITEM Get(ID* Id)const { return GetInternal<ITEM const&, ID*>(Id); }
+	inline BOOL TryGet(ID* Id, ITEM* Item)const { return TryGetInternal<ITEM, ID*>(Id, Item); }
 
 	// Modification
-	INDEXITEM* Add(ID* Id)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id);
-		return pitem;
-		}
-	INDEXITEM* Add(ID* Id, ITEM const& Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline BOOL Add(ID* Id, ITEM const& Item) { return AddInternal<ID*, ITEM const&>(Id, Item); }
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
-	INDEXITEM* Set(ID* Id, ITEM const& Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=pRoot->Get(Id);
-		if(pitem)
-			{
-			pitem->SetItem(Value);
-			return pitem;
-			}
-		pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline VOID Set(ID* Id, ITEM const& Item) { SetInternal<ID*, ITEM const&>(Id, Item); }
 };
 
 // Pointer-Index without Items
@@ -348,22 +172,12 @@ class Index<ID*, VOID, _GroupSize>: public IndexBase<ID*, VOID, _GroupSize>
 {
 public:
 	// Access
-	inline ID* operator[](UINT64 Position)const { return pRoot->GetAt(Position)->GetItem(); }
-	inline BOOL Contains(ID* Id)const { return pRoot->Contains(Id); }
+	inline BOOL Contains(ID* Id)const { return ContainsInternal(Id); }
 	inline IteratorReadWrite Find(ID* Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID* Id)const { return IteratorReadOnly(this, Id); }
-	inline ID* GetAt(UINT64 Position)const { return pRoot->GetAt(Position)->GetItem(); }
 
 	// Modification
-	INDEXITEM* Add(ID* Id)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id);
-		return pitem;
-		}
+	inline BOOL Add(ID* Id) { return AddInternal(Id); }
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
 };
 
@@ -374,40 +188,16 @@ class Index<ID*, ITEM*, _GroupSize>: public IndexBase<ID*, ITEM*, _GroupSize>
 public:
 	// Access
 	inline ITEM* operator[](ID* Id)const { return GetInternal<ITEM*, ID*>(Id); }
-	inline BOOL Contains(ID* Id)const { return pRoot->Contains(Id); }
+	inline BOOL Contains(ID* Id)const { return ContainsInternal(Id); }
 	inline IteratorReadWrite Find(ID* Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID* Id)const { return IteratorReadOnly(this, Id); }
 	inline ITEM* Get(ID* Id)const { return GetInternal<ITEM*, ID*>(Id); }
-	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	INDEXITEM* Add(ID* Id, ITEM* Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline BOOL Add(ID* Id, ITEM* Item) { return AddInternal(Id, Item); }
 	inline ITEM* ReleaseAt(UINT64 Position) { return ReleaseInternal<ITEM*>(Position); }
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
-	INDEXITEM* Set(ID* Id, ITEM* Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=pRoot->Get(Id);
-		if(pitem)
-			{
-			pitem->SetItem(Value);
-			return pitem;
-			}
-		pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline VOID Set(ID* Id, ITEM* Item) { SetInternal(Id, Item); }
 };
 
 #ifdef __cplusplus_winrt
@@ -418,39 +208,15 @@ class Index<ID*, ITEM^, _GroupSize>: public IndexBase<ID*, ITEM^, _GroupSize>
 public:
 	// Access
 	inline ITEM^ operator[](ID* Id)const { return GetInternal<ITEM^, ID*>(Id); }
-	inline BOOL Contains(ID* Id)const { return pRoot->Contains(Id); }
+	inline BOOL Contains(ID* Id)const { return ContainsInternal(Id); }
 	inline IteratorReadWrite Find(ID* Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID* Id)const { return IteratorReadOnly(this, Id); }
 	inline ITEM^ Get(ID* Id)const { return GetInternal<ITEM^, ID*>(Id); }
-	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	INDEXITEM* Add(ID* Id, ITEM^ Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline BOOL Add(ID* Id, ITEM^ Item) { return AddInternal(Id, Item); }
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
-	INDEXITEM* Set(ID* Id, ITEM^ Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=pRoot->Get(Id);
-		if(pitem)
-			{
-			pitem->SetItem(Value);
-			return pitem;
-			}
-		pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline VOID Set(ID* Id, ITEM^ Item) { SetInternal(Id, Item); }
 };
 #endif
 
@@ -461,40 +227,16 @@ class Index<ID*, String<CHAR, true>, _GroupSize>: public IndexBase<ID*, String<C
 public:
 	// Access
 	inline CHAR const* operator[](ID* Id)const { return GetInternal<CHAR const*, ID*>(Id); }
-	inline BOOL Contains(ID* Id)const { return pRoot->Contains(Id); }
+	inline BOOL Contains(ID* Id)const { return ContainsInternal(Id); }
 	inline IteratorReadWrite Find(ID* Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID* Id)const { return IteratorReadOnly(this, Id); }
 	inline CHAR const* Get(ID* Id)const { return GetInternal<CHAR const*, ID*>(Id); }
-	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	INDEXITEM* Add(ID* Id, CHAR const* Value, UINT Length=0)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value, Length);
-		return pitem;
-		}
+	inline BOOL Add(ID* Id, CHAR const* Item, UINT Length=0) { return AddInternal(Id, Item, Length); }
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
-	INDEXITEM* Set(ID* Id, CHAR const* Value, UINT Length=0)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=pRoot->Get(Id);
-		if(pitem)
-			{
-			pitem->SetItem(Value, Length);
-			return pitem;
-			}
-		pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value, Length);
-		return pitem;
-		}
+	inline VOID Set(ID* Id, CHAR const* Item, UINT Length=0) { SetInternal(Id, Item, Length); }
 };
 
 // Pointer-Index with Shared String-Items
@@ -504,40 +246,16 @@ class Index<ID*, String<CHAR, false>, _GroupSize>: public IndexBase<ID*, String<
 public:
 	// Access
 	inline CHAR const* operator[](ID* Id)const { return GetInternal<CHAR const*, ID*>(Id); }
-	inline BOOL Contains(ID* Id)const { return pRoot->Contains(Id); }
+	inline BOOL Contains(ID* Id)const { return ContainsInternal(Id); }
 	inline IteratorReadWrite Find(ID* Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID* Id)const { return IteratorReadOnly(this, Id); }
 	inline CHAR const* Get(ID* Id)const { return GetInternal<CHAR const*, ID*>(Id); }
-	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	INDEXITEM* Add(ID* Id, CHAR const* Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline BOOL Add(ID* Id, CHAR const* Item) { return AddInternal(Id, Item); }
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
-	INDEXITEM* Set(ID Id, CHAR const* Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=pRoot->Get(Id);
-		if(pitem)
-			{
-			pitem->SetItem(Value);
-			return pitem;
-			}
-		pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline VOID Set(ID* Id, CHAR const* Item) { SetInternal(Id, Item); }
 };
 
 #pragma endregion
@@ -557,52 +275,17 @@ class Index<ID^, ITEM, _GroupSize>: public IndexBase<ID^, ITEM, _GroupSize>
 {
 public:
 	// Access
-	inline ITEM& operator[](ID^ Id) { return *GetInternalAddress(Id); }
-	inline ITEM const& operator[](ID^ Id)const { return *GetInternalAddress(Id); }
-	inline BOOL Contains(ID^ Id)const { return pRoot->Contains(Id); }
+	inline ITEM operator[](ID^ Id)const { return GetInternal<ITEM const&, ID^>(Id); }
+	inline BOOL Contains(ID^ Id)const { return ContainsInternal(Id); }
 	inline IteratorReadWrite Find(ID^ Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID^ Id)const { return IteratorReadOnly(this, Id); }
-	inline ITEM& Get(ID^ Id) { return *GetInternalAddress(Id); }
-	inline ITEM const& Get(ID^ Id)const { return *GetInternalAddress(Id); }
-	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
-	inline ITEM* TryGet(ID^ Id)const { return GetInternalAdd(Id); }
+	inline ITEM Get(ID^ Id)const { return GetInternal<ITEM const&, ID^>(Id); }
+	inline BOOL TryGet(ID^ Id, ITEM* Item)const { return TryGetInternal(Id, Item); }
 
 	// Modification
-	INDEXITEM* Add(ID^ Id)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id);
-		return pitem;
-		}
-	INDEXITEM* Add(ID^ Id, ITEM const& Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline BOOL Add(ID^ Id, ITEM const& Item) { return AddInternal<ID^, ITEM const&>(Id, Item); }
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
-	INDEXITEM* Set(ID^ Id, ITEM const& Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=pRoot->Get(Id);
-		if(pitem)
-			{
-			pitem->SetItem(Value);
-			return pitem;
-			}
-		pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline VOID Set(ID^ Id, ITEM const& Item) { SetInternal<ID^, ITEM const&>(Id, Item); }
 };
 
 // Handle-Index without Items
@@ -611,22 +294,12 @@ class Index<ID^, VOID, _GroupSize>: public IndexBase<ID^, VOID, _GroupSize>
 {
 public:
 	// Access
-	inline ID^ operator[](UINT64 Position)const { return pRoot->GetAt(Position)->GetItem(); }
-	inline BOOL Contains(ID^ Id)const { return pRoot->Contains(Id); }
+	inline BOOL Contains(ID^ Id)const { return ContainsInternal(Id); }
 	inline IteratorReadWrite Find(ID^ Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID^ Id)const { return IteratorReadOnly(this, Id); }
-	inline ID^ GetAt(UINT64 Position)const { return pRoot->GetAt(Position)->GetItem(); }
 
 	// Modification
-	INDEXITEM* Add(ID^ Id)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id);
-		return pitem;
-		}
+	inline BOOL Add(ID^ Id) { return AddInternal(Id); }
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
 };
 
@@ -637,40 +310,16 @@ class Index<ID^, ITEM*, _GroupSize>: public IndexBase<ID^, ITEM*, _GroupSize>
 public:
 	// Access
 	inline ITEM* operator[](ID^ Id)const { return GetInternal<ITEM*, ID^>(Id); }
-	inline BOOL Contains(ID^ Id)const { return pRoot->Contains(Id); }
+	inline BOOL Contains(ID^ Id)const { return ContainsInternal(Id); }
 	inline IteratorReadWrite Find(ID^ Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID^ Id)const { return IteratorReadOnly(this, Id); }
 	inline ITEM* Get(ID^ Id)const { return GetInternal<ITEM*, ID^>(Id); }
-	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	INDEXITEM* Add(ID^ Id, ITEM* Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline BOOL Add(ID^ Id, ITEM* Item) { return AddInternal(Id, Item); }
 	inline ITEM* ReleaseAt(UINT64 Position) { return ReleaseInternal<ITEM*>(Position); }
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
-	INDEXITEM* Set(ID^ Id, ITEM* Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=pRoot->Get(Id);
-		if(pitem)
-			{
-			pitem->SetItem(Value);
-			return pitem;
-			}
-		pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline VOID Set(ID^ Id, ITEM* Item) { SetInternal(Id, Item); }
 };
 
 // Handle-Index with Handle-Items
@@ -680,39 +329,15 @@ class Index<ID^, ITEM^, _GroupSize>: public IndexBase<ID^, ITEM^, _GroupSize>
 public:
 	// Access
 	inline ITEM^ operator[](ID^ Id)const { return GetInternal<ITEM^, ID^>(Id); }
-	inline BOOL Contains(ID^ Id)const { return pRoot->Contains(Id); }
+	inline BOOL Contains(ID^ Id)const { return ContainsInternal(Id); }
 	inline IteratorReadWrite Find(ID^ Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID^ Id)const { return IteratorReadOnly(this, Id); }
 	inline ITEM^ Get(ID^ Id)const { return GetInternal<ITEM^, ID^>(Id); }
-	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	INDEXITEM* Add(ID^ Id, ITEM^ Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline BOOL Add(ID^ Id, ITEM^ Item) { return AddInternal(Id, Item); }
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
-	INDEXITEM* Set(ID^ Id, ITEM^ Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=pRoot->Get(Id);
-		if(pitem)
-			{
-			pitem->SetItem(Value);
-			return pitem;
-			}
-		pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline VOID Set(ID^ Id, ITEM^ Item) { SetInternal(Id, Item); }
 };
 
 // Handle-Index with String-Items
@@ -722,40 +347,16 @@ class Index<ID^, String<CHAR, true>, _GroupSize>: public IndexBase<ID^, String<C
 public:
 	// Access
 	inline CHAR const* operator[](ID^ Id)const { return GetInternal<CHAR const*, ID^>(Id); }
-	inline BOOL Contains(ID^ Id)const { return pRoot->Contains(Id); }
+	inline BOOL Contains(ID^ Id)const { return ContainsInternal(Id); }
 	inline IteratorReadWrite Find(ID^ Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID^ Id)const { return IteratorReadOnly(this, Id); }
 	inline CHAR const* Get(ID^ Id)const { return GetInternal<CHAR const*, ID^>(Id); }
-	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	INDEXITEM* Add(ID^ Id, CHAR const* Value, UINT Length=0)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value, Length);
-		return pitem;
-		}
+	inline BOOL Add(ID^ Id, CHAR const* Item, UINT Length=0) { return AddInternal(Id, Item, Length); }
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
-	INDEXITEM* Set(ID^ Id, CHAR const* Value, UINT Length=0)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=pRoot->Get(Id);
-		if(pitem)
-			{
-			pitem->SetItem(Value, Length);
-			return pitem;
-			}
-		pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value, Length);
-		return pitem;
-		}
+	inline VOID Set(ID^ Id, CHAR const* Item, UINT Length=0) { SetInternal(Id, Item, Length); }
 };
 
 // Handle-Index with Shared String-Items
@@ -765,40 +366,16 @@ class Index<ID^, String<CHAR, false>, _GroupSize>: public IndexBase<ID^, String<
 public:
 	// Access
 	inline CHAR const* operator[](ID^ Id)const { return GetInternal<CHAR const*, ID^>(Id); }
-	inline BOOL Contains(ID^ Id)const { return pRoot->Contains(Id); }
+	inline BOOL Contains(ID^ Id)const { return ContainsInternal(Id); }
 	inline IteratorReadWrite Find(ID^ Id) { return IteratorReadWrite(this, Id); }
 	inline IteratorReadOnly Find(ID^ Id)const { return IteratorReadOnly(this, Id); }
 	inline CHAR const* Get(ID^ Id)const { return GetInternal<CHAR const*, ID^>(Id); }
-	inline INDEXITEM& GetAt(UINT64 Position) { return *pRoot->GetAt(Position); }
-	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	INDEXITEM* Add(ID^ Id, CHAR const* Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline BOOL Add(ID^ Id, CHAR const* Item) { return AddInternal(Id, Item); }
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
-	INDEXITEM* Set(ID^ Id, CHAR const* Value)
-		{
-		ScopedWrite lock(cAccessControl);
-		INDEXITEM* pitem=pRoot->Get(Id);
-		if(pitem)
-			{
-			pitem->SetItem(Value);
-			return pitem;
-			}
-		pitem=AddInternal(Id);
-		if(!pitem)
-			return nullptr;
-		new (pitem) INDEXITEM(Id, Value);
-		return pitem;
-		}
+	inline VOID Set(ID^ Id, CHAR const* Item) { SetInternal(Id, Item); }
 };
 
 #endif

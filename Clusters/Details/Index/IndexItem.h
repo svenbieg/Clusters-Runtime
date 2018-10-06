@@ -33,7 +33,6 @@ class IndexItem
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID const& Id): tId(Id) {}
 	IndexItem(ID const& Id, ITEM const& Item): tId(Id), tItem(Item) {}
 
 	// Access
@@ -141,7 +140,7 @@ class IndexItem<ID, String<CHAR, false>>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID const& Id, CHAR const* Item, UINT Length): cItem(Item, Length), tId(Id) {}
+	IndexItem(ID const& Id, CHAR const* Item): cItem(Item), tId(Id) {}
 
 	// Access
 	inline ID const& GetId()const { return tId; }
@@ -171,7 +170,6 @@ class IndexItem<ID*, ITEM>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID* Id): pId(Id) { ASSERT(Id); }
 	IndexItem(ID* Id, ITEM const& Item): pId(Id), tItem(Item) { ASSERT(Id); }
 	~IndexItem() { delete pId; }
 
@@ -323,7 +321,6 @@ class IndexItem<ID^, ITEM>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID^ Id): hId(Id) { ASSERT(Id); }
 	IndexItem(ID^ Id, ITEM const& Item): hId(Id), tItem(Item) { ASSERT(Id); }
 	~IndexItem() { hId=nullptr; }
 
@@ -473,8 +470,7 @@ class IndexItem<String<CHAR, _AllocId>, ITEM>
 {
 public:
 	// Con-/Destructors
-	IndexItem(CHAR const* Id, UINT Length): cId(Id, Length) {}
-	IndexItem(CHAR const* Id, UINT Length, ITEM const& Item): cId(Id, Length), tItem(Item) {}
+	IndexItem(CHAR const* Id, UINT Length, BOOL, ITEM const& Item): cId(Id, Length), tItem(Item) {}
 	~IndexItem() {}
 
 	// Access
@@ -497,7 +493,7 @@ class IndexItem<String<CHAR, _AllocId>, VOID>
 {
 public:
 	// Con-/Destructors
-	IndexItem(CHAR const* Id, UINT Length): cId(Id, Length) {}
+	IndexItem(CHAR const* Id, UINT Length, BOOL): cId(Id, Length) {}
 
 	// Access
 	inline CHAR const* GetId()const { return cId.Get(); }
@@ -513,7 +509,7 @@ class IndexItem<String<CHAR, _AllocId>, ITEM*>
 {
 public:
 	// Con-/Destructors
-	IndexItem(CHAR const* Id, UINT Length, ITEM* Item): cId(Id, Length), pItem(Item) {}
+	IndexItem(CHAR const* Id, UINT Length, BOOL, ITEM* Item): cId(Id, Length), pItem(Item) {}
 	~IndexItem()
 		{
 		delete pItem;
@@ -540,7 +536,7 @@ class IndexItem<String<CHAR, _AllocId>, ITEM^>
 {
 public:
 	// Con-/Destructors
-	IndexItem(CHAR const* Id, UINT Length, ITEM^ Item): cId(Id, Length), hItem(Item) {}
+	IndexItem(CHAR const* Id, UINT Length, BOOL, ITEM^ Item): cId(Id, Length), hItem(Item) {}
 	~IndexItem()
 		{
 		hItem=nullptr;
@@ -566,7 +562,7 @@ class IndexItem<String<CHAR_ID, _AllocId>, String<CHAR_ITEM, true>>
 {
 public:
 	// Con-/Destructors
-	IndexItem(CHAR_ID const* Id, UINT IdLength, CHAR_ITEM const* Item, UINT ItemLength): cId(Id, IdLength), cItem(Item, ItemLength) {}
+	IndexItem(CHAR_ID const* Id, UINT IdLength, BOOL, CHAR_ITEM const* Item, UINT ItemLength): cId(Id, IdLength), cItem(Item, ItemLength) {}
 
 	// Access
 	inline CHAR_ID const* GetId()const { return cId.Get(); }
@@ -588,7 +584,7 @@ class IndexItem<String<CHAR_ID, _AllocId>, String<CHAR_ITEM, false>>
 {
 public:
 	// Con-/Destructors
-	IndexItem(CHAR_ID const* Id, UINT IdLength, CHAR_ITEM const* Item): cId(Id, IdLength), cItem(Item) {}
+	IndexItem(CHAR_ID const* Id, UINT IdLength, BOOL, CHAR_ITEM const* Item): cId(Id, IdLength), cItem(Item) {}
 
 	// Access
 	inline CHAR_ID const* GetId()const { return cId.Get(); }

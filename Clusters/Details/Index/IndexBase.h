@@ -42,38 +42,70 @@ protected:
 	using PARENTGROUP=IndexParentGroup<ID, ITEM, _GroupSize>;
 
 	// Access
+	template <class... PARAMS> BOOL ContainsInternal(PARAMS... Id)const
+		{
+		ScopedRead lock(cAccessControl);
+		return pRoot->Contains(Id);
+		}
 	template <class RET, class... PARAMS> RET GetInternal(PARAMS... Id)const
 		{
-		INDEXITEM* pitem=pRoot->Get(Id...);
-		if(!pitem)
-			return nullptr;
-		return pitem->GetItem();
+		ScopedRead lock(cAccessControl);
+		return pRoot->Get(Id...)->GetItem();
 		}
-	template <class... PARAMS> ITEM* GetInternalAddress(PARAMS... Id)
+	template <class RET, class... PARAMS> BOOL TryGetInternal(PARAMS... Id, RET* Item)const
 		{
+		ScopedRead lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id...);
 		if(!pitem)
-			return nullptr;
-		return &pitem->GetItem();
-		}
-	template <class... PARAMS> ITEM const* GetInternalAddress(PARAMS... Id)const
-		{
-		INDEXITEM* pitem=pRoot->Get(Id...);
-		if(!pitem)
-			return nullptr;
-		return &pitem->GetItem();
+			return false;
+		*Item=pitem->GetItem();
+		return true;
 		}
 
 	// Modification
-	template <class... PARAMS> INDEXITEM* AddInternal(PARAMS... Id)
+	template <class ID, class... ITEM> inline BOOL AddInternal(ID Id, ITEM... Item)
+		{
+		ScopedWrite lock(cAccessControl);
+		return DoAddInternal<ID, ITEM...>(Id, Item...);
+		}
+	template <class CHAR, class... ITEM> inline BOOL AddStringInternal(CHAR const* Id, UINT Length, BOOL CaseSensitive, ITEM... Item)
+		{
+		ScopedWrite lock(cAccessControl);
+		return DoAddStringInternal<CHAR, ITEM...>(Id, Length, CaseSensitive, Item...);
+		}
+	template <class ID, class... ITEM> BOOL DoAddInternal(ID Id, ITEM... Item)
 		{
 		INDEXITEM* pitem=nullptr;
-		if(pRoot->Add(&pitem, Id..., false))
-			return pitem;
-		pRoot=new PARENTGROUP(pRoot);
-		BOOL badded=pRoot->Add(&pitem, Id..., true);
-		ASSERT(badded);
-		return pitem;
+		if(!pRoot->Add(&pitem, Id, false))
+			{
+			pRoot=new PARENTGROUP(pRoot);
+			pRoot->Add(&pitem, Id, true);
+			ASSERT(pitem!=nullptr);
+			}
+		else
+			{
+			if(pitem==nullptr)
+				return false;
+			}
+		new (pitem) INDEXITEM(Id, Item...);
+		return true;
+		}
+	template <class CHAR, class... ITEM> BOOL DoAddStringInternal(CHAR const* Id, UINT Length, BOOL CaseSensitive, ITEM... Item)
+		{
+		INDEXITEM* pitem=nullptr;
+		if(!pRoot->Add(&pitem, Id, Length, CaseSensitive, false))
+			{
+			pRoot=new PARENTGROUP(pRoot);
+			pRoot->Add(&pitem, Id, Length, CaseSensitive, true);
+			ASSERT(pitem!=nullptr);
+			}
+		else
+			{
+			if(pitem==nullptr)
+				return false;
+			}
+		new (pitem) INDEXITEM(Id, Length, false,  Item...);
+		return true;
 		}
 	template <class PTR> PTR ReleaseInternal(UINT64 Position)
 		{
@@ -89,6 +121,28 @@ protected:
 			return false;
 		UpdateRoot();
 		return true;
+		}
+	template <class ID, class... ITEM> VOID SetInternal(ID Id, ITEM... Item)
+		{
+		ScopedWrite lock(cAccessControl);
+		INDEXITEM* pitem=pRoot->Get(Id);
+		if(pitem!=nullptr)
+			{
+			pitem->SetItem(Item...);
+			return;
+			}
+		return DoAddInternal<ID, ITEM...>(Id, Item...);
+		}
+	template <class CHAR, class... ITEM> VOID SetStringInternal(CHAR const* Id, UINT Length, BOOL CaseSensitive, ITEM... Item)
+		{
+		ScopedWrite lock(cAccessControl);
+		INDEXITEM* pitem=pRoot->Get(Id, Length, CaseSensitive);
+		if(pitem!=nullptr)
+			{
+			pitem->SetItem(Item...);
+			return;
+			}
+		DoAddStringInternal<CHAR, ITEM...>(Id, Length, CaseSensitive, Item...);
 		}
 };
 

@@ -52,8 +52,18 @@ public:
 	template <class ID, class ITEM, UINT _GroupSize, BOOL _ReadOnly> friend class ::Clusters::Details::Index::IndexIteratorBase;
 
 	// Access
-	inline operator bool()const { return PointerValid(this)&&pRoot->GetCount()>0; }
-	virtual inline UINT64 GetCount()const { return pRoot->GetItemCount(); }
+	operator bool()const
+		{
+		if(!PointerValid(this))
+			return false;
+		ScopedRead lock(cAccessControl);
+		return pRoot->GetCount()>0;
+		}
+	virtual inline UINT64 GetCount()const
+		{
+		ScopedRead lock(cAccessControl);
+		return pRoot->GetItemCount();
+		}
 
 	// Modification
 	VOID Clear()
@@ -136,7 +146,11 @@ public:
 	inline IT_R First()const { return IT_R(this, 0); }
 	inline IT_W Last() { return IT_W(this, pRoot->GetItemCount()-1); }
 	inline IT_R Last()const { return IT_R(this, pRoot->GetItemCount()-1); }
-	inline ITEM* GetAt(UINT64 Position)const { return pRoot->GetAt(Position); }
+	ITEM* GetAt(UINT64 Position)const
+		{
+		ScopedRead lock(cAccessControl);
+		return pRoot->GetAt(Position);
+		}
 };
 
 
@@ -155,7 +169,11 @@ public:
 	inline IT_R First()const { return IT_R(this, 0); }
 	inline IT_W Last() { return IT_W(this, pRoot->GetItemCount()-1); }
 	inline IT_R Last()const { return IT_R(this, pRoot->GetItemCount()-1); }
-	inline ITEM^ GetAt(UINT64 Position)const { return pRoot->GetAt(Position); }
+	ITEM^ GetAt(UINT64 Position)const
+		{
+		ScopedRead lock(cAccessControl);
+		return pRoot->GetAt(Position);
+		}
 };
 #endif
 
@@ -173,7 +191,11 @@ public:
 	inline IT_R First()const { return IT_R(this, 0); }
 	inline IT_W Last() { return IT_W(this, pRoot->GetItemCount()-1); }
 	inline IT_R Last()const { return IT_R(this, pRoot->GetItemCount()-1); }
-	inline CHAR const* GetAt(UINT64 Position)const { return pRoot->GetAt(Position); }
+	CHAR const* GetAt(UINT64 Position)const
+		{
+		ScopedRead lock(cAccessControl);
+		return pRoot->GetAt(Position);
+		}
 };
 
 }}}

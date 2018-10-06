@@ -76,35 +76,35 @@ protected:
 		INDEXITEM const* pitem=nullptr;
 		UINT ustart=0;
 		UINT uend=uItemCount;
-		UINT ugroup=0;
+		UINT uitem=0;
 		while(ustart<uend)
 			{
-			ugroup=ustart+(uend-ustart)/2;
-			pitem=GetAt(ugroup);
+			uitem=ustart+(uend-ustart)/2;
+			pitem=GetAt(uitem);
 			if(IsAbove(pitem->GetId(), Id...))
 				{
-				uend=ugroup;
+				uend=uitem;
 				continue;
 				}
 			if(IsBelow(pitem->GetId(), Id...))
 				{
-				ustart=ugroup+1;
+				ustart=uitem+1;
 				continue;
 				}
-			return ugroup;
+			return uitem;
 			}
-		if(ugroup>0&&IsAbove(pitem->GetId(), Id...))
-			ugroup--;
-		return -(INT)ugroup-1;
+		if(uitem>0&&IsAbove(pitem->GetId(), Id...))
+			uitem--;
+		return -(INT)uitem-1;
 		}
 
 	// Modification
 	template <class... PARAMS> BOOL AddInternal(INDEXITEM** Item, PARAMS... Id)
 		{
-		if(uItemCount+1>_GroupSize)
-			return false;
 		UINT u=GetInsertPos<PARAMS...>(Id...);
 		if(u>uItemCount)
+			return true;
+		if(uItemCount+1>_GroupSize)
 			return false;
 		*Item=ARRAYHELPER::InsertAt(cItems.Get(), _GroupSize, &uItemCount, u);
 		return true;
