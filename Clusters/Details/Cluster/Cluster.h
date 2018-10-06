@@ -73,12 +73,6 @@ public:
 		pRoot=new ITEMGROUP();
 		delete proot;
 		}
-	virtual inline VOID RemoveAt(UINT64 Position)
-		{
-		ScopedWrite lock(cAccessControl);
-		pRoot->RemoveAt(Position);
-		UpdateRoot();
-		}
 
 protected:
 	// Con-/Destructors
@@ -146,11 +140,6 @@ public:
 	inline IT_R First()const { return IT_R(this, 0); }
 	inline IT_W Last() { return IT_W(this, pRoot->GetItemCount()-1); }
 	inline IT_R Last()const { return IT_R(this, pRoot->GetItemCount()-1); }
-	ITEM* GetAt(UINT64 Position)const
-		{
-		ScopedRead lock(cAccessControl);
-		return pRoot->GetAt(Position);
-		}
 };
 
 
@@ -169,11 +158,6 @@ public:
 	inline IT_R First()const { return IT_R(this, 0); }
 	inline IT_W Last() { return IT_W(this, pRoot->GetItemCount()-1); }
 	inline IT_R Last()const { return IT_R(this, pRoot->GetItemCount()-1); }
-	ITEM^ GetAt(UINT64 Position)const
-		{
-		ScopedRead lock(cAccessControl);
-		return pRoot->GetAt(Position);
-		}
 };
 #endif
 
@@ -191,11 +175,6 @@ public:
 	inline IT_R First()const { return IT_R(this, 0); }
 	inline IT_W Last() { return IT_W(this, pRoot->GetItemCount()-1); }
 	inline IT_R Last()const { return IT_R(this, pRoot->GetItemCount()-1); }
-	CHAR const* GetAt(UINT64 Position)const
-		{
-		ScopedRead lock(cAccessControl);
-		return pRoot->GetAt(Position);
-		}
 };
 
 }}}

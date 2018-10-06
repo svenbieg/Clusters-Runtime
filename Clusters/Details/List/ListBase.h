@@ -34,6 +34,14 @@ public:
 	typedef ListIterator<ITEM, _GroupSize, true> IteratorReadOnly;
 	typedef ListIterator<ITEM, _GroupSize, false> IteratorReadWrite;
 
+	// Modification
+	VOID RemoveAt(UINT64 Position)
+		{
+		ScopedWrite lock(cAccessControl);
+		pRoot->RemoveAt(Position);
+		UpdateRoot();
+		}
+
 protected:
 	// Using
 	using PARENTGROUP=ListParentGroup<ITEM, _GroupSize>;

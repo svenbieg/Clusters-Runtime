@@ -33,6 +33,11 @@ class StringList: public ListBase<String<CHAR, _Alloc>, _GroupSize>
 public:
 	// Access
 	inline CHAR const* operator[](UINT64 Position)const { return GetAt(Position); }
+	CHAR const* GetAt(UINT64 Position)const
+		{
+		ScopedRead lock(cAccessControl);
+		return pRoot->GetAt(Position);
+		}
 
 	// Modification
 	inline UINT Append(CHAR const* Value, UINT Length=0)
@@ -65,6 +70,11 @@ class StringList<CHAR, false, _GroupSize>: public ListBase<String<CHAR, false>, 
 public:
 	// Access
 	inline CHAR const* operator[](UINT64 Position)const { return GetAt(Position); }
+	CHAR const* GetAt(UINT64 Position)const
+		{
+		ScopedRead lock(cAccessControl);
+		return pRoot->GetAt(Position);
+		}
 
 	// Modification
 	inline VOID Append(CHAR const* Value)

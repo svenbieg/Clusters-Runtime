@@ -62,6 +62,11 @@ class List<ITEM*, _GroupSize>: public ListBase<ITEM*, _GroupSize>
 public:
 	// Access
 	inline ITEM* operator[](UINT64 Position)const { return GetAt(Position); }
+	ITEM* GetAt(UINT64 Position)const
+		{
+		ScopedRead lock(cAccessControl);
+		return pRoot->GetAt(Position);
+		}
 
 	// Modification
 	inline VOID Append(ITEM* Item)
@@ -93,6 +98,11 @@ class List<ITEM^, _GroupSize>: public ListBase<ITEM^, _GroupSize>
 public:
 	// Access
 	inline ITEM^ operator[](UINT64 Position)const { return GetAt(Position); }
+	ITEM^ GetAt(UINT64 Position)const
+		{
+		ScopedRead lock(cAccessControl);
+		return pRoot->GetAt(Position);
+		}
 
 	// Modification
 	inline VOID Append(ITEM^ Item)
