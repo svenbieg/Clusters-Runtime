@@ -27,14 +27,14 @@ namespace Clusters {
 //==========================
 
 template <class ITEM, UINT _GroupSize, BOOL _ReadOnly>
-class ListIteratorBase: public ::Clusters::Details::Cluster::IteratorReadWrite<ITEM, ListGroup<ITEM>, ListItemGroup<ITEM, _GroupSize>, ListParentGroup<ITEM, _GroupSize>, _ReadOnly>
+class ListIteratorBase: public ::Clusters::Details::Cluster::IteratorShared<ITEM, ListGroup<ITEM>, ListItemGroup<ITEM, _GroupSize>, ListParentGroup<ITEM, _GroupSize>, _ReadOnly>
 {
 protected:
 	// Using
 	using GROUP=ListGroup<ITEM>;
 	using ITEMGROUP=ListItemGroup<ITEM, _GroupSize>;
 	using PARENTGROUP=ListParentGroup<ITEM, _GroupSize>;
-	using BASE=::Clusters::Details::Cluster::IteratorReadWrite<ITEM, GROUP, ITEMGROUP, PARENTGROUP, _ReadOnly>;
+	using BASE=::Clusters::Details::Cluster::IteratorShared<ITEM, GROUP, ITEMGROUP, PARENTGROUP, _ReadOnly>;
 
 	// Con-/Destructors
 	using BASE::BASE;
@@ -76,6 +76,7 @@ private:
 
 public:
 	// Con-/Destructors
+	ListIterator(IT_W const& It): ListIteratorBase(It) {}
 	ListIterator(CLUSTER* Cluster, UINT64 Position): ListIteratorBase(Cluster, Position) {}
 	
 	// Access
@@ -117,6 +118,7 @@ private:
 
 public:
 	// Con-/Destructors
+	ListIterator(IT_W const& It): ListIteratorBase(It) {}
 	ListIterator(CLUSTER* Cluster, UINT64 Position): ListIteratorBase(Cluster, Position) {}
 
 	// Access
@@ -161,6 +163,7 @@ private:
 
 public:
 	// Con-/Destructors
+	ListIterator(IT_W const& It): ListIteratorBase(It) {}
 	ListIterator(CLUSTER* Cluster, UINT64 Position): ListIteratorBase(Cluster, Position) {}
 
 	// Access
@@ -202,6 +205,7 @@ private:
 
 public:
 	// Con-/Destructors
+	ListIterator(IT_W const& It): ListIteratorBase(It) {}
 	ListIterator(CLUSTER* Cluster, UINT64 Position): ListIteratorBase(Cluster, Position) {}
 
 	// Access

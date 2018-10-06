@@ -321,7 +321,7 @@ public:
 	static VOID Clear(T** Items, S* Size, S* Count)
 		{
 		DestroyItems(*Items, *Count);
-		::Free(*Items);
+		operator delete(*Items);
 		*Items=nullptr;
 		*Size=0;
 		*Count=0;

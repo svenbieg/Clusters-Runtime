@@ -48,6 +48,7 @@ public:
 	// Modification
 	inline INDEXITEM* Add(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id, Length, CaseSensitive);
 		if(!pitem)
 			return nullptr;
@@ -56,6 +57,7 @@ public:
 		}
 	inline INDEXITEM* Add(CHAR const* Id, ITEM const& Value, UINT Length=0, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id, Length, CaseSensitive);
 		if(!pitem)
 			return nullptr;
@@ -65,13 +67,18 @@ public:
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
 	inline INDEXITEM* Set(CHAR const* Id, ITEM const& Value, UINT Length=0, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id, Length, CaseSensitive);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
 			return pitem;
 			}
-		return Add(Id, Value, Length, CaseSensitive);
+		pitem=AddInternal(Id, Length, CaseSensitive);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, Length, Value);
+		return pitem;
 		}
 };
 
@@ -90,6 +97,7 @@ public:
 	// Modification
 	inline INDEXITEM* Add(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id, Length, CaseSensitive);
 		if(!pitem)
 			return nullptr;
@@ -117,6 +125,7 @@ public:
 	// Modification
 	inline INDEXITEM* Add(CHAR const* Id, ITEM* Value, UINT Length=0, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id, Length, CaseSensitive);
 		if(!pitem)
 			return nullptr;
@@ -127,13 +136,18 @@ public:
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
 	inline INDEXITEM* Set(CHAR const* Id, ITEM* Value, UINT Length=0, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id, Length, CaseSensitive);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
 			return pitem;
 			}
-		return Add(Id, Value, Length, CaseSensitive);
+		pitem=AddInternal(Id, Length, CaseSensitive);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, Length, Value);
+		return pitem;
 		}
 };
 
@@ -155,6 +169,7 @@ public:
 	// Modification
 	inline INDEXITEM* Add(CHAR const* Id, ITEM^ Value, UINT Length=0, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id, Length, CaseSensitive);
 		if(!pitem)
 			return nullptr;
@@ -164,13 +179,18 @@ public:
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
 	inline INDEXITEM* Set(CHAR const* Id, ITEM^ Value, UINT Length=0, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id, Length, CaseSensitive);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
 			return;
 			}
-		return Add(Id, Value, Length, CaseSensitive);
+		pitem=AddInternal(Id, Length, CaseSensitive);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, Length, Value);
+		return pitem;
 		}
 };
 #endif
@@ -192,6 +212,7 @@ public:
 	// Modification
 	inline INDEXITEM* Add(CHAR const* Id, CHAR const* Value, UINT IdLength=0, UINT ValueLength=0, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id, IdLength, CaseSensitive);
 		if(!pitem)
 			return nullptr;
@@ -202,13 +223,18 @@ public:
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
 	inline INDEXITEM* Set(CHAR const* Id, CHAR const* Value, UINT IdLength=0, UINT ValueLength=0, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id, IdLength, CaseSensitive);
 		if(pitem)
 			{
 			pitem->SetItem(Value, ValueLength);
 			return pitem;
 			}
-		return Add(Id, Value, IdLength, ValueLength, CaseSensitive);
+		pitem=AddInternal(Id, IdLength, CaseSensitive);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, IdLength, Value, ValueLength);
+		return pitem;
 		}
 };
 
@@ -229,6 +255,7 @@ public:
 	// Modification
 	inline INDEXITEM* Add(CHAR const* Id, CHAR const* Value, UINT IdLength=0, UINT ValueLength=0, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id, IdLength, CaseSensitive);
 		if(!pitem)
 			return nullptr;
@@ -239,13 +266,18 @@ public:
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
 	inline INDEXITEM* Set(CHAR const* Id, CHAR const* Value, UINT IdLength=0, UINT ValueLength=0, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id, IdLength, CaseSensitive);
 		if(pitem)
 			{
 			pitem->SetItem(Value, ValueLength);
 			return pitem;
 			}
-		return Add(Id, Value, IdLength, ValueLength, CaseSensitive);
+		pitem=AddInternal(Id, IdLength, CaseSensitive);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, IdLength, Value, ValueLength);
+		return pitem;
 		}
 };
 
@@ -278,6 +310,7 @@ public:
 	// Modification
 	inline INDEXITEM* Add(CHAR const* Id, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id, 0, CaseSensitive);
 		if(!pitem)
 			return nullptr;
@@ -286,6 +319,7 @@ public:
 		}
 	inline INDEXITEM* Add(CHAR const* Id, ITEM const& Value, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id, 0, CaseSensitive);
 		if(!pitem)
 			return nullptr;
@@ -295,13 +329,18 @@ public:
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
 	inline INDEXITEM* Set(CHAR const* Id, ITEM const& Value, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id, 0, CaseSensitive);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
 			return pitem;
 			}
-		return Add(Id, Value, CaseSensitive);
+		pitem=AddInternal(Id, 0, CaseSensitive);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, 0, Value);
+		return pitem;
 		}
 };
 
@@ -320,6 +359,7 @@ public:
 	// Modification
 	inline INDEXITEM* Add(CHAR const* Id, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id, 0, CaseSensitive);
 		if(!pitem)
 			return nullptr;
@@ -347,6 +387,7 @@ public:
 	// Modification
 	inline INDEXITEM* Add(CHAR const* Id, ITEM* Value, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id, 0, CaseSensitive);
 		if(!pitem)
 			return nullptr;
@@ -357,13 +398,18 @@ public:
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
 	inline INDEXITEM* Set(CHAR const* Id, ITEM* Value, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id, 0, CaseSensitive);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
 			return pitem;
 			}
-		return Add(Id, Value, CaseSensitive);
+		pitem=AddInternal(Id, 0, CaseSensitive);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, 0, Value);
+		return pitem;
 		}
 };
 
@@ -385,6 +431,7 @@ public:
 	// Modification
 	inline INDEXITEM* Add(CHAR const* Id, ITEM^ Value, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id, 0, CaseSensitive);
 		if(!pitem)
 			return nullptr;
@@ -394,13 +441,18 @@ public:
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
 	inline INDEXITEM* Set(CHAR const* Id, ITEM^ Value, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id, 0, CaseSensitive);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
 			return;
 			}
-		return Add(Id, Value, CaseSensitive);
+		pitem=AddInternal(Id, 0, CaseSensitive);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, 0, Value);
+		return pitem;
 		}
 };
 #endif
@@ -422,6 +474,7 @@ public:
 	// Modification
 	inline INDEXITEM* Add(CHAR const* Id, CHAR const* Value, UINT ValueLength=0, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id, 0, CaseSensitive);
 		if(!pitem)
 			return nullptr;
@@ -432,13 +485,18 @@ public:
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
 	inline INDEXITEM* Set(CHAR const* Id, CHAR const* Value, UINT ValueLength=0, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id, 0, CaseSensitive);
 		if(pitem)
 			{
 			pitem->SetItem(Value, ValueLength);
 			return pitem;
 			}
-		return Add(Id, Value, ValueLength, CaseSensitive);
+		pitem=AddInternal(Id, 0, CaseSensitive);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, 0, Value, ValueLength);
+		return pitem;
 		}
 };
 
@@ -459,6 +517,7 @@ public:
 	// Modification
 	inline INDEXITEM* Add(CHAR const* Id, CHAR const* Value, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id, 0, CaseSensitive);
 		if(!pitem)
 			return nullptr;
@@ -469,13 +528,18 @@ public:
 	inline BOOL Remove(CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false) { return RemoveInternal(Id, Length, CaseSensitive); }
 	inline INDEXITEM* Set(CHAR const* Id, CHAR const* Value, BOOL CaseSensitive=false)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id, 0, CaseSensitive);
 		if(pitem)
 			{
 			pitem->SetItem(INDEXITEM, 0);
 			return pitem;
 			}
-		return Add(Id, Value, CaseSensitive);
+		pitem=AddInternal(Id, 0, CaseSensitive);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, 0, Value, 0);
+		return pitem;
 		}
 };
 

@@ -37,18 +37,21 @@ public:
 	// Modification
 	inline UINT Append(CHAR const* Value, UINT Length=0)
 		{
+		ScopedWrite lock(cAccessControl);
 		String<CHAR, _Alloc>* pitem=AppendInternal();
 		new (pitem) String<CHAR, _Alloc>();
 		return pitem->Set(Value, Length);
 		}
 	inline UINT InsertAt(UINT64 Position, CHAR const* Value, UINT Length=0)
 		{
+		ScopedWrite lock(cAccessControl);
 		String<CHAR, _Alloc>* pitem=InsertInternal(Position);
 		new (pitem) String<CHAR, _Alloc>();
 		return pitem->Set(Value, Length);
 		}
 	CHAR const* ReleaseAt(UINT64 Position)
 		{
+		ScopedWrite lock(cAccessControl);
 		CHAR const* pitem=pRoot->ReleaseAt(Position);
 		UpdateRoot();
 		return pitem;
@@ -66,18 +69,21 @@ public:
 	// Modification
 	inline VOID Append(CHAR const* Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		String<CHAR, false>* pitem=AppendInternal();
 		new (pitem) String<CHAR, false>();
 		pitem->Set(Value);
 		}
 	inline VOID InsertAt(UINT64 Position, CHAR const* Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		String<CHAR, false>* pitem=InsertInternal(Position);
 		new (pitem) String<CHAR, false>();
 		pitem->Set(Value);
 		}
 	CHAR const* ReleaseAt(UINT64 Position)
 		{
+		ScopedWrite lock(cAccessControl);
 		CHAR const* pitem=pRoot->ReleaseAt(Position);
 		UpdateRoot();
 		return pitem;

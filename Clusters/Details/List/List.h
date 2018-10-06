@@ -39,12 +39,14 @@ public:
 	// Modification
 	inline ITEM* Append(ITEM const& Item)
 		{
+		ScopedWrite lock(cAccessControl);
 		ITEM* pitem=AppendInternal();
 		new (pitem) ITEM(Item);
 		return pitem;
 		}
 	inline ITEM* InsertAt(UINT64 Position, ITEM const& Item)
 		{
+		ScopedWrite lock(cAccessControl);
 		ITEM* pitem=InsertInternal(Position);
 		new (pitem) ITEM(Item);
 		return pitem;
@@ -62,16 +64,19 @@ public:
 	// Modification
 	inline VOID Append(ITEM* Item)
 		{
+		ScopedWrite lock(cAccessControl);
 		ITEM** pitem=AppendInternal();
 		*pitem=Item;
 		}
 	inline VOID InsertAt(UINT64 Position, ITEM* Item)
 		{
+		ScopedWrite lock(cAccessControl);
 		ITEM** pitem=InsertInternal(Position);
 		*pitem=Item;
 		}
 	ITEM* ReleaseAt(UINT64 Position)
 		{
+		ScopedWrite lock(cAccessControl);
 		ITEM* pitem=pRoot->ReleaseAt(Position);
 		UpdateRoot();
 		return pitem;
@@ -90,12 +95,14 @@ public:
 	// Modification
 	inline VOID Append(ITEM^ Item)
 		{
+		ScopedWrite lock(cAccessControl);
 		ITEM^* pitem=AppendInternal();
 		ZeroMemory(pitem, sizeof(ITEM^));
 		*pitem=Item;
 		}
 	inline VOID InsertAt(UINT64 Position, ITEM^ Item)
 		{
+		ScopedWrite lock(cAccessControl);
 		ITEM^* pitem=InsertInternal(Position);
 		ZeroMemory(pitem, sizeof(ITEM^));
 		*pitem=Item;

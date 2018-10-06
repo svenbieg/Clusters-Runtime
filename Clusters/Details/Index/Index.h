@@ -45,16 +45,18 @@ public:
 	inline ITEM* TryGet(ID const& Id)const { return GetInternalAddress<ID const&>(Id); }
 
 	// Modification
-	inline INDEXITEM* Add(ID const& Id)
+	INDEXITEM* Add(ID const& Id)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal<ID const&>(Id);
 		if(!pitem)
 			return nullptr;
 		new (pitem) INDEXITEM(Id);
 		return pitem;
 		}
-	inline INDEXITEM* Add(ID const& Id, ITEM const& Value)
+	INDEXITEM* Add(ID const& Id, ITEM const& Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal<ID const&>(Id);
 		if(!pitem)
 			return nullptr;
@@ -62,15 +64,20 @@ public:
 		return pitem;
 		}
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
-	inline INDEXITEM* Set(ID const& Id, ITEM const& Value)
+	INDEXITEM* Set(ID const& Id, ITEM const& Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
 			return pitem;
 			}
-		return Add(Id, Value);
+		pitem=AddInternal<ID const&>(Id);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, Value);
+		return pitem;
 		}
 };
 
@@ -87,8 +94,9 @@ public:
 	inline ID const& GetAt(UINT64 Position)const { return pRoot->GetAt(Position)->GetId(); }
 
 	// Modification
-	inline INDEXITEM* Add(ID const& Id)
+	INDEXITEM* Add(ID const& Id)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal<ID const&>(Id);
 		if(!pitem)
 			return nullptr;
@@ -113,8 +121,9 @@ public:
 	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline INDEXITEM* Add(ID const& Id, ITEM* Value)
+	INDEXITEM* Add(ID const& Id, ITEM* Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal<ID const&>(Id);
 		if(!pitem)
 			return nullptr;
@@ -123,15 +132,20 @@ public:
 		}
 	inline ITEM* ReleaseAt(UINT64 Position) { return ReleaseInternal<ITEM*>(Position); }
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
-	inline INDEXITEM* Set(ID const& Id, ITEM* Value)
+	INDEXITEM* Set(ID const& Id, ITEM* Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
 			return pitem;
 			}
-		return Add(Id, Value);
+		pitem=AddInternal<ID const&>(Id);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, Value);
+		return pitem;
 		}
 };
 
@@ -151,8 +165,9 @@ public:
 	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline INDEXITEM* Add(ID const& Id, ITEM^ Value)
+	INDEXITEM* Add(ID const& Id, ITEM^ Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal<ID const&>(Id);
 		if(!pitem)
 			return nullptr;
@@ -160,15 +175,20 @@ public:
 		return pitem;
 		}
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
-	inline INDEXITEM* Set(ID const& Id, ITEM^ Value)
+	INDEXITEM* Set(ID const& Id, ITEM^ Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
 			return pitem;
 			}
-		return Add(Id, Value);
+		pitem=AddInternal<ID const&>(Id);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, Value);
+		return pitem;
 		}
 };
 #endif
@@ -188,8 +208,9 @@ public:
 	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline INDEXITEM* Add(ID const& Id, CHAR const* Value, UINT Length=0)
+	INDEXITEM* Add(ID const& Id, CHAR const* Value, UINT Length=0)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal<ID const&>(Id);
 		if(!pitem)
 			return nullptr;
@@ -198,15 +219,20 @@ public:
 		}
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
-	inline INDEXITEM* Set(ID const& Id, CHAR const* Value, UINT Length=0)
+	INDEXITEM* Set(ID const& Id, CHAR const* Value, UINT Length=0)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value, Length);
 			return pitem;
 			}
-		return Add(Id, Value, Length);
+		pitem=AddInternal<ID const&>(Id);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, Value, Length);
+		return pitem;
 		}
 };
 
@@ -225,8 +251,9 @@ public:
 	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline INDEXITEM* Add(ID const& Id, CHAR const* Value)
+	INDEXITEM* Add(ID const& Id, CHAR const* Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal<ID const&>(Id);
 		if(!pitem)
 			return nullptr;
@@ -235,15 +262,20 @@ public:
 		}
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID const& Id) { return RemoveInternal<ID const&>(Id); }
-	inline INDEXITEM* Set(ID const& Id, CHAR const* Value)
+	INDEXITEM* Set(ID const& Id, CHAR const* Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
 			return pitem;
 			}
-		return Add(Id, Value);
+		pitem=AddInternal<ID const&>(Id);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, Value);
+		return pitem;
 		}
 };
 
@@ -274,16 +306,18 @@ public:
 	inline ITEM* TryGet(ID* Id)const { return GetInternalAdd(Id); }
 
 	// Modification
-	inline INDEXITEM* Add(ID* Id)
+	INDEXITEM* Add(ID* Id)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
 		new (pitem) INDEXITEM(Id);
 		return pitem;
 		}
-	inline INDEXITEM* Add(ID* Id, ITEM const& Value)
+	INDEXITEM* Add(ID* Id, ITEM const& Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
@@ -291,15 +325,20 @@ public:
 		return pitem;
 		}
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
-	inline INDEXITEM* Set(ID* Id, ITEM const& Value)
+	INDEXITEM* Set(ID* Id, ITEM const& Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
 			return pitem;
 			}
-		return Add(Id, Value);
+		pitem=AddInternal(Id);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, Value);
+		return pitem;
 		}
 };
 
@@ -316,8 +355,9 @@ public:
 	inline ID* GetAt(UINT64 Position)const { return pRoot->GetAt(Position)->GetItem(); }
 
 	// Modification
-	inline INDEXITEM* Add(ID* Id)
+	INDEXITEM* Add(ID* Id)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
@@ -342,8 +382,9 @@ public:
 	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline INDEXITEM* Add(ID* Id, ITEM* Value)
+	INDEXITEM* Add(ID* Id, ITEM* Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
@@ -352,15 +393,20 @@ public:
 		}
 	inline ITEM* ReleaseAt(UINT64 Position) { return ReleaseInternal<ITEM*>(Position); }
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
-	inline INDEXITEM* Set(ID* Id, ITEM* Value)
+	INDEXITEM* Set(ID* Id, ITEM* Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
 			return pitem;
 			}
-		return Add(Id, Value);
+		pitem=AddInternal(Id);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, Value);
+		return pitem;
 		}
 };
 
@@ -380,8 +426,9 @@ public:
 	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline INDEXITEM* Add(ID* Id, ITEM^ Value)
+	INDEXITEM* Add(ID* Id, ITEM^ Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
@@ -389,15 +436,20 @@ public:
 		return pitem;
 		}
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
-	inline INDEXITEM* Set(ID* Id, ITEM^ Value)
+	INDEXITEM* Set(ID* Id, ITEM^ Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
 			return pitem;
 			}
-		return Add(Id, Value);
+		pitem=AddInternal(Id);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, Value);
+		return pitem;
 		}
 };
 #endif
@@ -417,8 +469,9 @@ public:
 	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline INDEXITEM* Add(ID* Id, CHAR const* Value, UINT Length=0)
+	INDEXITEM* Add(ID* Id, CHAR const* Value, UINT Length=0)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
@@ -427,15 +480,20 @@ public:
 		}
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
-	inline INDEXITEM* Set(ID* Id, CHAR const* Value, UINT Length=0)
+	INDEXITEM* Set(ID* Id, CHAR const* Value, UINT Length=0)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value, Length);
 			return pitem;
 			}
-		return Add(Id, Value, Length);
+		pitem=AddInternal(Id);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, Value, Length);
+		return pitem;
 		}
 };
 
@@ -454,8 +512,9 @@ public:
 	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline INDEXITEM* Add(ID* Id, CHAR const* Value)
+	INDEXITEM* Add(ID* Id, CHAR const* Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
@@ -464,15 +523,20 @@ public:
 		}
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID* Id) { return RemoveInternal(Id); }
-	inline INDEXITEM* Set(ID Id, CHAR const* Value)
+	INDEXITEM* Set(ID Id, CHAR const* Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
 			return pitem;
 			}
-		return Add(Id, Value);
+		pitem=AddInternal(Id);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, Value);
+		return pitem;
 		}
 };
 
@@ -505,16 +569,18 @@ public:
 	inline ITEM* TryGet(ID^ Id)const { return GetInternalAdd(Id); }
 
 	// Modification
-	inline INDEXITEM* Add(ID^ Id)
+	INDEXITEM* Add(ID^ Id)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
 		new (pitem) INDEXITEM(Id);
 		return pitem;
 		}
-	inline INDEXITEM* Add(ID^ Id, ITEM const& Value)
+	INDEXITEM* Add(ID^ Id, ITEM const& Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
@@ -522,15 +588,20 @@ public:
 		return pitem;
 		}
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
-	inline INDEXITEM* Set(ID^ Id, ITEM const& Value)
+	INDEXITEM* Set(ID^ Id, ITEM const& Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
 			return pitem;
 			}
-		return Add(Id, Value);
+		pitem=AddInternal(Id);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, Value);
+		return pitem;
 		}
 };
 
@@ -547,8 +618,9 @@ public:
 	inline ID^ GetAt(UINT64 Position)const { return pRoot->GetAt(Position)->GetItem(); }
 
 	// Modification
-	inline INDEXITEM* Add(ID^ Id)
+	INDEXITEM* Add(ID^ Id)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
@@ -573,8 +645,9 @@ public:
 	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline INDEXITEM* Add(ID^ Id, ITEM* Value)
+	INDEXITEM* Add(ID^ Id, ITEM* Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
@@ -583,15 +656,20 @@ public:
 		}
 	inline ITEM* ReleaseAt(UINT64 Position) { return ReleaseInternal<ITEM*>(Position); }
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
-	inline INDEXITEM* Set(ID^ Id, ITEM* Value)
+	INDEXITEM* Set(ID^ Id, ITEM* Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
 			return pitem;
 			}
-		return Add(Id, Value);
+		pitem=AddInternal(Id);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, Value);
+		return pitem;
 		}
 };
 
@@ -610,8 +688,9 @@ public:
 	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline INDEXITEM* Add(ID^ Id, ITEM^ Value)
+	INDEXITEM* Add(ID^ Id, ITEM^ Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
@@ -619,15 +698,20 @@ public:
 		return pitem;
 		}
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
-	inline INDEXITEM* Set(ID^ Id, ITEM^ Value)
+	INDEXITEM* Set(ID^ Id, ITEM^ Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
 			return pitem;
 			}
-		return Add(Id, Value);
+		pitem=AddInternal(Id);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, Value);
+		return pitem;
 		}
 };
 
@@ -646,8 +730,9 @@ public:
 	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline INDEXITEM* Add(ID^ Id, CHAR const* Value, UINT Length=0)
+	INDEXITEM* Add(ID^ Id, CHAR const* Value, UINT Length=0)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
@@ -656,15 +741,20 @@ public:
 		}
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
-	inline INDEXITEM* Set(ID^ Id, CHAR const* Value, UINT Length=0)
+	INDEXITEM* Set(ID^ Id, CHAR const* Value, UINT Length=0)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value, Length);
 			return pitem;
 			}
-		return Add(Id, Value, Length);
+		pitem=AddInternal(Id);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, Value, Length);
+		return pitem;
 		}
 };
 
@@ -683,8 +773,9 @@ public:
 	inline INDEXITEM const& GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline INDEXITEM* Add(ID^ Id, CHAR const* Value)
+	INDEXITEM* Add(ID^ Id, CHAR const* Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=AddInternal(Id);
 		if(!pitem)
 			return nullptr;
@@ -693,15 +784,20 @@ public:
 		}
 	inline CHAR const* ReleaseAt(UINT64 Position) { return ReleaseInternal<CHAR const*>(Position); }
 	inline BOOL Remove(ID^ Id) { return RemoveInternal(Id); }
-	inline INDEXITEM* Set(ID^ Id, CHAR const* Value)
+	INDEXITEM* Set(ID^ Id, CHAR const* Value)
 		{
+		ScopedWrite lock(cAccessControl);
 		INDEXITEM* pitem=pRoot->Get(Id);
 		if(pitem)
 			{
 			pitem->SetItem(Value);
 			return pitem;
 			}
-		return Add(Id, Value);
+		pitem=AddInternal(Id);
+		if(!pitem)
+			return nullptr;
+		new (pitem) INDEXITEM(Id, Value);
+		return pitem;
 		}
 };
 

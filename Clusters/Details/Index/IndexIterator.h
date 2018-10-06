@@ -29,7 +29,7 @@ namespace Clusters {
 //===========================
 
 template <class ID, class ITEM, UINT _GroupSize, BOOL _ReadOnly>
-class IndexIteratorBase: public ::Clusters::Details::Cluster::IteratorReadWrite<IndexItem<ID, ITEM>, IndexGroup<ID, ITEM>, IndexItemGroup<ID, ITEM, _GroupSize>, IndexParentGroup<ID, ITEM, _GroupSize>, _ReadOnly>
+class IndexIteratorBase: public ::Clusters::Details::Cluster::IteratorShared<IndexItem<ID, ITEM>, IndexGroup<ID, ITEM>, IndexItemGroup<ID, ITEM, _GroupSize>, IndexParentGroup<ID, ITEM, _GroupSize>, _ReadOnly>
 {
 protected:
 	// Using
@@ -40,7 +40,7 @@ protected:
 	using ITEMGROUP_PTR=Conditional<_ReadOnly, ITEMGROUP const*, ITEMGROUP*>;
 	using PARENTGROUP=IndexParentGroup<ID, ITEM, _GroupSize>;
 	using PARENTGROUP_PTR=Conditional<_ReadOnly, PARENTGROUP const*, PARENTGROUP*>;
-	using BASE=::Clusters::Details::Cluster::IteratorReadWrite<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, _ReadOnly>;
+	using BASE=::Clusters::Details::Cluster::IteratorShared<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, _ReadOnly>;
 
 	// Con-/Destructors
 	using BASE::BASE;
@@ -103,7 +103,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, UINT64, ID const& Id): IndexIteratorBase(Cluster) { FindInternal<ID const&>(Id); }
 
@@ -151,7 +150,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, UINT64, ID const& Id): IndexIteratorBase(Cluster) { FindInternal<ID const&>(Id); }
 
@@ -194,7 +192,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, UINT64, ID const& Id): IndexIteratorBase(Cluster) { FindInternal<ID const&>(Id); }
 
@@ -243,7 +240,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, UINT64, ID const& Id): IndexIteratorBase(Cluster) { FindInternal<ID const&>(Id); }
 
@@ -294,7 +290,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, UINT64, ID const& Id): IndexIteratorBase(Cluster) { FindInternal<ID const&>(Id); }
 
@@ -342,7 +337,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, UINT64, ID const& Id): IndexIteratorBase(Cluster) { FindInternal<ID const&>(Id); }
 
@@ -399,7 +393,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, UINT64, ID* Id): IndexIteratorBase(Cluster) { FindInternal(Id); }
 
@@ -447,7 +440,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, UINT64, ID* Id): IndexIteratorBase(Cluster) { FindInternal(Id); }
 
@@ -490,7 +482,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, UINT64, ID* Id): IndexIteratorBase(Cluster) { FindInternal(Id); }
 
@@ -539,7 +530,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, UINT64, ID* Id): IndexIteratorBase(Cluster) { FindInternal(Id); }
 
@@ -590,7 +580,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, UINT64, ID* Id): IndexIteratorBase(Cluster) { FindInternal(Id); }
 
@@ -638,7 +627,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, UINT64, ID* Id): IndexIteratorBase(Cluster) { FindInternal(Id); }
 
@@ -697,7 +685,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, ID^ Id): IndexIteratorBase(Cluster) { FindInternal(Id); }
 
@@ -745,7 +732,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, ID^ Id): IndexIteratorBase(Cluster) { FindInternal(Id); }
 
@@ -788,7 +774,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, ID^ Id): IndexIteratorBase(Cluster) { FindInternal(Id); }
 
@@ -836,7 +821,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, ID^ Id): IndexIteratorBase(Cluster) { FindInternal(Id); }
 
@@ -884,7 +868,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false): IndexIteratorBase(Cluster) { FindInternal(Id, Length, CaseSensitive); }
 
@@ -932,7 +915,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, CHAR const* Id, UINT Length=0, BOOL CaseSensitive=false): IndexIteratorBase(Cluster) { FindInternal(Id, Length, CaseSensitive); }
 
@@ -991,7 +973,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, CHAR const* Id, UINT Length, BOOL CaseSensitive): IndexIteratorBase(Cluster) { FindInternal(Id, Length, CaseSensitive); }
 
@@ -1039,7 +1020,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, CHAR const* Id, UINT Length, BOOL CaseSensitive): IndexIteratorBase(Cluster) { FindInternal(Id, Length, CaseSensitive); }
 
@@ -1082,7 +1062,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, CHAR const* Id, UINT Length, BOOL CaseSensitive): IndexIteratorBase(Cluster) { FindInternal(Id, Length, CaseSensitive); }
 
@@ -1131,7 +1110,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, CHAR const* Id, UINT Length, BOOL CaseSensitive): IndexIteratorBase(Cluster) { FindInternal(Id, Length, CaseSensitive); }
 
@@ -1182,7 +1160,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, CHAR_ID const* Id, UINT Length, BOOL CaseSensitive): IndexIteratorBase(Cluster) { FindInternal(Id, Length, CaseSensitive); }
 
@@ -1230,7 +1207,6 @@ private:
 public:
 	// Con-/Destructors
 	IndexIterator(IT_R const& It): IndexIteratorBase(It) {}
-	IndexIterator(IT_W const& It): IndexIteratorBase(It) {}
 	IndexIterator(CLUSTER const* Cluster, UINT64 Position): IndexIteratorBase(Cluster) { SetPosition(Position); }
 	IndexIterator(CLUSTER const* Cluster, CHAR_ID const* Id, UINT Length, BOOL CaseSensitive): IndexIteratorBase(Cluster) { FindInternal(Id, Length, CaseSensitive); }
 

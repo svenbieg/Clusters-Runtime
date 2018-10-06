@@ -77,12 +77,14 @@ protected:
 		}
 	template <class PTR> PTR ReleaseInternal(UINT64 Position)
 		{
+		ScopedWrite lock(cAccessControl);
 		PTR pitem=pRoot->ReleaseAt(Position);
 		UpdateRoot();
 		return pitem;
 		}
 	template <class... PARAMS> BOOL RemoveInternal(PARAMS... Id)
 		{
+		ScopedWrite lock(cAccessControl);
 		if(!pRoot->Remove(Id...))
 			return false;
 		UpdateRoot();
