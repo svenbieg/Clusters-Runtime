@@ -58,10 +58,8 @@ It is more efficient than the map-class in standard-library. You can find some b
 <a href="http://svenbieg.azurewebsites.net/Clusters/Index" target="_blank">http://svenbieg.azurewebsites.net/Clusters/Index</a>.
 </p><br />
 
-<p>I hope my solution will make it into the standard-library!</p>
-
-<p>Best regards,</p>
-
-<p>Sven Bieg</p>
+<p>
+Have a look at <a href="http://github.com/svenbieg/clusters-runtime">Clusters-Runtime</a>, the Windows Runtime Component of Clusters!
+</p>
 
 <br /><br /><br /><br /><br />
