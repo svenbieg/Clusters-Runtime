@@ -35,13 +35,6 @@ public:
 		}
 	inline UINT GetChildCount()const override { return uChildCount; }
 	inline GROUP* const* GetChildren()const { return ppChildren; }
-	UINT64 GetFreeCount()const override
-		{
-		UINT64 ufree=_GroupSize;
-		for(UINT u=0; u<uLevel; u++)
-			ufree*=_GroupSize;
-		return ufree-uItemCount;
-		}
 	inline UINT64 GetItemCount()const override { return uItemCount; }
 	inline UINT GetLevel()const override { return uLevel; }
 
@@ -263,25 +256,27 @@ protected:
 		}
 	UINT GetNearestGroup(UINT Position, UINT* Nearest)
 		{
-		for(UINT u=0; u<_GroupSize; u++)
+		INT ibefore=Position-1;
+		UINT uafter=Position+1;
+		while(ibefore>=0||uafter<uChildCount)
 			{
-			if(Position>u)
+			if(ibefore>=0)
 				{
-				UINT upos=Position-u-1;
-				if(ppChildren[upos]->GetChildCount()<_GroupSize)
+				if(ppChildren[ibefore]->GetChildCount()<_GroupSize)
 					{
-					*Nearest=upos;
-					return Position-upos;
+					*Nearest=ibefore;
+					return Position-ibefore;
 					}
+				ibefore--;
 				}
-			UINT upos=Position+u+1;
-			if(upos<uChildCount)
+			if(uafter<uChildCount)
 				{
-				if(ppChildren[upos]->GetChildCount()<_GroupSize)
+				if(ppChildren[uafter]->GetChildCount()<_GroupSize)
 					{
-					*Nearest=upos;
-					return upos-Position;
+					*Nearest=uafter;
+					return uafter-Position;
 					}
+				uafter++;
 				}
 			}
 		return 0;

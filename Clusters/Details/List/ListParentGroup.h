@@ -167,9 +167,9 @@ protected:
 				Ids[0]=ucount;
 				if(u+1<uChildCount)
 					{
-					UINT64 ufree=ppChildren[u]->GetFreeCount();
-					UINT64 ufree1=ppChildren[u+1]->GetFreeCount();
-					if(ufree>=ufree1)
+					UINT ucount0=ppChildren[u]->GetChildCount();
+					UINT ucount1=ppChildren[u+1]->GetChildCount();
+					if(ucount0<ucount1)
 						{
 						Groups[1]=u+1;
 						Ids[1]=0;

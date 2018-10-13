@@ -24,7 +24,6 @@ class GroupBase
 public:
 	// Access
 	virtual UINT GetChildCount()const=0;
-	virtual UINT64 GetFreeCount()const=0;
 	virtual UINT64 GetItemCount()const=0;
 	virtual UINT GetLevel()const=0;
 

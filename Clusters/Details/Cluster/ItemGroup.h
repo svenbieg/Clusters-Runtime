@@ -38,7 +38,6 @@ public:
 	inline ITEM* AddressOfItemAt(UINT Position) { return &cItems.GetAt(Position); }
 	inline ITEM const* AddressOfItemAt(UINT Position)const { return &cItems.GetAt(Position); }
 	inline UINT GetChildCount()const override { return uItemCount; }
-	inline UINT64 GetFreeCount()const override { return _GroupSize-uItemCount; }
 	inline UINT64 GetItemCount()const override { return uItemCount; }
 	inline ITEM* GetItems() { return cItems.Get(); }
 	inline ITEM const* GetItems()const { return cItems.Get(); }
@@ -57,7 +56,7 @@ public:
 			return nullptr;
 		return ARRAYHELPER::InsertAt(cItems.Get(), _GroupSize, &uItemCount, Position);
 		}
-	inline VOID RemoveAt(UINT64 Position)override  { ARRAYHELPER::RemoveAt(cItems.Get(), &uItemCount, ToUINT(Position)); }
+	inline VOID RemoveAt(UINT64 Position)override { ARRAYHELPER::RemoveAt(cItems.Get(), &uItemCount, ToUINT(Position)); }
 
 protected:
 	// Con-/Destructors

@@ -225,9 +225,9 @@ protected:
 			pfirst=ppChildren[ustart]->GetFirst();
 			if(IsAbove(pfirst->GetId(), Id...))
 				{
-				UINT64 ufree=ppChildren[ustart]->GetFreeCount();
-				UINT64 ufree1=ppChildren[ustart-1]->GetFreeCount();
-				if(ufree>=ufree1)
+				UINT ucount0=ppChildren[ustart]->GetChildCount();
+				UINT ucount1=ppChildren[ustart-1]->GetChildCount();
+				if(ucount0<ucount1)
 					{
 					Groups[1]=ustart-1;
 					return 2;
@@ -242,9 +242,9 @@ protected:
 			plast=ppChildren[ustart]->GetLast();
 			if(IsBelow(plast->GetId(), Id...))
 				{
-				UINT64 ufree=ppChildren[ustart]->GetFreeCount();
-				UINT64 ufree1=ppChildren[ustart+1]->GetFreeCount();
-				if(ufree>=ufree1)
+				UINT ucount0=ppChildren[ustart]->GetChildCount();
+				UINT ucount1=ppChildren[ustart+1]->GetChildCount();
+				if(ucount0<ucount1)
 					{
 					Groups[1]=ustart+1;
 					return 2;

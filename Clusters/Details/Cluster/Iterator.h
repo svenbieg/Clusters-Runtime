@@ -61,7 +61,7 @@ public:
 		upos+=pIts[ulevelcount-1].Position;
 		return upos;
 		}
-	inline BOOL HasCurrent() { return PointerValid(pCurrent); }
+	inline BOOL HasCurrent() { return pCurrent!=nullptr; }
 	
 	// Common
 	template <class IT> VOID Initialize(IT const& It)
@@ -180,7 +180,7 @@ protected:
 
 	// Con-/Destructors
 	IteratorBase(CLUSTER_PTR Cluster): pCluster(Cluster), pCurrent(nullptr), pIts(nullptr) {}
-	~IteratorBase() { PointerFree(pIts); }
+	~IteratorBase() { if(pIts)delete pIts; }
 
 	// Common
 	CLUSTER_PTR pCluster;
@@ -200,15 +200,17 @@ private:
 			return upos;
 			}
 		PARENTGROUP_PTR pparent=(PARENTGROUP_PTR)Group;
+		UINT64 uitemcount=0;
 		for(UINT u=0; u<ucount; u++)
 			{
 			GROUP_PTR pchild=pparent->GetChild(u);
-			UINT64 uitemcount=pchild->GetItemCount();
+			uitemcount=pchild->GetItemCount();
 			if(*Position<uitemcount)
 				return u;
 			*Position-=uitemcount;
 			}
-		return ucount;
+		(*Position)=uitemcount;
+		return ucount-1;
 		}
 };
 
@@ -239,12 +241,7 @@ public:
 		{
 		UINT64 upos=GetPosition();
 		pCluster->pRoot->RemoveAt(upos);
-		UINT64 ucount=pCluster->GetCount();
-		if(upos>=ucount)
-			{
-			pCurrent=nullptr;
-			return;
-			}
+		pCurrent=nullptr;
 		SetPosition(upos);
 		}
 
