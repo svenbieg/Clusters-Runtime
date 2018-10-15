@@ -1,13 +1,6 @@
 //=========
 // Index.h
 //=========
-//
-// Copyright 2018, Sven Bieg (svenbieg@web.de)
-// http://svenbieg.azurewebsites.net
-//
-// Implementation of a sorted list
-// Items have unique ids and are in ascending order
-//
 
 #pragma once
 
