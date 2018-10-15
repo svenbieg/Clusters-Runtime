@@ -1,6 +1,13 @@
 //========
 // List.h
 //========
+//
+// Copyright 2018, Sven Bieg (svenbieg@web.de)
+// http://svenbieg.azurewebsites.net
+//
+// Implementation of an ordererd list
+// Items can be inserted an removed at random positions
+//
 
 #pragma once
 
