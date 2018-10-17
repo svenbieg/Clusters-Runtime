@@ -17,8 +17,9 @@
 //===========
 
 namespace Clusters {
-	namespace Details {
-		namespace List {
+	namespace Templates {
+		namespace Details {
+			namespace List {
 
 
 //======
@@ -100,4 +101,4 @@ template<UINT _GroupSize> class List<LPCSTR, _GroupSize>: public StringList<CHAR
 template<UINT _GroupSize> class List<LPWSTR, _GroupSize>: public StringList<WCHAR, true, _GroupSize> {}; // Unicode-List
 template<UINT _GroupSize> class List<LPCWSTR, _GroupSize>: public StringList<WCHAR, false, _GroupSize> {}; // Shared Unicode-List
 
-}}}
+}}}}

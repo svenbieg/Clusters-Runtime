@@ -18,8 +18,9 @@
 //===========
 
 namespace Clusters {
-	namespace Details {
-		namespace Index {
+	namespace Templates {
+		namespace Details {
+			namespace Index {
 
 
 //=============================
@@ -27,7 +28,7 @@ namespace Clusters {
 //=============================
 
 template <class ID, class ITEM, UINT _GroupSize>
-class IndexItemGroupBase: public ::Clusters::Details::Cluster::ItemGroup<IndexItem<ID, ITEM>, IndexGroup<ID, ITEM>, _GroupSize>
+class IndexItemGroupBase: public ::Clusters::Templates::Details::Cluster::ItemGroup<IndexItem<ID, ITEM>, IndexGroup<ID, ITEM>, _GroupSize>
 {
 protected:
 	// Using
@@ -36,7 +37,7 @@ protected:
 private:
 	// Using
 	using ARRAYHELPER=ArrayHelper<IndexItem<ID, ITEM>, UINT>;
-	using BASE=::Clusters::Details::Cluster::ItemGroup<INDEXITEM, IndexGroup<ID, ITEM>, _GroupSize>;
+	using BASE=::Clusters::Templates::Details::Cluster::ItemGroup<INDEXITEM, IndexGroup<ID, ITEM>, _GroupSize>;
 
 public:
 	// Access
@@ -213,4 +214,4 @@ public:
 	inline BOOL Remove(CHAR const* Id, UINT Length, BOOL CaseSensitive)override { return RemoveInternal(Id, Length, CaseSensitive); }
 };
 
-}}}
+}}}}

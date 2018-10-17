@@ -10,8 +10,9 @@
 //===========
 
 namespace Clusters {
-	namespace Details {
-		namespace Cluster {
+	namespace Templates {
+		namespace Details {
+			namespace Cluster {
 
 
 //==========================
@@ -85,4 +86,4 @@ public:
 	virtual CHAR const* ReleaseAt(UINT64 Position)=0;
 };
 
-}}}
+}}}}

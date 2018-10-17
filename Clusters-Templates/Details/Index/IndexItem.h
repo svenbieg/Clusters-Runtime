@@ -17,8 +17,9 @@
 //===========
 
 namespace Clusters {
-	namespace Details {
-		namespace Index {
+	namespace Templates {
+		namespace Details {
+			namespace Index {
 
 
 //============
@@ -585,4 +586,4 @@ private:
 	String<CHAR_ITEM, false> cItem;
 };
 
-}}}
+}}}}

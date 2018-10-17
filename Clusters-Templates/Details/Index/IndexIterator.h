@@ -20,8 +20,9 @@
 //===========
 
 namespace Clusters {
-	namespace Details {
-		namespace Index {
+	namespace Templates {
+		namespace Details {
+			namespace Index {
 
 
 //===========================
@@ -29,7 +30,7 @@ namespace Clusters {
 //===========================
 
 template <class ID, class ITEM, UINT _GroupSize, BOOL _ReadOnly>
-class IndexIteratorBase: public ::Clusters::Details::Cluster::IteratorShared<IndexItem<ID, ITEM>, IndexGroup<ID, ITEM>, IndexItemGroup<ID, ITEM, _GroupSize>, IndexParentGroup<ID, ITEM, _GroupSize>, _ReadOnly>
+class IndexIteratorBase: public ::Clusters::Templates::Details::Cluster::IteratorShared<IndexItem<ID, ITEM>, IndexGroup<ID, ITEM>, IndexItemGroup<ID, ITEM, _GroupSize>, IndexParentGroup<ID, ITEM, _GroupSize>, _ReadOnly>
 {
 protected:
 	// Using
@@ -40,7 +41,7 @@ protected:
 	using ITEMGROUP_PTR=Conditional<_ReadOnly, ITEMGROUP const*, ITEMGROUP*>;
 	using PARENTGROUP=IndexParentGroup<ID, ITEM, _GroupSize>;
 	using PARENTGROUP_PTR=Conditional<_ReadOnly, PARENTGROUP const*, PARENTGROUP*>;
-	using BASE=::Clusters::Details::Cluster::IteratorShared<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, _ReadOnly>;
+	using BASE=::Clusters::Templates::Details::Cluster::IteratorShared<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, _ReadOnly>;
 
 	// Con-/Destructors
 	using BASE::BASE;
@@ -96,7 +97,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID, ITEM, _GroupSize, true>;
 	using IT_W=IndexIterator<ID, ITEM, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -119,7 +120,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID, ITEM, _GroupSize, true>;
 	using IT_W=IndexIterator<ID, ITEM, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -144,7 +145,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID, VOID, _GroupSize, true>;
 	using IT_W=IndexIterator<ID, VOID, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -166,7 +167,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID, VOID, _GroupSize, true>;
 	using IT_W=IndexIterator<ID, VOID, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -187,7 +188,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID, ITEM*, _GroupSize, true>;
 	using IT_W=IndexIterator<ID, ITEM*, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -210,7 +211,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID, ITEM*, _GroupSize, true>;
 	using IT_W=IndexIterator<ID, ITEM*, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -236,7 +237,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID, ITEM^, _GroupSize, true>;
 	using IT_W=IndexIterator<ID, ITEM^, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -261,7 +262,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID, ITEM^, _GroupSize, true>;
 	using IT_W=IndexIterator<ID, ITEM^, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -287,7 +288,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID, String<CHAR, _AllocItem>, _GroupSize, true>;
 	using IT_W=IndexIterator<ID, String<CHAR, _AllocItem>, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -310,7 +311,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID, String<CHAR, true>, _GroupSize, true>;
 	using IT_W=IndexIterator<ID, String<CHAR, true>, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -335,7 +336,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID, String<CHAR, false>, _GroupSize, true>;
 	using IT_W=IndexIterator<ID, String<CHAR, false>, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -358,7 +359,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID, String<CHAR, false>, _GroupSize, true>;
 	using IT_W=IndexIterator<ID, String<CHAR, false>, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -388,7 +389,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID*, ITEM, _GroupSize, true>;
 	using IT_W=IndexIterator<ID*, ITEM, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -411,7 +412,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID*, ITEM, _GroupSize, true>;
 	using IT_W=IndexIterator<ID*, ITEM, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -436,7 +437,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID*, VOID, _GroupSize, true>;
 	using IT_W=IndexIterator<ID*, VOID, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -458,7 +459,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID*, VOID, _GroupSize, true>;
 	using IT_W=IndexIterator<ID*, VOID, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -479,7 +480,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID*, ITEM*, _GroupSize, true>;
 	using IT_W=IndexIterator<ID*, ITEM*, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -502,7 +503,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID*, ITEM*, _GroupSize, true>;
 	using IT_W=IndexIterator<ID*, ITEM*, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -528,7 +529,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID*, ITEM^, _GroupSize, true>;
 	using IT_W=IndexIterator<ID*, ITEM^, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -553,7 +554,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID*, ITEM^, _GroupSize, true>;
 	using IT_W=IndexIterator<ID*, ITEM^, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -579,7 +580,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID*, String<CHAR, _AllocItem>, _GroupSize, true>;
 	using IT_W=IndexIterator<ID*, String<CHAR, _AllocItem>, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -602,7 +603,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID*, String<CHAR, true>, _GroupSize, true>;
 	using IT_W=IndexIterator<ID*, String<CHAR, true>, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -627,7 +628,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID*, String<CHAR, false>, _GroupSize, true>;
 	using IT_W=IndexIterator<ID*, String<CHAR, false>, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -650,7 +651,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID*, String<CHAR, false>, _GroupSize, true>;
 	using IT_W=IndexIterator<ID*, String<CHAR, false>, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -682,7 +683,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID^, ITEM, _GroupSize, true>;
 	using IT_W=IndexIterator<ID^, ITEM, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -705,7 +706,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID^, ITEM, _GroupSize, true>;
 	using IT_W=IndexIterator<ID^, ITEM, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -730,7 +731,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID^, VOID, _GroupSize, true>;
 	using IT_W=IndexIterator<ID^, VOID, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -752,7 +753,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID^, VOID, _GroupSize, true>;
 	using IT_W=IndexIterator<ID^, VOID, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -773,7 +774,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID^, ITEM*, _GroupSize, true>;
 	using IT_W=IndexIterator<ID^, ITEM*, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -796,7 +797,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID^, ITEM*, _GroupSize, true>;
 	using IT_W=IndexIterator<ID^, ITEM*, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -821,7 +822,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID^, ITEM^, _GroupSize, true>;
 	using IT_W=IndexIterator<ID^, ITEM^, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -844,7 +845,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID^, ITEM^, _GroupSize, true>;
 	using IT_W=IndexIterator<ID^, ITEM^, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -869,7 +870,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID^, String<CHAR, _AllocItem>, _GroupSize, true>;
 	using IT_W=IndexIterator<ID^, String<CHAR, _AllocItem>, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -892,7 +893,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID^, String<CHAR, true>, _GroupSize, true>;
 	using IT_W=IndexIterator<ID^, String<CHAR, true>, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -917,7 +918,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID^, String<CHAR, false>, _GroupSize, true>;
 	using IT_W=IndexIterator<ID^, String<CHAR, false>, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -940,7 +941,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<ID^, String<CHAR, false>, _GroupSize, true>;
 	using IT_W=IndexIterator<ID^, String<CHAR, false>, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -972,7 +973,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<String<CHAR, _AllocId>, ITEM, _GroupSize, true>;
 	using IT_W=IndexIterator<String<CHAR, _AllocId>, ITEM, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -995,7 +996,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<String<CHAR, _AllocId>, ITEM, _GroupSize, true>;
 	using IT_W=IndexIterator<String<CHAR, _AllocId>, ITEM, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -1020,7 +1021,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<String<CHAR, _AllocId>, VOID, _GroupSize, true>;
 	using IT_W=IndexIterator<String<CHAR, _AllocId>, VOID, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -1042,7 +1043,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<String<CHAR, _AllocId>, VOID, _GroupSize, true>;
 	using IT_W=IndexIterator<String<CHAR, _AllocId>, VOID, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -1063,7 +1064,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<String<CHAR, _AllocId>, ITEM*, _GroupSize, true>;
 	using IT_W=IndexIterator<String<CHAR, _AllocId>, ITEM*, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -1086,7 +1087,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<String<CHAR, _AllocId>, ITEM*, _GroupSize, true>;
 	using IT_W=IndexIterator<String<CHAR, _AllocId>, ITEM*, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -1112,7 +1113,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<String<CHAR, _AllocId>, ITEM^, _GroupSize, true>;
 	using IT_W=IndexIterator<String<CHAR, _AllocId>, ITEM^, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -1137,7 +1138,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<String<CHAR, _AllocId>, ITEM^, _GroupSize, true>;
 	using IT_W=IndexIterator<String<CHAR, _AllocId>, ITEM^, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -1163,7 +1164,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<String<CHAR_ID, _AllocId>, String<CHAR_ITEM, true>, _GroupSize, true>;
 	using IT_W=IndexIterator<String<CHAR_ID, _AllocId>, String<CHAR_ITEM, true>, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -1186,7 +1187,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<String<CHAR_ID, _AllocId>, String<CHAR_ITEM, true>, _GroupSize, true>;
 	using IT_W=IndexIterator<String<CHAR_ID, _AllocId>, String<CHAR_ITEM, true>, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -1211,7 +1212,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<String<CHAR_ID, _AllocId>, String<CHAR_ITEM, false>, _GroupSize, true>;
 	using IT_W=IndexIterator<String<CHAR_ID, _AllocId>, String<CHAR_ITEM, false>, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -1234,7 +1235,7 @@ private:
 	// Using
 	using IT_R=IndexIterator<String<CHAR_ID, _AllocId>, String<CHAR_ITEM, false>, _GroupSize, true>;
 	using IT_W=IndexIterator<String<CHAR_ID, _AllocId>, String<CHAR_ITEM, false>, _GroupSize, false>;
-	using CLUSTER=::Clusters::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<INDEXITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
 
 public:
 	// Con-/Destructors
@@ -1251,4 +1252,4 @@ public:
 	inline VOID SetCurrentItem(CHAR_ITEM const* Value) { pCurrent->SetItem(Value); }
 };
 
-}}}
+}}}}

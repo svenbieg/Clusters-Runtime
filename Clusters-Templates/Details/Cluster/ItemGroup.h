@@ -18,8 +18,9 @@
 //===========
 
 namespace Clusters {
-	namespace Details {
-		namespace Cluster {
+	namespace Templates {
+		namespace Details {
+			namespace Cluster {
 
 
 //===============================
@@ -144,4 +145,4 @@ protected:
 	using ITEMGROUPBASE::ITEMGROUPBASE;
 };
 
-}}}
+}}}}

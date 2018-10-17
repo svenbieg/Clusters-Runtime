@@ -17,8 +17,9 @@
 //===========
 
 namespace Clusters {
-	namespace Details {
-		namespace Index {
+	namespace Templates {
+		namespace Details {
+			namespace Index {
 
 
 //=======
@@ -425,4 +426,4 @@ template <UINT _GroupSize> class Index<LPCWSTR, LPCSTR, _GroupSize>: public Stri
 template <UINT _GroupSize> class Index<LPCWSTR, LPWSTR, _GroupSize>: public StringIndex<WCHAR, false, String<WCHAR, true>, _GroupSize> {}; // Shared Unicode-Index with Unicode-Items
 template <UINT _GroupSize> class Index<LPCWSTR, LPCWSTR, _GroupSize>: public StringIndex<WCHAR, false, String<WCHAR, false>, _GroupSize> {}; // Shared Unicode-Index with Shared Unicode-Items
 
-}}}
+}}}}

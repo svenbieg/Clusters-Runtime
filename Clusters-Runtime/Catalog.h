@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "Clusters\Index.h"
+#include "Clusters-Templates\Index.h"
 #include "Details\Catalog\CatalogIterator.h"
 #include "Details\Guid.h"
 
@@ -21,7 +21,6 @@ namespace WFM=Windows::Foundation::Metadata;
 //===========
 
 namespace Clusters {
-	namespace Runtime {
 
 
 //=========
@@ -67,8 +66,8 @@ public:
 private:
 	// Common
 	CriticalSection cCriticalSection;
-	Index<Details::Guid, Object^> cIndex;
+	Templates::Index<Details::Guid, Object^> cIndex;
 	UINT uItCount;
 };
 
-}}
+}

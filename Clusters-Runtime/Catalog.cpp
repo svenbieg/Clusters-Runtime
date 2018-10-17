@@ -11,7 +11,7 @@
 
 #include "Catalog.h"
 
-using CatalogIterator=Clusters::Runtime::Details::Catalog::CatalogIterator;
+using CatalogIterator=Clusters::Details::Catalog::CatalogIterator;
 
 
 //===========
@@ -19,7 +19,7 @@ using CatalogIterator=Clusters::Runtime::Details::Catalog::CatalogIterator;
 //===========
 
 namespace Clusters {
-	namespace Runtime {
+
 
 //========
 // Access
@@ -107,4 +107,4 @@ if(uItCount>0)
 cIndex.Set(uid, hvalue);
 }
 
-}}
+}

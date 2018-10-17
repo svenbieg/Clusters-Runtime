@@ -18,11 +18,14 @@
 
 namespace Clusters
 {
-namespace Details
+namespace Templates
 	{
-	namespace Index
+	namespace Details
 		{
-		template <class ID, class ITEM, UINT _GroupSize, BOOL _ReadOnly> class IndexIteratorBase;
+		namespace Index
+			{
+			template <class ID, class ITEM, UINT _GroupSize, BOOL _ReadOnly> class IndexIteratorBase;
+			}
 		}
 	}
 }
@@ -33,8 +36,9 @@ namespace Details
 //===========
 
 namespace Clusters {
-	namespace Details {
-		namespace Cluster {
+	namespace Templates {
+		namespace Details {
+			namespace Cluster {
 
 
 //====================
@@ -48,7 +52,7 @@ public:
 	// Friends
 	template <class ITEM, class GROUP, class ITEMGROUP, class PARENTGROUP, BOOL _ReadOnly> friend class IteratorBase;
 	template <class ITEM, class GROUP, class ITEMGROUP, class PARENTGROUP, BOOL _ReadOnly> friend class IteratorShared;
-	template <class ID, class ITEM, UINT _GroupSize, BOOL _ReadOnly> friend class ::Clusters::Details::Index::IndexIteratorBase;
+	template <class ID, class ITEM, UINT _GroupSize, BOOL _ReadOnly> friend class ::Clusters::Templates::Details::Index::IndexIteratorBase;
 
 	// Access
 	operator bool()const
@@ -172,4 +176,4 @@ public:
 	inline IT_R Last()const { return IT_R(this, pRoot->GetItemCount()-1); }
 };
 
-}}}
+}}}}

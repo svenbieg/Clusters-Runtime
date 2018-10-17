@@ -17,6 +17,7 @@
 //===========
 
 namespace Clusters {
+	namespace Templates {
 
 
 //=======
@@ -37,4 +38,4 @@ public:
 	Index(INDEX const& Index): BASE(Index) {}
 };
 
-}
+}}

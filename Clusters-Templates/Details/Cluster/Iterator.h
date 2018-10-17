@@ -18,8 +18,9 @@
 //===========
 
 namespace Clusters {
-	namespace Details {
-		namespace Cluster {
+	namespace Templates {
+		namespace Details {
+			namespace Cluster {
 
 
 //=============================
@@ -252,4 +253,4 @@ protected:
 	IteratorShared(CLUSTER* Cluster, UINT64 Position): IteratorBase(Cluster) { SetPosition(Position); }
 };
 
-}}}
+}}}}

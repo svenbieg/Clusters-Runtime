@@ -17,6 +17,7 @@
 //===========
 
 namespace Clusters {
+	namespace Templates {
 
 
 //======
@@ -37,4 +38,4 @@ public:
 	List(LIST const& List): BASE(List) {}
 };
 
-}
+}}

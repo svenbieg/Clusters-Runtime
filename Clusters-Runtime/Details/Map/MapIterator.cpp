@@ -17,30 +17,29 @@
 //===========
 
 namespace Clusters {
-	namespace Runtime {
-		namespace Details {
-			namespace Map {
+	namespace Details {
+		namespace Map {
 
 
 //==================
 // Con-/Destructors
 //==================
 
-MapIterator::MapIterator(Clusters::Runtime::Map^ hmap):
+MapIterator::MapIterator(Clusters::Map^ hmap):
 cIt(&hmap->cIndex, 0),
 hMap(hmap)
 {
 hMap->uItCount++;
 }
 
-MapIterator::MapIterator(Clusters::Runtime::Map^ hmap, UINT64 upos):
+MapIterator::MapIterator(Clusters::Map^ hmap, UINT64 upos):
 cIt(&hmap->cIndex, upos),
 hMap(hmap)
 {
 hMap->uItCount++;
 }
 
-MapIterator::MapIterator(Clusters::Runtime::Map^ hmap, String^ hkey):
+MapIterator::MapIterator(Clusters::Map^ hmap, String^ hkey):
 cIt(&hmap->cIndex, hkey),
 hMap(hmap)
 {
@@ -135,4 +134,4 @@ ScopedLock lock(hMap->cCriticalSection);
 hMap->uItCount--;
 }
 
-}}}}
+}}}

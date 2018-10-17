@@ -9,16 +9,13 @@
 // Using
 //=======
 
-#include "Clusters\List.h"
+#include "Clusters-Templates\List.h"
 
 namespace WFM=Windows::Foundation::Metadata;
 
 namespace Clusters
 {
-namespace Runtime
-	{
-	ref class List;
-	}
+ref class List;
 }
 
 
@@ -27,9 +24,8 @@ namespace Runtime
 //===========
 
 namespace Clusters {
-	namespace Runtime {
-		namespace Details {
-			namespace List {
+	namespace Details {
+		namespace List {
 
 
 //===============
@@ -61,8 +57,8 @@ public:
 
 internal:
 	// Con-/Destructors
-	ListIterator(Clusters::Runtime::List^ List);
-	ListIterator(Clusters::Runtime::List^ List, UINT64 Position);
+	ListIterator(Clusters::List^ List);
+	ListIterator(Clusters::List^ List, UINT64 Position);
 
 private:
 	// Con-/Destructors
@@ -70,8 +66,8 @@ private:
 	~ListIterator();
 
 	// Common
-	Clusters::List<Object^>::IteratorReadWrite cIt;
-	Clusters::Runtime::List^ hList;
+	Clusters::Templates::List<Object^>::IteratorReadWrite cIt;
+	Clusters::List^ hList;
 };
 
-}}}}
+}}}

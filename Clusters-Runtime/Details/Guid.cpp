@@ -17,8 +17,7 @@
 //===========
 
 namespace Clusters {
-	namespace Runtime {
-		namespace Details {
+	namespace Details {
 
 
 //========
@@ -73,4 +72,4 @@ for(UINT u=0; u<8; u++)
 return equal;
 }
 
-}}}
+}}

@@ -11,7 +11,7 @@
 
 #include "Map.h"
 
-using MapIterator=Clusters::Runtime::Details::Map::MapIterator;
+using MapIterator=Clusters::Details::Map::MapIterator;
 
 
 //===========
@@ -19,7 +19,6 @@ using MapIterator=Clusters::Runtime::Details::Map::MapIterator;
 //===========
 
 namespace Clusters {
-	namespace Runtime {
 
 
 //========
@@ -108,4 +107,4 @@ if(uItCount>0)
 cIndex.Set(hkey, hvalue);
 }
 
-}}
+}

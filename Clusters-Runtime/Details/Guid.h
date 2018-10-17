@@ -10,8 +10,7 @@
 //===========
 
 namespace Clusters {
-	namespace Runtime {
-		namespace Details {
+	namespace Details {
 
 
 //======
@@ -48,4 +47,4 @@ private:
 	GUID uId;
 };
 
-}}}
+}}

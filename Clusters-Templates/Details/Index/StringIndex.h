@@ -18,8 +18,9 @@
 //===========
 
 namespace Clusters {
-	namespace Details {
-		namespace Index {
+	namespace Templates {
+		namespace Details {
+			namespace Index {
 
 
 //==============
@@ -246,4 +247,4 @@ public:
 	inline VOID Set(CHAR const* Id, CHAR const* Item, BOOL CaseSensitive=false) { SetStringInternal(Id, 0, CaseSensitive, Item); }
 };
 
-}}}
+}}}}

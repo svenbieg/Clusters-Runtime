@@ -17,7 +17,8 @@
 //===========
 
 namespace Clusters {
-	namespace Details {
+	namespace Templates {
+		namespace Details {
 
 
 //========
@@ -70,4 +71,4 @@ private:
 	T const* pValue;
 };
 
-}}
+}}}

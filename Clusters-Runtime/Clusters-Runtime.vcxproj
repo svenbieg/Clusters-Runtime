@@ -57,8 +57,8 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared">
-    <Import Project="..\Clusters\Clusters.vcxitems" Label="Shared" />
     <Import Project="..\Default\Default.vcxitems" Label="Shared" />
+    <Import Project="..\Clusters-Templates\Clusters-Templates.vcxitems" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -67,6 +67,9 @@
   <PropertyGroup>
     <IntDir>$(ProjectDir)$(Configuration)\$(Platform)\Temp\</IntDir>
     <OutDir>$(ProjectDir)$(Configuration)\$(Platform)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>Clusters</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>

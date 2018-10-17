@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "Clusters\Index.h"
+#include "Clusters-Templates\Index.h"
 #include "..\Guid.h"
 
 namespace WFM=Windows::Foundation::Metadata;
@@ -21,10 +21,7 @@ namespace WFM=Windows::Foundation::Metadata;
 
 namespace Clusters
 {
-namespace Runtime
-	{
-	ref class Catalog;
-	}
+ref class Catalog;
 }
 
 
@@ -33,9 +30,8 @@ namespace Runtime
 //===========
 
 namespace Clusters {
-	namespace Runtime {
-		namespace Details {
-			namespace Catalog {
+	namespace Details {
+		namespace Catalog {
 
 
 //==================
@@ -69,9 +65,9 @@ public:
 
 internal:
 	// Con-/Destructors
-	CatalogIterator(Clusters::Runtime::Catalog^ Catalog);
-	CatalogIterator(Clusters::Runtime::Catalog^ Catalog, UINT64 Position);
-	CatalogIterator(Clusters::Runtime::Catalog^ Catalog, Platform::Guid Id);
+	CatalogIterator(Clusters::Catalog^ Catalog);
+	CatalogIterator(Clusters::Catalog^ Catalog, UINT64 Position);
+	CatalogIterator(Clusters::Catalog^ Catalog, Platform::Guid Id);
 
 private:
 	// Con-/Destructors
@@ -79,8 +75,8 @@ private:
 	~CatalogIterator();
 
 	// Common
-	Clusters::Index<Guid, Object^>::IteratorReadWrite cIt;
-	Clusters::Runtime::Catalog^ hCatalog;
+	Clusters::Templates::Index<Guid, Object^>::IteratorReadWrite cIt;
+	Clusters::Catalog^ hCatalog;
 };
 
-}}}}
+}}}

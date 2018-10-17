@@ -19,8 +19,9 @@
 //===========
 
 namespace Clusters {
-	namespace Details {
-		namespace Index {
+	namespace Templates {
+		namespace Details {
+			namespace Index {
 
 
 //========================
@@ -28,7 +29,7 @@ namespace Clusters {
 //========================
 
 template <class ID, class ITEM>
-class IndexGroupBase: public ::Clusters::Details::Cluster::Group<IndexItem<ID, ITEM>>
+class IndexGroupBase: public ::Clusters::Templates::Details::Cluster::Group<IndexItem<ID, ITEM>>
 {
 protected:
 	// Using
@@ -161,4 +162,4 @@ protected:
 	static inline BOOL IsEqual(CHAR const* First, CHAR const* Second, UINT Length, BOOL CaseSensitive) { return StringCompare(First, 0, Second, Length, CaseSensitive)==0; }
 };
 
-}}}
+}}}}

@@ -18,8 +18,9 @@
 //===========
 
 namespace Clusters {
-	namespace Details {
-		namespace List {
+	namespace Templates {
+		namespace Details {
+			namespace List {
 
 
 //=============
@@ -86,4 +87,4 @@ public:
 		}
 };
 
-}}}
+}}}}

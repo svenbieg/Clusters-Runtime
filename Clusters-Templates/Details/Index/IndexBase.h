@@ -18,8 +18,9 @@
 //===========
 
 namespace Clusters {
-	namespace Details {
-		namespace Index {
+	namespace Templates {
+		namespace Details {
+			namespace Index {
 
 
 //==================
@@ -27,7 +28,7 @@ namespace Clusters {
 //==================
 
 template<class ID, class ITEM, UINT _GroupSize>
-class IndexBase: public ::Clusters::Details::Cluster::Cluster<IndexItem<ID, ITEM>, IndexGroup<ID, ITEM>, IndexItemGroup<ID, ITEM, _GroupSize>, IndexParentGroup<ID, ITEM, _GroupSize>, IndexIterator<ID, ITEM, _GroupSize, true>, IndexIterator<ID, ITEM, _GroupSize, false>>
+class IndexBase: public ::Clusters::Templates::Details::Cluster::Cluster<IndexItem<ID, ITEM>, IndexGroup<ID, ITEM>, IndexItemGroup<ID, ITEM, _GroupSize>, IndexParentGroup<ID, ITEM, _GroupSize>, IndexIterator<ID, ITEM, _GroupSize, true>, IndexIterator<ID, ITEM, _GroupSize, false>>
 {
 public:
 	// Types
@@ -117,4 +118,4 @@ protected:
 		}
 };
 
-}}}
+}}}}

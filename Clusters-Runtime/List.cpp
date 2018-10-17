@@ -11,7 +11,7 @@
 
 #include "List.h"
 
-using ListIterator=Clusters::Runtime::Details::List::ListIterator;
+using ListIterator=Clusters::Details::List::ListIterator;
 
 
 //===========
@@ -19,7 +19,6 @@ using ListIterator=Clusters::Runtime::Details::List::ListIterator;
 //===========
 
 namespace Clusters {
-	namespace Runtime {
 
 
 //========
@@ -96,4 +95,4 @@ if(uItCount>0)
 cList.RemoveAt(upos);
 }
 
-}}
+}

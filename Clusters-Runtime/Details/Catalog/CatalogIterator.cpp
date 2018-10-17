@@ -17,30 +17,29 @@
 //===========
 
 namespace Clusters {
-	namespace Runtime {
-		namespace Details {
-			namespace Catalog {
+	namespace Details {
+		namespace Catalog {
 
 
 //==================
 // Con-/Destructors
 //==================
 
-CatalogIterator::CatalogIterator(Clusters::Runtime::Catalog^ hcatalog):
+CatalogIterator::CatalogIterator(Clusters::Catalog^ hcatalog):
 cIt(&hcatalog->cIndex, 0),
 hCatalog(hcatalog)
 {
 hCatalog->uItCount++;
 }
 
-CatalogIterator::CatalogIterator(Clusters::Runtime::Catalog^ hcatalog, UINT64 upos):
+CatalogIterator::CatalogIterator(Clusters::Catalog^ hcatalog, UINT64 upos):
 cIt(&hcatalog->cIndex, upos),
 hCatalog(hcatalog)
 {
 hCatalog->uItCount++;
 }
 
-CatalogIterator::CatalogIterator(Clusters::Runtime::Catalog^ hcatalog, Platform::Guid uid):
+CatalogIterator::CatalogIterator(Clusters::Catalog^ hcatalog, Platform::Guid uid):
 cIt(&hcatalog->cIndex, 0, uid),
 hCatalog(hcatalog)
 {
@@ -135,4 +134,4 @@ ScopedLock lock(hCatalog->cCriticalSection);
 hCatalog->uItCount--;
 }
 
-}}}}
+}}}

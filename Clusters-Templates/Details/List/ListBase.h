@@ -18,8 +18,9 @@
 //===========
 
 namespace Clusters {
-	namespace Details {
-		namespace List {
+	namespace Templates {
+		namespace Details {
+			namespace List {
 
 
 //=================
@@ -27,7 +28,7 @@ namespace Clusters {
 //=================
 
 template<class ITEM, UINT _GroupSize>
-class ListBase: public ::Clusters::Details::Cluster::Cluster<ITEM, ListGroup<ITEM>, ListItemGroup<ITEM, _GroupSize>, ListParentGroup<ITEM, _GroupSize>, ListIterator<ITEM, _GroupSize, true>, ListIterator<ITEM, _GroupSize, false>>
+class ListBase: public ::Clusters::Templates::Details::Cluster::Cluster<ITEM, ListGroup<ITEM>, ListItemGroup<ITEM, _GroupSize>, ListParentGroup<ITEM, _GroupSize>, ListIterator<ITEM, _GroupSize, true>, ListIterator<ITEM, _GroupSize, false>>
 {
 public:
 	// Types
@@ -68,4 +69,4 @@ protected:
 		}
 };
 
-}}}
+}}}}

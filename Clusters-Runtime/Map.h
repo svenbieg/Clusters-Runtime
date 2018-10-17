@@ -9,8 +9,7 @@
 // Using
 //=======
 
-#include "Clusters\Index.h"
-
+#include "Clusters-Templates\Index.h"
 #include "Details\Map\MapIterator.h"
 
 namespace WFM=Windows::Foundation::Metadata;
@@ -21,7 +20,6 @@ namespace WFM=Windows::Foundation::Metadata;
 //===========
 
 namespace Clusters {
-	namespace Runtime {
 
 
 //=====
@@ -68,8 +66,8 @@ public:
 private:
 	// Common
 	CriticalSection cCriticalSection;
-	Index<String^, Object^> cIndex;
+	Templates::Index<String^, Object^> cIndex;
 	UINT uItCount;
 };
 
-}}
+}

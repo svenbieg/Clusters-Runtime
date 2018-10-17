@@ -17,8 +17,9 @@
 //===========
 
 namespace Clusters {
-	namespace Details {
-		namespace List {
+	namespace Templates {
+		namespace Details {
+			namespace List {
 
 
 //============
@@ -26,7 +27,7 @@ namespace Clusters {
 //============
 
 template <class ITEM>
-class ListGroup: public ::Clusters::Details::Cluster::Group<ITEM>
+class ListGroup: public ::Clusters::Templates::Details::Cluster::Group<ITEM>
 {
 public:
 	// Modification
@@ -34,4 +35,4 @@ public:
 	virtual ITEM* InsertAt(UINT64 Position, BOOL Again)=0;
 };
 
-}}}
+}}}}

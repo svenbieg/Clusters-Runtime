@@ -18,8 +18,9 @@
 //===========
 
 namespace Clusters {
-	namespace Details {
-		namespace List {
+	namespace Templates {
+		namespace Details {
+			namespace List {
 
 
 //=================
@@ -27,12 +28,12 @@ namespace Clusters {
 //=================
 
 template <class ITEM, UINT _GroupSize>
-class ListItemGroup: public ::Clusters::Details::Cluster::ItemGroup<ITEM, ListGroup<ITEM>, _GroupSize>
+class ListItemGroup: public ::Clusters::Templates::Details::Cluster::ItemGroup<ITEM, ListGroup<ITEM>, _GroupSize>
 {
 private:
 	// Using
 	using ARRAYHELPER=ArrayHelper<ITEM, UINT>;
-	using BASE=::Clusters::Details::Cluster::ItemGroup<ITEM, ListGroup<ITEM>, _GroupSize>;
+	using BASE=::Clusters::Templates::Details::Cluster::ItemGroup<ITEM, ListGroup<ITEM>, _GroupSize>;
 	using ITEMGROUP=ItemGroup<ITEM, ListGroup<ITEM>, _GroupSize>;
 
 public:
@@ -47,4 +48,4 @@ public:
 	inline VOID RemoveAt(UINT Position, UINT Count, BOOL RemoveOnly) { ARRAYHELPER::RemoveAt(cItems.Get(), &uItemCount, Position, Count, RemoveOnly); }
 };
 
-}}}
+}}}}

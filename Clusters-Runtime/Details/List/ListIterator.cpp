@@ -19,23 +19,22 @@ using Object=Platform::Object;
 //===========
 
 namespace Clusters {
-	namespace Runtime {
-		namespace Details {
-			namespace List {
+	namespace Details {
+		namespace List {
 
 
 //==================
 // Con-/Destructors
 //==================
 
-ListIterator::ListIterator(Clusters::Runtime::List^ hlist):
+ListIterator::ListIterator(Clusters::List^ hlist):
 cIt(&hlist->cList, 0),
 hList(hlist)
 {
 hList->uItCount++;
 }
 
-ListIterator::ListIterator(Clusters::Runtime::List^ hlist, UINT64 upos):
+ListIterator::ListIterator(Clusters::List^ hlist, UINT64 upos):
 cIt(&hlist->cList, upos),
 hList(hlist)
 {
@@ -112,4 +111,4 @@ ScopedLock lock(hList->cCriticalSection);
 hList->uItCount--;
 }
 
-}}}}
+}}}

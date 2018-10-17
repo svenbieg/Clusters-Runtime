@@ -18,8 +18,9 @@
 //===========
 
 namespace Clusters {
-	namespace Details {
-		namespace List {
+	namespace Templates {
+		namespace Details {
+			namespace List {
 
 
 //===================
@@ -28,14 +29,14 @@ namespace Clusters {
 
 // Parent-Group List
 template<class ITEM, UINT _GroupSize>
-class ListParentGroup: public Clusters::Details::Cluster::ParentGroup<ITEM, ListGroup<ITEM>, ListItemGroup<ITEM, _GroupSize>, ListParentGroup<ITEM, _GroupSize>, _GroupSize>
+class ListParentGroup: public Clusters::Templates::Details::Cluster::ParentGroup<ITEM, ListGroup<ITEM>, ListItemGroup<ITEM, _GroupSize>, ListParentGroup<ITEM, _GroupSize>, _GroupSize>
 {
 private:
 	// Using
 	using GROUP=ListGroup<ITEM>;
 	using ITEMGROUP=ListItemGroup<ITEM, _GroupSize>;
 	using PARENTGROUP=ListParentGroup<ITEM, _GroupSize>;
-	using BASE=Clusters::Details::Cluster::ParentGroup<ITEM, GROUP, ITEMGROUP, PARENTGROUP, _GroupSize>;
+	using BASE=Clusters::Templates::Details::Cluster::ParentGroup<ITEM, GROUP, ITEMGROUP, PARENTGROUP, _GroupSize>;
 
 public:
 	// Con-/Destructors
@@ -189,4 +190,4 @@ protected:
 		}
 };
 
-}}}
+}}}}

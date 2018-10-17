@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "Clusters\Index.h"
+#include "Clusters-Templates\Index.h"
 
 namespace WFM=Windows::Foundation::Metadata;
 
@@ -20,10 +20,7 @@ namespace WFM=Windows::Foundation::Metadata;
 
 namespace Clusters
 {
-namespace Runtime
-	{
-	ref class Map;
-	}
+ref class Map;
 }
 
 
@@ -32,9 +29,8 @@ namespace Runtime
 //===========
 
 namespace Clusters {
-	namespace Runtime {
-		namespace Details {
-			namespace Map {
+	namespace Details {
+		namespace Map {
 
 
 //==============
@@ -69,9 +65,9 @@ public:
 
 internal:
 	// Con-/Destructors
-	MapIterator(Clusters::Runtime::Map^ Map);
-	MapIterator(Clusters::Runtime::Map^ Map, UINT64 Position);
-	MapIterator(Clusters::Runtime::Map^ Map, String^ Key);
+	MapIterator(Clusters::Map^ Map);
+	MapIterator(Clusters::Map^ Map, UINT64 Position);
+	MapIterator(Clusters::Map^ Map, String^ Key);
 
 private:
 	// Con-/Destructors
@@ -79,8 +75,8 @@ private:
 	~MapIterator();
 
 	// Common
-	Clusters::Index<String^, Object^>::IteratorReadWrite cIt;
-	Clusters::Runtime::Map^ hMap;
+	Clusters::Templates::Index<String^, Object^>::IteratorReadWrite cIt;
+	Clusters::Map^ hMap;
 };
 
-}}}}
+}}}
