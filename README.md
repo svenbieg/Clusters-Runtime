@@ -4,9 +4,6 @@
 Here You can find the Windows-Runtime-Component of
 <a href="http://github.com/svenbieg/cluster">Clusters</a>,<br />
 which is compatible with all programming-languages and works on all platforms.<br />
-<br />
-You can find further information on my
-<a href="http://svenbieg.azurewebsites.net/ClustersRuntime" target="_blank">website</a>.
 </p>
 
 <h2>Different Clusters</h2><br />
