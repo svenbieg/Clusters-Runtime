@@ -43,7 +43,7 @@ and that You know how to write a universal Windows application.
 
 3.)&emsp;Add the Clusters-Runtime project to the solution!<br />
 <br />
-<img src="http://svenbieg.azurewebsites.net/ClustersRuntime/Setup/AddProject.jpg" /><br />
+<img src="http://svenbieg.azurewebsites.net/ClustersRuntime/Setup/AddProject1.jpg" /><br />
 <br />
 
 4.)&emsp;Add a reference to Clusters-Runtime!<br />
