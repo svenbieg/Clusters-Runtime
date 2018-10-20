@@ -49,6 +49,7 @@ protected:
 	// Common
 	template <class... PARAMS> BOOL FindInternal(PARAMS... Id)
 		{
+		pCurrent=nullptr;
 		BOOL bfound=true;
 		GROUP_PTR pgroup=pCluster->pRoot;
 		UINT ulevelcount=pgroup->GetLevel()+1;
@@ -61,7 +62,7 @@ protected:
 			INT ipos=pparent->Find(Id...);
 			if(ipos<0)
 				{
-				bfound;
+				bfound=false;
 				ipos++;
 				ipos*=-1;
 				}
@@ -73,7 +74,7 @@ protected:
 		INT ipos=pitemgroup->Find(Id...);
 		if(ipos<0)
 			{
-			bfound;
+			bfound=false;
 			ipos++;
 			ipos*=-1;
 			}

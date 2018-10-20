@@ -135,50 +135,27 @@ protected:
 		}
 	template <class... PARAMS> BOOL DoAdd(INDEXITEM** Item, BOOL Again, PARAMS... Id)
 		{
-		UINT ppos[2];
-		UINT uinscount=GetInsertPos<PARAMS...>(ppos, Id...);
-		if(!uinscount)
-			return false;
+		UINT ugroup=0;
+		UINT uinscount=GetInsertPos<PARAMS...>(&ugroup, Id...);
 		if(uinscount==_GroupSize)
 			return true;
 		if(!Again)
 			{
 			for(UINT u=0; u<uinscount; u++)
 				{
-				UINT upos=ppos[u];
-				if(ppChildren[upos]->Add(Item, Id..., false))
+				if(ppChildren[ugroup+u]->Add(Item, Id..., false))
 					return true;
 				}
-			UINT usrc=ppos[0];
-			UINT udst=_GroupSize;
-			UINT udif=GetNearestGroup(ppos[0], &udst);
-			if(uinscount>1)
-				{
-				UINT udst1=_GroupSize;
-				UINT udif1=GetNearestGroup(ppos[1], &udst1);
-				if(udif1<udif)
-					{
-					usrc=ppos[1];
-					udst=udst1;
-					}
-				}
+			UINT udst=GetNearestGroup(ugroup);
 			if(udst<uChildCount)
 				{
-				MoveChildren(usrc, udst, 1);
-				uinscount=GetInsertPos<PARAMS...>(ppos, Id...);
-				if(!uinscount)
-					return false;
-				if(uinscount==_GroupSize)
+				if(uinscount>1&&udst>ugroup)
+					ugroup++;
+				MoveChildren(ugroup, udst, 1);
+				if(ppChildren[ugroup]->Add(Item, Id..., false))
 					return true;
-				for(UINT u=0; u<uinscount; u++)
-					{
-					UINT ugroup=ppos[u];
-					if(ppChildren[ugroup]->Add(Item, Id..., false))
-						return true;
-					}
 				}
 			}
-		UINT ugroup=ppos[0];
 		if(!SplitChild(ugroup))
 			return false;
 		MoveChildren(ugroup, ugroup+1, 1);
@@ -189,10 +166,9 @@ protected:
 		ASSERT(badded);
 		return true;
 		}
-	template <class... PARAMS> UINT GetInsertPos(UINT* Groups, PARAMS... Id)const
+	template <class... PARAMS> UINT GetInsertPos(UINT* Group, PARAMS... Id)const
 		{
-		if(!uChildCount)
-			return 0;
+		ASSERT(uChildCount>0);
 		UINT ustart=0;
 		UINT uend=uChildCount;
 		INDEXITEM* pfirst=nullptr;
@@ -219,22 +195,15 @@ protected:
 			ustart=u;
 			break;
 			}
-		ustart=min(ustart, uChildCount-1);
-		Groups[0]=ustart;
+		if(ustart>uChildCount-1)
+			ustart=uChildCount-1;
+		*Group=ustart;
 		if(ustart>0)
 			{
 			pfirst=ppChildren[ustart]->GetFirst();
 			if(IsAbove(pfirst->GetId(), Id...))
 				{
-				UINT ucount0=ppChildren[ustart]->GetChildCount();
-				UINT ucount1=ppChildren[ustart-1]->GetChildCount();
-				if(ucount0<ucount1)
-					{
-					Groups[1]=ustart-1;
-					return 2;
-					}
-				Groups[0]=ustart-1;
-				Groups[1]=ustart;
+				*Group=ustart-1;
 				return 2;
 				}
 			}
@@ -242,18 +211,7 @@ protected:
 			{
 			plast=ppChildren[ustart]->GetLast();
 			if(IsBelow(plast->GetId(), Id...))
-				{
-				UINT ucount0=ppChildren[ustart]->GetChildCount();
-				UINT ucount1=ppChildren[ustart+1]->GetChildCount();
-				if(ucount0<ucount1)
-					{
-					Groups[1]=ustart+1;
-					return 2;
-					}
-				Groups[0]=ustart+1;
-				Groups[1]=ustart;
 				return 2;
-				}
 			}
 		return 1;
 		}

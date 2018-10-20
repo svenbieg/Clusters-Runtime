@@ -72,8 +72,7 @@ protected:
 			ITEM* pitem=ppChildren[ugroup]->Append(false);
 			if(pitem)
 				return pitem;
-			UINT udst=_GroupSize;
-			UINT udif=GetNearestGroup(ugroup, &udst);
+			UINT udst=GetNearestGroup(ugroup);
 			if(udst<uChildCount)
 				{
 				MoveChildren(ugroup, udst, 1);
@@ -91,100 +90,67 @@ protected:
 		}
 	ITEM* DoInsert(UINT64 Position, BOOL Again)
 		{
-		UINT pinsgroups[2];
-		UINT64 pinsids[2];
-		UINT uinscount=GetInsertPos(Position, pinsgroups, pinsids);
+		UINT64 upos=Position;
+		UINT ugroup=0;
+		UINT uinscount=GetInsertPos(&upos, &ugroup);
 		if(!uinscount)
 			return nullptr;
 		if(!Again)
 			{
+			UINT64 uat=upos;
 			for(UINT u=0; u<uinscount; u++)
 				{
-				UINT ugroup=pinsgroups[u];
-				ITEM* pitem=ppChildren[ugroup]->InsertAt(pinsids[u], false);
+				ITEM* pitem=ppChildren[ugroup+u]->InsertAt(uat, false);
 				if(pitem)
 					return pitem;
+				uat=0;
 				}
-			UINT64 uid=pinsids[0];
-			UINT usrc=pinsgroups[0];
-			UINT udst=_GroupSize;
-			UINT udif=GetNearestGroup(pinsgroups[0], &udst);
-			if(uinscount>1)
-				{
-				UINT udst1=0;
-				UINT udif1=GetNearestGroup(pinsgroups[1], &udst1);
-				if(udif1<udif)
-					{
-					uid=pinsids[1];
-					usrc=pinsgroups[1];
-					udst=udst1;
-					}
-				}
+			UINT udst=GetNearestGroup(ugroup);
 			if(udst<uChildCount)
 				{
-				MoveChildren(usrc, udst, 1);
-				uinscount=GetInsertPos(Position, pinsgroups, pinsids);
-				if(!uinscount)
-					return nullptr;
+				if(uinscount>1&&udst>ugroup)
+					ugroup++;
+				MoveChildren(ugroup, udst, 1);
+				upos=Position;
+				uinscount=GetInsertPos(&upos, &ugroup);
+				UINT64 uat=upos;
 				for(UINT u=0; u<uinscount; u++)
 					{
-					UINT ugroup=pinsgroups[u];
-					ITEM* pitem=ppChildren[ugroup]->InsertAt(pinsids[u], false);
+					ITEM* pitem=ppChildren[ugroup+u]->InsertAt(uat, false);
 					if(pitem)
 						return pitem;
+					uat=0;
 					}
 				}
 			}
-		UINT ugroup=pinsgroups[0];
-		UINT64 uid=pinsids[0];
 		if(!SplitChild(ugroup))
 			return nullptr;
 		MoveChildren(ugroup, ugroup+1, 1);
 		UINT64 ucount=ppChildren[ugroup]->GetItemCount();
-		if(uid>=ucount)
+		if(upos>=ucount)
 			{
 			ugroup++;
-			uid-=ucount;
+			upos-=ucount;
 			}
-		ITEM* pitem=ppChildren[ugroup]->InsertAt(uid, Again);
+		ITEM* pitem=ppChildren[ugroup]->InsertAt(upos, Again);
 		ASSERT(pitem);
 		return pitem;
 		}
-	UINT GetInsertPos(UINT64 Position, UINT* Groups, UINT64* Ids)
+	UINT GetInsertPos(UINT64* Position, UINT* Group)
 		{
-		UINT64 uid=Position;
+		UINT64 upos=*Position;
 		for(UINT u=0; u<uChildCount; u++)
 			{
 			UINT64 ucount=ppChildren[u]->GetItemCount();
-			if(uid<ucount)
+			if(upos<=ucount)
 				{
-				Groups[0]=u;
-				Ids[0]=uid;
-				return 1;
-				}
-			if(uid==ucount)
-				{
-				Groups[0]=u;
-				Ids[0]=ucount;
-				if(u+1<uChildCount)
-					{
-					UINT ucount0=ppChildren[u]->GetChildCount();
-					UINT ucount1=ppChildren[u+1]->GetChildCount();
-					if(ucount0<ucount1)
-						{
-						Groups[1]=u+1;
-						Ids[1]=0;
-						return 2;
-						}
-					Groups[0]=u+1;
-					Ids[0]=0;
-					Groups[1]=u;
-					Ids[1]=ucount;
+				*Group=u;
+				*Position=upos;
+				if(upos==ucount&&u+1<uChildCount)
 					return 2;
-					}
 				return 1;
 				}
-			uid-=ucount;
+			upos-=ucount;
 			}
 		return 0;
 		}

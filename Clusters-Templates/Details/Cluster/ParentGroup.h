@@ -52,16 +52,28 @@ public:
 		}
 	BOOL CombineChildren(UINT Position)
 		{
-		UINT udst=_GroupSize;
-		UINT ucount=GetCombination(Position, &udst);
-		if(udst==_GroupSize)
-			return false;
-		if(ucount>0)
-			MoveChildren(Position, udst, ucount);
-		delete ppChildren[Position];
-		MoveMemory(&ppChildren[Position], &ppChildren[Position+1], (uChildCount-Position-1)*sizeof(VOID*));
-		uChildCount--;
-		return true;
+		UINT ucountat=ppChildren[Position]->GetChildCount();
+		if(Position>0)
+			{
+			if(ucountat+ppChildren[Position-1]->GetChildCount()<=_GroupSize)
+				{
+				MoveChildren(Position, Position-1, ucountat);
+				MoveMemory(&ppChildren[Position], &ppChildren[Position+1], (uChildCount-Position-1)*sizeof(VOID*));
+				uChildCount--;
+				return true;
+				}
+			}
+		if(Position+1<uChildCount)
+			{
+			if(ucountat+ppChildren[Position+1]->GetChildCount()<=_GroupSize)
+				{
+				MoveChildren(Position, Position+1, ucountat);
+				MoveMemory(&ppChildren[Position], &ppChildren[Position+1], (uChildCount-Position-1)*sizeof(VOID*));
+				uChildCount--;
+				return true;
+				}
+			}
+		return false;
 		}
 	virtual VOID InsertGroups(UINT Position, GROUP *const* Groups, UINT Count)
 		{
@@ -80,7 +92,8 @@ public:
 	VOID MoveChildren(UINT Source, UINT Destination, UINT Count)
 		{
 		ASSERT(Source!=Destination);
-		ASSERT(Count>0);
+		if(Count==0)
+			return;
 		while(Source>Destination+1)
 			{
 			MoveChildren(Destination+1, Destination, Count);
@@ -212,32 +225,6 @@ protected:
 		}
 
 	// Common
-	UINT GetCombination(UINT Position, UINT* Destination)
-		{
-		UINT ucur=ppChildren[Position]->GetChildCount();
-		if(ucur==0)
-			{
-			*Destination=ucur;
-			return 0;
-			}
-		UINT ubefore=_GroupSize+1;
-		if(Position>0)
-			ubefore=ppChildren[Position-1]->GetChildCount();
-		if(ubefore+ucur<=_GroupSize)
-			{
-			*Destination=Position-1;
-			return ucur;
-			}
-		UINT uafter=_GroupSize+1;
-		if(Position<uChildCount-1)
-			uafter=ppChildren[Position+1]->GetChildCount();
-		if(ucur+uafter<=_GroupSize)
-			{
-			*Destination=Position+1;
-			return ucur;
-			}
-		return 0;
-		}
 	UINT GetGroup(UINT64& Position)const
 		{
 		for(UINT u=0; u<uChildCount; u++)
@@ -255,7 +242,7 @@ protected:
 		ASSERT(ugroup<uChildCount);
 		return ppChildren[ugroup]->GetAt(Position);
 		}
-	UINT GetNearestGroup(UINT Position, UINT* Nearest)
+	UINT GetNearestGroup(UINT Position)
 		{
 		INT ibefore=Position-1;
 		UINT uafter=Position+1;
@@ -264,23 +251,17 @@ protected:
 			if(ibefore>=0)
 				{
 				if(ppChildren[ibefore]->GetChildCount()<_GroupSize)
-					{
-					*Nearest=ibefore;
-					return Position-ibefore;
-					}
+					return ibefore;
 				ibefore--;
 				}
 			if(uafter<uChildCount)
 				{
 				if(ppChildren[uafter]->GetChildCount()<_GroupSize)
-					{
-					*Nearest=uafter;
-					return uafter-Position;
-					}
+					return uafter;
 				uafter++;
 				}
 			}
-		return 0;
+		return _GroupSize;
 		}
 	template <class RET> RET ReleaseAtInternal(UINT64 Position)
 		{

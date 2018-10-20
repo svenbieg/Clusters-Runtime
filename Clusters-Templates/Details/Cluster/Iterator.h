@@ -74,6 +74,8 @@ public:
 		}
 	BOOL MoveNext()
 		{
+		if(pCurrent==nullptr)
+			return false;
 		UINT ulevelcount=pCluster->pRoot->GetLevel()+1;
 		ITERATOR* pit=&pIts[ulevelcount-1];
 		ITEMGROUP_PTR pitems=(ITEMGROUP_PTR)pit->Group;
@@ -110,6 +112,8 @@ public:
 		}
 	BOOL MovePrevious()
 		{
+		if(pCurrent==nullptr)
+			return false;
 		UINT ulevelcount=pCluster->pRoot->GetLevel()+1;
 		ITERATOR* pit=&pIts[ulevelcount-1];
 		ITEMGROUP_PTR pitems=(ITEMGROUP_PTR)pit->Group;
@@ -152,22 +156,26 @@ public:
 		if(pIts)
 			delete pIts;
 		pIts=new ITERATOR[ulevelcount];
-		UINT upos=GetPosition(pgroup, &Position);
+		INT ipos=GetPosition(pgroup, &Position);
+		if(ipos==-1)
+			return;
 		pIts[0].Group=pgroup;
-		pIts[0].Position=upos;
+		pIts[0].Position=ipos;
 		for(UINT u=0; u<ulevelcount-1; u++)
 			{
 			PARENTGROUP_PTR pparent=(PARENTGROUP_PTR)pIts[u].Group;
-			pgroup=pparent->GetChild(upos);
-			upos=GetPosition(pgroup, &Position);
+			pgroup=pparent->GetChild(ipos);
+			ipos=GetPosition(pgroup, &Position);
+			if(ipos==-1)
+				return;
 			pIts[u+1].Group=pgroup;
-			pIts[u+1].Position=upos;
+			pIts[u+1].Position=ipos;
 			}
-		UINT uchildcount=pgroup->GetChildCount();
-		if(upos<uchildcount)
+		INT ichildcount=pgroup->GetChildCount();
+		if(ipos<ichildcount)
 			{
 			ITEMGROUP_PTR pitems=(ITEMGROUP_PTR)pgroup;
-			pCurrent=pitems->AddressOfItemAt(upos);
+			pCurrent=pitems->AddressOfItemAt(ipos);
 			}
 		}
 
@@ -190,7 +198,7 @@ protected:
 
 private:
 	// Common
-	UINT GetPosition(GROUP_PTR Group, UINT64* Position)
+	INT GetPosition(GROUP_PTR Group, UINT64* Position)
 		{
 		UINT ucount=Group->GetChildCount();
 		UINT ulevel=Group->GetLevel();
@@ -210,8 +218,7 @@ private:
 				return u;
 			*Position-=uitemcount;
 			}
-		(*Position)=uitemcount;
-		return ucount-1;
+		return -1;
 		}
 };
 

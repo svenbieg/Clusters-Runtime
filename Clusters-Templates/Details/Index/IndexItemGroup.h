@@ -103,9 +103,9 @@ protected:
 	template <class... PARAMS> BOOL AddInternal(INDEXITEM** Item, PARAMS... Id)
 		{
 		UINT u=GetInsertPos<PARAMS...>(Id...);
-		if(u>uItemCount)
+		if(u==_GroupSize+1)
 			return true;
-		if(uItemCount+1>_GroupSize)
+		if(uItemCount==_GroupSize)
 			return false;
 		*Item=ARRAYHELPER::InsertAt(cItems.Get(), _GroupSize, &uItemCount, u);
 		return true;
@@ -129,7 +129,7 @@ protected:
 				ustart=u+1;
 				continue;
 				}
-			return _GroupSize;
+			return _GroupSize+1;
 			}
 		return ustart;
 		}
