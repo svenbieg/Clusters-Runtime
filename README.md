@@ -33,22 +33,22 @@ and that You know how to write a universal Windows application.
 &emsp;&emsp;Which programming-language You are using doesn't matter,<br />
 &emsp;&emsp;You can use C++, C#, JavaScript or Visual Basic. I've chosen C# for this example.<br />
 <br />
-<img src="http://svenbieg.azurewebsites.net/ClustersRuntime/Setup/NewProject.jpg" /><br />
+<img src="https://user-images.githubusercontent.com/12587394/47256711-a55e6a80-d484-11e8-825c-f0a667889e75.jpg" /><br />
 <br />
 
 2.)&emsp;Copy the files from GitHub into the solution-directory!<br />
 <br />
-<img src="http://svenbieg.azurewebsites.net/ClustersRuntime/Setup/CopyFiles.jpg" /><br />
+<img src="https://user-images.githubusercontent.com/12587394/47256714-b14a2c80-d484-11e8-9a32-966c8909d696.jpg" /><br />
 <br />
 
 3.)&emsp;Add the Clusters-Runtime project to the solution!<br />
 <br />
-<img src="http://svenbieg.azurewebsites.net/ClustersRuntime/Setup/AddProject.jpg" /><br />
+<img src="https://user-images.githubusercontent.com/12587394/47256703-83fd7e80-d484-11e8-8d37-da8889387307.jpg" /><br />
 <br />
 
 4.)&emsp;Add a reference to Clusters-Runtime!<br />
 <br />
-<img src="http://svenbieg.azurewebsites.net/ClustersRuntime/Setup/AddReference.jpg" /><br />
+<img src="https://user-images.githubusercontent.com/12587394/47256718-bdce8500-d484-11e8-93dc-a0364fd38cea.jpg" /><br />
 <br />
 
 <br /><br /><br /><br /><br />
