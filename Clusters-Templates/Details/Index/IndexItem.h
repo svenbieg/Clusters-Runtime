@@ -27,131 +27,131 @@ namespace Clusters {
 //============
 
 // Index-Item
-template <class ID, class ITEM>
+template <class _Id, class _Item>
 class IndexItem
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID const& Id, ITEM const& Item): tId(Id), tItem(Item) {}
+	IndexItem(_Id const& Id, _Item const& Item): tId(Id), tItem(Item) {}
 
 	// Access
-	inline ID const& GetId()const { return tId; }
-	inline ITEM& GetItem() { return tItem; }
-	inline ITEM const& GetItem()const { return tItem; }
+	inline _Id const& GetId()const { return tId; }
+	inline _Item& GetItem() { return tItem; }
+	inline _Item const& GetItem()const { return tItem; }
 
 	// Modification
-	inline VOID SetItem(ITEM const& Item) { tItem=Item; }
+	inline void SetItem(_Item const& Item) { tItem=Item; }
 	
 private:
 	// Common
-	ID tId;
-	ITEM tItem;
+	_Id tId;
+	_Item tItem;
 };
 
 // Empty Index-Item
-template <class ID>
-class IndexItem<ID, VOID>
+template <class _Id>
+class IndexItem<_Id, void>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID const& Id): tId(Id) {}
+	IndexItem(_Id const& Id): tId(Id) {}
 
 	// Access
-	inline ID const& GetId()const { return tId; }
+	inline _Id const& GetId()const { return tId; }
 	
 private:
 	// Common
-	ID tId;
+	_Id tId;
 };
 
 // Index-Item with Pointer
-template <class ID, class ITEM>
-class IndexItem<ID, ITEM*>
+template <class _Id, class _Item>
+class IndexItem<_Id, _Item*>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID const& Id, ITEM* Item): pItem(Item), tId(Id) {}
+	IndexItem(_Id const& Id, _Item* Item): pItem(Item), tId(Id) {}
 	~IndexItem() { delete pItem; }
 
 	// Access
-	inline ID const& GetId()const { return tId; }
-	inline ITEM* GetItem()const { return pItem; }
+	inline _Id const& GetId()const { return tId; }
+	inline _Item* GetItem()const { return pItem; }
 
 	// Modification
-	inline ITEM* ReleaseItem() { return PointerRelease(&pItem); }
-	inline VOID SetItem(ITEM* Item) { PointerAssign(&pItem, Item); }
+	inline _Item* ReleaseItem() { return PointerRelease(&pItem); }
+	inline void SetItem(_Item* Item) { PointerAssign(&pItem, Item); }
 	
 private:
 	// Common
-	ITEM* pItem;
-	ID tId;
+	_Item* pItem;
+	_Id tId;
 };
 
 #ifdef __cplusplus_winrt
 // Index-Item with Handle
-template <class ID, class ITEM>
-class IndexItem<ID, ITEM^>
+template <class _Id, class _Item>
+class IndexItem<_Id, _Item^>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID const& Id, ITEM^ Item): hItem(Item), tId(Id) {}
+	IndexItem(_Id const& Id, _Item^ Item): hItem(Item), tId(Id) {}
 	~IndexItem() { hItem=nullptr; }
 
 	// Access
-	inline ID const& GetId()const { return tId; }
-	inline ITEM^ GetItem()const { return hItem; }
+	inline _Id const& GetId()const { return tId; }
+	inline _Item^ GetItem()const { return hItem; }
 
 	// Modification
-	inline VOID SetItem(ITEM^ Item) { hItem=Item; }
+	inline void SetItem(_Item^ Item) { hItem=Item; }
 	
 private:
 	// Common
-	ITEM^ hItem;
-	ID tId;
+	_Item^ hItem;
+	_Id tId;
 };
 #endif
 
 // Index-Item with String
-template <class ID, class CHAR>
-class IndexItem<ID, String<CHAR, true>>
+template <class _Id, class _Char>
+class IndexItem<_Id, String<_Char, true>>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID const& Id, CHAR const* Item, UINT Length): cItem(Item, Length), tId(Id) {}
+	IndexItem(_Id const& Id, _Char const* Item, unsigned int Length): cItem(Item, Length), tId(Id) {}
 
 	// Access
-	inline ID const& GetId()const { return tId; }
-	inline CHAR const* GetItem()const { return cItem.Get(); }
+	inline _Id const& GetId()const { return tId; }
+	inline _Char const* GetItem()const { return cItem.Get(); }
 
 	// Modification
-	inline CHAR const* ReleaseItem() { return cItem.Release(); }
-	inline VOID SetItem(LPCSTR Value) { cItem.Set(Value, Length); }
+	inline _Char const* ReleaseItem() { return cItem.Release(); }
+	inline void SetItem(char const* Value) { cItem.Set(Value, Length); }
 	
 private:
 	// Common
-	String<CHAR, true> cItem;
-	ID tId;
+	String<_Char, true> cItem;
+	_Id tId;
 };
 
 // Index-Item with Shared String
-template <class ID, class CHAR>
-class IndexItem<ID, String<CHAR, false>>
+template <class _Id, class _Char>
+class IndexItem<_Id, String<_Char, false>>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID const& Id, CHAR const* Item): cItem(Item), tId(Id) {}
+	IndexItem(_Id const& Id, _Char const* Item): cItem(Item), tId(Id) {}
 
 	// Access
-	inline ID const& GetId()const { return tId; }
-	inline CHAR const* GetItem()const { return cItem.Get(); }
+	inline _Id const& GetId()const { return tId; }
+	inline _Char const* GetItem()const { return cItem.Get(); }
 
 	// Modification
-	inline VOID SetItem(LPCSTR Value) { cItem.Set(Value); }
+	inline void SetItem(char const* Value) { cItem.Set(Value); }
 	
 private:
 	// Common
-	String<CHAR, false> cItem;
-	ID tId;
+	String<_Char, false> cItem;
+	_Id tId;
 };
 
 
@@ -160,52 +160,52 @@ private:
 //====================
 
 // Item Pointer-Index
-template <class ID, class ITEM>
-class IndexItem<ID*, ITEM>
+template <class _Id, class _Item>
+class IndexItem<_Id*, _Item>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID* Id, ITEM const& Item): pId(Id), tItem(Item) { ASSERT(Id); }
+	IndexItem(_Id* Id, _Item const& Item): pId(Id), tItem(Item) { ASSERT(Id); }
 	~IndexItem() { delete pId; }
 
 	// Access
-	inline ID* GetId()const { return pId; }
-	inline ITEM& GetItem() { return tItem; }
-	inline ITEM const& GetItem()const { return tItem; }
+	inline _Id* GetId()const { return pId; }
+	inline _Item& GetItem() { return tItem; }
+	inline _Item const& GetItem()const { return tItem; }
 
 	// Modification
-	inline VOID SetItem(ITEM const& Item) { tItem=Item; }
+	inline void SetItem(_Item const& Item) { tItem=Item; }
 	
 private:
 	// Common
-	ID* pId;
-	ITEM tItem;
+	_Id* pId;
+	_Item tItem;
 };
 
 // Empty Item Pointer-Index
-template <class ID>
-class IndexItem<ID*, VOID>
+template <class _Id>
+class IndexItem<_Id*, void>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID* Id): pId(Id) { ASSERT(Id); }
+	IndexItem(_Id* Id): pId(Id) { ASSERT(Id); }
 	~IndexItem() { delete pId; }
 
 	// Access
-	inline ID* GetId()const { return pId; }
+	inline _Id* GetId()const { return pId; }
 
 private:
 	// Common
-	ID* pId;
+	_Id* pId;
 };
 
 // Item Pointer-Index with Pointer
-template <class ID, class ITEM>
-class IndexItem<ID*, ITEM*>
+template <class _Id, class _Item>
+class IndexItem<_Id*, _Item*>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID* Id, ITEM* Item): pId(Id), pItem(Item) { ASSERT(Id); }
+	IndexItem(_Id* Id, _Item* Item): pId(Id), pItem(Item) { ASSERT(Id); }
 	~IndexItem()
 		{
 		delete pId;
@@ -213,27 +213,27 @@ public:
 		}
 
 	// Access
-	inline ID* GetId()const { return pId; }
-	inline ITEM* GetItem()const { return pItem; }
+	inline _Id* GetId()const { return pId; }
+	inline _Item* GetItem()const { return pItem; }
 
 	// Modification
-	inline ITEM* ReleaseItem() { return PointerRelease(&pItem); }
-	inline VOID SetItem(ITEM* Item) { PointerAssign(&pItem, Item); }
+	inline _Item* ReleaseItem() { return PointerRelease(&pItem); }
+	inline void SetItem(_Item* Item) { PointerAssign(&pItem, Item); }
 	
 private:
 	// Common
-	ID* pId;
-	ITEM* pItem;
+	_Id* pId;
+	_Item* pItem;
 };
 
 #ifdef __cplusplus_winrt
 // Item Pointer-Index with Handle
-template <class ID, class ITEM>
-class IndexItem<ID*, ITEM^>
+template <class _Id, class _Item>
+class IndexItem<_Id*, _Item^>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID* Id, ITEM^ Item): pId(Id), hItem(Item) { ASSERT(pId); }
+	IndexItem(_Id* Id, _Item^ Item): pId(Id), hItem(Item) { ASSERT(pId); }
 	~IndexItem()
 		{
 		delete pId;
@@ -241,62 +241,62 @@ public:
 		}
 
 	// Access
-	inline ID* GetId()const { return pId; }
-	inline ITEM^ GetItem()const { return hItem; }
+	inline _Id* GetId()const { return pId; }
+	inline _Item^ GetItem()const { return hItem; }
 
 	// Modification
-	inline VOID SetItem(ITEM^ Item) { hItem=Item; }
+	inline void SetItem(_Item^ Item) { hItem=Item; }
 	
 private:
 	// Common
-	ID* pId;
-	ITEM^ hItem;
+	_Id* pId;
+	_Item^ hItem;
 };
 #endif
 
 // Item Pointer-Index with String
-template <class ID, class CHAR>
-class IndexItem<ID*, String<CHAR, true>>
+template <class _Id, class _Char>
+class IndexItem<_Id*, String<_Char, true>>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID* Id, CHAR const* Item, UINT Length): cItem(Item, Length), pId(Id) { ASSERT(pId); }
+	IndexItem(_Id* Id, _Char const* Item, unsigned int Length): cItem(Item, Length), pId(Id) { ASSERT(pId); }
 	~IndexItem() { delete pId; }
 
 	// Access
-	inline ID* GetId()const { return pId; }
-	inline CHAR const* GetItem()const { return cItem.Get(); }
+	inline _Id* GetId()const { return pId; }
+	inline _Char const* GetItem()const { return cItem.Get(); }
 
 	// Modification
-	inline CHAR const* ReleaseItem() { return cItem.Release(); }
-	inline VOID SetItem(CHAR const* Value, UINT Length) { cItem.Set(Value, Length); }
+	inline _Char const* ReleaseItem() { return cItem.Release(); }
+	inline void SetItem(_Char const* Value, unsigned int Length) { cItem.Set(Value, Length); }
 	
 private:
 	// Common
-	String<CHAR, true> cItem;
-	ID* pId;
+	String<_Char, true> cItem;
+	_Id* pId;
 };
 
 // Item Pointer-Index with Shared String
-template <class ID, class CHAR>
-class IndexItem<ID*, String<CHAR, false>>
+template <class _Id, class _Char>
+class IndexItem<_Id*, String<_Char, false>>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID* Id, CHAR const* Item): cItem(Item), pId(Id) { ASSERT(pId); }
+	IndexItem(_Id* Id, _Char const* Item): cItem(Item), pId(Id) { ASSERT(pId); }
 	~IndexItem() { delete pId; }
 
 	// Access
-	inline ID* GetId()const { return pId; }
-	inline CHAR const* GetItem()const { return cItem.Get(); }
+	inline _Id* GetId()const { return pId; }
+	inline _Char const* GetItem()const { return cItem.Get(); }
 
 	// Modification
-	inline VOID SetItem(CHAR const* Value) { cItem.Set(Value); }
+	inline void SetItem(_Char const* Value) { cItem.Set(Value); }
 	
 private:
 	// Common
-	String<CHAR, true> cItem;
-	ID* pId;
+	String<_Char, true> cItem;
+	_Id* pId;
 };
 
 
@@ -307,52 +307,52 @@ private:
 #ifdef __cplusplus_winrt
 
 // Item Handle-Index
-template <class ID, class ITEM>
-class IndexItem<ID^, ITEM>
+template <class _Id, class _Item>
+class IndexItem<_Id^, _Item>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID^ Id, ITEM const& Item): hId(Id), tItem(Item) { ASSERT(Id); }
+	IndexItem(_Id^ Id, _Item const& Item): hId(Id), tItem(Item) { ASSERT(Id); }
 	~IndexItem() { hId=nullptr; }
 
 	// Access
-	inline ID^ GetId()const { return hId; }
-	inline ITEM& GetItem() { return tItem; }
-	inline ITEM const& GetItem()const { return tItem; }
+	inline _Id^ GetId()const { return hId; }
+	inline _Item& GetItem() { return tItem; }
+	inline _Item const& GetItem()const { return tItem; }
 
 	// Modification
-	inline VOID SetItem(ITEM const& Item) { tItem=Item; }
+	inline void SetItem(_Item const& Item) { tItem=Item; }
 	
 private:
 	// Common
-	ID^ hId;
-	ITEM tItem;
+	_Id^ hId;
+	_Item tItem;
 };
 
 // Empty Item Handle-Index
-template <class ID>
-class IndexItem<ID^, VOID>
+template <class _Id>
+class IndexItem<_Id^, void>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID^ Id): hId(Id) { ASSERT(hId); }
+	IndexItem(_Id^ Id): hId(Id) { ASSERT(hId); }
 	~IndexItem() { hId=nullptr; }
 
 	// Access
-	inline ID^ GetId()const { return hId; }
+	inline _Id^ GetId()const { return hId; }
 	
 private:
 	// Common
-	ID^ hId;
+	_Id^ hId;
 };
 
 // Item Handle-Index with Pointer
-template <class ID, class ITEM>
-class IndexItem<ID^, ITEM*>
+template <class _Id, class _Item>
+class IndexItem<_Id^, _Item*>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID^ Id, ITEM* Item): hId(Id), pItem(Item) { ASSERT(Id); }
+	IndexItem(_Id^ Id, _Item* Item): hId(Id), pItem(Item) { ASSERT(Id); }
 	~IndexItem()
 		{
 		hId=nullptr;
@@ -360,26 +360,26 @@ public:
 		}
 
 	// Access
-	inline ID^ GetId()const { return hId; }
-	inline ITEM* GetItem()const { return pItem; }
+	inline _Id^ GetId()const { return hId; }
+	inline _Item* GetItem()const { return pItem; }
 
 	// Modification
-	inline ITEM* ReleaseItem() { return PointerRelease(&pItem); }
-	inline VOID SetItem(ITEM* Item) { PointerAssign(&pItem, Item); }
+	inline _Item* ReleaseItem() { return PointerRelease(&pItem); }
+	inline void SetItem(_Item* Item) { PointerAssign(&pItem, Item); }
 	
 private:
 	// Common
-	ID^ hId;
-	ITEM* pItem;
+	_Id^ hId;
+	_Item* pItem;
 };
 
 // Item Handle-Index with Handle
-template <class ID, class ITEM>
-class IndexItem<ID^, ITEM^>
+template <class _Id, class _Item>
+class IndexItem<_Id^, _Item^>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID^ Id, ITEM^ Item): hId(Id), hItem(Item) { ASSERT(hId); }
+	IndexItem(_Id^ Id, _Item^ Item): hId(Id), hItem(Item) { ASSERT(hId); }
 	~IndexItem()
 		{
 		hId=nullptr;
@@ -387,61 +387,61 @@ public:
 		}
 
 	// Access
-	inline ID^ GetId()const { return hId; }
-	inline ITEM^ GetItem()const { return hItem; }
+	inline _Id^ GetId()const { return hId; }
+	inline _Item^ GetItem()const { return hItem; }
 
 	// Modification
-	inline VOID SetItem(ITEM^ Item) { hItem=Item; }
+	inline void SetItem(_Item^ Item) { hItem=Item; }
 	
 private:
 	// Common
-	ID^ hId;
-	ITEM^ hItem;
+	_Id^ hId;
+	_Item^ hItem;
 };
 
 // Item Handle-Index with String
-template <class ID, class CHAR>
-class IndexItem<ID^, String<CHAR, true>>
+template <class _Id, class _Char>
+class IndexItem<_Id^, String<_Char, true>>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID^ Id, CHAR const* Item, UINT Length): cItem(Item, Length), hId(Id) { ASSERT(hId); }
+	IndexItem(_Id^ Id, _Char const* Item, unsigned int Length): cItem(Item, Length), hId(Id) { ASSERT(hId); }
 	~IndexItem() { hId=nullptr; }
 
 	// Access
-	inline ID^ GetId()const { return hId; }
-	inline CHAR const* GetItem()const { return cItem.Get(); }
+	inline _Id^ GetId()const { return hId; }
+	inline _Char const* GetItem()const { return cItem.Get(); }
 
 	// Modification
-	inline CHAR const* ReleaseItem() { return cItem.Release(); }
-	inline VOID SetItem(CHAR const* Value, UINT Length) { cItem.Set(Value, Length); }
+	inline _Char const* ReleaseItem() { return cItem.Release(); }
+	inline void SetItem(_Char const* Value, unsigned int Length) { cItem.Set(Value, Length); }
 	
 private:
 	// Common
-	String<CHAR, true> cItem;
-	ID^ hId;
+	String<_Char, true> cItem;
+	_Id^ hId;
 };
 
 // Item Handle-Index with Shared String
-template <class ID, class CHAR>
-class IndexItem<ID^, String<CHAR, false>>
+template <class _Id, class _Char>
+class IndexItem<_Id^, String<_Char, false>>
 {
 public:
 	// Con-/Destructors
-	IndexItem(ID^ Id, CHAR const* Item): cItem(Item), hId(Id) { ASSERT(hId); }
+	IndexItem(_Id^ Id, _Char const* Item): cItem(Item), hId(Id) { ASSERT(hId); }
 	~IndexItem() { hId=nullptr; }
 
 	// Access
-	inline ID^ GetId()const { return hId; }
-	inline CHAR const* GetItem()const { return cItem.Get(); }
+	inline _Id^ GetId()const { return hId; }
+	inline _Char const* GetItem()const { return cItem.Get(); }
 
 	// Modification
-	inline VOID SetItem(CHAR const* Value) { cItem.Set(Value); }
+	inline void SetItem(_Char const* Value) { cItem.Set(Value); }
 	
 private:
 	// Common
-	String<CHAR, true> cItem;
-	ID^ hId;
+	String<_Char, true> cItem;
+	_Id^ hId;
 };
 
 #endif
@@ -452,138 +452,138 @@ private:
 //===================
 
 // Item String-Index
-template <class CHAR, BOOL _AllocId, class ITEM>
-class IndexItem<String<CHAR, _AllocId>, ITEM>
+template <class _Char, bool _AllocId, class _Item>
+class IndexItem<String<_Char, _AllocId>, _Item>
 {
 public:
 	// Con-/Destructors
-	IndexItem(CHAR const* Id, UINT Length, BOOL, ITEM const& Item): cId(Id, Length), tItem(Item) {}
+	IndexItem(_Char const* Id, unsigned int Length, bool, _Item const& Item): cId(Id, Length), tItem(Item) {}
 	~IndexItem() {}
 
 	// Access
-	inline CHAR const* GetId()const { return cId.Get(); }
-	inline ITEM& GetItem() { return tItem; }
-	inline ITEM const& GetItem()const { return tItem; }
+	inline _Char const* GetId()const { return cId.Get(); }
+	inline _Item& GetItem() { return tItem; }
+	inline _Item const& GetItem()const { return tItem; }
 
 	// Modification
-	inline VOID SetItem(ITEM const& Item) { tItem=Item; }
+	inline void SetItem(_Item const& Item) { tItem=Item; }
 	
 private:
 	// Common
-	String<CHAR, _AllocId> cId;
-	ITEM tItem;
+	String<_Char, _AllocId> cId;
+	_Item tItem;
 };
 
 // Empty Item String-Index
-template <class CHAR, BOOL _AllocId>
-class IndexItem<String<CHAR, _AllocId>, VOID>
+template <class _Char, bool _AllocId>
+class IndexItem<String<_Char, _AllocId>, void>
 {
 public:
 	// Con-/Destructors
-	IndexItem(CHAR const* Id, UINT Length, BOOL): cId(Id, Length) {}
+	IndexItem(_Char const* Id, unsigned int Length, bool): cId(Id, Length) {}
 
 	// Access
-	inline CHAR const* GetId()const { return cId.Get(); }
+	inline _Char const* GetId()const { return cId.Get(); }
 
 private:
 	// Common
-	String<CHAR, true> cId;
+	String<_Char, true> cId;
 };
 
 // Item String-Index with Pointer
-template <class CHAR, BOOL _AllocId, class ITEM>
-class IndexItem<String<CHAR, _AllocId>, ITEM*>
+template <class _Char, bool _AllocId, class _Item>
+class IndexItem<String<_Char, _AllocId>, _Item*>
 {
 public:
 	// Con-/Destructors
-	IndexItem(CHAR const* Id, UINT Length, BOOL, ITEM* Item): cId(Id, Length), pItem(Item) {}
+	IndexItem(_Char const* Id, unsigned int Length, bool, _Item* Item): cId(Id, Length), pItem(Item) {}
 	~IndexItem()
 		{
 		delete pItem;
 		}
 
 	// Access
-	inline CHAR const* GetId()const { return cId.Get(); }
-	inline ITEM* GetItem()const { return pItem; }
+	inline _Char const* GetId()const { return cId.Get(); }
+	inline _Item* GetItem()const { return pItem; }
 
 	// Modification
-	inline ITEM* ReleaseItem() { return PointerRelease(&pItem); }
-	inline VOID SetItem(ITEM* Item) { PointerAssign(&pItem, Item); }
+	inline _Item* ReleaseItem() { return PointerRelease(&pItem); }
+	inline void SetItem(_Item* Item) { PointerAssign(&pItem, Item); }
 	
 private:
 	// Common
-	String<CHAR, _AllocId> cId;
-	ITEM* pItem;
+	String<_Char, _AllocId> cId;
+	_Item* pItem;
 };
 
 #ifdef __cplusplus_winrt
 // Item String-Index with Handle
-template <class CHAR, BOOL _AllocId, class ITEM>
-class IndexItem<String<CHAR, _AllocId>, ITEM^>
+template <class _Char, bool _AllocId, class _Item>
+class IndexItem<String<_Char, _AllocId>, _Item^>
 {
 public:
 	// Con-/Destructors
-	IndexItem(CHAR const* Id, UINT Length, BOOL, ITEM^ Item): cId(Id, Length), hItem(Item) {}
+	IndexItem(_Char const* Id, unsigned int Length, bool, _Item^ Item): cId(Id, Length), hItem(Item) {}
 	~IndexItem()
 		{
 		hItem=nullptr;
 		}
 
 	// Access
-	inline CHAR const* GetId()const { return cId.Get(); }
-	inline ITEM^ GetItem()const { return hItem; }
+	inline _Char const* GetId()const { return cId.Get(); }
+	inline _Item^ GetItem()const { return hItem; }
 
 	// Modification
-	inline VOID SetItem(ITEM^ Item) { hItem=Item; }
+	inline void SetItem(_Item^ Item) { hItem=Item; }
 	
 private:
 	// Common
-	String<CHAR, _AllocId> cId;
-	ITEM^ hItem;
+	String<_Char, _AllocId> cId;
+	_Item^ hItem;
 };
 #endif
 
 // Item String-Index with String
-template <class CHAR_ID, BOOL _AllocId, class CHAR_ITEM>
-class IndexItem<String<CHAR_ID, _AllocId>, String<CHAR_ITEM, true>>
+template <class _CharId, bool _AllocId, class _CharItem>
+class IndexItem<String<_CharId, _AllocId>, String<_CharItem, true>>
 {
 public:
 	// Con-/Destructors
-	IndexItem(CHAR_ID const* Id, UINT IdLength, BOOL, CHAR_ITEM const* Item, UINT ItemLength): cId(Id, IdLength), cItem(Item, ItemLength) {}
+	IndexItem(_CharId const* Id, unsigned int IdLength, bool, _CharItem const* Item, unsigned int ItemLength): cId(Id, IdLength), cItem(Item, ItemLength) {}
 
 	// Access
-	inline CHAR_ID const* GetId()const { return cId.Get(); }
-	inline CHAR_ITEM const* GetItem()const { return cItem.Get(); }
+	inline _CharId const* GetId()const { return cId.Get(); }
+	inline _CharItem const* GetItem()const { return cItem.Get(); }
 
 	// Modification
-	inline CHAR_ITEM const* ReleaseItem() { return cItem.Release(); }
-	inline VOID SetItem(CHAR_ITEM const* Value, UINT Length) { cItem.Set(Value, Length); }
+	inline _CharItem const* ReleaseItem() { return cItem.Release(); }
+	inline void SetItem(_CharItem const* Value, unsigned int Length) { cItem.Set(Value, Length); }
 	
 private:
 	// Common
-	String<CHAR_ID, _AllocId> cId;
-	String<CHAR_ITEM, true> cItem;
+	String<_CharId, _AllocId> cId;
+	String<_CharItem, true> cItem;
 };
 
 // Item String-Index with Shared String
-template <class CHAR_ID, BOOL _AllocId, class CHAR_ITEM>
-class IndexItem<String<CHAR_ID, _AllocId>, String<CHAR_ITEM, false>>
+template <class _CharId, bool _AllocId, class _CharItem>
+class IndexItem<String<_CharId, _AllocId>, String<_CharItem, false>>
 {
 public:
 	// Con-/Destructors
-	IndexItem(CHAR_ID const* Id, UINT IdLength, BOOL, CHAR_ITEM const* Item): cId(Id, IdLength), cItem(Item) {}
+	IndexItem(_CharId const* Id, unsigned int IdLength, bool, _CharItem const* Item): cId(Id, IdLength), cItem(Item) {}
 
 	// Access
-	inline CHAR_ID const* GetId()const { return cId.Get(); }
-	inline CHAR_ITEM const* GetItem()const { return cItem.Get(); }
+	inline _CharId const* GetId()const { return cId.Get(); }
+	inline _CharItem const* GetItem()const { return cItem.Get(); }
 
 	// Modification
-	inline VOID SetItem(CHAR_ITEM const* Value) { cItem.Set(Value); }
+	inline void SetItem(_CharItem const* Value) { cItem.Set(Value); }
 	
 private:
 	// Common
-	String<CHAR_ID, _AllocId> cId;
-	String<CHAR_ITEM, false> cItem;
+	String<_CharId, _AllocId> cId;
+	String<_CharItem, false> cItem;
 };
 
 }}}}

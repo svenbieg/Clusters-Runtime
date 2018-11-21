@@ -27,25 +27,25 @@ namespace Clusters {
 // Item-Group List
 //=================
 
-template <class ITEM, UINT _GroupSize>
-class ListItemGroup: public ::Clusters::Templates::Details::Cluster::ItemGroup<ITEM, ListGroup<ITEM>, _GroupSize>
+template <class _Item, unsigned int _GroupSize>
+class ListItemGroup: public ::Clusters::Templates::Details::Cluster::ItemGroup<_Item, ListGroup<_Item>, _GroupSize>
 {
 private:
 	// Using
-	using ARRAYHELPER=ArrayHelper<ITEM, UINT>;
-	using BASE=::Clusters::Templates::Details::Cluster::ItemGroup<ITEM, ListGroup<ITEM>, _GroupSize>;
-	using ITEMGROUP=ItemGroup<ITEM, ListGroup<ITEM>, _GroupSize>;
+	using _ArrayHelper=ArrayHelper<_Item, unsigned int>;
+	using _Base=::Clusters::Templates::Details::Cluster::ItemGroup<_Item, ListGroup<_Item>, _GroupSize>;
+	using _ItemGroup=ItemGroup<_Item, ListGroup<_Item>, _GroupSize>;
 
 public:
 	// Con-/Destructors
-	using BASE::BASE;
+	using _Base::_Base;
 
 	// Modification
-	inline ITEM* Append(BOOL Again)override { return ITEMGROUP::Append(); }
-	inline VOID Append(ITEM const* Items, UINT Count, BOOL CopyOnly) { ARRAYHELPER::Append(cItems.Get(), _GroupSize, &uItemCount, Items, Count, CopyOnly); }
-	inline ITEM* InsertAt(UINT64 Position, BOOL Again)override { return ITEMGROUP::InsertAt(ToUINT(Position)); }
-	inline VOID InsertAt(UINT Position, ITEM const* Items, UINT Count, BOOL CopyOnly) { ARRAYHELPER::InsertAt(cItems.Get(), _GroupSize, &uItemCount, Position, Items, Count, CopyOnly); }
-	inline VOID RemoveAt(UINT Position, UINT Count, BOOL RemoveOnly) { ARRAYHELPER::RemoveAt(cItems.Get(), &uItemCount, Position, Count, RemoveOnly); }
+	inline _Item* Append(bool Again)override { return _ItemGroup::Append(); }
+	inline void Append(_Item const* Items, unsigned int Count, bool CopyOnly) { _ArrayHelper::Append(cItems.Get(), _GroupSize, &uItemCount, Items, Count, CopyOnly); }
+	inline _Item* InsertAt(size_t Position, bool Again)override { return _ItemGroup::InsertAt((unsigned int)Position); }
+	inline void InsertAt(unsigned int Position, _Item const* Items, unsigned int Count, bool CopyOnly) { _ArrayHelper::InsertAt(cItems.Get(), _GroupSize, &uItemCount, Position, Items, Count, CopyOnly); }
+	inline void RemoveAt(unsigned int Position, unsigned int Count, bool RemoveOnly) { _ArrayHelper::RemoveAt(cItems.Get(), &uItemCount, Position, Count, RemoveOnly); }
 };
 
 }}}}

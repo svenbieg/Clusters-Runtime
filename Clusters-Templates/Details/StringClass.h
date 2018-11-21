@@ -25,25 +25,25 @@ namespace Clusters {
 // String
 //========
 
-template <class T, BOOL _Alloc>
+template <class _Char, bool _Alloc>
 class String
 {
 public:
 	// Con-/Destructors
 	String(): pValue(nullptr) {}
-	String(T const* Value, UINT Length=0): pValue(nullptr) { StringAssign(&pValue, nullptr, Value, Length); }
+	String(_Char const* Value, unsigned int Length=0): pValue(nullptr) { StringAssign(&pValue, nullptr, Value, Length); }
 	~String() { delete pValue; }
 
 	// Access
-	inline T const* Get()const { return pValue; }
+	inline _Char const* Get()const { return pValue; }
 
 	// Modification
-	T* Release() { return PointerRelease(&pValue); }
-	inline UINT Set(T const* Value, UINT Length) { return StringAssign(&pValue, nullptr, Value, Length); }
+	_Char* Release() { return PointerRelease(&pValue); }
+	inline unsigned int Set(_Char const* Value, unsigned int Length) { return StringAssign(&pValue, nullptr, Value, Length); }
 
 private:
 	// Common
-	T* pValue;
+	_Char* pValue;
 };
 
 
@@ -51,24 +51,24 @@ private:
 // Shared String
 //===============
 
-template <class T>
-class String<T, false>
+template <class _Char>
+class String<_Char, false>
 {
 public:
 	// Con-/Destructors
 	String(): pValue(nullptr) {}
-	String(T const* Value, UINT Length=0): pValue(Value) { ASSERT(Length==0); }
+	String(_Char const* Value, unsigned int Length=0): pValue(Value) { ASSERT(Length==0); }
 
 	// Access
-	inline T const* Get()const { return pValue; }
+	inline _Char const* Get()const { return pValue; }
 
 	// Modification
-	T const* Release() { T const* pstr=pValue; pValue=nullptr; return pstr; }
-	inline VOID Set(T const* Value) { pValue=Value; }
+	_Char const* Release() { _Char const* pstr=pValue; pValue=nullptr; return pstr; }
+	inline void Set(_Char const* Value) { pValue=Value; }
 
 private:
 	// Common
-	T const* pValue;
+	_Char const* pValue;
 };
 
 }}}

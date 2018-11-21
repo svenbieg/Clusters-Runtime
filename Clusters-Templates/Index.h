@@ -24,18 +24,18 @@ namespace Clusters {
 // Index
 //=======
 
-template <class ID, class ITEM=VOID, UINT _GroupSize=100>
-class Index: public Details::Index::Index<ID, ITEM, _GroupSize>
+template <class _Id, class _Item=void, unsigned int _GroupSize=100>
+class Index: public Details::Index::Index<_Id, _Item, _GroupSize>
 {
 private:
 	// Using
-	using BASE=Details::Index::Index<ID, ITEM, _GroupSize>;
-	using INDEX=Index<ID, ITEM, _GroupSize>;
+	using _Base=Details::Index::Index<_Id, _Item, _GroupSize>;
+	using _Index=Index<_Id, _Item, _GroupSize>;
 
 public:
 	// Con-/Destructors
 	Index() {}
-	Index(INDEX const& Index): BASE(Index) {}
+	Index(_Index const& Index): _Base(Index) {}
 };
 
 }}

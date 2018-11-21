@@ -27,143 +27,143 @@ namespace Clusters {
 // Base-Class Iterator Cluster
 //=============================
 
-template <class ITEM, class GROUP, class ITEMGROUP, class PARENTGROUP, BOOL _ReadOnly>
+template <class _Item, class _Group, class _ItemGroup, class _ParentGroup, bool _ReadOnly>
 class IteratorBase
 {
 protected:
 	// Friends
-	template <class ITEM, class GROUP, class ITEMGROUP, class PARENTGROUP, BOOL _ReadOnly> friend class IteratorBase;
-	template <class ITEM, class GROUP, class ITEMGROUP, class PARENTGROUP, BOOL _ReadOnly> friend class IteratorReadWrite;
+	template <class _Item, class _Group, class _ItemGroup, class _ParentGroup, bool _ReadOnly> friend class IteratorBase;
+	template <class _Item, class _Group, class _ItemGroup, class _ParentGroup, bool _ReadOnly> friend class IteratorReadWrite;
 
 	// Using
-	using ITEM_PTR=Conditional<_ReadOnly, ITEM const*, ITEM*>;
-	using GROUP_PTR=Conditional<_ReadOnly, GROUP const*, GROUP*>;
-	using ITEMGROUP_PTR=Conditional<_ReadOnly, ITEMGROUP const*, ITEMGROUP*>;
-	using PARENTGROUP_PTR=Conditional<_ReadOnly, PARENTGROUP const*, PARENTGROUP*>;
-	using CLUSTER=ClusterBase<GROUP, ITEMGROUP, PARENTGROUP>;
-	using CLUSTER_PTR=Conditional<_ReadOnly, CLUSTER const*, CLUSTER*>;
-	using IT=IteratorBase<ITEM, GROUP, ITEMGROUP, PARENTGROUP, _ReadOnly>;
-	using IT_R=IteratorBase<ITEM, GROUP, ITEMGROUP, PARENTGROUP, true>;
-	using IT_W=IteratorBase<ITEM, GROUP, ITEMGROUP, PARENTGROUP, false>;
+	using _ItemPtr=Conditional<_ReadOnly, _Item const*, _Item*>;
+	using _GroupPtr=Conditional<_ReadOnly, _Group const*, _Group*>;
+	using _ItemGroupPtr=Conditional<_ReadOnly, _ItemGroup const*, _ItemGroup*>;
+	using _ParentGroupPtr=Conditional<_ReadOnly, _ParentGroup const*, _ParentGroup*>;
+	using _Cluster=ClusterBase<_Group, _ItemGroup, _ParentGroup>;
+	using _ClusterPtr=Conditional<_ReadOnly, _Cluster const*, _Cluster*>;
+	using _It=IteratorBase<_Item, _Group, _ItemGroup, _ParentGroup, _ReadOnly>;
+	using _ItR=IteratorBase<_Item, _Group, _ItemGroup, _ParentGroup, true>;
+	using _ItW=IteratorBase<_Item, _Group, _ItemGroup, _ParentGroup, false>;
 
 public:
 	// Access
-	virtual UINT64 GetPosition()
+	virtual size_t GetPosition()
 		{
-		UINT ulevelcount=pCluster->pRoot->GetLevel()+1;
-		UINT64 upos=0;
-		for(UINT u=0; u<ulevelcount-1; u++)
+		unsigned int ulevelcount=pCluster->pRoot->GetLevel()+1;
+		size_t upos=0;
+		for(unsigned int u=0; u<ulevelcount-1; u++)
 			{
-			PARENTGROUP_PTR pgroup=(PARENTGROUP_PTR)pIts[u].Group;
-			UINT ugrouppos=pIts[u].Position;
-			for(UINT v=0; v<ugrouppos; v++)
+			_ParentGroupPtr pgroup=(_ParentGroupPtr)pIts[u].Group;
+			unsigned int ugrouppos=pIts[u].Position;
+			for(unsigned int v=0; v<ugrouppos; v++)
 				upos+=pgroup->GetChild(v)->GetItemCount();
 			}
 		upos+=pIts[ulevelcount-1].Position;
 		return upos;
 		}
-	inline BOOL HasCurrent() { return pCurrent!=nullptr; }
+	inline bool HasCurrent() { return pCurrent!=nullptr; }
 	
 	// Common
-	template <class IT> VOID Initialize(IT const& It)
+	template <class _It> void Initialize(_It const& It)
 		{
-		UINT ulevelcount=pCluster->pRoot->GetLevel()+1;
+		unsigned int ulevelcount=pCluster->pRoot->GetLevel()+1;
 		pIts=new ITERATOR[ulevelcount];
 		CopyMemory(pIts, It.pIts, ulevelcount*sizeof(ITERATOR));
 		pCurrent=It.pCurrent;
 		}
-	BOOL MoveNext()
+	bool MoveNext()
 		{
 		if(pCurrent==nullptr)
 			return false;
-		UINT ulevelcount=pCluster->pRoot->GetLevel()+1;
+		unsigned int ulevelcount=pCluster->pRoot->GetLevel()+1;
 		ITERATOR* pit=&pIts[ulevelcount-1];
-		ITEMGROUP_PTR pitems=(ITEMGROUP_PTR)pit->Group;
-		UINT ucount=pitems->GetChildCount();
+		_ItemGroupPtr pitems=(_ItemGroupPtr)pit->Group;
+		unsigned int ucount=pitems->GetChildCount();
 		if(pit->Position+1<ucount)
 			{
 			pit->Position++;
 			pCurrent=pitems->AddressOfItemAt(pit->Position);
 			return true;
 			}
-		for(UINT u=ulevelcount-1; u>0; u--)
+		for(unsigned int u=ulevelcount-1; u>0; u--)
 			{
 			pit=&pIts[u-1];
-			PARENTGROUP_PTR pparent=(PARENTGROUP_PTR)pit->Group;
+			_ParentGroupPtr pparent=(_ParentGroupPtr)pit->Group;
 			ucount=pparent->GetChildCount();
 			if(pit->Position+1>=ucount)
 				continue;
 			pit->Position++;
-			GROUP_PTR pgroup=pit->Group;
+			_GroupPtr pgroup=pit->Group;
 			for(; u<ulevelcount; u++)
 				{
-				pparent=(PARENTGROUP_PTR)pgroup;
+				pparent=(_ParentGroupPtr)pgroup;
 				pgroup=pparent->GetChild(pit->Position);
 				pit=&pIts[u];
 				pit->Group=pgroup;
 				pit->Position=0;
 				}
-			pitems=(ITEMGROUP_PTR)pgroup;
+			pitems=(_ItemGroupPtr)pgroup;
 			pCurrent=pitems->AddressOfItemAt(0);
 			return true;
 			}
 		pCurrent=nullptr;
 		return false;
 		}
-	BOOL MovePrevious()
+	bool MovePrevious()
 		{
 		if(pCurrent==nullptr)
 			return false;
-		UINT ulevelcount=pCluster->pRoot->GetLevel()+1;
+		unsigned int ulevelcount=pCluster->pRoot->GetLevel()+1;
 		ITERATOR* pit=&pIts[ulevelcount-1];
-		ITEMGROUP_PTR pitems=(ITEMGROUP_PTR)pit->Group;
+		_ItemGroupPtr pitems=(_ItemGroupPtr)pit->Group;
 		if(pit->Position>0)
 			{
 			pit->Position--;
 			pCurrent=pitems->AddressOfItemAt(pit->Position);
 			return true;
 			}
-		for(UINT u=ulevelcount-1; u>0; u--)
+		for(unsigned int u=ulevelcount-1; u>0; u--)
 			{
 			pit=&pIts[u-1];
-			PARENTGROUP_PTR pparent=(PARENTGROUP_PTR)pit->Group;
+			_ParentGroupPtr pparent=(_ParentGroupPtr)pit->Group;
 			if(pit->Position==0)
 				continue;
 			pit->Position--;
-			GROUP_PTR pgroup=pit->Group;
-			UINT upos=0;
+			_GroupPtr pgroup=pit->Group;
+			unsigned int upos=0;
 			for(; u<ulevelcount; u++)
 				{
-				pparent=(PARENTGROUP_PTR)pgroup;
+				pparent=(_ParentGroupPtr)pgroup;
 				pgroup=pparent->GetChild(pit->Position);
 				upos=pgroup->GetChildCount()-1;
 				pit=&pIts[u];
 				pit->Group=pgroup;
 				pit->Position=upos;
 				}
-			pitems=(ITEMGROUP_PTR)pgroup;
+			pitems=(_ItemGroupPtr)pgroup;
 			pCurrent=pitems->AddressOfItemAt(upos);
 			return true;
 			}
 		pCurrent=nullptr;
 		return false;
 		}
-	VOID SetPosition(UINT64 Position)
+	void SetPosition(size_t Position)
 		{
 		pCurrent=nullptr;
-		GROUP_PTR pgroup=pCluster->pRoot;
-		UINT ulevelcount=pgroup->GetLevel()+1;
+		_GroupPtr pgroup=pCluster->pRoot;
+		unsigned int ulevelcount=pgroup->GetLevel()+1;
 		if(pIts)
 			delete pIts;
 		pIts=new ITERATOR[ulevelcount];
-		INT ipos=GetPosition(pgroup, &Position);
+		int ipos=GetPosition(pgroup, &Position);
 		if(ipos==-1)
 			return;
 		pIts[0].Group=pgroup;
 		pIts[0].Position=ipos;
-		for(UINT u=0; u<ulevelcount-1; u++)
+		for(unsigned int u=0; u<ulevelcount-1; u++)
 			{
-			PARENTGROUP_PTR pparent=(PARENTGROUP_PTR)pIts[u].Group;
+			_ParentGroupPtr pparent=(_ParentGroupPtr)pIts[u].Group;
 			pgroup=pparent->GetChild(ipos);
 			ipos=GetPosition(pgroup, &Position);
 			if(ipos==-1)
@@ -171,10 +171,10 @@ public:
 			pIts[u+1].Group=pgroup;
 			pIts[u+1].Position=ipos;
 			}
-		INT ichildcount=pgroup->GetChildCount();
+		int ichildcount=pgroup->GetChildCount();
 		if(ipos<ichildcount)
 			{
-			ITEMGROUP_PTR pitems=(ITEMGROUP_PTR)pgroup;
+			_ItemGroupPtr pitems=(_ItemGroupPtr)pgroup;
 			pCurrent=pitems->AddressOfItemAt(ipos);
 			}
 		}
@@ -183,36 +183,36 @@ protected:
 	// Helper-Struct
 	typedef struct
 		{
-		GROUP_PTR Group;
-		UINT Position;
+		_GroupPtr Group;
+		unsigned int Position;
 		}ITERATOR;
 
 	// Con-/Destructors
-	IteratorBase(CLUSTER_PTR Cluster): pCluster(Cluster), pCurrent(nullptr), pIts(nullptr) {}
+	IteratorBase(_ClusterPtr Cluster): pCluster(Cluster), pCurrent(nullptr), pIts(nullptr) {}
 	~IteratorBase() { if(pIts)delete pIts; }
 
 	// Common
-	CLUSTER_PTR pCluster;
-	ITEM_PTR pCurrent;
+	_ClusterPtr pCluster;
+	_ItemPtr pCurrent;
 	ITERATOR* pIts;
 
 private:
 	// Common
-	INT GetPosition(GROUP_PTR Group, UINT64* Position)
+	int GetPosition(_GroupPtr Group, size_t* Position)
 		{
-		UINT ucount=Group->GetChildCount();
-		UINT ulevel=Group->GetLevel();
+		unsigned int ucount=Group->GetChildCount();
+		unsigned int ulevel=Group->GetLevel();
 		if(ulevel==0)
 			{
-			UINT upos=(UINT)*Position;
+			unsigned int upos=(unsigned int)*Position;
 			*Position=0;
 			return upos;
 			}
-		PARENTGROUP_PTR pparent=(PARENTGROUP_PTR)Group;
-		UINT64 uitemcount=0;
-		for(UINT u=0; u<ucount; u++)
+		_ParentGroupPtr pparent=(_ParentGroupPtr)Group;
+		size_t uitemcount=0;
+		for(unsigned int u=0; u<ucount; u++)
 			{
-			GROUP_PTR pchild=pparent->GetChild(u);
+			_GroupPtr pchild=pparent->GetChild(u);
 			uitemcount=pchild->GetItemCount();
 			if(*Position<uitemcount)
 				return u;
@@ -228,26 +228,26 @@ private:
 //=========================
 
 // Iterator Cluster Read-Only
-template <class ITEM, class GROUP, class ITEMGROUP, class PARENTGROUP, BOOL _ReadOnly>
-class IteratorShared: public IteratorBase<ITEM, GROUP, ITEMGROUP, PARENTGROUP, true>
+template <class _Item, class _Group, class _ItemGroup, class _ParentGroup, bool _ReadOnly>
+class IteratorShared: public IteratorBase<_Item, _Group, _ItemGroup, _ParentGroup, true>
 {
 protected:
 	// Con-/Destructors
-	IteratorShared(IT_R const& It): IteratorBase(It.pCluster) { Initialize(It); }
-	IteratorShared(IT_W const& It): IteratorBase(It.pCluster) { Initialize(It); }
-	IteratorShared(CLUSTER const* Cluster): IteratorBase(Cluster) {}
-	IteratorShared(CLUSTER const* Cluster, UINT64 Position): IteratorBase(Cluster) { SetPosition(Position); }
+	IteratorShared(_ItR const& It): IteratorBase(It.pCluster) { Initialize(It); }
+	IteratorShared(_ItW const& It): IteratorBase(It.pCluster) { Initialize(It); }
+	IteratorShared(_Cluster const* Cluster): IteratorBase(Cluster) {}
+	IteratorShared(_Cluster const* Cluster, size_t Position): IteratorBase(Cluster) { SetPosition(Position); }
 };
 
 // Iterator Cluster Read-Write
-template <class ITEM, class GROUP, class ITEMGROUP, class PARENTGROUP>
-class IteratorShared<ITEM, GROUP, ITEMGROUP, PARENTGROUP, false>: public IteratorBase<ITEM, GROUP, ITEMGROUP, PARENTGROUP, false>
+template <class _Item, class _Group, class _ItemGroup, class _ParentGroup>
+class IteratorShared<_Item, _Group, _ItemGroup, _ParentGroup, false>: public IteratorBase<_Item, _Group, _ItemGroup, _ParentGroup, false>
 {
 public:
 	// Common
-	VOID RemoveCurrent()
+	void RemoveCurrent()
 		{
-		UINT64 upos=GetPosition();
+		size_t upos=GetPosition();
 		pCluster->pRoot->RemoveAt(upos);
 		pCurrent=nullptr;
 		SetPosition(upos);
@@ -255,9 +255,9 @@ public:
 
 protected:
 	// Con-/Destructors
-	IteratorShared(IT_W const& It): IteratorBase(It.pCluster) { Initialize(It); }
-	IteratorShared(CLUSTER* Cluster): IteratorBase(Cluster) {}
-	IteratorShared(CLUSTER* Cluster, UINT64 Position): IteratorBase(Cluster) { SetPosition(Position); }
+	IteratorShared(_ItW const& It): IteratorBase(It.pCluster) { Initialize(It); }
+	IteratorShared(_Cluster* Cluster): IteratorBase(Cluster) {}
+	IteratorShared(_Cluster* Cluster, size_t Position): IteratorBase(Cluster) { SetPosition(Position); }
 };
 
 }}}}

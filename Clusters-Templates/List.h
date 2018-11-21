@@ -24,18 +24,18 @@ namespace Clusters {
 // List
 //======
 
-template <class ITEM, UINT _GroupSize=100>
-class List: public Details::List::List<ITEM, _GroupSize>
+template <class _Item, unsigned int _GroupSize=100>
+class List: public Details::List::List<_Item, _GroupSize>
 {
 private:
 	// Using
-	using BASE=Details::List::List<ITEM, _GroupSize>;
-	using LIST=List<ITEM, _GroupSize>;
+	using _Base=Details::List::List<_Item, _GroupSize>;
+	using _List=List<_Item, _GroupSize>;
 
 public:
 	// Con-/Destructors
 	List() {}
-	List(LIST const& List): BASE(List) {}
+	List(_List const& List): _Base(List) {}
 };
 
 }}

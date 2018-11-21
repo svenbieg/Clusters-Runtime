@@ -27,18 +27,18 @@ namespace Clusters {
 // Base-Class Iterator List
 //==========================
 
-template <class ITEM, UINT _GroupSize, BOOL _ReadOnly>
-class ListIteratorBase: public ::Clusters::Templates::Details::Cluster::IteratorShared<ITEM, ListGroup<ITEM>, ListItemGroup<ITEM, _GroupSize>, ListParentGroup<ITEM, _GroupSize>, _ReadOnly>
+template <class _Item, unsigned int _GroupSize, bool _ReadOnly>
+class ListIteratorBase: public ::Clusters::Templates::Details::Cluster::IteratorShared<_Item, ListGroup<_Item>, ListItemGroup<_Item, _GroupSize>, ListParentGroup<_Item, _GroupSize>, _ReadOnly>
 {
 protected:
 	// Using
-	using GROUP=ListGroup<ITEM>;
-	using ITEMGROUP=ListItemGroup<ITEM, _GroupSize>;
-	using PARENTGROUP=ListParentGroup<ITEM, _GroupSize>;
-	using BASE=::Clusters::Templates::Details::Cluster::IteratorShared<ITEM, GROUP, ITEMGROUP, PARENTGROUP, _ReadOnly>;
+	using _Group=ListGroup<_Item>;
+	using _ItemGroup=ListItemGroup<_Item, _GroupSize>;
+	using _ParentGroup=ListParentGroup<_Item, _GroupSize>;
+	using _Base=::Clusters::Templates::Details::Cluster::IteratorShared<_Item, _Group, _ItemGroup, _ParentGroup, _ReadOnly>;
 
 	// Con-/Destructors
-	using BASE::BASE;
+	using _Base::_Base;
 };
 
 
@@ -47,199 +47,199 @@ protected:
 //===============
 
 // Iterator List Read-Only
-template <class ITEM, UINT _GroupSize, BOOL _ReadOnly>
-class ListIterator: public ListIteratorBase<ITEM, _GroupSize, _ReadOnly>
+template <class _Item, unsigned int _GroupSize, bool _ReadOnly>
+class ListIterator: public ListIteratorBase<_Item, _GroupSize, _ReadOnly>
 {
 private:
 	// Using
-	using IT_R=ListIterator<ITEM, _GroupSize, true>;
-	using IT_W=ListIterator<ITEM, _GroupSize, false>;
-	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<ITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using _ItR=ListIterator<_Item, _GroupSize, true>;
+	using _ItW=ListIterator<_Item, _GroupSize, false>;
+	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_Item, _Group, _ItemGroup, _ParentGroup, _ItR, _ItW>;
 
 public:
 	// Con-/Destructors
-	ListIterator(IT_R const& It): ListIteratorBase(It) {}
-	ListIterator(IT_W const& It): ListIteratorBase(It) {}
-	ListIterator(CLUSTER const* Cluster, UINT64 Position): ListIteratorBase(Cluster, Position) {}
+	ListIterator(_ItR const& It): ListIteratorBase(It) {}
+	ListIterator(_ItW const& It): ListIteratorBase(It) {}
+	ListIterator(_Cluster const* Cluster, size_t Position): ListIteratorBase(Cluster, Position) {}
 	
 	// Access
-	inline ITEM GetCurrent()const { return *pCurrent; }
+	inline _Item GetCurrent()const { return *pCurrent; }
 };
 
 // Iterator List Read-Write
-template <class ITEM, UINT _GroupSize>
-class ListIterator<ITEM, _GroupSize, false>: public ListIteratorBase<ITEM, _GroupSize, false>
+template <class _Item, unsigned int _GroupSize>
+class ListIterator<_Item, _GroupSize, false>: public ListIteratorBase<_Item, _GroupSize, false>
 {
 private:
 	// Using
-	using IT_R=ListIterator<ITEM, _GroupSize, true>;
-	using IT_W=ListIterator<ITEM, _GroupSize, false>;
-	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<ITEM, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using _ItR=ListIterator<_Item, _GroupSize, true>;
+	using _ItW=ListIterator<_Item, _GroupSize, false>;
+	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_Item, _Group, _ItemGroup, _ParentGroup, _ItR, _ItW>;
 
 public:
 	// Con-/Destructors
-	ListIterator(IT_W const& It): ListIteratorBase(It) {}
-	ListIterator(CLUSTER* Cluster, UINT64 Position): ListIteratorBase(Cluster, Position) {}
+	ListIterator(_ItW const& It): ListIteratorBase(It) {}
+	ListIterator(_Cluster* Cluster, size_t Position): ListIteratorBase(Cluster, Position) {}
 	
 	// Access
-	ITEM& GetCurrent() { return *pCurrent; }
-	ITEM const& GetCurrent()const { return *pCurrent; }
+	_Item& GetCurrent() { return *pCurrent; }
+	_Item const& GetCurrent()const { return *pCurrent; }
 	
 	// Modification
-	VOID SetCurrent(ITEM const& Item) { *pCurrent=Item; }
+	void SetCurrent(_Item const& Item) { *pCurrent=Item; }
 };
 
 // Iterator Pointer-List Read-Only
-template <class ITEM, UINT _GroupSize>
-class ListIterator<ITEM*, _GroupSize, true>: public ListIteratorBase<ITEM*, _GroupSize, true>
+template <class _Item, unsigned int _GroupSize>
+class ListIterator<_Item*, _GroupSize, true>: public ListIteratorBase<_Item*, _GroupSize, true>
 {
 private:
 	// Using
-	using IT_R=ListIterator<ITEM*, _GroupSize, true>;
-	using IT_W=ListIterator<ITEM*, _GroupSize, false>;
-	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<ITEM*, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using _ItR=ListIterator<_Item*, _GroupSize, true>;
+	using _ItW=ListIterator<_Item*, _GroupSize, false>;
+	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_Item*, _Group, _ItemGroup, _ParentGroup, _ItR, _ItW>;
 
 public:
 	// Con-/Destructors
-	ListIterator(IT_R const& It): ListIteratorBase(It) {}
-	ListIterator(IT_W const& It): ListIteratorBase(It) {}
-	ListIterator(CLUSTER const* Cluster, UINT64 Position): ListIteratorBase(Cluster, Position) {}
+	ListIterator(_ItR const& It): ListIteratorBase(It) {}
+	ListIterator(_ItW const& It): ListIteratorBase(It) {}
+	ListIterator(_Cluster const* Cluster, size_t Position): ListIteratorBase(Cluster, Position) {}
 
 	// Access
-	inline ITEM* GetCurrent()const { return *pCurrent; }
+	inline _Item* GetCurrent()const { return *pCurrent; }
 };
 
 // Iterator Pointer-List Read-Write
-template <class ITEM, UINT _GroupSize>
-class ListIterator<ITEM*, _GroupSize, false>: public ListIteratorBase<ITEM*, _GroupSize, false>
+template <class _Item, unsigned int _GroupSize>
+class ListIterator<_Item*, _GroupSize, false>: public ListIteratorBase<_Item*, _GroupSize, false>
 {
 private:
 	// Using
-	using IT_R=ListIterator<ITEM*, _GroupSize, true>;
-	using IT_W=ListIterator<ITEM*, _GroupSize, false>;
-	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<ITEM*, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using _ItR=ListIterator<_Item*, _GroupSize, true>;
+	using _ItW=ListIterator<_Item*, _GroupSize, false>;
+	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_Item*, _Group, _ItemGroup, _ParentGroup, _ItR, _ItW>;
 
 public:
 	// Con-/Destructors
-	ListIterator(IT_W const& It): ListIteratorBase(It) {}
-	ListIterator(CLUSTER* Cluster, UINT64 Position): ListIteratorBase(Cluster, Position) {}
+	ListIterator(_ItW const& It): ListIteratorBase(It) {}
+	ListIterator(_Cluster* Cluster, size_t Position): ListIteratorBase(Cluster, Position) {}
 
 	// Access
-	inline ITEM* GetCurrent()const { return *pCurrent; }
+	inline _Item* GetCurrent()const { return *pCurrent; }
 	
 	// Modification
-	VOID SetCurrent(ITEM* Item) { PointerAssign(pCurrent, Item); }
+	void SetCurrent(_Item* Item) { PointerAssign(pCurrent, Item); }
 };
 
 #ifdef __cplusplus_winrt
 // Iterator Handle-List Read-Only
-template <class ITEM, UINT _GroupSize>
-class ListIterator<ITEM^, _GroupSize, true>: public ListIteratorBase<ITEM^, _GroupSize, true>
+template <class _Item, unsigned int _GroupSize>
+class ListIterator<_Item^, _GroupSize, true>: public ListIteratorBase<_Item^, _GroupSize, true>
 {
 private:
 	// Using
-	using IT_R=ListIterator<ITEM^, _GroupSize, true>;
-	using IT_W=ListIterator<ITEM^, _GroupSize, false>;
-	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<ITEM^, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using _ItR=ListIterator<_Item^, _GroupSize, true>;
+	using _ItW=ListIterator<_Item^, _GroupSize, false>;
+	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_Item^, _Group, _ItemGroup, _ParentGroup, _ItR, _ItW>;
 
 public:
 	// Con-/Destructors
-	ListIterator(IT_R const& It): ListIteratorBase(It) {}
-	ListIterator(IT_W const& It): ListIteratorBase(It) {}
-	ListIterator(CLUSTER const* Cluster, UINT64 Position): ListIteratorBase(Cluster, Position) {}
+	ListIterator(_ItR const& It): ListIteratorBase(It) {}
+	ListIterator(_ItW const& It): ListIteratorBase(It) {}
+	ListIterator(_Cluster const* Cluster, size_t Position): ListIteratorBase(Cluster, Position) {}
 
 	// Access
-	inline ITEM^ GetCurrent()const { return *pCurrent; }
+	inline _Item^ GetCurrent()const { return *pCurrent; }
 };
 
 #endif
 
 #ifdef __cplusplus_winrt
 // Iterator Handle-List Read-Write
-template <class ITEM, UINT _GroupSize>
-class ListIterator<ITEM^, _GroupSize, false>: public ListIteratorBase<ITEM^, _GroupSize, false>
+template <class _Item, unsigned int _GroupSize>
+class ListIterator<_Item^, _GroupSize, false>: public ListIteratorBase<_Item^, _GroupSize, false>
 {
 private:
 	// Using
-	using IT_R=ListIterator<ITEM^, _GroupSize, true>;
-	using IT_W=ListIterator<ITEM^, _GroupSize, false>;
-	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<ITEM^, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using _ItR=ListIterator<_Item^, _GroupSize, true>;
+	using _ItW=ListIterator<_Item^, _GroupSize, false>;
+	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_Item^, _Group, _ItemGroup, _ParentGroup, _ItR, _ItW>;
 
 public:
 	// Con-/Destructors
-	ListIterator(IT_W const& It): ListIteratorBase(It) {}
-	ListIterator(CLUSTER* Cluster, UINT64 Position): ListIteratorBase(Cluster, Position) {}
+	ListIterator(_ItW const& It): ListIteratorBase(It) {}
+	ListIterator(_Cluster* Cluster, size_t Position): ListIteratorBase(Cluster, Position) {}
 
 	// Access
-	inline ITEM^ GetCurrent()const { return *pCurrent; }
+	inline _Item^ GetCurrent()const { return *pCurrent; }
 	
 	// Modification
-	VOID SetCurrent(ITEM^ Item) { *pCurrent=Item; }
+	void SetCurrent(_Item^ Item) { *pCurrent=Item; }
 };
 #endif
 
 // Iterator String-List Read-Only
-template <class CHAR, BOOL _Alloc, UINT _GroupSize>
-class ListIterator<String<CHAR, _Alloc>, _GroupSize, true>: public ListIteratorBase<String<CHAR, _Alloc>, _GroupSize, true>
+template <class _Char, bool _Alloc, unsigned int _GroupSize>
+class ListIterator<String<_Char, _Alloc>, _GroupSize, true>: public ListIteratorBase<String<_Char, _Alloc>, _GroupSize, true>
 {
 private:
 	// Using
-	using IT_R=ListIterator<String<CHAR, _Alloc>, _GroupSize, true>;
-	using IT_W=ListIterator<String<CHAR, _Alloc>, _GroupSize, false>;
-	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<String<CHAR, _Alloc>, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using _ItR=ListIterator<String<_Char, _Alloc>, _GroupSize, true>;
+	using _ItW=ListIterator<String<_Char, _Alloc>, _GroupSize, false>;
+	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<String<_Char, _Alloc>, _Group, _ItemGroup, _ParentGroup, _ItR, _ItW>;
 
 public:
 	// Con-/Destructors
-	ListIterator(IT_R const& It): ListIteratorBase(It) {}
-	ListIterator(IT_W const& It): ListIteratorBase(It) {}
-	ListIterator(CLUSTER const* Cluster, UINT64 Position): ListIteratorBase(Cluster, Position) {}
+	ListIterator(_ItR const& It): ListIteratorBase(It) {}
+	ListIterator(_ItW const& It): ListIteratorBase(It) {}
+	ListIterator(_Cluster const* Cluster, size_t Position): ListIteratorBase(Cluster, Position) {}
 
 	// Access
-	inline CHAR const* GetCurrent()const { return pCurrent->Get(); }
+	inline _Char const* GetCurrent()const { return pCurrent->Get(); }
 };
 
 // Iterator String-List Read-Write
-template <class CHAR, UINT _GroupSize>
-class ListIterator<String<CHAR, true>, _GroupSize, false>: public ListIteratorBase<String<CHAR, true>, _GroupSize, false>
+template <class _Char, unsigned int _GroupSize>
+class ListIterator<String<_Char, true>, _GroupSize, false>: public ListIteratorBase<String<_Char, true>, _GroupSize, false>
 {
 private:
 	// Using
-	using IT_R=ListIterator<String<CHAR, true>, _GroupSize, true>;
-	using IT_W=ListIterator<String<CHAR, true>, _GroupSize, false>;
-	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<String<CHAR, true>, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using _ItR=ListIterator<String<_Char, true>, _GroupSize, true>;
+	using _ItW=ListIterator<String<_Char, true>, _GroupSize, false>;
+	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<String<_Char, true>, _Group, _ItemGroup, _ParentGroup, _ItR, _ItW>;
 
 public:
 	// Con-/Destructors
-	ListIterator(IT_W const& It): ListIteratorBase(It) {}
-	ListIterator(CLUSTER* Cluster, UINT64 Position): ListIteratorBase(Cluster, Position) {}
+	ListIterator(_ItW const& It): ListIteratorBase(It) {}
+	ListIterator(_Cluster* Cluster, size_t Position): ListIteratorBase(Cluster, Position) {}
 
 	// Access
-	inline CHAR const* GetCurrent()const { return pCurrent->Get(); }
+	inline _Char const* GetCurrent()const { return pCurrent->Get(); }
 	
 	// Modification
-	inline UINT SetCurrent(CHAR const* Value, UINT Length=0) { return pCurrent->Set(Value, Length); }
+	inline unsigned int SetCurrent(_Char const* Value, unsigned int Length=0) { return pCurrent->Set(Value, Length); }
 };
 
 // Iterator Shared String-List Read-Write
-template <class CHAR, UINT _GroupSize>
-class ListIterator<String<CHAR, false>, _GroupSize, false>: public ListIteratorBase<String<CHAR, false>, _GroupSize, false>
+template <class _Char, unsigned int _GroupSize>
+class ListIterator<String<_Char, false>, _GroupSize, false>: public ListIteratorBase<String<_Char, false>, _GroupSize, false>
 {
 private:
 	// Using
-	using IT_R=ListIterator<String<CHAR, false>, _GroupSize, true>;
-	using IT_W=ListIterator<String<CHAR, false>, _GroupSize, false>;
-	using CLUSTER=::Clusters::Templates::Details::Cluster::Cluster<String<CHAR, false>, GROUP, ITEMGROUP, PARENTGROUP, IT_R, IT_W>;
+	using _ItR=ListIterator<String<_Char, false>, _GroupSize, true>;
+	using _ItW=ListIterator<String<_Char, false>, _GroupSize, false>;
+	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<String<_Char, false>, _Group, _ItemGroup, _ParentGroup, _ItR, _ItW>;
 
 public:
 	// Con-/Destructors
-	ListIterator(IT_W const& It): ListIteratorBase(It) {}
-	ListIterator(CLUSTER* Cluster, UINT64 Position): ListIteratorBase(Cluster, Position) {}
+	ListIterator(_ItW const& It): ListIteratorBase(It) {}
+	ListIterator(_Cluster* Cluster, size_t Position): ListIteratorBase(Cluster, Position) {}
 
 	// Access
-	inline CHAR const* GetCurrent()const { return pCurrent->Get(); }
+	inline _Char const* GetCurrent()const { return pCurrent->Get(); }
 	
 	// Modification
-	inline VOID SetCurrent(CHAR const* Value) { pCurrent->Set(Value); }
+	inline void SetCurrent(_Char const* Value) { pCurrent->Set(Value); }
 };
 
 }}}}

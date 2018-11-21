@@ -27,44 +27,44 @@ namespace Clusters {
 //======
 
 // List
-template<class ITEM, UINT _GroupSize>
-class List: public ListBase<ITEM, _GroupSize>
+template<class _Item, unsigned int _GroupSize>
+class List: public ListBase<_Item, _GroupSize>
 {
 public:
 	// Access
-	virtual inline ITEM operator[](UINT64 Position)const { return GetAt(Position); }
-	virtual inline ITEM GetAt(UINT64 Position)const { return *pRoot->GetAt(Position); }
+	virtual inline _Item operator[](size_t Position)const { return GetAt(Position); }
+	virtual inline _Item GetAt(size_t Position)const { return *pRoot->GetAt(Position); }
 
 	// Modification
-	inline ITEM* Append(ITEM const& Item)
+	inline _Item* Append(_Item const& Item)
 		{
-		ITEM* pitem=AppendInternal();
-		new (pitem) ITEM(Item);
+		_Item* pitem=AppendInternal();
+		new (pitem) _Item(Item);
 		return pitem;
 		}
-	inline ITEM* InsertAt(UINT64 Position, ITEM const& Item)
+	inline _Item* InsertAt(size_t Position, _Item const& Item)
 		{
-		ITEM* pitem=InsertInternal(Position);
-		new (pitem) ITEM(Item);
+		_Item* pitem=InsertInternal(Position);
+		new (pitem) _Item(Item);
 		return pitem;
 		}
 };
 
 // Pointer-List
-template<class ITEM, UINT _GroupSize>
-class List<ITEM*, _GroupSize>: public ListBase<ITEM*, _GroupSize>
+template<class _Item, unsigned int _GroupSize>
+class List<_Item*, _GroupSize>: public ListBase<_Item*, _GroupSize>
 {
 public:
 	// Access
-	inline ITEM* operator[](UINT64 Position)const { return GetAt(Position); }
-	inline ITEM* GetAt(UINT64 Position)const { return pRoot->GetAt(Position); }
+	inline _Item* operator[](size_t Position)const { return GetAt(Position); }
+	inline _Item* GetAt(size_t Position)const { return pRoot->GetAt(Position); }
 
 	// Modification
-	inline VOID Append(ITEM* Item) { *AppendInternal()=Item; }
-	inline VOID InsertAt(UINT64 Position, ITEM* Item) { *InsertInternal(Position)=Item; }
-	ITEM* ReleaseAt(UINT64 Position)
+	inline void Append(_Item* Item) { *AppendInternal()=Item; }
+	inline void InsertAt(size_t Position, _Item* Item) { *InsertInternal(Position)=Item; }
+	_Item* ReleaseAt(size_t Position)
 		{
-		ITEM* pitem=pRoot->ReleaseAt(Position);
+		_Item* pitem=pRoot->ReleaseAt(Position);
 		UpdateRoot();
 		return pitem;
 		}
@@ -72,33 +72,33 @@ public:
 
 #ifdef __cplusplus_winrt
 // Handle-List
-template<class ITEM, UINT _GroupSize>
-class List<ITEM^, _GroupSize>: public ListBase<ITEM^, _GroupSize>
+template<class _Item, unsigned int _GroupSize>
+class List<_Item^, _GroupSize>: public ListBase<_Item^, _GroupSize>
 {
 public:
 	// Access
-	inline ITEM^ operator[](UINT64 Position)const { return GetAt(Position); }
-	inline ITEM^ GetAt(UINT64 Position)const { return pRoot->GetAt(Position); }
+	inline _Item^ operator[](size_t Position)const { return GetAt(Position); }
+	inline _Item^ GetAt(size_t Position)const { return pRoot->GetAt(Position); }
 
 	// Modification
-	VOID Append(ITEM^ Item)
+	void Append(_Item^ Item)
 		{
-		ITEM^* pitem=AppendInternal();
-		ZeroMemory(pitem, sizeof(ITEM^));
+		_Item^* pitem=AppendInternal();
+		ZeroMemory(pitem, sizeof(_Item^));
 		*pitem=Item;
 		}
-	VOID InsertAt(UINT64 Position, ITEM^ Item)
+	void InsertAt(size_t Position, _Item^ Item)
 		{
-		ITEM^* pitem=InsertInternal(Position);
-		ZeroMemory(pitem, sizeof(ITEM^));
+		_Item^* pitem=InsertInternal(Position);
+		ZeroMemory(pitem, sizeof(_Item^));
 		*pitem=Item;
 		}
 };
 #endif
 
-template<UINT _GroupSize> class List<LPSTR, _GroupSize>: public StringList<CHAR, true, _GroupSize> {}; // Ansi-List
-template<UINT _GroupSize> class List<LPCSTR, _GroupSize>: public StringList<CHAR, false, _GroupSize> {}; // Shared Ansi-List
-template<UINT _GroupSize> class List<LPWSTR, _GroupSize>: public StringList<WCHAR, true, _GroupSize> {}; // Unicode-List
-template<UINT _GroupSize> class List<LPCWSTR, _GroupSize>: public StringList<WCHAR, false, _GroupSize> {}; // Shared Unicode-List
+template<unsigned int _GroupSize> class List<char*, _GroupSize>: public StringList<_Char, true, _GroupSize> {}; // Ansi-List
+template<unsigned int _GroupSize> class List<char const*, _GroupSize>: public StringList<_Char, false, _GroupSize> {}; // Shared Ansi-List
+template<unsigned int _GroupSize> class List<wchar_t*, _GroupSize>: public StringList<wchar_t, true, _GroupSize> {}; // Unicode-List
+template<unsigned int _GroupSize> class List<wchar_t const*, _GroupSize>: public StringList<wchar_t, false, _GroupSize> {}; // Shared Unicode-List
 
 }}}}

@@ -27,47 +27,47 @@ namespace Clusters {
 // Base-Class Item-Group Cluster
 //===============================
 
-template <class ITEM, class GROUP, UINT _GroupSize>
-class ItemGroupBase: public GROUP
+template <class _Item, class _Group, unsigned int _GroupSize>
+class ItemGroupBase: public _Group
 {
 protected:
 	// Using
-	using ARRAYHELPER=ArrayHelper<ITEM, UINT>;
+	using _ArrayHelper=ArrayHelper<_Item, unsigned int>;
 
 public:
 	// Access
-	inline ITEM* AddressOfItemAt(UINT Position) { return &cItems.GetAt(Position); }
-	inline ITEM const* AddressOfItemAt(UINT Position)const { return &cItems.GetAt(Position); }
-	inline UINT GetChildCount()const override { return uItemCount; }
-	inline UINT64 GetItemCount()const override { return uItemCount; }
-	inline ITEM* GetItems() { return cItems.Get(); }
-	inline ITEM const* GetItems()const { return cItems.Get(); }
-	inline UINT GetLevel()const { return 0; }
+	inline _Item* AddressOfItemAt(unsigned int Position) { return &cItems.GetAt(Position); }
+	inline _Item const* AddressOfItemAt(unsigned int Position)const { return &cItems.GetAt(Position); }
+	inline unsigned int GetChildCount()const override { return uItemCount; }
+	inline size_t GetItemCount()const override { return uItemCount; }
+	inline _Item* GetItems() { return cItems.Get(); }
+	inline _Item const* GetItems()const { return cItems.Get(); }
+	inline unsigned int GetLevel()const { return 0; }
 
 	// Modification
-	ITEM* Append()
+	_Item* Append()
 		{
 		if(uItemCount==_GroupSize)
 			return nullptr;
-		return ARRAYHELPER::Append(cItems.Get(), _GroupSize, &uItemCount);
+		return _ArrayHelper::Append(cItems.Get(), _GroupSize, &uItemCount);
 		}
-	ITEM* InsertAt(UINT Position)
+	_Item* InsertAt(unsigned int Position)
 		{
 		if(uItemCount==_GroupSize)
 			return nullptr;
-		return ARRAYHELPER::InsertAt(cItems.Get(), _GroupSize, &uItemCount, Position);
+		return _ArrayHelper::InsertAt(cItems.Get(), _GroupSize, &uItemCount, Position);
 		}
-	inline VOID RemoveAt(UINT64 Position)override { ARRAYHELPER::RemoveAt(cItems.Get(), &uItemCount, ToUINT(Position)); }
+	inline void RemoveAt(size_t Position)override { _ArrayHelper::RemoveAt(cItems.Get(), &uItemCount, (unsigned int)Position); }
 
 protected:
 	// Con-/Destructors
 	ItemGroupBase(): uItemCount(0) {}
-	ItemGroupBase(ItemGroupBase const& Group): uItemCount(Group.uItemCount) { ARRAYHELPER::OverWriteItems(cItems.Get(), Group.cItems.Get(), uItemCount); }
-	~ItemGroupBase()override { ARRAYHELPER::DestroyItems(cItems.Get(), uItemCount); }
+	ItemGroupBase(ItemGroupBase const& Group): uItemCount(Group.uItemCount) { _ArrayHelper::OverWriteItems(cItems.Get(), Group.cItems.Get(), uItemCount); }
+	~ItemGroupBase()override { _ArrayHelper::DestroyItems(cItems.Get(), uItemCount); }
 
 	// Common
-	Allocator<ITEM, _GroupSize> cItems;
-	UINT uItemCount;
+	Allocator<_Item, _GroupSize> cItems;
+	unsigned int uItemCount;
 };
 
 
@@ -76,73 +76,73 @@ protected:
 //====================
 
 // Item-Group Cluster
-template <class ITEM, class GROUP, UINT _GroupSize>
-class ItemGroup: public ItemGroupBase<ITEM, GROUP, _GroupSize>
+template <class _Item, class _Group, unsigned int _GroupSize>
+class ItemGroup: public ItemGroupBase<_Item, _Group, _GroupSize>
 {
 public:
 	// Access
-	inline ITEM* GetAt(UINT64 Position)override { return ARRAYHELPER::GetAt(cItems.Get(), uItemCount, ToUINT(Position)); }
-	inline ITEM const* GetAt(UINT64 Position)const override { return ARRAYHELPER::GetAt(cItems.Get(), uItemCount, ToUINT(Position)); }
+	inline _Item* GetAt(size_t Position)override { return _ArrayHelper::GetAt(cItems.Get(), uItemCount, (unsigned int)Position); }
+	inline _Item const* GetAt(size_t Position)const override { return _ArrayHelper::GetAt(cItems.Get(), uItemCount, (unsigned int)Position); }
 
 protected:
 	// Con-/Destructors
-	using ITEMGROUPBASE=ItemGroupBase<ITEM, GROUP, _GroupSize>;
-	using ITEMGROUPBASE::ITEMGROUPBASE;
+	using _ItemGroupBase=ItemGroupBase<_Item, _Group, _GroupSize>;
+	using _ItemGroupBase::_ItemGroupBase;
 };
 
 // Item-Group Pointer-Cluster
-template <class ITEM, class GROUP, UINT _GroupSize>
-class ItemGroup<ITEM*, GROUP, _GroupSize>: public ItemGroupBase<ITEM*, GROUP, _GroupSize>
+template <class _Item, class _Group, unsigned int _GroupSize>
+class ItemGroup<_Item*, _Group, _GroupSize>: public ItemGroupBase<_Item*, _Group, _GroupSize>
 {
 public:
 	// Access
-	inline ITEM* GetAt(UINT64 Position)const override { return *ARRAYHELPER::GetAt(cItems.Get(), uItemCount, ToUINT(Position)); }
+	inline _Item* GetAt(size_t Position)const override { return *_ArrayHelper::GetAt(cItems.Get(), uItemCount, (unsigned int)Position); }
 
 	// Modification
-	inline ITEM* ReleaseAt(UINT64 Position) { return ARRAYHELPER::ReleaseAt(cItems.Get(), &uItemCount, ToUINT(Position)); }
+	inline _Item* ReleaseAt(size_t Position) { return _ArrayHelper::ReleaseAt(cItems.Get(), &uItemCount, (unsigned int)Position); }
 
 protected:
 	// Con-/Destructors
-	using ITEMGROUPBASE=ItemGroupBase<ITEM*, GROUP, _GroupSize>;
-	using ITEMGROUPBASE::ITEMGROUPBASE;
+	using _ItemGroupBase=ItemGroupBase<_Item*, _Group, _GroupSize>;
+	using _ItemGroupBase::_ItemGroupBase;
 };
 
 #ifdef __cplusplus_winrt
 // Item-Group Handle-Cluster
-template <class ITEM, class GROUP, UINT _GroupSize>
-class ItemGroup<ITEM^, GROUP, _GroupSize>: public ItemGroupBase<ITEM^, GROUP, _GroupSize>
+template <class _Item, class _Group, unsigned int _GroupSize>
+class ItemGroup<_Item^, _Group, _GroupSize>: public ItemGroupBase<_Item^, _Group, _GroupSize>
 {
 public:
 	// Access
-	inline ITEM^ GetAt(UINT64 Position)const override { return *ARRAYHELPER::GetAt(cItems.Get(), uItemCount, ToUINT(Position)); }
+	inline _Item^ GetAt(size_t Position)const override { return *_ArrayHelper::GetAt(cItems.Get(), uItemCount, (unsigned int)Position); }
 
 protected:
 	// Con-/Destructors
-	using ITEMGROUPBASE=ItemGroupBase<ITEM^, GROUP, _GroupSize>;
-	using ITEMGROUPBASE::ITEMGROUPBASE;
+	using _ItemGroupBase=ItemGroupBase<_Item^, _Group, _GroupSize>;
+	using _ItemGroupBase::_ItemGroupBase;
 };
 #endif
 
 // Item-Group String-Cluster
-template <class CHAR, BOOL _Alloc, class GROUP, UINT _GroupSize>
-class ItemGroup<String<CHAR, _Alloc>, GROUP, _GroupSize>: public ItemGroupBase<String<CHAR, _Alloc>, GROUP, _GroupSize>
+template <class _Char, bool _Alloc, class _Group, unsigned int _GroupSize>
+class ItemGroup<String<_Char, _Alloc>, _Group, _GroupSize>: public ItemGroupBase<String<_Char, _Alloc>, _Group, _GroupSize>
 {
 public:
 	// Access
-	inline CHAR const* GetAt(UINT64 Position)const override { return ARRAYHELPER::GetAt(cItems.Get(), uItemCount, ToUINT(Position))->Get(); }
+	inline _Char const* GetAt(size_t Position)const override { return _ArrayHelper::GetAt(cItems.Get(), uItemCount, (unsigned int)Position)->Get(); }
 
 	// Modification
-	inline CHAR const* ReleaseAt(UINT64 Position)
+	inline _Char const* ReleaseAt(size_t Position)
 		{
-		CHAR const* pstr=ARRAYHELPER::GetAt(cItems.Get(), uItemCount, ToUINT(Position))->Release();
-		ARRAYHELPER::RemoveAt(cItems.Get(), &uItemCount, ToUINT(Position));
+		_Char const* pstr=_ArrayHelper::GetAt(cItems.Get(), uItemCount, (unsigned int)Position)->Release();
+		_ArrayHelper::RemoveAt(cItems.Get(), &uItemCount, (unsigned int)Position);
 		return pstr;
 		}
 
 protected:
 	// Con-/Destructors
-	using ITEMGROUPBASE=ItemGroupBase<String<CHAR, _Alloc>, GROUP, _GroupSize>;
-	using ITEMGROUPBASE::ITEMGROUPBASE;
+	using _ItemGroupBase=ItemGroupBase<String<_Char, _Alloc>, _Group, _GroupSize>;
+	using _ItemGroupBase::_ItemGroupBase;
 };
 
 }}}}

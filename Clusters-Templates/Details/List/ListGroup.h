@@ -26,13 +26,13 @@ namespace Clusters {
 // List-Group
 //============
 
-template <class ITEM>
-class ListGroup: public ::Clusters::Templates::Details::Cluster::Group<ITEM>
+template <class _Item>
+class ListGroup: public ::Clusters::Templates::Details::Cluster::Group<_Item>
 {
 public:
 	// Modification
-	virtual ITEM* Append(BOOL Again)=0;
-	virtual ITEM* InsertAt(UINT64 Position, BOOL Again)=0;
+	virtual _Item* Append(bool Again)=0;
+	virtual _Item* InsertAt(size_t Position, bool Again)=0;
 };
 
 }}}}

@@ -27,57 +27,57 @@ namespace Clusters {
 // Base-Class Item-Group Index
 //=============================
 
-template <class ID, class ITEM, UINT _GroupSize>
-class IndexItemGroupBase: public ::Clusters::Templates::Details::Cluster::ItemGroup<IndexItem<ID, ITEM>, IndexGroup<ID, ITEM>, _GroupSize>
+template <class _Id, class _Item, unsigned int _GroupSize>
+class IndexItemGroupBase: public ::Clusters::Templates::Details::Cluster::ItemGroup<IndexItem<_Id, _Item>, IndexGroup<_Id, _Item>, _GroupSize>
 {
 protected:
 	// Using
-	using INDEXITEM=IndexItem<ID, ITEM>;
+	using _IndexItem=IndexItem<_Id, _Item>;
 
 private:
 	// Using
-	using ARRAYHELPER=ArrayHelper<IndexItem<ID, ITEM>, UINT>;
-	using BASE=::Clusters::Templates::Details::Cluster::ItemGroup<INDEXITEM, IndexGroup<ID, ITEM>, _GroupSize>;
+	using _ArrayHelper=ArrayHelper<IndexItem<_Id, _Item>, unsigned int>;
+	using _Base=::Clusters::Templates::Details::Cluster::ItemGroup<_IndexItem, IndexGroup<_Id, _Item>, _GroupSize>;
 
 public:
 	// Access
-	inline INDEXITEM* GetFirst()override { return ARRAYHELPER::GetFirst(cItems.Get(), uItemCount); }
-	inline INDEXITEM const* GetFirst()const override { return ARRAYHELPER::GetFirst(cItems.Get(), uItemCount); }
-	inline INDEXITEM* GetLast()override { return ARRAYHELPER::GetLast(cItems.Get(), uItemCount); }
-	inline INDEXITEM const* GetLast()const override { return ARRAYHELPER::GetLast(cItems.Get(), uItemCount); }
+	inline _IndexItem* GetFirst()override { return _ArrayHelper::GetFirst(cItems.Get(), uItemCount); }
+	inline _IndexItem const* GetFirst()const override { return _ArrayHelper::GetFirst(cItems.Get(), uItemCount); }
+	inline _IndexItem* GetLast()override { return _ArrayHelper::GetLast(cItems.Get(), uItemCount); }
+	inline _IndexItem const* GetLast()const override { return _ArrayHelper::GetLast(cItems.Get(), uItemCount); }
 
 	// Modification
-	inline VOID Append(INDEXITEM const* Items, UINT Count, BOOL CopyOnly) { ARRAYHELPER::Append(cItems.Get(), _GroupSize, &uItemCount, Items, Count, CopyOnly); }
-	inline VOID InsertAt(UINT Position, INDEXITEM const* Items, UINT Count, BOOL CopyOnly) { ARRAYHELPER::InsertAt(cItems.Get(), _GroupSize, &uItemCount, Position, Items, Count, CopyOnly); }
-	inline VOID RemoveAt(UINT Position, UINT Count, BOOL RemoveOnly) { ARRAYHELPER::RemoveAt(cItems.Get(), &uItemCount, Position, Count, RemoveOnly); }
+	inline void Append(_IndexItem const* Items, unsigned int Count, bool CopyOnly) { _ArrayHelper::Append(cItems.Get(), _GroupSize, &uItemCount, Items, Count, CopyOnly); }
+	inline void InsertAt(unsigned int Position, _IndexItem const* Items, unsigned int Count, bool CopyOnly) { _ArrayHelper::InsertAt(cItems.Get(), _GroupSize, &uItemCount, Position, Items, Count, CopyOnly); }
+	inline void RemoveAt(unsigned int Position, unsigned int Count, bool RemoveOnly) { _ArrayHelper::RemoveAt(cItems.Get(), &uItemCount, Position, Count, RemoveOnly); }
 
 protected:
 	// Con-/Destructors
-	using BASE::BASE;
+	using _Base::_Base;
 
 	// Access
-	template <class... PARAMS> INDEXITEM* GetInternal(PARAMS... Id)
+	template <class... _Params> _IndexItem* GetInternal(_Params... Id)
 		{
-		INT ipos=GetItemPos<PARAMS...>(Id...);
+		int ipos=GetItemPos<_Params...>(Id...);
 		if(ipos<0)
 			return nullptr;
 		return &cItems.Get()[ipos];
 		}
-	template <class... PARAMS> INDEXITEM const* GetInternal(PARAMS... Id)const
+	template <class... _Params> _IndexItem const* GetInternal(_Params... Id)const
 		{
-		INT ipos=GetItemPos<PARAMS...>(Id...);
+		int ipos=GetItemPos<_Params...>(Id...);
 		if(ipos<0)
 			return nullptr;
 		return &cItems.Get()[ipos];
 		}
-	template <class... PARAMS> INT GetItemPos(PARAMS... Id)const
+	template <class... _Params> int GetItemPos(_Params... Id)const
 		{
 		if(!uItemCount)
 			return -1;
-		INDEXITEM const* pitem=nullptr;
-		UINT ustart=0;
-		UINT uend=uItemCount;
-		UINT uitem=0;
+		_IndexItem const* pitem=nullptr;
+		unsigned int ustart=0;
+		unsigned int uend=uItemCount;
+		unsigned int uitem=0;
 		while(ustart<uend)
 			{
 			uitem=ustart+(uend-ustart)/2;
@@ -96,28 +96,28 @@ protected:
 			}
 		if(uitem>0&&IsAbove(pitem->GetId(), Id...))
 			uitem--;
-		return -(INT)uitem-1;
+		return -(int)uitem-1;
 		}
 
 	// Modification
-	template <class... PARAMS> BOOL AddInternal(INDEXITEM** Item, PARAMS... Id)
+	template <class... _Params> bool AddInternal(_IndexItem** Item, _Params... Id)
 		{
-		UINT u=GetInsertPos<PARAMS...>(Id...);
+		unsigned int u=GetInsertPos<_Params...>(Id...);
 		if(u==_GroupSize+1)
 			return true;
 		if(uItemCount==_GroupSize)
 			return false;
-		*Item=ARRAYHELPER::InsertAt(cItems.Get(), _GroupSize, &uItemCount, u);
+		*Item=_ArrayHelper::InsertAt(cItems.Get(), _GroupSize, &uItemCount, u);
 		return true;
 		}
-	template <class... PARAMS> UINT GetInsertPos(PARAMS... Id)const
+	template <class... _Params> unsigned int GetInsertPos(_Params... Id)const
 		{
-		INDEXITEM const* pitem=nullptr;
-		UINT ustart=0;
-		UINT uend=uItemCount;
+		_IndexItem const* pitem=nullptr;
+		unsigned int ustart=0;
+		unsigned int uend=uItemCount;
 		while(ustart<uend)
 			{
-			UINT u=ustart+(uend-ustart)/2;
+			unsigned int u=ustart+(uend-ustart)/2;
 			pitem=GetAt(u);
 			if(IsAbove(pitem->GetId(), Id...))
 				{
@@ -133,12 +133,12 @@ protected:
 			}
 		return ustart;
 		}
-	template <class... PARAMS> BOOL RemoveInternal(PARAMS... Id)
+	template <class... _Params> bool RemoveInternal(_Params... Id)
 		{
-		INT ipos=GetItemPos<PARAMS...>(Id...);
+		int ipos=GetItemPos<_Params...>(Id...);
 		if(ipos<0)
 			return false;
-		ARRAYHELPER::RemoveAt(cItems.Get(), &uItemCount, ipos);
+		_ArrayHelper::RemoveAt(cItems.Get(), &uItemCount, ipos);
 		return true;
 		}
 };
@@ -149,69 +149,69 @@ protected:
 //==================
 
 // Item-Group Index
-template <class ID, class ITEM, UINT _GroupSize>
-class IndexItemGroup: public IndexItemGroupBase<ID, ITEM, _GroupSize>
+template <class _Id, class _Item, unsigned int _GroupSize>
+class IndexItemGroup: public IndexItemGroupBase<_Id, _Item, _GroupSize>
 {
 public:
 	// Access
-	inline BOOL Contains(ID const& Id)const override { return GetItemPos<ID const&>(Id)>=0; }
-	inline INT Find(ID const& Id)const override { return GetItemPos<ID const&>(Id); }
-	inline INDEXITEM* Get(ID const& Id)override { return GetInternal<ID const&>(Id); }
-	inline INDEXITEM const* Get(ID const& Id)const override { return GetInternal<ID const&>(Id); }
+	inline bool Contains(_Id const& Id)const override { return GetItemPos<_Id const&>(Id)>=0; }
+	inline int Find(_Id const& Id)const override { return GetItemPos<_Id const&>(Id); }
+	inline _IndexItem* Get(_Id const& Id)override { return GetInternal<_Id const&>(Id); }
+	inline _IndexItem const* Get(_Id const& Id)const override { return GetInternal<_Id const&>(Id); }
 
 	// Modification
-	inline BOOL Add(INDEXITEM** Item, ID const& Id, BOOL Again)override { return AddInternal<ID const&>(Item, Id); }
-	inline BOOL Remove(ID const& Id)override { return RemoveInternal<ID const&>(Id); }
+	inline bool Add(_IndexItem** Item, _Id const& Id, bool Again)override { return AddInternal<_Id const&>(Item, Id); }
+	inline bool Remove(_Id const& Id)override { return RemoveInternal<_Id const&>(Id); }
 };
 
 // Item-Group Pointer-Index
-template <class ID, class ITEM, UINT _GroupSize>
-class IndexItemGroup<ID*, ITEM, _GroupSize>: public IndexItemGroupBase<ID*, ITEM, _GroupSize>
+template <class _Id, class _Item, unsigned int _GroupSize>
+class IndexItemGroup<_Id*, _Item, _GroupSize>: public IndexItemGroupBase<_Id*, _Item, _GroupSize>
 {
 public:
 	// Access
-	inline BOOL Contains(ID* Id)const override { return GetItemPos(Id)>=0; }
-	inline INT Find(ID* Id)const override { return GetItemPos(Id); }
-	inline INDEXITEM* Get(ID* Id)override { return GetInternal(Id); }
-	inline INDEXITEM const* Get(ID* Id)const override { return GetInternal(Id); }
+	inline bool Contains(_Id* Id)const override { return GetItemPos(Id)>=0; }
+	inline int Find(_Id* Id)const override { return GetItemPos(Id); }
+	inline _IndexItem* Get(_Id* Id)override { return GetInternal(Id); }
+	inline _IndexItem const* Get(_Id* Id)const override { return GetInternal(Id); }
 
 	// Modification
-	inline BOOL Add(INDEXITEM** Item, ID* Id, BOOL Again)override { return AddInternal(Item, Id); }
-	inline BOOL Remove(ID* Id)override { return RemoveInternal(Id); }
+	inline bool Add(_IndexItem** Item, _Id* Id, bool Again)override { return AddInternal(Item, Id); }
+	inline bool Remove(_Id* Id)override { return RemoveInternal(Id); }
 };
 
 #ifdef __cplusplus_winrt
 // Item-Group Handle-Index
-template <class ID, class ITEM, UINT _GroupSize>
-class IndexItemGroup<ID^, ITEM, _GroupSize>: public IndexItemGroupBase<ID^, ITEM, _GroupSize>
+template <class _Id, class _Item, unsigned int _GroupSize>
+class IndexItemGroup<_Id^, _Item, _GroupSize>: public IndexItemGroupBase<_Id^, _Item, _GroupSize>
 {
 public:
 	// Access
-	inline BOOL Contains(ID^ Id)const override { return GetItemPos(Id)>=0; }
-	inline INT Find(ID^ Id)const override { return GetItemPos(Id); }
-	inline INDEXITEM* Get(ID^ Id)override { return GetInternal(Id); }
-	inline INDEXITEM const* Get(ID^ Id)const override { return GetInternal(Id); }
+	inline bool Contains(_Id^ Id)const override { return GetItemPos(Id)>=0; }
+	inline int Find(_Id^ Id)const override { return GetItemPos(Id); }
+	inline _IndexItem* Get(_Id^ Id)override { return GetInternal(Id); }
+	inline _IndexItem const* Get(_Id^ Id)const override { return GetInternal(Id); }
 
 	// Modification
-	inline BOOL Add(INDEXITEM** Item, ID^ Id, BOOL Again)override { return AddInternal(Item, Id); }
-	inline BOOL Remove(ID^ Id)override { return RemoveInternal(Id); }
+	inline bool Add(_IndexItem** Item, _Id^ Id, bool Again)override { return AddInternal(Item, Id); }
+	inline bool Remove(_Id^ Id)override { return RemoveInternal(Id); }
 };
 #endif
 
 // Item-Group String-Index
-template <class CHAR, BOOL _AllocId, class ITEM, UINT _GroupSize>
-class IndexItemGroup<String<CHAR, _AllocId>, ITEM, _GroupSize>: public IndexItemGroupBase<String<CHAR, _AllocId>, ITEM, _GroupSize>
+template <class _Char, bool _AllocId, class _Item, unsigned int _GroupSize>
+class IndexItemGroup<String<_Char, _AllocId>, _Item, _GroupSize>: public IndexItemGroupBase<String<_Char, _AllocId>, _Item, _GroupSize>
 {
 public:
 	// Access
-	inline BOOL Contains(CHAR const* Id, UINT Length, BOOL CaseSensitive)const override { return GetItemPos(Id, Length, CaseSensitive)>=0; }
-	inline INT Find(CHAR const* Id, UINT Length, BOOL CaseSensitive)const override { return GetItemPos(Id, Length, CaseSensitive); }
-	inline INDEXITEM* Get(CHAR const* Id, UINT Length, BOOL CaseSensitive)override { return GetInternal(Id, Length, CaseSensitive); }
-	inline INDEXITEM const* Get(CHAR const* Id, UINT Length, BOOL CaseSensitive)const override { return GetInternal(Id, Length, CaseSensitive); }
+	inline bool Contains(_Char const* Id, unsigned int Length, bool CaseSensitive)const override { return GetItemPos(Id, Length, CaseSensitive)>=0; }
+	inline int Find(_Char const* Id, unsigned int Length, bool CaseSensitive)const override { return GetItemPos(Id, Length, CaseSensitive); }
+	inline _IndexItem* Get(_Char const* Id, unsigned int Length, bool CaseSensitive)override { return GetInternal(Id, Length, CaseSensitive); }
+	inline _IndexItem const* Get(_Char const* Id, unsigned int Length, bool CaseSensitive)const override { return GetInternal(Id, Length, CaseSensitive); }
 
 	// Modification
-	inline BOOL Add(INDEXITEM** Item, CHAR const* Id, UINT Length, BOOL CaseSensitive, BOOL Again)override { return AddInternal(Item, Id, Length, CaseSensitive); }
-	inline BOOL Remove(CHAR const* Id, UINT Length, BOOL CaseSensitive)override { return RemoveInternal(Id, Length, CaseSensitive); }
+	inline bool Add(_IndexItem** Item, _Char const* Id, unsigned int Length, bool CaseSensitive, bool Again)override { return AddInternal(Item, Id, Length, CaseSensitive); }
+	inline bool Remove(_Char const* Id, unsigned int Length, bool CaseSensitive)override { return RemoveInternal(Id, Length, CaseSensitive); }
 };
 
 }}}}

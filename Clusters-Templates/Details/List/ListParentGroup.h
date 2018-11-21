@@ -28,35 +28,35 @@ namespace Clusters {
 //===================
 
 // Parent-Group List
-template<class ITEM, UINT _GroupSize>
-class ListParentGroup: public Clusters::Templates::Details::Cluster::ParentGroup<ITEM, ListGroup<ITEM>, ListItemGroup<ITEM, _GroupSize>, ListParentGroup<ITEM, _GroupSize>, _GroupSize>
+template<class _Item, unsigned int _GroupSize>
+class ListParentGroup: public Clusters::Templates::Details::Cluster::ParentGroup<_Item, ListGroup<_Item>, ListItemGroup<_Item, _GroupSize>, ListParentGroup<_Item, _GroupSize>, _GroupSize>
 {
 private:
 	// Using
-	using GROUP=ListGroup<ITEM>;
-	using ITEMGROUP=ListItemGroup<ITEM, _GroupSize>;
-	using PARENTGROUP=ListParentGroup<ITEM, _GroupSize>;
-	using BASE=Clusters::Templates::Details::Cluster::ParentGroup<ITEM, GROUP, ITEMGROUP, PARENTGROUP, _GroupSize>;
+	using _Group=ListGroup<_Item>;
+	using _ItemGroup=ListItemGroup<_Item, _GroupSize>;
+	using _ParentGroup=ListParentGroup<_Item, _GroupSize>;
+	using _Base=Clusters::Templates::Details::Cluster::ParentGroup<_Item, _Group, _ItemGroup, _ParentGroup, _GroupSize>;
 
 public:
 	// Con-/Destructors
-	ListParentGroup(): BASE() {}
-	ListParentGroup(UINT Level): BASE(Level) {}
-	ListParentGroup(GROUP* Group): BASE(Group) {}
-	ListParentGroup(ListParentGroup const& Group): BASE(Group) {}
+	ListParentGroup(): _Base() {}
+	ListParentGroup(unsigned int Level): _Base(Level) {}
+	ListParentGroup(_Group* Group): _Base(Group) {}
+	ListParentGroup(ListParentGroup const& Group): _Base(Group) {}
 
 	// Modification
-	ITEM* Append(BOOL Again)override
+	_Item* Append(bool Again)override
 		{
-		ITEM* pitem=DoAppend(Again);
+		_Item* pitem=DoAppend(Again);
 		if(!pitem)
 			return nullptr;
 		uItemCount++;
 		return pitem;
 		}
-	ITEM* InsertAt(UINT64 Position, BOOL Again)override
+	_Item* InsertAt(size_t Position, bool Again)override
 		{
-		ITEM* pitem=DoInsert(Position, Again);
+		_Item* pitem=DoInsert(Position, Again);
 		if(!pitem)
 			return nullptr;
 		uItemCount++;
@@ -64,15 +64,15 @@ public:
 		}
 
 protected:
-	ITEM* DoAppend(BOOL Again)
+	_Item* DoAppend(bool Again)
 		{
-		UINT ugroup=uChildCount-1;
+		unsigned int ugroup=uChildCount-1;
 		if(!Again)
 			{
-			ITEM* pitem=ppChildren[ugroup]->Append(false);
+			_Item* pitem=ppChildren[ugroup]->Append(false);
 			if(pitem)
 				return pitem;
-			UINT udst=GetNearestGroup(ugroup);
+			unsigned int udst=GetNearestGroup(ugroup);
 			if(udst<uChildCount)
 				{
 				MoveChildren(ugroup, udst, 1);
@@ -84,28 +84,28 @@ protected:
 		if(!SplitChild(ugroup))
 			return nullptr;
 		MoveChildren(ugroup, ugroup+1, 1);
-		ITEM* pitem=ppChildren[ugroup+1]->Append(Again);
+		_Item* pitem=ppChildren[ugroup+1]->Append(Again);
 		ASSERT(pitem);
 		return pitem;
 		}
-	ITEM* DoInsert(UINT64 Position, BOOL Again)
+	_Item* DoInsert(size_t Position, bool Again)
 		{
-		UINT64 upos=Position;
-		UINT ugroup=0;
-		UINT uinscount=GetInsertPos(&upos, &ugroup);
+		size_t upos=Position;
+		unsigned int ugroup=0;
+		unsigned int uinscount=GetInsertPos(&upos, &ugroup);
 		if(!uinscount)
 			return nullptr;
 		if(!Again)
 			{
-			UINT64 uat=upos;
-			for(UINT u=0; u<uinscount; u++)
+			size_t uat=upos;
+			for(unsigned int u=0; u<uinscount; u++)
 				{
-				ITEM* pitem=ppChildren[ugroup+u]->InsertAt(uat, false);
+				_Item* pitem=ppChildren[ugroup+u]->InsertAt(uat, false);
 				if(pitem)
 					return pitem;
 				uat=0;
 				}
-			UINT udst=GetNearestGroup(ugroup);
+			unsigned int udst=GetNearestGroup(ugroup);
 			if(udst<uChildCount)
 				{
 				if(uinscount>1&&udst>ugroup)
@@ -113,10 +113,10 @@ protected:
 				MoveChildren(ugroup, udst, 1);
 				upos=Position;
 				uinscount=GetInsertPos(&upos, &ugroup);
-				UINT64 uat=upos;
-				for(UINT u=0; u<uinscount; u++)
+				size_t uat=upos;
+				for(unsigned int u=0; u<uinscount; u++)
 					{
-					ITEM* pitem=ppChildren[ugroup+u]->InsertAt(uat, false);
+					_Item* pitem=ppChildren[ugroup+u]->InsertAt(uat, false);
 					if(pitem)
 						return pitem;
 					uat=0;
@@ -126,22 +126,22 @@ protected:
 		if(!SplitChild(ugroup))
 			return nullptr;
 		MoveChildren(ugroup, ugroup+1, 1);
-		UINT64 ucount=ppChildren[ugroup]->GetItemCount();
+		size_t ucount=ppChildren[ugroup]->GetItemCount();
 		if(upos>=ucount)
 			{
 			ugroup++;
 			upos-=ucount;
 			}
-		ITEM* pitem=ppChildren[ugroup]->InsertAt(upos, Again);
+		_Item* pitem=ppChildren[ugroup]->InsertAt(upos, Again);
 		ASSERT(pitem);
 		return pitem;
 		}
-	UINT GetInsertPos(UINT64* Position, UINT* Group)
+	unsigned int GetInsertPos(size_t* Position, unsigned int* Group)
 		{
-		UINT64 upos=*Position;
-		for(UINT u=0; u<uChildCount; u++)
+		size_t upos=*Position;
+		for(unsigned int u=0; u<uChildCount; u++)
 			{
-			UINT64 ucount=ppChildren[u]->GetItemCount();
+			size_t ucount=ppChildren[u]->GetItemCount();
 			if(upos<=ucount)
 				{
 				*Group=u;

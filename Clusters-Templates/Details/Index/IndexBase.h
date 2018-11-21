@@ -27,27 +27,34 @@ namespace Clusters {
 // Base-Class Index
 //==================
 
-template<class ID, class ITEM, UINT _GroupSize>
-class IndexBase: public ::Clusters::Templates::Details::Cluster::Cluster<IndexItem<ID, ITEM>, IndexGroup<ID, ITEM>, IndexItemGroup<ID, ITEM, _GroupSize>, IndexParentGroup<ID, ITEM, _GroupSize>, IndexIterator<ID, ITEM, _GroupSize, true>, IndexIterator<ID, ITEM, _GroupSize, false>>
+template<class _Id, class _Item, unsigned int _GroupSize>
+class IndexBase: public ::Clusters::Templates::Details::Cluster::Cluster<IndexItem<_Id, _Item>, IndexGroup<_Id, _Item>, IndexItemGroup<_Id, _Item, _GroupSize>, IndexParentGroup<_Id, _Item, _GroupSize>, IndexIterator<_Id, _Item, _GroupSize, true>, IndexIterator<_Id, _Item, _GroupSize, false>>
 {
 public:
 	// Types
-	typedef IndexIterator<ID, ITEM, _GroupSize, true> IteratorReadOnly;
-	typedef IndexIterator<ID, ITEM, _GroupSize, false> IteratorReadWrite;
+	typedef IndexIterator<_Id, _Item, _GroupSize, true> IteratorReadOnly;
+	typedef IndexIterator<_Id, _Item, _GroupSize, false> IteratorReadWrite;
 
 protected:
 	// Using
-	using INDEXITEM=IndexItem<ID, ITEM>;
-	using GROUP=IndexGroup<ID, ITEM>;
-	using ITEMGROUP=IndexItemGroup<ID, ITEM, _GroupSize>;
-	using PARENTGROUP=IndexParentGroup<ID, ITEM, _GroupSize>;
+	using _IndexItem=IndexItem<_Id, _Item>;
+	using _Group=IndexGroup<_Id, _Item>;
+	using _ItemGroup=IndexItemGroup<_Id, _Item, _GroupSize>;
+	using _ParentGroup=IndexParentGroup<_Id, _Item, _GroupSize>;
 
 	// Access
-	template <class... PARAMS> inline BOOL ContainsInternal(PARAMS... Id)const { return pRoot->Contains(Id...); }
-	template <class RET, class... PARAMS> inline RET GetInternal(PARAMS... Id)const { return pRoot->Get(Id...)->GetItem(); }
-	template <class RET, class... PARAMS> BOOL TryGetInternal(PARAMS... Id, RET* Item)const
+	template <class... _Params> inline bool ContainsInternal(_Params... Id)const { return pRoot->Contains(Id...); }
+	template <class _Ret, class... _Params> inline _Ret GetInternal(_Params... Id)const { return pRoot->Get(Id...)->GetItem(); }
+	template <class _Ret, class... _Params> _Ret GetInternalPointer(_Params... Id)const
 		{
-		INDEXITEM* pitem=pRoot->Get(Id...);
+		auto pitem=pRoot->Get(Id...);
+		if(pitem==nullptr)
+			return nullptr;
+		return pitem->GetItem();
+		}
+	template <class _Ret, class... _Params> bool TryGetInternal(_Params... Id, _Ret* Item)const
+		{
+		_IndexItem* pitem=pRoot->Get(Id...);
 		if(!pitem)
 			return false;
 		*Item=pitem->GetItem();
@@ -55,12 +62,12 @@ protected:
 		}
 
 	// Modification
-	template <class ID, class... ITEM> BOOL AddInternal(ID Id, ITEM... Item)
+	template <class _Id, class... _Item> bool AddInternal(_Id Id, _Item... Item)
 		{
-		INDEXITEM* pitem=nullptr;
+		_IndexItem* pitem=nullptr;
 		if(!pRoot->Add(&pitem, Id, false))
 			{
-			pRoot=new PARENTGROUP(pRoot);
+			pRoot=new _ParentGroup(pRoot);
 			pRoot->Add(&pitem, Id, true);
 			ASSERT(pitem!=nullptr);
 			}
@@ -69,15 +76,15 @@ protected:
 			if(pitem==nullptr)
 				return false;
 			}
-		new (pitem) INDEXITEM(Id, Item...);
+		new (pitem) _IndexItem(Id, Item...);
 		return true;
 		}
-	template <class CHAR, class... ITEM> BOOL AddStringInternal(CHAR const* Id, UINT Length, BOOL CaseSensitive, ITEM... Item)
+	template <class _Char, class... _Item> bool AddStringInternal(_Char const* Id, unsigned int Length, bool CaseSensitive, _Item... Item)
 		{
-		INDEXITEM* pitem=nullptr;
+		_IndexItem* pitem=nullptr;
 		if(!pRoot->Add(&pitem, Id, Length, CaseSensitive, false))
 			{
-			pRoot=new PARENTGROUP(pRoot);
+			pRoot=new _ParentGroup(pRoot);
 			pRoot->Add(&pitem, Id, Length, CaseSensitive, true);
 			ASSERT(pitem!=nullptr);
 			}
@@ -86,35 +93,35 @@ protected:
 			if(pitem==nullptr)
 				return false;
 			}
-		new (pitem) INDEXITEM(Id, Length, false,  Item...);
+		new (pitem) _IndexItem(Id, Length, false,  Item...);
 		return true;
 		}
-	template <class... PARAMS> BOOL RemoveInternal(PARAMS... Id)
+	template <class... _Params> bool RemoveInternal(_Params... Id)
 		{
 		if(!pRoot->Remove(Id...))
 			return false;
 		UpdateRoot();
 		return true;
 		}
-	template <class ID, class... ITEM> VOID SetInternal(ID Id, ITEM... Item)
+	template <class _Id, class... _Item> void SetInternal(_Id Id, _Item... Item)
 		{
-		INDEXITEM* pitem=pRoot->Get(Id);
+		_IndexItem* pitem=pRoot->Get(Id);
 		if(pitem!=nullptr)
 			{
 			pitem->SetItem(Item...);
 			return;
 			}
-		AddInternal<ID, ITEM...>(Id, Item...);
+		AddInternal<_Id, _Item...>(Id, Item...);
 		}
-	template <class CHAR, class... ITEM> VOID SetStringInternal(CHAR const* Id, UINT Length, BOOL CaseSensitive, ITEM... Item)
+	template <class _Char, class... _Item> void SetStringInternal(_Char const* Id, unsigned int Length, bool CaseSensitive, _Item... Item)
 		{
-		INDEXITEM* pitem=pRoot->Get(Id, Length, CaseSensitive);
+		_IndexItem* pitem=pRoot->Get(Id, Length, CaseSensitive);
 		if(pitem!=nullptr)
 			{
 			pitem->SetItem(Item...);
 			return;
 			}
-		AddStringInternal<CHAR, ITEM...>(Id, Length, CaseSensitive, Item...);
+		AddStringInternal<_Char, _Item...>(Id, Length, CaseSensitive, Item...);
 		}
 };
 

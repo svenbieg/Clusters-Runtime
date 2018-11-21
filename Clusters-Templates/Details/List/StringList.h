@@ -28,60 +28,60 @@ namespace Clusters {
 //=============
 
 // String-List
-template<class CHAR, BOOL _Alloc, UINT _GroupSize>
-class StringList: public ListBase<String<CHAR, _Alloc>, _GroupSize>
+template<class _Char, bool _Alloc, unsigned int _GroupSize>
+class StringList: public ListBase<String<_Char, _Alloc>, _GroupSize>
 {
 public:
 	// Access
-	inline CHAR const* operator[](UINT64 Position)const { return GetAt(Position); }
-	inline CHAR const* GetAt(UINT64 Position)const { return pRoot->GetAt(Position); }
+	inline _Char const* operator[](size_t Position)const { return GetAt(Position); }
+	inline _Char const* GetAt(size_t Position)const { return pRoot->GetAt(Position); }
 
 	// Modification
-	UINT Append(CHAR const* Value, UINT Length=0)
+	unsigned int Append(_Char const* Value, unsigned int Length=0)
 		{
-		String<CHAR, _Alloc>* pitem=AppendInternal();
-		new (pitem) String<CHAR, _Alloc>();
+		String<_Char, _Alloc>* pitem=AppendInternal();
+		new (pitem) String<_Char, _Alloc>();
 		return pitem->Set(Value, Length);
 		}
-	UINT InsertAt(UINT64 Position, CHAR const* Value, UINT Length=0)
+	unsigned int InsertAt(size_t Position, _Char const* Value, unsigned int Length=0)
 		{
-		String<CHAR, _Alloc>* pitem=InsertInternal(Position);
-		new (pitem) String<CHAR, _Alloc>();
+		String<_Char, _Alloc>* pitem=InsertInternal(Position);
+		new (pitem) String<_Char, _Alloc>();
 		return pitem->Set(Value, Length);
 		}
-	CHAR const* ReleaseAt(UINT64 Position)
+	_Char const* ReleaseAt(size_t Position)
 		{
-		CHAR const* pitem=pRoot->ReleaseAt(Position);
+		_Char const* pitem=pRoot->ReleaseAt(Position);
 		UpdateRoot();
 		return pitem;
 		}
 };
 
 // Shared String-List
-template<class CHAR, UINT _GroupSize>
-class StringList<CHAR, false, _GroupSize>: public ListBase<String<CHAR, false>, _GroupSize>
+template<class _Char, unsigned int _GroupSize>
+class StringList<_Char, false, _GroupSize>: public ListBase<String<_Char, false>, _GroupSize>
 {
 public:
 	// Access
-	inline CHAR const* operator[](UINT64 Position)const { return GetAt(Position); }
-	CHAR const* GetAt(UINT64 Position)const { return pRoot->GetAt(Position); }
+	inline _Char const* operator[](size_t Position)const { return GetAt(Position); }
+	_Char const* GetAt(size_t Position)const { return pRoot->GetAt(Position); }
 
 	// Modification
-	VOID Append(CHAR const* Value)
+	void Append(_Char const* Value)
 		{
-		String<CHAR, false>* pitem=AppendInternal();
-		new (pitem) String<CHAR, false>();
+		String<_Char, false>* pitem=AppendInternal();
+		new (pitem) String<_Char, false>();
 		pitem->Set(Value);
 		}
-	VOID InsertAt(UINT64 Position, CHAR const* Value)
+	void InsertAt(size_t Position, _Char const* Value)
 		{
-		String<CHAR, false>* pitem=InsertInternal(Position);
-		new (pitem) String<CHAR, false>();
+		String<_Char, false>* pitem=InsertInternal(Position);
+		new (pitem) String<_Char, false>();
 		pitem->Set(Value);
 		}
-	CHAR const* ReleaseAt(UINT64 Position)
+	_Char const* ReleaseAt(size_t Position)
 		{
-		CHAR const* pitem=pRoot->ReleaseAt(Position);
+		_Char const* pitem=pRoot->ReleaseAt(Position);
 		UpdateRoot();
 		return pitem;
 		}

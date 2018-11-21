@@ -19,17 +19,17 @@ namespace Clusters {
 // Base-Class Group Cluster
 //==========================
 
-template <class ITEM>
+template <class _Item>
 class GroupBase
 {
 public:
 	// Access
-	virtual UINT GetChildCount()const=0;
-	virtual UINT64 GetItemCount()const=0;
-	virtual UINT GetLevel()const=0;
+	virtual unsigned int GetChildCount()const=0;
+	virtual size_t GetItemCount()const=0;
+	virtual unsigned int GetLevel()const=0;
 
 	// Modification
-	virtual VOID RemoveAt(UINT64 Position)=0;
+	virtual void RemoveAt(size_t Position)=0;
 
 protected:
 	// Con-Destructors
@@ -42,48 +42,48 @@ protected:
 //===============
 
 // Group Cluster
-template <class ITEM>
-class Group: public GroupBase<ITEM>
+template <class _Item>
+class Group: public GroupBase<_Item>
 {
 public:
 	// Access
-	virtual ITEM* GetAt(UINT64 Position)=0;
-	virtual ITEM const* GetAt(UINT64 Position)const=0;
+	virtual _Item* GetAt(size_t Position)=0;
+	virtual _Item const* GetAt(size_t Position)const=0;
 };
 
 // Group Pointer-Cluster
-template <class ITEM>
-class Group<ITEM*>: public GroupBase<ITEM*>
+template <class _Item>
+class Group<_Item*>: public GroupBase<_Item*>
 {
 public:
 	// Access
-	virtual ITEM* GetAt(UINT64 Position)const=0;
+	virtual _Item* GetAt(size_t Position)const=0;
 
 	// Modification
-	virtual ITEM* ReleaseAt(UINT64 Position)=0;
+	virtual _Item* ReleaseAt(size_t Position)=0;
 };
 
 #ifdef __cplusplus_winrt
 // Group Handle-Cluster
-template <class ITEM>
-class Group<ITEM^>: public GroupBase<ITEM^>
+template <class _Item>
+class Group<_Item^>: public GroupBase<_Item^>
 {
 public:
 	// Access
-	virtual ITEM^ GetAt(UINT64 Position)const=0;
+	virtual _Item^ GetAt(size_t Position)const=0;
 };
 #endif
 
 // Group String-Cluster
-template <class CHAR, BOOL _Alloc>
-class Group<String<CHAR, _Alloc>>: public GroupBase<String<CHAR, _Alloc>>
+template <class _Char, bool _Alloc>
+class Group<String<_Char, _Alloc>>: public GroupBase<String<_Char, _Alloc>>
 {
 public:
 	// Access
-	virtual CHAR const* GetAt(UINT64 Position)const=0;
+	virtual _Char const* GetAt(size_t Position)const=0;
 
 	// Modification
-	virtual CHAR const* ReleaseAt(UINT64 Position)=0;
+	virtual _Char const* ReleaseAt(size_t Position)=0;
 };
 
 }}}}
