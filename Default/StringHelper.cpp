@@ -345,22 +345,24 @@ return StringCompare<WCHAR, WCHAR>(pstr1, ulen1, pstr2, ulen2, bcs);
 template <class T, class V>
 UINT StringAssign(T** ppstr, UINT* psize, V const* passign, UINT ucopy)
 {
+UINT ulen=StringLength(passign, ucopy);
+if(ulen==0)
+	return StringClear(ppstr, psize);
 T* pstr=*ppstr;
 UINT usize=0;
 if(psize)
 	usize=*psize;
-UINT ulen=StringLength(passign, ucopy);
 if(ulen+1>usize)
 	{
-	delete pstr;
+	if(pstr!=nullptr)
+		delete pstr;
 	usize=ulen+1;
 	pstr=new T[usize];
 	*ppstr=pstr;
 	if(psize)
 		*psize=usize;
 	}
-StringCopy(pstr, usize, passign, ucopy);
-return ulen;
+return StringCopy(pstr, usize, passign, ulen);
 }
 
 UINT StringAssign(LPSTR* ppstr, UINT* psize, LPCSTR passign, UINT ulen)
@@ -474,22 +476,27 @@ return StringAppend<WCHAR, WCHAR>(ppstr, psize, pappend, ulen);
 }
 
 template <class T>
-VOID StringClear(T** ppstr, UINT* psize)
+UINT StringClear(T** ppstr, UINT* psize)
 {
-delete *ppstr;
-*ppstr=nullptr;
+T* pstr=*ppstr;
+if(pstr!=nullptr)
+	{
+	delete pstr;
+	*ppstr=nullptr;
+	}
 if(psize)
 	*psize=0;
+return 0;
 }
 
-VOID StringClear(LPSTR* ppstr, UINT* psize)
+UINT StringClear(LPSTR* ppstr, UINT* psize)
 {
-StringClear<CHAR>(ppstr, psize);
+return StringClear<CHAR>(ppstr, psize);
 }
 
-VOID StringClear(LPWSTR* ppstr, UINT* psize)
+UINT StringClear(LPWSTR* ppstr, UINT* psize)
 {
-StringClear<WCHAR>(ppstr, psize);
+return StringClear<WCHAR>(ppstr, psize);
 }
 
 template <class T, class V>
