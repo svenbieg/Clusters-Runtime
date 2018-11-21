@@ -96,8 +96,8 @@ public:
 };
 #endif
 
-template<unsigned int _GroupSize> class List<char*, _GroupSize>: public StringList<_Char, true, _GroupSize> {}; // Ansi-List
-template<unsigned int _GroupSize> class List<char const*, _GroupSize>: public StringList<_Char, false, _GroupSize> {}; // Shared Ansi-List
+template<unsigned int _GroupSize> class List<char*, _GroupSize>: public StringList<char, true, _GroupSize> {}; // Ansi-List
+template<unsigned int _GroupSize> class List<char const*, _GroupSize>: public StringList<char, false, _GroupSize> {}; // Shared Ansi-List
 template<unsigned int _GroupSize> class List<wchar_t*, _GroupSize>: public StringList<wchar_t, true, _GroupSize> {}; // Unicode-List
 template<unsigned int _GroupSize> class List<wchar_t const*, _GroupSize>: public StringList<wchar_t, false, _GroupSize> {}; // Shared Unicode-List
 
