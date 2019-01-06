@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "..\Cluster\ParentGroup.h"
+#include "../Cluster/ParentGroup.h"
 #include "IndexItemGroup.h"
 
 
@@ -27,39 +27,37 @@ namespace Clusters {
 // Base-Class Parent-Group Index
 //===============================
 
-template <class _Id, class _Item, class _ParentGroup, unsigned int _GroupSize>
+template <class _Id, class _Item, class _ParentGroup, UINT _GroupSize>
 class IndexParentGroupBase: public ::Clusters::Templates::Details::Cluster::ParentGroup<IndexItem<_Id, _Item>, IndexGroup<_Id, _Item>, IndexItemGroup<_Id, _Item, _GroupSize>, _ParentGroup, _GroupSize>
 {
-protected:
-	// Using
-	using _IndexItem=IndexItem<_Id, _Item>;
-	using _Group=IndexGroup<_Id, _Item>;
-	using _ItemGroup=IndexItemGroup<_Id, _Item, _GroupSize>;
-
 private:
 	// Using
-	using _Base=::Clusters::Templates::Details::Cluster::ParentGroup<_IndexItem, _Group, _ItemGroup, _ParentGroup, _GroupSize>;
+	using _IndexItem=IndexItem<_Id, _Item>;
+	using _IndexGroup=IndexGroup<_Id, _Item>;
+	using _IndexItemGroup=IndexItemGroup<_Id, _Item, _GroupSize>;
+	using _IndexParentGroupBase=IndexParentGroupBase<_Id, _Item, _ParentGroup, _GroupSize>;
+	using _ClusterParentGroup=::Clusters::Templates::Details::Cluster::ParentGroup<_IndexItem, _IndexGroup, _IndexItemGroup, _ParentGroup, _GroupSize>;
 
 public:
 	// Modification
-	inline void AppendGroups(_Group *const* Groups, unsigned int Count)override
+	inline VOID AppendGroups(_IndexGroup *const* Groups, UINT Count)override
 		{
-		_Base::AppendGroups(Groups, Count);
+		_ClusterParentGroup::AppendGroups(Groups, Count);
 		UpdateBounds();
 		}
-	inline void InsertGroups(unsigned int Position, _Group *const* Groups, unsigned int Count)override
+	inline VOID InsertGroups(UINT Position, _IndexGroup *const* Groups, UINT Count)override
 		{
-		_Base::InsertGroups(Position, Groups, Count);
+		_ClusterParentGroup::InsertGroups(Position, Groups, Count);
 		UpdateBounds();
 		}
-	inline void RemoveAt(size_t Position)override
+	inline VOID RemoveAt(SIZE_T Position)override
 		{
-		_Base::RemoveAt(Position);
+		_ClusterParentGroup::RemoveAt(Position);
 		UpdateBounds();
 		}
-	inline void RemoveGroups(unsigned int Position, unsigned int Count)override
+	inline VOID RemoveGroups(UINT Position, UINT Count)override
 		{
-		_Base::RemoveGroups(Position, Count);
+		_ClusterParentGroup::RemoveGroups(Position, Count);
 		UpdateBounds();
 		}
 
@@ -71,123 +69,127 @@ public:
 
 protected:
 	// Con-/Destructors
-	IndexParentGroupBase(): _Base(), pFirst(nullptr), pLast(nullptr) {}
-	IndexParentGroupBase(unsigned int Level): _Base(Level), pFirst(nullptr), pLast(nullptr) {}
-	IndexParentGroupBase(_Group* Child): _Base(Child), pFirst(Child->GetFirst()), pLast(Child->GetLast()) {}
-	IndexParentGroupBase(IndexParentGroupBase const& Group): _Base(Group), pFirst(ppChildren[0]->GetFirst()), pLast(ppChildren[uChildCount-1]->GetLast()) {}
+	IndexParentGroupBase(): _ClusterParentGroup(), pFirst(nullptr), pLast(nullptr) {}
+	IndexParentGroupBase(UINT Level): _ClusterParentGroup(Level), pFirst(nullptr), pLast(nullptr) {}
+	IndexParentGroupBase(_IndexGroup* Child): _ClusterParentGroup(Child), pFirst(Child->GetFirst()), pLast(Child->GetLast()) {}
+	IndexParentGroupBase(_IndexParentGroupBase const& Group):
+		_ClusterParentGroup(Group),
+		pFirst(this->ppChildren[0]->GetFirst()),
+		pLast(this->ppChildren[this->uChildCount-1]->GetLast())
+		{}
 
 	// Access
 	template <class... _Params> _IndexItem* GetInternal(_Params... Id)
 		{
-		int ipos=GetItemPos<_Params...>(Id...);
+		INT ipos=GetItemPos<_Params...>(Id...);
 		if(ipos<0)
 			return nullptr;
-		return ppChildren[ipos]->Get(Id...);
+		return this->ppChildren[ipos]->Get(Id...);
 		}
 	template <class... _Params> _IndexItem const* GetInternal(_Params... Id)const
 		{
-		int ipos=GetItemPos<_Params...>(Id...);
+		INT ipos=GetItemPos<_Params...>(Id...);
 		if(ipos<0)
 			return nullptr;
-		return ppChildren[ipos]->Get(Id...);
+		return this->ppChildren[ipos]->Get(Id...);
 		}
-	template <class... _Params> int GetItemPos(_Params... Id)const
+	template <class... _Params> INT GetItemPos(_Params... Id)const
 		{
-		if(!uChildCount)
+		if(!this->uChildCount)
 			return -1;
-		unsigned int ustart=0;
-		unsigned int uend=uChildCount;
-		unsigned int ugroup=0;
+		UINT ustart=0;
+		UINT uend=this->uChildCount;
+		UINT ugroup=0;
 		_IndexItem* pfirst=nullptr;
 		_IndexItem* plast=nullptr;
 		while(ustart<uend)
 			{
 			ugroup=ustart+(uend-ustart)/2;
-			pfirst=ppChildren[ugroup]->GetFirst();
-			if(IsAbove(pfirst->GetId(), Id...))
+			pfirst=this->ppChildren[ugroup]->GetFirst();
+			if(this->IsAbove(pfirst->GetId(), Id...))
 				{
 				uend=ugroup;
 				continue;
 				}
-			plast=ppChildren[ugroup]->GetLast();
-			if(IsBelow(plast->GetId(), Id...))
+			plast=this->ppChildren[ugroup]->GetLast();
+			if(this->IsBelow(plast->GetId(), Id...))
 				{
 				ustart=ugroup+1;
 				continue;
 				}
 			return ugroup;
 			}
-		if(ugroup>0&&IsAbove(pfirst->GetId(), Id...))
+		if(ugroup>0&&this->IsAbove(pfirst->GetId(), Id...))
 			ugroup--;
-		return -(int)ugroup-1;
+		return -(INT)ugroup-1;
 		}
 
 	// Modification
-	template <class... _Params> bool AddInternal(_IndexItem** Item, bool Again, _Params... Id)
+	template <class... _Params> BOOL AddInternal(_IndexItem** Item, BOOL Again, _Params... Id)
 		{
 		if(!DoAdd<_Params...>(Item, Again, Id...))
 			return false;
 		if(!*Item)
 			return true;
-		uItemCount++;
+		this->uItemCount++;
 		UpdateBounds();
 		return true;
 		}
-	template <class... _Params> bool DoAdd(_IndexItem** Item, bool Again, _Params... Id)
+	template <class... _Params> BOOL DoAdd(_IndexItem** Item, BOOL Again, _Params... Id)
 		{
-		unsigned int ugroup=0;
-		unsigned int uinscount=GetInsertPos<_Params...>(&ugroup, Id...);
+		UINT ugroup=0;
+		UINT uinscount=GetInsertPos<_Params...>(&ugroup, Id...);
 		if(uinscount==_GroupSize)
 			return true;
 		if(!Again)
 			{
-			for(unsigned int u=0; u<uinscount; u++)
+			for(UINT u=0; u<uinscount; u++)
 				{
-				if(ppChildren[ugroup+u]->Add(Item, Id..., false))
+				if(this->ppChildren[ugroup+u]->Add(Item, Id..., false))
 					return true;
 				}
-			unsigned int udst=GetNearestGroup(ugroup);
-			if(udst<uChildCount)
+			UINT udst=this->GetNearestGroup(ugroup);
+			if(udst<this->uChildCount)
 				{
 				if(uinscount>1&&udst>ugroup)
 					ugroup++;
-				MoveChildren(ugroup, udst, 1);
-				if(ppChildren[ugroup]->Add(Item, Id..., false))
+				this->MoveChildren(ugroup, udst, 1);
+				if(this->ppChildren[ugroup]->Add(Item, Id..., false))
 					return true;
 				}
 			}
-		if(!SplitChild(ugroup))
+		if(!this->SplitChild(ugroup))
 			return false;
-		MoveChildren(ugroup, ugroup+1, 1);
-		_IndexItem* plast=ppChildren[ugroup]->GetLast();
-		if(IsBelow(plast->GetId(), Id...))
+		this->MoveChildren(ugroup, ugroup+1, 1);
+		_IndexItem* plast=this->ppChildren[ugroup]->GetLast();
+		if(this->IsBelow(plast->GetId(), Id...))
 			ugroup++;
-		bool badded=ppChildren[ugroup]->Add(Item, Id..., Again);
+		BOOL badded=this->ppChildren[ugroup]->Add(Item, Id..., Again);
 		ASSERT(badded);
 		return true;
 		}
-	template <class... _Params> unsigned int GetInsertPos(unsigned int* Group, _Params... Id)const
+	template <class... _Params> UINT GetInsertPos(UINT* Group, _Params... Id)const
 		{
-		ASSERT(uChildCount>0);
-		unsigned int ustart=0;
-		unsigned int uend=uChildCount;
+		ASSERT(this->uChildCount>0);
+		UINT ustart=0;
+		UINT uend=this->uChildCount;
 		_IndexItem* pfirst=nullptr;
 		_IndexItem* plast=nullptr;
 		while(ustart<uend)
 			{
-			unsigned int u=ustart+(uend-ustart)/2;
-			pfirst=ppChildren[u]->GetFirst();
-			plast=ppChildren[u]->GetLast();
-			if(IsEqual(pfirst->GetId(), Id...))
+			UINT u=ustart+(uend-ustart)/2;
+			pfirst=this->ppChildren[u]->GetFirst();
+			plast=this->ppChildren[u]->GetLast();
+			if(this->IsEqual(pfirst->GetId(), Id...))
 				return _GroupSize;
-			if(IsEqual(plast->GetId(), Id...))
+			if(this->IsEqual(plast->GetId(), Id...))
 				return _GroupSize;
-			if(IsAbove(pfirst->GetId(), Id...))
+			if(this->IsAbove(pfirst->GetId(), Id...))
 				{
 				uend=u;
 				continue;
 				}
-			if(IsBelow(plast->GetId(), Id...))
+			if(this->IsBelow(plast->GetId(), Id...))
 				{
 				ustart=u+1;
 				continue;
@@ -195,44 +197,44 @@ protected:
 			ustart=u;
 			break;
 			}
-		if(ustart>uChildCount-1)
-			ustart=uChildCount-1;
+		if(ustart>this->uChildCount-1)
+			ustart=this->uChildCount-1;
 		*Group=ustart;
 		if(ustart>0)
 			{
-			pfirst=ppChildren[ustart]->GetFirst();
-			if(IsAbove(pfirst->GetId(), Id...))
+			pfirst=this->ppChildren[ustart]->GetFirst();
+			if(this->IsAbove(pfirst->GetId(), Id...))
 				{
 				*Group=ustart-1;
 				return 2;
 				}
 			}
-		if(ustart+1<uChildCount)
+		if(ustart+1<this->uChildCount)
 			{
-			plast=ppChildren[ustart]->GetLast();
-			if(IsBelow(plast->GetId(), Id...))
+			plast=this->ppChildren[ustart]->GetLast();
+			if(this->IsBelow(plast->GetId(), Id...))
 				return 2;
 			}
 		return 1;
 		}
-	template <class... _Params> bool RemoveInternal(_Params... Id)
+	template <class... _Params> BOOL RemoveInternal(_Params... Id)
 		{
-		int ipos=GetItemPos<_Params...>(Id...);
+		INT ipos=GetItemPos<_Params...>(Id...);
 		if(ipos<0)
 			return false;
-		if(!ppChildren[ipos]->Remove(Id...))
+		if(!this->ppChildren[ipos]->Remove(Id...))
 			return false;
-		uItemCount--;
-		CombineChildren(ipos);
+		this->uItemCount--;
+		this->CombineChildren(ipos);
 		UpdateBounds();
 		return true;
 		}
-	void UpdateBounds()
+	VOID UpdateBounds()
 		{
-		if(!uChildCount)
+		if(!this->uChildCount)
 			return;
-		pFirst=ppChildren[0]->GetFirst();
-		pLast=ppChildren[uChildCount-1]->GetLast();
+		pFirst=this->ppChildren[0]->GetFirst();
+		pLast=this->ppChildren[this->uChildCount-1]->GetLast();
 		}
 	_IndexItem* pFirst;
 	_IndexItem* pLast;
@@ -244,109 +246,121 @@ protected:
 //====================
 
 // Parent-Group Index
-template <class _Id, class _Item, unsigned int _GroupSize>
+template <class _Id, class _Item, UINT _GroupSize>
 class IndexParentGroup: public IndexParentGroupBase<_Id, _Item, IndexParentGroup<_Id, _Item, _GroupSize>, _GroupSize>
 {
 private:
 	// Using
-	using _Base=IndexParentGroupBase<_Id, _Item, IndexParentGroup<_Id, _Item, _GroupSize>, _GroupSize>;
+	using _IndexItem=IndexItem<_Id, _Item>;
+	using _IndexGroup=IndexGroup<_Id, _Item>;
+	using _IndexParentGroup=IndexParentGroup<_Id, _Item, _GroupSize>;
+	using _IndexParentGroupBase=IndexParentGroupBase<_Id, _Item, _IndexParentGroup, _GroupSize>;
 
 public:
 	// Con-/Destructors
-	IndexParentGroup(): _Base() {}
-	IndexParentGroup(unsigned int Level): _Base(Level) {}
-	IndexParentGroup(_Group* Child): _Base(Child) {}
-	IndexParentGroup(IndexParentGroup const& Group): _Base(Group) {}
+	IndexParentGroup(): _IndexParentGroupBase() {}
+	IndexParentGroup(UINT Level): _IndexParentGroupBase(Level) {}
+	IndexParentGroup(_IndexGroup* Child): _IndexParentGroupBase(Child) {}
+	IndexParentGroup(IndexParentGroup const& Group): _IndexParentGroupBase(Group) {}
 
 	// Access
-	inline bool Contains(_Id const& Id)const override { return GetItemPos<_Id const&>(Id)>=0; }
-	inline int Find(_Id const& Id)const override { return GetItemPos<_Id const&>(Id); }
-	inline _IndexItem* Get(_Id const& Id)override { return GetInternal<_Id const&>(Id); }
-	inline _IndexItem const* Get(_Id const& Id)const override { return GetInternal<_Id const&>(Id); }
+	inline BOOL Contains(_Id const& Id)const override { return this->template GetItemPos<_Id const&>(Id)>=0; }
+	inline INT Find(_Id const& Id)const override { return this->template GetItemPos<_Id const&>(Id); }
+	inline _IndexItem* Get(_Id const& Id)override { return this->template GetInternal<_Id const&>(Id); }
+	inline _IndexItem const* Get(_Id const& Id)const override { return this->template GetInternal<_Id const&>(Id); }
 
 	// Modification
-	inline bool Add(_IndexItem** Item, _Id const& Id, bool Again)override { return AddInternal<_Id const&>(Item, Again, Id); }
-	inline bool Remove(_Id const& Id)override { return RemoveInternal<_Id const&>(Id); }
+	inline BOOL Add(_IndexItem** Item, _Id const& Id, BOOL Again)override { return this->template AddInternal<_Id const&>(Item, Again, Id); }
+	inline BOOL Remove(_Id const& Id)override { return this->template RemoveInternal<_Id const&>(Id); }
 };
 
 // Parent-Group Pointer-Index
-template <class _Id, class _Item, unsigned int _GroupSize>
+template <class _Id, class _Item, UINT _GroupSize>
 class IndexParentGroup<_Id*, _Item, _GroupSize>: public IndexParentGroupBase<_Id*, _Item, IndexParentGroup<_Id*, _Item, _GroupSize>, _GroupSize>
 {
 private:
 	// Using
-	using _Base=IndexParentGroupBase<_Id*, _Item, IndexParentGroup<_Id*, _Item, _GroupSize>, _GroupSize>;
+	using _IndexItem=IndexItem<_Id*, _Item>;
+	using _IndexGroup=IndexGroup<_Id*, _Item>;
+	using _IndexParentGroup=IndexParentGroup<_Id*, _Item, _GroupSize>;
+	using _IndexParentGroupBase=IndexParentGroupBase<_Id*, _Item, _IndexParentGroup, _GroupSize>;
 
 public:
 	// Con-/Destructors
-	IndexParentGroup(): _Base() {}
-	IndexParentGroup(unsigned int Level): _Base(Level) {}
-	IndexParentGroup(_Group* Child): _Base(Child) {}
-	IndexParentGroup(IndexParentGroup const& Group): _Base(Group) {}
+	IndexParentGroup(): _IndexParentGroupBase() {}
+	IndexParentGroup(UINT Level): _IndexParentGroupBase(Level) {}
+	IndexParentGroup(_IndexGroup* Child): _IndexParentGroupBase(Child) {}
+	IndexParentGroup(IndexParentGroup const& Group): _IndexParentGroupBase(Group) {}
 
 	// Access
-	inline bool Contains(_Id* Id)const override { return GetItemPos(Id)>=0; }
-	inline int Find(_Id* Id)const override { return GetItemPos(Id); }
-	inline _IndexItem* Get(_Id* Id)override { return GetInternal(Id); }
-	inline _IndexItem const* Get(_Id* Id)const override { return GetInternal(Id); }
+	inline BOOL Contains(_Id* Id)const override { return this->GetItemPos(Id)>=0; }
+	inline INT Find(_Id* Id)const override { return this->GetItemPos(Id); }
+	inline _IndexItem* Get(_Id* Id)override { return this->GetInternal(Id); }
+	inline _IndexItem const* Get(_Id* Id)const override { return this->GetInternal(Id); }
 
 	// Modification
-	inline bool Add(_IndexItem** Item, _Id* Id, bool Again)override { return AddInternal(Item, Again, Id); }
-	inline bool Remove(_Id* Id)override { return RemoveInternal(Id); }
+	inline BOOL Add(_IndexItem** Item, _Id* Id, BOOL Again)override { return this->AddInternal(Item, Again, Id); }
+	inline BOOL Remove(_Id* Id)override { return this->RemoveInternal(Id); }
 };
 
 #ifdef __cplusplus_winrt
 // Parent-Group Handle-Index
-template <class _Id, class _Item, unsigned int _GroupSize>
+template <class _Id, class _Item, UINT _GroupSize>
 class IndexParentGroup<_Id^, _Item, _GroupSize>: public IndexParentGroupBase<_Id^, _Item, IndexParentGroup<_Id^, _Item, _GroupSize>, _GroupSize>
 {
 private:
 	// Using
-	using _Base=IndexParentGroupBase<_Id^, _Item, IndexParentGroup<_Id^, _Item, _GroupSize>, _GroupSize>;
+	using _IndexItem=IndexItem<_Id^, _Item>;
+	using _IndexGroup=IndexGroup<_Id^, _Item>;
+	using _IndexParentGroup=IndexParentGroup<_Id^, _Item, _GroupSize>;
+	using _IndexParentGroupBase=IndexParentGroupBase<_Id^, _Item, _IndexParentGroup, _GroupSize>;
 
 public:
 	// Con-/Destructors
-	IndexParentGroup(): _Base() {}
-	IndexParentGroup(unsigned int Level): _Base(Level) {}
-	IndexParentGroup(_Group* Child): _Base(Child) {}
-	IndexParentGroup(IndexParentGroup const& Group): _Base(Group) {}
+	IndexParentGroup(): _IndexParentGroupBase() {}
+	IndexParentGroup(UINT Level): _IndexParentGroupBase(Level) {}
+	IndexParentGroup(_IndexGroup* Child): _IndexParentGroupBase(Child) {}
+	IndexParentGroup(IndexParentGroup const& Group): _IndexParentGroupBase(Group) {}
 
 	// Access
-	inline bool Contains(_Id^ Id)const override { return GetItemPos(Id)>=0; }
-	inline int Find(_Id^ Id)const override { return GetItemPos(Id); }
-	inline _IndexItem* Get(_Id^ Id)override { return GetInternal(Id); }
-	inline _IndexItem const* Get(_Id^ Id)const override { return GetInternal(Id); }
+	inline BOOL Contains(_Id^ Id)const override { return this->GetItemPos(Id)>=0; }
+	inline INT Find(_Id^ Id)const override { return this->GetItemPos(Id); }
+	inline _IndexItem* Get(_Id^ Id)override { return this->GetInternal(Id); }
+	inline _IndexItem const* Get(_Id^ Id)const override { return this->GetInternal(Id); }
 
 	// Modification
-	inline bool Add(_IndexItem** Item, _Id^ Id, bool Again)override { return AddInternal(Item, Again, Id); }
-	inline bool Remove(_Id^ Id)override { return RemoveInternal(Id); }
+	inline BOOL Add(_IndexItem** Item, _Id^ Id, BOOL Again)override { return this->AddInternal(Item, Again, Id); }
+	inline BOOL Remove(_Id^ Id)override { return this->RemoveInternal(Id); }
 };
 #endif
 
 // Parent-Group String-Index
-template <class _Char, bool _AllocId, class _Item, unsigned int _GroupSize>
+template <class _Char, BOOL _AllocId, class _Item, UINT _GroupSize>
 class IndexParentGroup<String<_Char, _AllocId>, _Item, _GroupSize>: public IndexParentGroupBase<String<_Char, _AllocId>, _Item, IndexParentGroup<String<_Char, _AllocId>, _Item, _GroupSize>, _GroupSize>
 {
 private:
 	// Using
-	using _Base=IndexParentGroupBase<String<_Char, _AllocId>, _Item, IndexParentGroup<String<_Char, _AllocId>, _Item, _GroupSize>, _GroupSize>;
+	using _IndexItem=IndexItem<String<_Char, _AllocId>, _Item>;
+	using _IndexGroup=IndexGroup<String<_Char, _AllocId>, _Item>;
+	using _IndexParentGroup=IndexParentGroup<String<_Char, _AllocId>, _Item, _GroupSize>;
+	using _IndexParentGroupBase=IndexParentGroupBase<String<_Char, _AllocId>, _Item, _IndexParentGroup, _GroupSize>;
 
 public:
 	// Con-/Destructors
-	IndexParentGroup(): _Base() {}
-	IndexParentGroup(unsigned int Level): _Base(Level) {}
-	IndexParentGroup(_Group* Child): _Base(Child) {}
-	IndexParentGroup(IndexParentGroup const& Group): _Base(Group) {}
+	IndexParentGroup(): _IndexParentGroupBase() {}
+	IndexParentGroup(UINT Level): _IndexParentGroupBase(Level) {}
+	IndexParentGroup(_IndexGroup* Child): _IndexParentGroupBase(Child) {}
+	IndexParentGroup(IndexParentGroup const& Group): _IndexParentGroupBase(Group) {}
 
 	// Access
-	inline bool Contains(_Char const* Id, unsigned int Length, bool CaseSensitive)const override { return GetItemPos(Id, Length, CaseSensitive)>=0; }
-	inline int Find(_Char const* Id, unsigned int Length, bool CaseSensitive)const override { return GetItemPos(Id, Length, CaseSensitive); }
-	inline _IndexItem* Get(_Char const* Id, unsigned int Length, bool CaseSensitive)override { return GetInternal(Id, Length, CaseSensitive); }
-	inline _IndexItem const* Get(_Char const* Id, unsigned int Length, bool CaseSensitive)const override { return GetInternal(Id, Length, CaseSensitive); }
+	inline BOOL Contains(_Char const* Id, UINT Length, BOOL CaseSensitive)const override { return this->GetItemPos(Id, Length, CaseSensitive)>=0; }
+	inline INT Find(_Char const* Id, UINT Length, BOOL CaseSensitive)const override { return this->GetItemPos(Id, Length, CaseSensitive); }
+	inline _IndexItem* Get(_Char const* Id, UINT Length, BOOL CaseSensitive)override { return this->GetInternal(Id, Length, CaseSensitive); }
+	inline _IndexItem const* Get(_Char const* Id, UINT Length, BOOL CaseSensitive)const override { return this->GetInternal(Id, Length, CaseSensitive); }
 
 	// Modification
-	inline bool Add(_IndexItem** Item, _Char const* Id, unsigned int Length, bool CaseSensitive, bool Again)override { return AddInternal(Item, Again, Id, Length, CaseSensitive); }
-	inline bool Remove(_Char const* Id, unsigned int Length, bool CaseSensitive)override { return RemoveInternal(Id, Length, CaseSensitive); }
+	inline BOOL Add(_IndexItem** Item, _Char const* Id, UINT Length, BOOL CaseSensitive, BOOL Again)override { return this->AddInternal(Item, Again, Id, Length, CaseSensitive); }
+	inline BOOL Remove(_Char const* Id, UINT Length, BOOL CaseSensitive)override { return this->RemoveInternal(Id, Length, CaseSensitive); }
 };
 
 }}}}

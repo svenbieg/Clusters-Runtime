@@ -10,10 +10,11 @@
 //=======
 
 #include <malloc.h>
-#include <memory.h>
 #include <new>
+#include <string.h>
 #include "Architecture.h"
 #include "ErrorHelper.h"
+#include "TypeHelper.h"
 
 
 //============
@@ -58,9 +59,14 @@ ASSERT(Value<=0xFFFFFFFF);
 return (UINT)Value;
 }
 
+inline UINT ToUINT(WORD High, WORD Low)
+{
+return (((UINT)High)<<16)|Low;
+}
+
 inline UINT64 ToUINT64(UINT High, UINT Low)
 {
-return ((UINT64)High<<32)|Low;
+return (((UINT64)High)<<32)|Low;
 }
 
 inline WORD ToWORD(UINT Value)
@@ -68,6 +74,14 @@ inline WORD ToWORD(UINT Value)
 ASSERT(Value<=0xFFFF);
 return (WORD)Value;
 }
+
+
+//============
+// Allocation
+//============
+
+inline VOID* Alloc(SIZE_T Size) { return malloc(Size); }
+inline VOID Free(VOID* Pointer) { free(Pointer); }
 
 
 //==========
@@ -121,6 +135,13 @@ template <class T, class V> inline VOID SetFlag(T& Flags, V Change, BOOL Set) { 
 // Common
 //========
 
+#define MIN(a,b) (a<b? a: b)
+#define MAX(a,b) (a>b? a: b)
+
+#ifndef ARRAYSIZE
+#define ARRAYSIZE(a) (sizeof(a)/sizeof((a)[0]))
+#endif
+
 inline INT CompareMemory(const VOID* Buffer1, const VOID* Buffer2, SIZE_T Size)
 {
 ASSERT(Buffer1&&Buffer2&&Size);
@@ -156,20 +177,3 @@ if(Size)
 	memset(Destination, 0, Size);
 	}
 }
-
-
-//==================
-// Integrated Types
-//==================
-
-template <class T> struct IsIntegratedType { static const bool value=false; };
-template <> struct IsIntegratedType<bool> { static const bool value=true; };
-template <> struct IsIntegratedType<char> { static const bool value=true; };
-template <> struct IsIntegratedType<wchar_t> { static const bool value=true; };
-template <> struct IsIntegratedType<unsigned char> { static const bool value=true; };
-template <> struct IsIntegratedType<short> { static const bool value=true; };
-template <> struct IsIntegratedType<unsigned short> { static const bool value=true; };
-template <> struct IsIntegratedType<int> { static const bool value=true; };
-template <> struct IsIntegratedType<unsigned int> { static const bool value=true; };
-template <> struct IsIntegratedType<long int> { static const bool value=true; };
-template <> struct IsIntegratedType<unsigned long int> { static const bool value=true; };

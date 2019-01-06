@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "..\Cluster\ItemGroup.h"
+#include "../Cluster/ItemGroup.h"
 #include "ListGroup.h"
 
 
@@ -27,25 +27,26 @@ namespace Clusters {
 // Item-Group List
 //=================
 
-template <class _Item, unsigned int _GroupSize>
+template <class _Item, UINT _GroupSize>
 class ListItemGroup: public ::Clusters::Templates::Details::Cluster::ItemGroup<_Item, ListGroup<_Item>, _GroupSize>
 {
 private:
 	// Using
-	using _ArrayHelper=ArrayHelper<_Item, unsigned int>;
-	using _Base=::Clusters::Templates::Details::Cluster::ItemGroup<_Item, ListGroup<_Item>, _GroupSize>;
-	using _ItemGroup=ItemGroup<_Item, ListGroup<_Item>, _GroupSize>;
+	using _ListGroup=ListGroup<_Item>;
+	using _ItemGroup=::Clusters::Templates::Details::Cluster::ItemGroup<_Item, _ListGroup, _GroupSize>;
+	using _ArrayHelper=ArrayHelper<_Item, UINT>;
 
 public:
 	// Con-/Destructors
-	using _Base::_Base;
+	ListItemGroup() {}
+	ListItemGroup(ListItemGroup const& Group): _ItemGroup(Group) {}
 
 	// Modification
-	inline _Item* Append(bool Again)override { return _ItemGroup::Append(); }
-	inline void Append(_Item const* Items, unsigned int Count, bool CopyOnly) { _ArrayHelper::Append(cItems.Get(), _GroupSize, &uItemCount, Items, Count, CopyOnly); }
-	inline _Item* InsertAt(size_t Position, bool Again)override { return _ItemGroup::InsertAt((unsigned int)Position); }
-	inline void InsertAt(unsigned int Position, _Item const* Items, unsigned int Count, bool CopyOnly) { _ArrayHelper::InsertAt(cItems.Get(), _GroupSize, &uItemCount, Position, Items, Count, CopyOnly); }
-	inline void RemoveAt(unsigned int Position, unsigned int Count, bool RemoveOnly) { _ArrayHelper::RemoveAt(cItems.Get(), &uItemCount, Position, Count, RemoveOnly); }
+	inline _Item* Append(BOOL Again)override { return _ArrayHelper::Append(this->cItems.Get(), _GroupSize, &this->uItemCount); }
+	inline VOID Append(_Item const* Items, UINT Count, BOOL Moving) { _ArrayHelper::Append(this->cItems.Get(), _GroupSize, &this->uItemCount, Items, Count, Moving); }
+	inline _Item* InsertAt(SIZE_T Position, BOOL Again)override { return _ArrayHelper::InsertAt(this->cItems.Get(), _GroupSize, &this->uItemCount, (UINT)Position); }
+	inline VOID InsertAt(UINT Position, _Item const* Items, UINT Count, BOOL Moving) { _ArrayHelper::InsertAt(this->cItems.Get(), _GroupSize, &this->uItemCount, Position, Items, Count, Moving); }
+	inline VOID RemoveAt(UINT Position, UINT Count, BOOL Moving) { _ArrayHelper::RemoveAt(this->cItems.Get(), &this->uItemCount, Position, Count, Moving); }
 };
 
 }}}}

@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "Details\Index\Index.h"
+#include "Details/Index/Index.h"
 
 
 //===========
@@ -24,7 +24,7 @@ namespace Clusters {
 // Index
 //=======
 
-template <class _Id, class _Item=void, unsigned int _GroupSize=100>
+template <class _Id, class _Item=VOID, UINT _GroupSize=100>
 class Index: public Details::Index::Index<_Id, _Item, _GroupSize>
 {
 private:

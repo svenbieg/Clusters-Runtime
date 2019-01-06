@@ -11,3 +11,4 @@
 
 #include "ErrorHelper.h"
 #include "MemoryHelper.h"
+#include "TypeHelper.h"

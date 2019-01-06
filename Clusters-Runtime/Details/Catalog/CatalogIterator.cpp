@@ -33,7 +33,7 @@ hCatalog->uItCount++;
 }
 
 CatalogIterator::CatalogIterator(Clusters::Catalog^ hcatalog, UINT64 upos):
-cIt(&hcatalog->cIndex, upos),
+cIt(&hcatalog->cIndex, ToSIZET(upos)),
 hCatalog(hcatalog)
 {
 hCatalog->uItCount++;
@@ -120,7 +120,7 @@ return cIt.GetPosition();
 VOID CatalogIterator::Position::set(UINT64 upos)
 {
 ScopedLock lock(hCatalog->cCriticalSection);
-cIt.SetPosition(upos);
+cIt.SetPosition(ToSIZET(upos));
 }
 
 

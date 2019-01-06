@@ -9,7 +9,30 @@
 // Using
 //=======
 
-#include <errno.h>
+#include "TypeHelper.h"
+
+
+//============
+// Exceptions
+//============
+
+#define EXCEPT catch(UINT _exc)
+#define GetExceptionStatus() _exc
+
+enum class Exception: UINT
+{
+None,
+Error,
+InvalidArgument,
+NotImplemented,
+InvalidHandle,
+NoLock,
+DeadLock,
+AccessDenied,
+ReadError,
+WriteError,
+FileNotFound
+};
 
 
 //========
@@ -17,12 +40,4 @@
 //========
 
 #undef ASSERT
-#define ASSERT(Condition) if(!(Condition))throw(EFAULT)
-
-
-//============
-// Exceptions
-//============
-
-#define EXCEPT catch(HRESULT _hexc)
-#define GetExceptionStatus() _hexc
+#define ASSERT(Condition) if(!(Condition))throw(Exception::Error)

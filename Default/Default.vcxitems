@@ -17,13 +17,16 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Allocator.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Architecture.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArrayHelper.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Box.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BufferHelper.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CharHelper.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Conditional.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ErrorHelper.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemoryHelper.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Platform.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Pointer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringHelper.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BufferHelper.cpp" />

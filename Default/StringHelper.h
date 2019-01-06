@@ -9,6 +9,7 @@
 // Using
 //=======
 
+#include <stdarg.h>
 #include "MemoryHelper.h"
 
 
@@ -108,3 +109,21 @@ INT StringToInt(LPCSTR Value, UINT* Length=nullptr);
 INT StringToInt(LPCWSTR Value, UINT* Length=nullptr);
 INT64 StringToInt64(LPCSTR Value, UINT* Length=nullptr);
 INT64 StringToInt64(LPCWSTR Value, UINT* Length=nullptr);
+
+
+//============
+// Formatting
+//============
+
+UINT StringPrintf(LPSTR Buffer, UINT Size, LPCSTR Format, ...);
+UINT StringPrintf(LPSTR* Buffer, UINT* Size, LPCSTR Format, ...);
+UINT StringPrintf(LPWSTR Buffer, UINT Size, LPCWSTR Format, ...);
+UINT StringPrintf(LPWSTR* Buffer, UINT* Size, LPCWSTR Format, ...);
+UINT StringPrintfLength(LPCSTR Format, ...);
+UINT StringPrintfLength(LPCWSTR Format, ...);
+UINT StringVPrintf(LPSTR Buffer, UINT Size, LPCSTR Format, va_list List);
+UINT StringVPrintf(LPSTR* Buffer, UINT* Size, LPCSTR Format, va_list List);
+UINT StringVPrintf(LPWSTR Buffer, UINT Size, LPCWSTR Format, va_list List);
+UINT StringVPrintf(LPWSTR* Buffer, UINT* Size, LPCWSTR Format, va_list List);
+UINT StringVPrintfLength(LPCSTR Format, va_list List);
+UINT StringVPrintfLength(LPCWSTR Format, va_list List);

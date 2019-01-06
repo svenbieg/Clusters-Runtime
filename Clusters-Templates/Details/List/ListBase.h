@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "..\Cluster\Cluster.h"
+#include "../Cluster/Cluster.h"
 #include "ListIterator.h"
 
 
@@ -27,43 +27,32 @@ namespace Clusters {
 // List Base-Class
 //=================
 
-template<class _Item, unsigned int _GroupSize>
+template<class _Item, UINT _GroupSize>
 class ListBase: public ::Clusters::Templates::Details::Cluster::Cluster<_Item, ListGroup<_Item>, ListItemGroup<_Item, _GroupSize>, ListParentGroup<_Item, _GroupSize>, ListIterator<_Item, _GroupSize, true>, ListIterator<_Item, _GroupSize, false>>
 {
-public:
-	// Types
-	typedef ListIterator<_Item, _GroupSize, true> IteratorReadOnly;
-	typedef ListIterator<_Item, _GroupSize, false> IteratorReadWrite;
-
-	// Modification
-	void RemoveAt(size_t Position)
-		{
-		pRoot->RemoveAt(Position);
-		UpdateRoot();
-		}
+private:
+	// Using
+	using _ListParentGroup=ListParentGroup<_Item, _GroupSize>;
 
 protected:
-	// Using
-	using _ParentGroup=ListParentGroup<_Item, _GroupSize>;
-
 	// Modification
 	_Item* AppendInternal()
 		{
-		_Item* pitem=pRoot->Append(false);
+		_Item* pitem=this->pRoot->Append(false);
 		if(pitem)
 			return pitem;
-		pRoot=new _ParentGroup(pRoot);
-		pitem=pRoot->Append(true);
+		this->pRoot=new _ListParentGroup(this->pRoot);
+		pitem=this->pRoot->Append(true);
 		ASSERT(pitem);
 		return pitem;
 		}
-	_Item* InsertInternal(size_t Position)
+	_Item* InsertInternal(SIZE_T Position)
 		{
-		_Item* pitem=pRoot->InsertAt(Position, false);
+		_Item* pitem=this->pRoot->InsertAt(Position, false);
 		if(pitem)
 			return pitem;
-		pRoot=new _ParentGroup(pRoot);
-		pitem=pRoot->InsertAt(Position, true);
+		this->pRoot=new _ListParentGroup(this->pRoot);
+		pitem=this->pRoot->InsertAt(Position, true);
 		ASSERT(pitem);
 		return pitem;
 		}

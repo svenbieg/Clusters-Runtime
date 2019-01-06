@@ -35,7 +35,7 @@ hList->uItCount++;
 }
 
 ListIterator::ListIterator(Clusters::List^ hlist, UINT64 upos):
-cIt(&hlist->cList, upos),
+cIt(&hlist->cList, ToSIZET(upos)),
 hList(hlist)
 {
 hList->uItCount++;
@@ -97,7 +97,7 @@ return cIt.GetPosition();
 VOID ListIterator::Position::set(UINT64 upos)
 {
 ScopedLock lock(hList->cCriticalSection);
-cIt.SetPosition(upos);
+cIt.SetPosition(ToSIZET(upos));
 }
 
 

@@ -86,7 +86,7 @@ if(!pbuf)
 	return;
 	}
 *ppbuf=(BYTE*)operator new(unewsize);
-SIZE_T ucopy=min(*psize, unewsize);
+SIZE_T ucopy=MIN(*psize, unewsize);
 CopyMemory(*ppbuf, pbuf, ucopy);
 operator delete(pbuf);
 *psize=unewsize;

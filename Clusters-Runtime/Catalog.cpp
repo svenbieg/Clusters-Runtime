@@ -11,7 +11,7 @@
 
 #include "Catalog.h"
 
-using CatalogIterator=Clusters::Details::Catalog::CatalogIterator;
+using CatalogIterator=::Clusters::Details::Catalog::CatalogIterator;
 
 
 //===========

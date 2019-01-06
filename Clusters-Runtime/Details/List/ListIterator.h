@@ -66,7 +66,7 @@ private:
 	~ListIterator();
 
 	// Common
-	Clusters::Templates::List<Object^>::IteratorReadWrite cIt;
+	Clusters::Templates::List<Object^>::Iterator cIt;
 	Clusters::List^ hList;
 };
 

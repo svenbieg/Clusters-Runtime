@@ -75,7 +75,7 @@ private:
 	~CatalogIterator();
 
 	// Common
-	Clusters::Templates::Index<Guid, Object^>::IteratorReadWrite cIt;
+	Clusters::Templates::Index<Guid, Object^>::Iterator cIt;
 	Clusters::Catalog^ hCatalog;
 };
 

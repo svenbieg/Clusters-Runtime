@@ -75,7 +75,7 @@ private:
 	~MapIterator();
 
 	// Common
-	Clusters::Templates::Index<String^, Object^>::IteratorReadWrite cIt;
+	Clusters::Templates::Index<String^, Object^>::Iterator cIt;
 	Clusters::Map^ hMap;
 };
 

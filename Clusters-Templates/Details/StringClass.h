@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "Default\StringHelper.h"
+#include "Default/StringHelper.h"
 
 
 //===========
@@ -25,13 +25,13 @@ namespace Clusters {
 // String
 //========
 
-template <class _Char, bool _Alloc>
+template <class _Char, BOOL _Alloc>
 class String
 {
 public:
 	// Con-/Destructors
 	String(): pValue(nullptr) {}
-	String(_Char const* Value, unsigned int Length=0): pValue(nullptr) { StringAssign(&pValue, nullptr, Value, Length); }
+	String(_Char const* Value, UINT Length=0): pValue(nullptr) { StringAssign(&pValue, nullptr, Value, Length); }
 	~String() { delete pValue; }
 
 	// Access
@@ -39,7 +39,7 @@ public:
 
 	// Modification
 	_Char* Release() { return PointerRelease(&pValue); }
-	inline unsigned int Set(_Char const* Value, unsigned int Length) { return StringAssign(&pValue, nullptr, Value, Length); }
+	inline UINT Set(_Char const* Value, UINT Length) { return StringAssign(&pValue, nullptr, Value, Length); }
 
 private:
 	// Common
@@ -57,14 +57,14 @@ class String<_Char, false>
 public:
 	// Con-/Destructors
 	String(): pValue(nullptr) {}
-	String(_Char const* Value, unsigned int Length=0): pValue(Value) { ASSERT(Length==0); }
+	String(_Char const* Value, UINT Length=0): pValue(Value) { ASSERT(Length==0); }
 
 	// Access
 	inline _Char const* Get()const { return pValue; }
 
 	// Modification
 	_Char const* Release() { _Char const* pstr=pValue; pValue=nullptr; return pstr; }
-	inline void Set(_Char const* Value) { pValue=Value; }
+	inline VOID Set(_Char const* Value) { pValue=Value; }
 
 private:
 	// Common

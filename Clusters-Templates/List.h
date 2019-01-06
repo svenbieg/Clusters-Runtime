@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "Details\List\List.h"
+#include "Details/List/List.h"
 
 
 //===========
@@ -24,7 +24,7 @@ namespace Clusters {
 // List
 //======
 
-template <class _Item, unsigned int _GroupSize=100>
+template <class _Item, UINT _GroupSize=100>
 class List: public Details::List::List<_Item, _GroupSize>
 {
 private:

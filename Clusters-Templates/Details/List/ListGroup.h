@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "..\Cluster\Group.h"
+#include "../Cluster/Group.h"
 
 
 //===========
@@ -31,8 +31,8 @@ class ListGroup: public ::Clusters::Templates::Details::Cluster::Group<_Item>
 {
 public:
 	// Modification
-	virtual _Item* Append(bool Again)=0;
-	virtual _Item* InsertAt(size_t Position, bool Again)=0;
+	virtual _Item* Append(BOOL Again)=0;
+	virtual _Item* InsertAt(SIZE_T Position, BOOL Again)=0;
 };
 
 }}}}

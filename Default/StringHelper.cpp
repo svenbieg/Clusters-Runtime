@@ -9,8 +9,6 @@
 // Using
 //=======
 
-#include <cstdio>
-#include <stdarg.h>
 #include "CharHelper.h"
 #include "StringHelper.h"
 
@@ -27,7 +25,7 @@ if(!pstr||!c)
 UINT ulen=StringLength(pstr);
 UINT uend=ulen;
 if(ufind>0)
-	uend=min(ustart+ufind, ulen);
+	uend=MIN(ustart+ufind, ulen);
 for(UINT u=ustart; u<uend; u++)
 	{
 	if(CharCompare(pstr[u], c, bcs)==0)
@@ -44,7 +42,7 @@ if(!pstr||!pfind)
 UINT ulen=StringLength(pstr);
 UINT uend=ulen;
 if(ufind>0)
-	uend=min(ustart+ufind, ulen);
+	uend=MIN(ustart+ufind, ulen);
 UINT ufindlen=StringLength(pfind);
 if(!ufindlen||uend<ufindlen-1)
 	return false;
@@ -106,7 +104,7 @@ if(!ulen||!ufindlen||ulen<ufindlen)
 	return 0;
 UINT uend=ulen;
 if(ufind>0)
-	uend=min(ustart+ufind, ulen);
+	uend=MIN(ustart+ufind, ulen);
 uend-=ufindlen-1;
 UINT ucount=0;
 for(UINT u=ustart; u<uend; u++)
@@ -229,7 +227,7 @@ if(umax2>0&&umax2<umax)
 	umax=umax2;
 UINT ulen=umax;
 if(ulen==0)
-	ulen=min(ulen1+1, ulen2+1);
+	ulen=MIN(ulen1+1, ulen2+1);
 UINT upos1=0;
 UINT upos2=0;
 for(; upos1<ulen&&upos2<ulen; )
@@ -392,7 +390,7 @@ if(!pdst||!usize)
 	return 0;
 UINT uend=usize;
 if(ucopy)
-	uend=min(uend, ucopy);
+	uend=MIN(uend, ucopy);
 if(!psrc)
 	{
 	pdst[0]=0;
@@ -560,7 +558,7 @@ UINT ulen=StringLength(pstr);
 	return ulen;
 UINT uend=ulen;
 if(ufind>0)
-	uend=min(ustart+ufind, ulen);
+	uend=MIN(ustart+ufind, ulen);
 for(UINT u=ustart; u<uend; u++)
 	pstr[u]=CharToSmall(pstr[u]);
 return ulen;
@@ -612,7 +610,7 @@ if(ufindlen==0)
 UINT uinsertlen=StringLength(pinsert);
 UINT usearchlen=ulen-ustart;
 if(ufind>0)
-	usearchlen=min(ufind, usearchlen);
+	usearchlen=MIN(ufind, usearchlen);
 UINT ucount=StringCount(&pstr[ustart], pfind, usearchlen, bcs);
 if(!ucount)
 	return ulen;
@@ -723,7 +721,7 @@ if(ustart>ulen)
 	return ulen;
 UINT uend=ulen;
 if(ufind>0)
-	uend=min(ustart+ufind, ulen);
+	uend=MIN(ustart+ufind, ulen);
 for(UINT u=ustart; u<uend; u++)
 	pstr[u]=CharToCapital(pstr[u]);
 return ulen;

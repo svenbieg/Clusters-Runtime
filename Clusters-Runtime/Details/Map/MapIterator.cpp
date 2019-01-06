@@ -33,7 +33,7 @@ hMap->uItCount++;
 }
 
 MapIterator::MapIterator(Clusters::Map^ hmap, UINT64 upos):
-cIt(&hmap->cIndex, upos),
+cIt(&hmap->cIndex, ToSIZET(upos)),
 hMap(hmap)
 {
 hMap->uItCount++;
@@ -120,7 +120,7 @@ return cIt.GetPosition();
 VOID MapIterator::Position::set(UINT64 upos)
 {
 ScopedLock lock(hMap->cCriticalSection);
-cIt.SetPosition(upos);
+cIt.SetPosition(ToSIZET(upos));
 }
 
 

@@ -11,7 +11,7 @@
 
 #include "List.h"
 
-using ListIterator=Clusters::Details::List::ListIterator;
+using ListIterator=::Clusters::Details::List::ListIterator;
 
 
 //===========
@@ -46,7 +46,7 @@ return ref new ListIterator(this);
 Platform::Object^ List::GetAt(UINT64 upos)
 {
 ScopedLock lock(cCriticalSection);
-return cList.GetAt(upos);
+return cList.GetAt(ToSIZET(upos));
 }
 
 ListIterator^ List::Last()
@@ -84,7 +84,7 @@ VOID List::InsertAt(UINT64 upos, Object^ hobj)
 ScopedLock lock(cCriticalSection);
 if(uItCount>0)
 	throw ref new Platform::AccessDeniedException();
-cList.InsertAt(upos, hobj);
+cList.InsertAt(ToSIZET(upos), hobj);
 }
 
 VOID List::RemoveAt(UINT64 upos)
@@ -92,7 +92,7 @@ VOID List::RemoveAt(UINT64 upos)
 ScopedLock lock(cCriticalSection);
 if(uItCount>0)
 	throw ref new Platform::AccessDeniedException();
-cList.RemoveAt(upos);
+cList.RemoveAt(ToSIZET(upos));
 }
 
 }

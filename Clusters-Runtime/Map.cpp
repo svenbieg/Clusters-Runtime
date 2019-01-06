@@ -11,7 +11,7 @@
 
 #include "Map.h"
 
-using MapIterator=Clusters::Details::Map::MapIterator;
+using MapIterator=::Clusters::Details::Map::MapIterator;
 
 
 //===========

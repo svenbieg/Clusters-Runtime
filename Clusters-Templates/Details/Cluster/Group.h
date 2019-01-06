@@ -24,12 +24,12 @@ class GroupBase
 {
 public:
 	// Access
-	virtual unsigned int GetChildCount()const=0;
-	virtual size_t GetItemCount()const=0;
-	virtual unsigned int GetLevel()const=0;
+	virtual UINT GetChildCount()const=0;
+	virtual SIZE_T GetItemCount()const=0;
+	virtual UINT GetLevel()const=0;
 
 	// Modification
-	virtual void RemoveAt(size_t Position)=0;
+	virtual VOID RemoveAt(SIZE_T Position)=0;
 
 protected:
 	// Con-Destructors
@@ -47,8 +47,8 @@ class Group: public GroupBase<_Item>
 {
 public:
 	// Access
-	virtual _Item* GetAt(size_t Position)=0;
-	virtual _Item const* GetAt(size_t Position)const=0;
+	virtual _Item* GetAt(SIZE_T Position)=0;
+	virtual _Item const* GetAt(SIZE_T Position)const=0;
 };
 
 // Group Pointer-Cluster
@@ -57,10 +57,10 @@ class Group<_Item*>: public GroupBase<_Item*>
 {
 public:
 	// Access
-	virtual _Item* GetAt(size_t Position)const=0;
+	virtual _Item* GetAt(SIZE_T Position)const=0;
 
 	// Modification
-	virtual _Item* ReleaseAt(size_t Position)=0;
+	virtual _Item* ReleaseAt(SIZE_T Position)=0;
 };
 
 #ifdef __cplusplus_winrt
@@ -70,20 +70,20 @@ class Group<_Item^>: public GroupBase<_Item^>
 {
 public:
 	// Access
-	virtual _Item^ GetAt(size_t Position)const=0;
+	virtual _Item^ GetAt(SIZE_T Position)const=0;
 };
 #endif
 
 // Group String-Cluster
-template <class _Char, bool _Alloc>
+template <class _Char, BOOL _Alloc>
 class Group<String<_Char, _Alloc>>: public GroupBase<String<_Char, _Alloc>>
 {
 public:
 	// Access
-	virtual _Char const* GetAt(size_t Position)const=0;
+	virtual _Char const* GetAt(SIZE_T Position)const=0;
 
 	// Modification
-	virtual _Char const* ReleaseAt(size_t Position)=0;
+	virtual _Char const* ReleaseAt(SIZE_T Position)=0;
 };
 
 }}}}
