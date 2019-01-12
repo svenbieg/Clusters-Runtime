@@ -2,14 +2,12 @@
 // List.cpp
 //==========
 
-#include "pch.h"
+#include "List.h"
 
 
 //=======
 // Using
 //=======
-
-#include "List.h"
 
 using ListIterator=::Clusters::Details::List::ListIterator;
 

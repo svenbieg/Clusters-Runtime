@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="SharedProjectFile_SccProperties">
-    <SharedProjectFile_ProjectGuid>{7b767bc7-8eab-4a97-9e19-a48fdb280c3b}</SharedProjectFile_ProjectGuid>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{2FD72078-80A4-442E-862F-7DC75DA783FB}</ItemsProjectGuid>
   </PropertyGroup>
   <PropertyGroup Label="Globals">
     <HasSharedItems>true</HasSharedItems>

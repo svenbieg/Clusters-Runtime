@@ -2,7 +2,7 @@
 // StringHelper.cpp
 //==================
 
-#include "pch.h"
+#include "StringHelper.h"
 
 
 //=======
@@ -10,7 +10,6 @@
 //=======
 
 #include "CharHelper.h"
-#include "StringHelper.h"
 
 
 //========
@@ -503,7 +502,7 @@ UINT StringInsert(T** ppstr, UINT* psize, const V* pinsert, UINT upos, UINT ucop
 T* pstr=*ppstr;
 UINT ulen=StringLength(pstr);
 if(upos>ulen)
-	throw(EINVAL);
+	throw(Exception::InvalidArgument);
 UINT uinsertlen=StringLength(pinsert, ucopy);
 if(uinsertlen==0)
 	return 0;

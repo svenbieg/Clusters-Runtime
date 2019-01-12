@@ -74,6 +74,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <MinimalRebuild>false</MinimalRebuild>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ObjectFileName>$(IntDir)%(Directory)</ObjectFileName>
@@ -101,6 +102,7 @@
       <DebugInformationFormat>None</DebugInformationFormat>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>MinSpace</Optimization>

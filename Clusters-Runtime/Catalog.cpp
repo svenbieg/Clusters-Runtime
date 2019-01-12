@@ -2,14 +2,12 @@
 // Catalog.cpp
 //=============
 
-#include "pch.h"
+#include "Catalog.h"
 
 
 //=======
 // Using
 //=======
-
-#include "Catalog.h"
 
 using CatalogIterator=::Clusters::Details::Catalog::CatalogIterator;
 

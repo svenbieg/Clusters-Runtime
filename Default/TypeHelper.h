@@ -31,7 +31,7 @@ typedef unsigned short USHORT;
 typedef int INT;
 typedef unsigned int UINT;
 typedef long long int INT64;
-typedef unsigned long long int SIZE_T;
+typedef unsigned long long int UINT64;
 typedef float FLOAT;
 typedef double DOUBLE;
 

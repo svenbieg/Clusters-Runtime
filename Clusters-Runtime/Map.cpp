@@ -2,14 +2,12 @@
 // Map.cpp
 //=========
 
-#include "pch.h"
+#include "Map.h"
 
 
 //=======
 // Using
 //=======
-
-#include "Map.h"
 
 using MapIterator=::Clusters::Details::Map::MapIterator;
 
