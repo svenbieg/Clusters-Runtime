@@ -11,7 +11,7 @@
 
 #include "../Cluster/Cluster.h"
 #include "../Cluster/Iterator.h"
-#include "../StringClass.h"
+#include "../StringItem.h"
 #include "IndexParentGroup.h"
 
 

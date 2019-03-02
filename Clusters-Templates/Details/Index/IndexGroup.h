@@ -10,7 +10,7 @@
 //=======
 
 #include "../Cluster/Group.h"
-#include "../StringClass.h"
+#include "../StringItem.h"
 #include "IndexItem.h"
 
 

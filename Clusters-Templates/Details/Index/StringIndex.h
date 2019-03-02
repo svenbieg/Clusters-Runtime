@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "../StringClass.h"
+#include "../StringItem.h"
 #include "IndexBase.h"
 
 
