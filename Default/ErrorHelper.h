@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "TypeHelper.h"
+#include "ExceptionClass.h"
 
 
 //============
@@ -18,22 +18,6 @@
 
 #define EXCEPT catch(UINT _exc)
 #define GetExceptionStatus() _exc
-
-enum class Exception: UINT
-{
-None,
-Error,
-InvalidArgument,
-NotImplemented,
-OutOfMemory,
-InvalidHandle,
-NoLock,
-DeadLock,
-AccessDenied,
-ReadError,
-WriteError,
-FileNotFound
-};
 
 
 //========

@@ -54,6 +54,49 @@ public:
 		this->uItemCount++;
 		return pitem;
 		}
+	SIZE_T Append(_Item const* Items, SIZE_T Count)override
+		{
+		if(Count==0)
+			return 0;
+		UINT udst=DoMinimize();
+		SIZE_T upos=0;
+		for(; udst<this->uChildCount; udst++)
+			{
+			SIZE_T uwritten=this->ppChildren[udst]->Append(&Items[upos], Count);
+			if(uwritten>0)
+				{
+				uItemCount+=uwritten;
+				upos+=uwritten;
+				Count-=uwritten;
+				if(Count==0)
+					break;
+				}
+			}
+		if(Count==0)
+			{
+			FreeChildren(udst);
+			return upos;
+			}
+		while(Count>0)
+			{
+			if(uChildCount==_GroupSize)
+				break;
+			if(uLevel==1)
+				{
+				ppChildren[uChildCount]=new _ListItemGroup();
+				}
+			else
+				{
+				ppChildren[uChildCount]=new _ListParentGroup(uLevel-1);
+				}
+			uChildCount++;
+			UINT uwritten=ppChildren[uChildCount-1]->Append(&Items[upos], Count);
+			uItemCount+=uwritten;
+			upos+=uwritten;
+			Count-=uwritten;
+			}
+		return upos;
+		}
 	_Item* InsertAt(SIZE_T Position, BOOL Again)override
 		{
 		_Item* pitem=DoInsert(Position, Again);
@@ -62,8 +105,34 @@ public:
 		this->uItemCount++;
 		return pitem;
 		}
+	VOID Minimize()
+		{
+		UINT ucount=DoMinimize();
+		FreeChildren(ucount);
+		}
 
 protected:
+	// Access
+	UINT GetInsertPos(SIZE_T* Position, UINT* Group)
+		{
+		SIZE_T upos=*Position;
+		for(UINT u=0; u<this->uChildCount; u++)
+			{
+			SIZE_T ucount=this->ppChildren[u]->GetItemCount();
+			if(upos<=ucount)
+				{
+				*Group=u;
+				*Position=upos;
+				if(upos==ucount&&u+1<this->uChildCount)
+					return 2;
+				return 1;
+				}
+			upos-=ucount;
+			}
+		return 0;
+		}
+
+	// Modification
 	_Item* DoAppend(BOOL Again)
 		{
 		UINT ugroup=this->uChildCount-1;
@@ -105,12 +174,12 @@ protected:
 					return pitem;
 				uat=0;
 				}
-			UINT udst=this->GetNearestGroup(ugroup);
-			if(udst<this->uChildCount)
+			UINT uempty=this->GetNearestGroup(ugroup);
+			if(uempty<this->uChildCount)
 				{
-				if(uinscount>1&&udst>ugroup)
+				if(uinscount>1&&uempty>ugroup)
 					ugroup++;
-				this->MoveChildren(ugroup, udst, 1);
+				this->MoveEmptySlot(uempty, ugroup);
 				upos=Position;
 				uinscount=GetInsertPos(&upos, &ugroup);
 				SIZE_T uat=upos;
@@ -136,23 +205,42 @@ protected:
 		ASSERT(pitem);
 		return pitem;
 		}
-	UINT GetInsertPos(SIZE_T* Position, UINT* Group)
+	UINT DoMinimize()
 		{
-		SIZE_T upos=*Position;
-		for(UINT u=0; u<this->uChildCount; u++)
+		UINT udst=0;
+		UINT usrc=0;
+		for(; udst<this->uChildCount; udst++)
 			{
-			SIZE_T ucount=this->ppChildren[u]->GetItemCount();
-			if(upos<=ucount)
+			UINT ufree=_GroupSize-this->ppChildren[udst]->GetChildCount();
+			if(ufree==0)
+				continue;
+			if(usrc<=udst)
+				usrc=udst+1;
+			for(; usrc<this->uChildCount; usrc++)
 				{
-				*Group=u;
-				*Position=upos;
-				if(upos==ucount&&u+1<this->uChildCount)
-					return 2;
-				return 1;
+				UINT ucount=this->ppChildren[usrc]->GetChildCount();
+				if(ucount==0)
+					continue;
+				UINT umove=ucount<ufree? ucount: ufree;
+				this->MoveChildren(usrc, udst, umove);
+				ufree-=umove;
+				if(ufree==0)
+					break;
 				}
-			upos-=ucount;
+			if(usrc>=this->uChildCount)
+				break;
 			}
-		return 0;
+		return udst;
+		}
+	VOID FreeChildren(UINT Count)
+		{
+		if(Count>=uChildCount)
+			return;
+		if(this->ppChildren[Count]->GetChildCount()>0)
+			Count++;
+		for(UINT u=Count; u<this->uChildCount; u++)
+			delete this->ppChildren[u];
+		uChildCount=Count;
 		}
 };
 

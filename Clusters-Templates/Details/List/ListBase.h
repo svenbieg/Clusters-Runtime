@@ -30,11 +30,10 @@ namespace Clusters {
 template<class _Item, UINT _GroupSize>
 class ListBase: public ::Clusters::Templates::Details::Cluster::Cluster<_Item, ListGroup<_Item>, ListItemGroup<_Item, _GroupSize>, ListParentGroup<_Item, _GroupSize>, ListIterator<_Item, _GroupSize, true>, ListIterator<_Item, _GroupSize, false>>
 {
-private:
+protected:
 	// Using
 	using _ListParentGroup=ListParentGroup<_Item, _GroupSize>;
 
-protected:
 	// Modification
 	_Item* AppendInternal()
 		{

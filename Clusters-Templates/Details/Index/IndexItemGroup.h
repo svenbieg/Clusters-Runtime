@@ -206,11 +206,11 @@ public:
 
 // Item-Group String-Index
 template <class _Char, BOOL _AllocId, class _Item, UINT _GroupSize>
-class IndexItemGroup<String<_Char, _AllocId>, _Item, _GroupSize>: public IndexItemGroupBase<String<_Char, _AllocId>, _Item, _GroupSize>
+class IndexItemGroup<StringItem<_Char, _AllocId>, _Item, _GroupSize>: public IndexItemGroupBase<StringItem<_Char, _AllocId>, _Item, _GroupSize>
 {
 private:
 	// Using
-	using _IndexItem=IndexItem<String<_Char, _AllocId>, _Item>;
+	using _IndexItem=IndexItem<StringItem<_Char, _AllocId>, _Item>;
 
 public:
 	// Access

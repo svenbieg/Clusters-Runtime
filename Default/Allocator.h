@@ -9,17 +9,17 @@
 // Uninitialized Array
 //=====================
 
-template <class T, SIZE_T SIZE>
+template <class _Item, SIZE_T _Size>
 class Allocator
 {
 public:
 	// Access
-	inline T* Get() { return (T*)pItems; }
-	inline T const* Get()const { return (T const*)pItems; }
-	inline T& GetAt(SIZE_T Position) { T* pitems=(T*)pItems; return pitems[Position]; }
-	inline T const& GetAt(SIZE_T Position)const { T const* pitems=(T const*)pItems; return pitems[Position]; }
+	inline _Item* Get() { return (_Item*)pItems; }
+	inline _Item const* Get()const { return (_Item const*)pItems; }
+	inline _Item& GetAt(SIZE_T Position) { _Item* pitems=(_Item*)pItems; return pitems[Position]; }
+	inline _Item const& GetAt(SIZE_T Position)const { _Item const* pitems=(_Item const*)pItems; return pitems[Position]; }
 
 private:
 	// Common
-	alignas(alignof(T[SIZE])) BYTE pItems[sizeof(T[SIZE])];
+	alignas(alignof(_Item[_Size])) BYTE pItems[sizeof(_Item[_Size])];
 };

@@ -148,12 +148,12 @@ protected:
 				if(this->ppChildren[ugroup+u]->Add(Item, Id..., false))
 					return true;
 				}
-			UINT udst=this->GetNearestGroup(ugroup);
-			if(udst<this->uChildCount)
+			UINT uempty=this->GetNearestGroup(ugroup);
+			if(uempty<this->uChildCount)
 				{
-				if(uinscount>1&&udst>ugroup)
+				if(uinscount>1&&uempty>ugroup)
 					ugroup++;
-				this->MoveChildren(ugroup, udst, 1);
+				this->MoveEmptySlot(uempty, ugroup);
 				if(this->ppChildren[ugroup]->Add(Item, Id..., false))
 					return true;
 				}
@@ -336,14 +336,14 @@ public:
 
 // Parent-Group String-Index
 template <class _Char, BOOL _AllocId, class _Item, UINT _GroupSize>
-class IndexParentGroup<String<_Char, _AllocId>, _Item, _GroupSize>: public IndexParentGroupBase<String<_Char, _AllocId>, _Item, IndexParentGroup<String<_Char, _AllocId>, _Item, _GroupSize>, _GroupSize>
+class IndexParentGroup<StringItem<_Char, _AllocId>, _Item, _GroupSize>: public IndexParentGroupBase<StringItem<_Char, _AllocId>, _Item, IndexParentGroup<StringItem<_Char, _AllocId>, _Item, _GroupSize>, _GroupSize>
 {
 private:
 	// Using
-	using _IndexItem=IndexItem<String<_Char, _AllocId>, _Item>;
-	using _IndexGroup=IndexGroup<String<_Char, _AllocId>, _Item>;
-	using _IndexParentGroup=IndexParentGroup<String<_Char, _AllocId>, _Item, _GroupSize>;
-	using _IndexParentGroupBase=IndexParentGroupBase<String<_Char, _AllocId>, _Item, _IndexParentGroup, _GroupSize>;
+	using _IndexItem=IndexItem<StringItem<_Char, _AllocId>, _Item>;
+	using _IndexGroup=IndexGroup<StringItem<_Char, _AllocId>, _Item>;
+	using _IndexParentGroup=IndexParentGroup<StringItem<_Char, _AllocId>, _Item, _GroupSize>;
+	using _IndexParentGroupBase=IndexParentGroupBase<StringItem<_Char, _AllocId>, _Item, _IndexParentGroup, _GroupSize>;
 
 public:
 	// Con-/Destructors

@@ -43,6 +43,16 @@ public:
 
 	// Modification
 	inline _Item* Append(BOOL Again)override { return _ArrayHelper::Append(this->cItems.Get(), _GroupSize, &this->uItemCount); }
+	SIZE_T Append(_Item const* Items, SIZE_T Count)override
+		{
+		if(Count==0)
+			return 0;
+		UINT ucopy=_GroupSize-uItemCount;
+		if(Count<ucopy)
+			ucopy=(UINT)Count;
+		_ArrayHelper::Append(this->cItems.Get(), _GroupSize, &this->uItemCount, Items, ucopy, false);
+		return ucopy;
+		}
 	inline VOID Append(_Item const* Items, UINT Count, BOOL Moving) { _ArrayHelper::Append(this->cItems.Get(), _GroupSize, &this->uItemCount, Items, Count, Moving); }
 	inline _Item* InsertAt(SIZE_T Position, BOOL Again)override { return _ArrayHelper::InsertAt(this->cItems.Get(), _GroupSize, &this->uItemCount, (UINT)Position); }
 	inline VOID InsertAt(UINT Position, _Item const* Items, UINT Count, BOOL Moving) { _ArrayHelper::InsertAt(this->cItems.Get(), _GroupSize, &this->uItemCount, Position, Items, Count, Moving); }

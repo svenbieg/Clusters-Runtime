@@ -29,13 +29,13 @@ namespace Clusters {
 
 // String-Index
 template<class _Char, BOOL _Alloc, class _Item, UINT _GroupSize>
-class StringIndex: public IndexBase<String<_Char, _Alloc>, _Item, _GroupSize>
+class StringIndex: public IndexBase<StringItem<_Char, _Alloc>, _Item, _GroupSize>
 {
 private:
 	// Using
-	using _IndexBase=IndexBase<String<_Char, _Alloc>, _Item, _GroupSize>;
-	using _ItR=IndexIterator<String<_Char, _Alloc>, _Item, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_Char, _Alloc>, _Item, _GroupSize, false>;
+	using _IndexBase=IndexBase<StringItem<_Char, _Alloc>, _Item, _GroupSize>;
+	using _ItR=IndexIterator<StringItem<_Char, _Alloc>, _Item, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_Char, _Alloc>, _Item, _GroupSize, false>;
 
 public:
 	// Access
@@ -54,13 +54,13 @@ public:
 
 // String-Index without Items
 template <class _Char, UINT _GroupSize>
-class StringIndex<_Char, true, VOID, _GroupSize>: public IndexBase<String<_Char, true>, VOID, _GroupSize>
+class StringIndex<_Char, true, VOID, _GroupSize>: public IndexBase<StringItem<_Char, true>, VOID, _GroupSize>
 {
 private:
 	// Using
-	using _IndexBase=IndexBase<String<_Char, true>, VOID, _GroupSize>;
-	using _ItR=IndexIterator<String<_Char, true>, VOID, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_Char, true>, VOID, _GroupSize, false>;
+	using _IndexBase=IndexBase<StringItem<_Char, true>, VOID, _GroupSize>;
+	using _ItR=IndexIterator<StringItem<_Char, true>, VOID, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_Char, true>, VOID, _GroupSize, false>;
 
 public:
 	// Access
@@ -75,13 +75,13 @@ public:
 
 // String-Index with Pointers
 template<class _Char, class _Item, UINT _GroupSize>
-class StringIndex<_Char, true, _Item*, _GroupSize>: public IndexBase<String<_Char, true>, _Item*, _GroupSize>
+class StringIndex<_Char, true, _Item*, _GroupSize>: public IndexBase<StringItem<_Char, true>, _Item*, _GroupSize>
 {
 private:
 	// Using
-	using _IndexBase=IndexBase<String<_Char, true>, _Item*, _GroupSize>;
-	using _ItR=IndexIterator<String<_Char, true>, _Item*, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_Char, true>, _Item*, _GroupSize, false>;
+	using _IndexBase=IndexBase<StringItem<_Char, true>, _Item*, _GroupSize>;
+	using _ItR=IndexIterator<StringItem<_Char, true>, _Item*, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_Char, true>, _Item*, _GroupSize, false>;
 
 public:
 	// Access
@@ -100,13 +100,13 @@ public:
 #ifdef __cplusplus_winrt
 // String-Index with Handles
 template<class _Char, class _Item, UINT _GroupSize>
-class StringIndex<_Char, true, _Item^, _GroupSize>: public IndexBase<String<_Char, true>, _Item^, _GroupSize>
+class StringIndex<_Char, true, _Item^, _GroupSize>: public IndexBase<StringItem<_Char, true>, _Item^, _GroupSize>
 {
 private:
 	// Using
-	using _IndexBase=IndexBase<String<_Char, true>, _Item^, _GroupSize>;
-	using _ItR=IndexIterator<String<_Char, true>, _Item^, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_Char, true>, _Item^, _GroupSize, false>;
+	using _IndexBase=IndexBase<StringItem<_Char, true>, _Item^, _GroupSize>;
+	using _ItR=IndexIterator<StringItem<_Char, true>, _Item^, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_Char, true>, _Item^, _GroupSize, false>;
 
 public:
 	// Access
@@ -123,15 +123,15 @@ public:
 };
 #endif
 
-// String-Index with Strings
+// String-Index with String-Items
 template<class _CharId, class _CharItem, UINT _GroupSize>
-class StringIndex<_CharId, true, String<_CharItem, true>, _GroupSize>: public IndexBase<String<_CharId, true>, String<_CharItem, true>, _GroupSize>
+class StringIndex<_CharId, true, StringItem<_CharItem, true>, _GroupSize>: public IndexBase<StringItem<_CharId, true>, StringItem<_CharItem, true>, _GroupSize>
 {
 private:
 	// Using
-	using _IndexBase=IndexBase<String<_CharId, true>, String<_CharItem, true>, _GroupSize>;
-	using _ItR=IndexIterator<String<_CharId, true>, String<_CharItem, true>, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_CharId, true>, String<_CharItem, true>, _GroupSize, false>;
+	using _IndexBase=IndexBase<StringItem<_CharId, true>, StringItem<_CharItem, true>, _GroupSize>;
+	using _ItR=IndexIterator<StringItem<_CharId, true>, StringItem<_CharItem, true>, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_CharId, true>, StringItem<_CharItem, true>, _GroupSize, false>;
 
 public:
 	// Access
@@ -147,15 +147,15 @@ public:
 	inline VOID Set(_CharId const* Id, _CharItem const* Item, UINT IdLength=0, UINT ItemLength=0, BOOL CaseSensitive=false) { this->SetStringInternal(Id, IdLength, CaseSensitive, Item, ItemLength); }
 };
 
-// String-Index with Shared Strings
+// String-Index with Shared String-Items
 template<class _CharId, class _CharItem, UINT _GroupSize>
-class StringIndex<_CharId, true, String<_CharItem, false>, _GroupSize>: public IndexBase<String<_CharId, true>, String<_CharItem, false>, _GroupSize>
+class StringIndex<_CharId, true, StringItem<_CharItem, false>, _GroupSize>: public IndexBase<StringItem<_CharId, true>, StringItem<_CharItem, false>, _GroupSize>
 {
 private:
 	// Using
-	using _IndexBase=IndexBase<String<_CharId, true>, String<_CharItem, false>, _GroupSize>;
-	using _ItR=IndexIterator<String<_CharId, true>, String<_CharItem, false>, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_CharId, true>, String<_CharItem, false>, _GroupSize, false>;
+	using _IndexBase=IndexBase<StringItem<_CharId, true>, StringItem<_CharItem, false>, _GroupSize>;
+	using _ItR=IndexIterator<StringItem<_CharId, true>, StringItem<_CharItem, false>, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_CharId, true>, StringItem<_CharItem, false>, _GroupSize, false>;
 
 public:
 	// Access
@@ -177,13 +177,13 @@ public:
 
 // Shared String-Index
 template<class _Char, class _Item, UINT _GroupSize>
-class StringIndex<_Char, false, _Item, _GroupSize>: public IndexBase<String<_Char, false>, _Item, _GroupSize>
+class StringIndex<_Char, false, _Item, _GroupSize>: public IndexBase<StringItem<_Char, false>, _Item, _GroupSize>
 {
 private:
 	// Using
-	using _IndexBase=IndexBase<String<_Char, false>, _Item, _GroupSize>;
-	using _ItR=IndexIterator<String<_Char, false>, _Item, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_Char, false>, _Item, _GroupSize, false>;
+	using _IndexBase=IndexBase<StringItem<_Char, false>, _Item, _GroupSize>;
+	using _ItR=IndexIterator<StringItem<_Char, false>, _Item, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_Char, false>, _Item, _GroupSize, false>;
 
 public:
 	// Access
@@ -202,13 +202,13 @@ public:
 
 // Shared String-Index without Items
 template <class _Char, UINT _GroupSize>
-class StringIndex<_Char, false, VOID, _GroupSize>: public IndexBase<String<_Char, false>, VOID, _GroupSize>
+class StringIndex<_Char, false, VOID, _GroupSize>: public IndexBase<StringItem<_Char, false>, VOID, _GroupSize>
 {
 private:
 	// Using
-	using _IndexBase=IndexBase<String<_Char, false>, VOID, _GroupSize>;
-	using _ItR=IndexIterator<String<_Char, false>, VOID, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_Char, false>, VOID, _GroupSize, false>;
+	using _IndexBase=IndexBase<StringItem<_Char, false>, VOID, _GroupSize>;
+	using _ItR=IndexIterator<StringItem<_Char, false>, VOID, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_Char, false>, VOID, _GroupSize, false>;
 
 public:
 	// Access
@@ -223,13 +223,13 @@ public:
 
 // Shared String-Index with Pointers
 template<class _Char, class _Item, UINT _GroupSize>
-class StringIndex<_Char, false, _Item*, _GroupSize>: public IndexBase<String<_Char, false>, _Item*, _GroupSize>
+class StringIndex<_Char, false, _Item*, _GroupSize>: public IndexBase<StringItem<_Char, false>, _Item*, _GroupSize>
 {
 private:
 	// Using
-	using _IndexBase=IndexBase<String<_Char, false>, _Item*, _GroupSize>;
-	using _ItR=IndexIterator<String<_Char, false>, _Item*, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_Char, false>, _Item*, _GroupSize, false>;
+	using _IndexBase=IndexBase<StringItem<_Char, false>, _Item*, _GroupSize>;
+	using _ItR=IndexIterator<StringItem<_Char, false>, _Item*, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_Char, false>, _Item*, _GroupSize, false>;
 
 public:
 	// Access
@@ -248,13 +248,13 @@ public:
 #ifdef __cplusplus_winrt
 // Shared String-Index with Handles
 template<class _Char, class _Item, UINT _GroupSize>
-class StringIndex<_Char, false, _Item^, _GroupSize>: public IndexBase<String<_Char, false>, _Item^, _GroupSize>
+class StringIndex<_Char, false, _Item^, _GroupSize>: public IndexBase<StringItem<_Char, false>, _Item^, _GroupSize>
 {
 private:
 	// Using
-	using _IndexBase=IndexBase<String<_Char, false>, _Item^, _GroupSize>;
-	using _ItR=IndexIterator<String<_Char, false>, _Item^, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_Char, false>, _Item^, _GroupSize, false>;
+	using _IndexBase=IndexBase<StringItem<_Char, false>, _Item^, _GroupSize>;
+	using _ItR=IndexIterator<StringItem<_Char, false>, _Item^, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_Char, false>, _Item^, _GroupSize, false>;
 
 public:
 	// Access
@@ -271,15 +271,15 @@ public:
 };
 #endif
 
-// Shared String-Index with Strings
+// Shared String-Index with String-Items
 template<class _CharId, class _CharItem, UINT _GroupSize>
-class StringIndex<_CharId, false, String<_CharItem, true>, _GroupSize>: public IndexBase<String<_CharId, false>, String<_CharItem, true>, _GroupSize>
+class StringIndex<_CharId, false, StringItem<_CharItem, true>, _GroupSize>: public IndexBase<StringItem<_CharId, false>, StringItem<_CharItem, true>, _GroupSize>
 {
 private:
 	// Using
-	using _IndexBase=IndexBase<String<_CharId, false>, String<_CharItem, true>, _GroupSize>;
-	using _ItR=IndexIterator<String<_CharId, false>, String<_CharItem, true>, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_CharId, false>, String<_CharItem, true>, _GroupSize, false>;
+	using _IndexBase=IndexBase<StringItem<_CharId, false>, StringItem<_CharItem, true>, _GroupSize>;
+	using _ItR=IndexIterator<StringItem<_CharId, false>, StringItem<_CharItem, true>, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_CharId, false>, StringItem<_CharItem, true>, _GroupSize, false>;
 
 public:
 	// Access
@@ -295,15 +295,15 @@ public:
 	inline VOID Set(_CharId const* Id, _CharItem const* Item, UINT ItemLength=0, BOOL CaseSensitive=false) { this->SetStringInternal(Id, 0, CaseSensitive, Item, ItemLength); }
 };
 
-// Shared String-Index with Shared Strings
+// Shared String-Index with Shared String-Items
 template<class _CharId, class _CharItem, UINT _GroupSize>
-class StringIndex<_CharId, false, String<_CharItem, false>, _GroupSize>: public IndexBase<String<_CharId, false>, String<_CharItem, false>, _GroupSize>
+class StringIndex<_CharId, false, StringItem<_CharItem, false>, _GroupSize>: public IndexBase<StringItem<_CharId, false>, StringItem<_CharItem, false>, _GroupSize>
 {
 private:
 	// Using
-	using _IndexBase=IndexBase<String<_CharId, false>, String<_CharItem, false>, _GroupSize>;
-	using _ItR=IndexIterator<String<_CharId, false>, String<_CharItem, false>, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_CharId, false>, String<_CharItem, false>, _GroupSize, false>;
+	using _IndexBase=IndexBase<StringItem<_CharId, false>, StringItem<_CharItem, false>, _GroupSize>;
+	using _ItR=IndexIterator<StringItem<_CharId, false>, StringItem<_CharItem, false>, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_CharId, false>, StringItem<_CharItem, false>, _GroupSize, false>;
 
 public:
 	// Access

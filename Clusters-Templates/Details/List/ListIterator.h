@@ -209,18 +209,18 @@ public:
 
 // Iterator String-List Read-Only
 template <class _Char, BOOL _Alloc, UINT _GroupSize>
-class ListIterator<String<_Char, _Alloc>, _GroupSize, true>: public ::Clusters::Templates::Details::Cluster::IteratorShared<String<_Char, _Alloc>, ListGroup<String<_Char, _Alloc>>, ListItemGroup<String<_Char, _Alloc>, _GroupSize>, ListParentGroup<String<_Char, _Alloc>, _GroupSize>, true>
+class ListIterator<StringItem<_Char, _Alloc>, _GroupSize, true>: public ::Clusters::Templates::Details::Cluster::IteratorShared<StringItem<_Char, _Alloc>, ListGroup<StringItem<_Char, _Alloc>>, ListItemGroup<StringItem<_Char, _Alloc>, _GroupSize>, ListParentGroup<StringItem<_Char, _Alloc>, _GroupSize>, true>
 {
 private:
 	// Using
-	using _ListGroup=ListGroup<String<_Char, _Alloc>>;
-	using _ListItemGroup=ListItemGroup<String<_Char, _Alloc>, _GroupSize>;
-	using _ListParentGroup=ListParentGroup<String<_Char, _Alloc>, _GroupSize>;
-	using _It=ListIterator<String<_Char, _Alloc>, _GroupSize, true>;
-	using _ItR=ListIterator<String<_Char, _Alloc>, _GroupSize, true>;
-	using _ItW=ListIterator<String<_Char, _Alloc>, _GroupSize, false>;
-	using _IteratorShared=::Clusters::Templates::Details::Cluster::IteratorShared<String<_Char, _Alloc>, _ListGroup, _ListItemGroup, _ListParentGroup, true>;
-	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<String<_Char, _Alloc>, _ListGroup, _ListItemGroup, _ListParentGroup, _ItR, _ItW>;
+	using _ListGroup=ListGroup<StringItem<_Char, _Alloc>>;
+	using _ListItemGroup=ListItemGroup<StringItem<_Char, _Alloc>, _GroupSize>;
+	using _ListParentGroup=ListParentGroup<StringItem<_Char, _Alloc>, _GroupSize>;
+	using _It=ListIterator<StringItem<_Char, _Alloc>, _GroupSize, true>;
+	using _ItR=ListIterator<StringItem<_Char, _Alloc>, _GroupSize, true>;
+	using _ItW=ListIterator<StringItem<_Char, _Alloc>, _GroupSize, false>;
+	using _IteratorShared=::Clusters::Templates::Details::Cluster::IteratorShared<StringItem<_Char, _Alloc>, _ListGroup, _ListItemGroup, _ListParentGroup, true>;
+	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<StringItem<_Char, _Alloc>, _ListGroup, _ListItemGroup, _ListParentGroup, _ItR, _ItW>;
 
 public:
 	// Con-/Destructors
@@ -237,18 +237,18 @@ public:
 
 // Iterator String-List Read-Write
 template <class _Char, UINT _GroupSize>
-class ListIterator<String<_Char, true>, _GroupSize, false>: public ::Clusters::Templates::Details::Cluster::IteratorShared<String<_Char, true>, ListGroup<String<_Char, true>>, ListItemGroup<String<_Char, true>, _GroupSize>, ListParentGroup<String<_Char, true>, _GroupSize>, false>
+class ListIterator<StringItem<_Char, true>, _GroupSize, false>: public ::Clusters::Templates::Details::Cluster::IteratorShared<StringItem<_Char, true>, ListGroup<StringItem<_Char, true>>, ListItemGroup<StringItem<_Char, true>, _GroupSize>, ListParentGroup<StringItem<_Char, true>, _GroupSize>, false>
 {
 private:
 	// Using
-	using _ListGroup=ListGroup<String<_Char, true>>;
-	using _ListItemGroup=ListItemGroup<String<_Char, true>, _GroupSize>;
-	using _ListParentGroup=ListParentGroup<String<_Char, true>, _GroupSize>;
-	using _It=ListIterator<String<_Char, true>, _GroupSize, false>;
-	using _ItR=ListIterator<String<_Char, true>, _GroupSize, true>;
-	using _ItW=ListIterator<String<_Char, true>, _GroupSize, false>;
-	using _IteratorShared=::Clusters::Templates::Details::Cluster::IteratorShared<String<_Char, true>, _ListGroup, _ListItemGroup, _ListParentGroup, false>;
-	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<String<_Char, true>, _ListGroup, _ListItemGroup, _ListParentGroup, _ItR, _ItW>;
+	using _ListGroup=ListGroup<StringItem<_Char, true>>;
+	using _ListItemGroup=ListItemGroup<StringItem<_Char, true>, _GroupSize>;
+	using _ListParentGroup=ListParentGroup<StringItem<_Char, true>, _GroupSize>;
+	using _It=ListIterator<StringItem<_Char, true>, _GroupSize, false>;
+	using _ItR=ListIterator<StringItem<_Char, true>, _GroupSize, true>;
+	using _ItW=ListIterator<StringItem<_Char, true>, _GroupSize, false>;
+	using _IteratorShared=::Clusters::Templates::Details::Cluster::IteratorShared<StringItem<_Char, true>, _ListGroup, _ListItemGroup, _ListParentGroup, false>;
+	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<StringItem<_Char, true>, _ListGroup, _ListItemGroup, _ListParentGroup, _ItR, _ItW>;
 
 public:
 	// Con-/Destructors
@@ -267,18 +267,18 @@ public:
 
 // Iterator Shared String-List Read-Write
 template <class _Char, UINT _GroupSize>
-class ListIterator<String<_Char, false>, _GroupSize, false>: public ::Clusters::Templates::Details::Cluster::IteratorShared<String<_Char, false>, ListGroup<String<_Char, false>>, ListItemGroup<String<_Char, false>, _GroupSize>, ListParentGroup<String<_Char, false>, _GroupSize>, false>
+class ListIterator<StringItem<_Char, false>, _GroupSize, false>: public ::Clusters::Templates::Details::Cluster::IteratorShared<StringItem<_Char, false>, ListGroup<StringItem<_Char, false>>, ListItemGroup<StringItem<_Char, false>, _GroupSize>, ListParentGroup<StringItem<_Char, false>, _GroupSize>, false>
 {
 private:
 	// Using
-	using _ListGroup=ListGroup<String<_Char, false>>;
-	using _ListItemGroup=ListItemGroup<String<_Char, false>, _GroupSize>;
-	using _ListParentGroup=ListParentGroup<String<_Char, false>, _GroupSize>;
-	using _It=ListIterator<String<_Char, false>, _GroupSize, false>;
-	using _ItR=ListIterator<String<_Char, false>, _GroupSize, true>;
-	using _ItW=ListIterator<String<_Char, false>, _GroupSize, false>;
-	using _IteratorShared=::Clusters::Templates::Details::Cluster::IteratorShared<String<_Char, false>, _ListGroup, _ListItemGroup, _ListParentGroup, false>;
-	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<String<_Char, false>, _ListGroup, _ListItemGroup, _ListParentGroup, _ItR, _ItW>;
+	using _ListGroup=ListGroup<StringItem<_Char, false>>;
+	using _ListItemGroup=ListItemGroup<StringItem<_Char, false>, _GroupSize>;
+	using _ListParentGroup=ListParentGroup<StringItem<_Char, false>, _GroupSize>;
+	using _It=ListIterator<StringItem<_Char, false>, _GroupSize, false>;
+	using _ItR=ListIterator<StringItem<_Char, false>, _GroupSize, true>;
+	using _ItW=ListIterator<StringItem<_Char, false>, _GroupSize, false>;
+	using _IteratorShared=::Clusters::Templates::Details::Cluster::IteratorShared<StringItem<_Char, false>, _ListGroup, _ListItemGroup, _ListParentGroup, false>;
+	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<StringItem<_Char, false>, _ListGroup, _ListItemGroup, _ListParentGroup, _ItR, _ItW>;
 
 public:
 	// Con-/Destructors

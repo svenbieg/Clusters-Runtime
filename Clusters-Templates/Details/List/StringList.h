@@ -29,7 +29,7 @@ namespace Clusters {
 
 // String-List
 template<class _Char, BOOL _Alloc, UINT _GroupSize>
-class StringList: public ListBase<String<_Char, _Alloc>, _GroupSize>
+class StringList: public ListBase<StringItem<_Char, _Alloc>, _GroupSize>
 {
 public:
 	// Access
@@ -39,14 +39,14 @@ public:
 	// Modification
 	UINT Append(_Char const* Value, UINT Length=0)
 		{
-		String<_Char, _Alloc>* pitem=this->AppendInternal();
-		new (pitem) String<_Char, _Alloc>();
+		StringItem<_Char, _Alloc>* pitem=this->AppendInternal();
+		new (pitem) StringItem<_Char, _Alloc>();
 		return pitem->Set(Value, Length);
 		}
 	UINT InsertAt(SIZE_T Position, _Char const* Value, UINT Length=0)
 		{
-		String<_Char, _Alloc>* pitem=this->InsertInternal(Position);
-		new (pitem) String<_Char, _Alloc>();
+		StringItem<_Char, _Alloc>* pitem=this->InsertInternal(Position);
+		new (pitem) StringItem<_Char, _Alloc>();
 		return pitem->Set(Value, Length);
 		}
 	_Char const* ReleaseAt(SIZE_T Position)
@@ -59,7 +59,7 @@ public:
 
 // Shared String-List
 template<class _Char, UINT _GroupSize>
-class StringList<_Char, false, _GroupSize>: public ListBase<String<_Char, false>, _GroupSize>
+class StringList<_Char, false, _GroupSize>: public ListBase<StringItem<_Char, false>, _GroupSize>
 {
 public:
 	// Access
@@ -69,14 +69,14 @@ public:
 	// Modification
 	VOID Append(_Char const* Value)
 		{
-		String<_Char, false>* pitem=this->AppendInternal();
-		new (pitem) String<_Char, false>();
+		StringItem<_Char, false>* pitem=this->AppendInternal();
+		new (pitem) StringItem<_Char, false>();
 		pitem->Set(Value);
 		}
 	VOID InsertAt(SIZE_T Position, _Char const* Value)
 		{
-		String<_Char, false>* pitem=this->InsertInternal(Position);
-		new (pitem) String<_Char, false>();
+		StringItem<_Char, false>* pitem=this->InsertInternal(Position);
+		new (pitem) StringItem<_Char, false>();
 		pitem->Set(Value);
 		}
 	_Char const* ReleaseAt(SIZE_T Position)

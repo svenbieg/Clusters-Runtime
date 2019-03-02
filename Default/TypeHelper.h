@@ -9,14 +9,14 @@
 // Integrated Types
 //==================
 
-#ifndef _MINWINDEF_
+#ifndef _WINDOWS
 
 typedef void VOID;
 typedef bool BOOL;
 
 // Memory-Types
 typedef unsigned char BYTE;
-typedef unsigned short WORD;
+typedef unsigned short int WORD;
 typedef unsigned int DWORD;
 typedef unsigned long long int QWORD;
 #ifdef _BITS32
@@ -26,8 +26,8 @@ typedef unsigned long long int SIZE_T;
 #endif
 
 // Numeric Types
-typedef short SHORT;
-typedef unsigned short USHORT;
+typedef short int SHORT;
+typedef unsigned short int USHORT;
 typedef int INT;
 typedef unsigned int UINT;
 typedef long long int INT64;
@@ -72,14 +72,13 @@ typedef wchar_t const* LPCWSTR;
 // Moveable Types
 //================
 
-template <class T> struct TypeNeedsConstruction { static const BOOL value=true; };
-template <> struct TypeNeedsConstruction<bool> { static const BOOL value=false; };
-template <> struct TypeNeedsConstruction<CHAR> { static const BOOL value=false; };
-template <> struct TypeNeedsConstruction<WCHAR> { static const BOOL value=false; };
-template <> struct TypeNeedsConstruction<BYTE> { static const BOOL value=false; };
-template <> struct TypeNeedsConstruction<SHORT> { static const BOOL value=false; };
-template <> struct TypeNeedsConstruction<WORD> { static const BOOL value=false; };
-template <> struct TypeNeedsConstruction<INT> { static const BOOL value=false; };
-template <> struct TypeNeedsConstruction<UINT> { static const BOOL value=false; };
-template <> struct TypeNeedsConstruction<INT64> { static const BOOL value=false; };
-template <> struct TypeNeedsConstruction<SIZE_T> { static const BOOL value=false; };
+template <class T> struct TypeNeedsConstruction { static const bool value=true; };
+template <> struct TypeNeedsConstruction<bool> { static const bool value=false; };
+template <> struct TypeNeedsConstruction<CHAR> { static const bool value=false; };
+template <> struct TypeNeedsConstruction<WCHAR> { static const bool value=false; };
+template <> struct TypeNeedsConstruction<BYTE> { static const bool value=false; };
+template <> struct TypeNeedsConstruction<SHORT> { static const bool value=false; };
+template <> struct TypeNeedsConstruction<WORD> { static const bool value=false; };
+template <> struct TypeNeedsConstruction<INT> { static const bool value=false; };
+template <> struct TypeNeedsConstruction<UINT> { static const bool value=false; };
+template <> struct TypeNeedsConstruction<INT64> { static const bool value=false; };

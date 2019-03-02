@@ -33,7 +33,7 @@ public:
 
 protected:
 	// Con-Destructors
-	virtual ~GroupBase() {}
+	virtual ~GroupBase() {};
 };
 
 
@@ -76,7 +76,7 @@ public:
 
 // Group String-Cluster
 template <class _Char, BOOL _Alloc>
-class Group<String<_Char, _Alloc>>: public GroupBase<String<_Char, _Alloc>>
+class Group<StringItem<_Char, _Alloc>>: public GroupBase<StringItem<_Char, _Alloc>>
 {
 public:
 	// Access

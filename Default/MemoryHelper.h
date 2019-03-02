@@ -12,9 +12,25 @@
 #include <malloc.h>
 #include <new>
 #include <string.h>
-#include "Architecture.h"
 #include "ErrorHelper.h"
 #include "TypeHelper.h"
+
+
+//==============
+// Architecture
+//==============
+
+#ifdef _BITS32
+
+#define IF32(x) x
+#define IF64(x)
+
+#else
+
+#define IF32(x)
+#define IF64(x) x
+
+#endif
 
 
 //============
@@ -80,8 +96,8 @@ return (WORD)Value;
 // Allocation
 //============
 
-inline VOID* Alloc(SIZE_T Size) { return malloc(Size); }
-inline VOID Free(VOID* Pointer) { free(Pointer); }
+inline VOID* Alloc(SIZE_T Size) { return new BYTE[Size]; }
+inline VOID Free(VOID* Pointer) { delete Pointer; }
 
 
 //==========

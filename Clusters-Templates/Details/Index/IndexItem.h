@@ -111,9 +111,9 @@ private:
 };
 #endif
 
-// Index-Item with String
+// Index-Item with String-Item
 template <class _Id, class _Char>
-class IndexItem<_Id, String<_Char, true>>
+class IndexItem<_Id, StringItem<_Char, true>>
 {
 public:
 	// Con-/Destructors
@@ -129,13 +129,13 @@ public:
 	
 private:
 	// Common
-	String<_Char, true> cItem;
+	StringItem<_Char, true> cItem;
 	_Id tId;
 };
 
-// Index-Item with Shared String
+// Index-Item with Shared String-Item
 template <class _Id, class _Char>
-class IndexItem<_Id, String<_Char, false>>
+class IndexItem<_Id, StringItem<_Char, false>>
 {
 public:
 	// Con-/Destructors
@@ -150,7 +150,7 @@ public:
 	
 private:
 	// Common
-	String<_Char, false> cItem;
+	StringItem<_Char, false> cItem;
 	_Id tId;
 };
 
@@ -254,9 +254,9 @@ private:
 };
 #endif
 
-// Item Pointer-Index with String
+// Item Pointer-Index with String-Item
 template <class _Id, class _Char>
-class IndexItem<_Id*, String<_Char, true>>
+class IndexItem<_Id*, StringItem<_Char, true>>
 {
 public:
 	// Con-/Destructors
@@ -273,13 +273,13 @@ public:
 	
 private:
 	// Common
-	String<_Char, true> cItem;
+	StringItem<_Char, true> cItem;
 	_Id* pId;
 };
 
-// Item Pointer-Index with Shared String
+// Item Pointer-Index with Shared String-Item
 template <class _Id, class _Char>
-class IndexItem<_Id*, String<_Char, false>>
+class IndexItem<_Id*, StringItem<_Char, false>>
 {
 public:
 	// Con-/Destructors
@@ -295,7 +295,7 @@ public:
 	
 private:
 	// Common
-	String<_Char, true> cItem;
+	StringItem<_Char, true> cItem;
 	_Id* pId;
 };
 
@@ -399,9 +399,9 @@ private:
 	_Item^ hItem;
 };
 
-// Item Handle-Index with String
+// Item Handle-Index with String-Item
 template <class _Id, class _Char>
-class IndexItem<_Id^, String<_Char, true>>
+class IndexItem<_Id^, StringItem<_Char, true>>
 {
 public:
 	// Con-/Destructors
@@ -418,13 +418,13 @@ public:
 	
 private:
 	// Common
-	String<_Char, true> cItem;
+	StringItem<_Char, true> cItem;
 	_Id^ hId;
 };
 
-// Item Handle-Index with Shared String
+// Item Handle-Index with Shared String-Item
 template <class _Id, class _Char>
-class IndexItem<_Id^, String<_Char, false>>
+class IndexItem<_Id^, StringItem<_Char, false>>
 {
 public:
 	// Con-/Destructors
@@ -440,7 +440,7 @@ public:
 	
 private:
 	// Common
-	String<_Char, true> cItem;
+	StringItem<_Char, true> cItem;
 	_Id^ hId;
 };
 
@@ -453,7 +453,7 @@ private:
 
 // Item String-Index
 template <class _Char, BOOL _AllocId, class _Item>
-class IndexItem<String<_Char, _AllocId>, _Item>
+class IndexItem<StringItem<_Char, _AllocId>, _Item>
 {
 public:
 	// Con-/Destructors
@@ -470,13 +470,13 @@ public:
 	
 private:
 	// Common
-	String<_Char, _AllocId> cId;
+	StringItem<_Char, _AllocId> cId;
 	_Item tItem;
 };
 
 // Empty Item String-Index
 template <class _Char, BOOL _AllocId>
-class IndexItem<String<_Char, _AllocId>, VOID>
+class IndexItem<StringItem<_Char, _AllocId>, VOID>
 {
 public:
 	// Con-/Destructors
@@ -487,12 +487,12 @@ public:
 
 private:
 	// Common
-	String<_Char, true> cId;
+	StringItem<_Char, true> cId;
 };
 
 // Item String-Index with Pointer
 template <class _Char, BOOL _AllocId, class _Item>
-class IndexItem<String<_Char, _AllocId>, _Item*>
+class IndexItem<StringItem<_Char, _AllocId>, _Item*>
 {
 public:
 	// Con-/Destructors
@@ -512,14 +512,14 @@ public:
 	
 private:
 	// Common
-	String<_Char, _AllocId> cId;
+	StringItem<_Char, _AllocId> cId;
 	_Item* pItem;
 };
 
 #ifdef __cplusplus_winrt
 // Item String-Index with Handle
 template <class _Char, BOOL _AllocId, class _Item>
-class IndexItem<String<_Char, _AllocId>, _Item^>
+class IndexItem<StringItem<_Char, _AllocId>, _Item^>
 {
 public:
 	// Con-/Destructors
@@ -538,14 +538,14 @@ public:
 	
 private:
 	// Common
-	String<_Char, _AllocId> cId;
+	StringItem<_Char, _AllocId> cId;
 	_Item^ hItem;
 };
 #endif
 
-// Item String-Index with String
+// Item String-Index with String-Item
 template <class _CharId, BOOL _AllocId, class _CharItem>
-class IndexItem<String<_CharId, _AllocId>, String<_CharItem, true>>
+class IndexItem<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>>
 {
 public:
 	// Con-/Destructors
@@ -561,13 +561,13 @@ public:
 	
 private:
 	// Common
-	String<_CharId, _AllocId> cId;
-	String<_CharItem, true> cItem;
+	StringItem<_CharId, _AllocId> cId;
+	StringItem<_CharItem, true> cItem;
 };
 
-// Item String-Index with Shared String
+// Item String-Index with Shared String-Item
 template <class _CharId, BOOL _AllocId, class _CharItem>
-class IndexItem<String<_CharId, _AllocId>, String<_CharItem, false>>
+class IndexItem<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>>
 {
 public:
 	// Con-/Destructors
@@ -582,8 +582,8 @@ public:
 	
 private:
 	// Common
-	String<_CharId, _AllocId> cId;
-	String<_CharItem, false> cItem;
+	StringItem<_CharId, _AllocId> cId;
+	StringItem<_CharItem, false> cItem;
 };
 
 }}}}

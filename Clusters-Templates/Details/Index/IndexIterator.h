@@ -358,18 +358,18 @@ public:
 
 // Iterator Index with Strings Read-Only
 template <class _Id, class _Char, BOOL _AllocItem, UINT _GroupSize>
-class IndexIterator<_Id, String<_Char, _AllocItem>, _GroupSize, true>: public IndexIteratorBase<_Id, String<_Char, _AllocItem>, _GroupSize, true>
+class IndexIterator<_Id, StringItem<_Char, _AllocItem>, _GroupSize, true>: public IndexIteratorBase<_Id, StringItem<_Char, _AllocItem>, _GroupSize, true>
 {
 private:
 	// Using
-	using _It=IndexIterator<_Id, String<_Char, _AllocItem>, _GroupSize, true>;
-	using _ItR=IndexIterator<_Id, String<_Char, _AllocItem>, _GroupSize, true>;
-	using _ItW=IndexIterator<_Id, String<_Char, _AllocItem>, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<_Id, String<_Char, _AllocItem>, _GroupSize, true>;
-	using _IndexItem=IndexItem<_Id, String<_Char, _AllocItem>>;
-	using _IndexGroup=IndexGroup<_Id, String<_Char, _AllocItem>>;
-	using _IndexItemGroup=IndexItemGroup<_Id, String<_Char, _AllocItem>, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<_Id, String<_Char, _AllocItem>, _GroupSize>;
+	using _It=IndexIterator<_Id, StringItem<_Char, _AllocItem>, _GroupSize, true>;
+	using _ItR=IndexIterator<_Id, StringItem<_Char, _AllocItem>, _GroupSize, true>;
+	using _ItW=IndexIterator<_Id, StringItem<_Char, _AllocItem>, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<_Id, StringItem<_Char, _AllocItem>, _GroupSize, true>;
+	using _IndexItem=IndexItem<_Id, StringItem<_Char, _AllocItem>>;
+	using _IndexGroup=IndexGroup<_Id, StringItem<_Char, _AllocItem>>;
+	using _IndexItemGroup=IndexItemGroup<_Id, StringItem<_Char, _AllocItem>, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<_Id, StringItem<_Char, _AllocItem>, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -391,18 +391,18 @@ public:
 
 // Iterator Index with Strings Read-Write
 template <class _Id, class _Char, UINT _GroupSize>
-class IndexIterator<_Id, String<_Char, true>, _GroupSize, false>: public IndexIteratorBase<_Id, String<_Char, true>, _GroupSize, false>
+class IndexIterator<_Id, StringItem<_Char, true>, _GroupSize, false>: public IndexIteratorBase<_Id, StringItem<_Char, true>, _GroupSize, false>
 {
 private:
 	// Using
-	using _It=IndexIterator<_Id, String<_Char, true>, _GroupSize, false>;
-	using _ItR=IndexIterator<_Id, String<_Char, true>, _GroupSize, true>;
-	using _ItW=IndexIterator<_Id, String<_Char, true>, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<_Id, String<_Char, true>, _GroupSize, false>;
-	using _IndexItem=IndexItem<_Id, String<_Char, true>>;
-	using _IndexGroup=IndexGroup<_Id, String<_Char, true>>;
-	using _IndexItemGroup=IndexItemGroup<_Id, String<_Char, true>, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<_Id, String<_Char, true>, _GroupSize>;
+	using _It=IndexIterator<_Id, StringItem<_Char, true>, _GroupSize, false>;
+	using _ItR=IndexIterator<_Id, StringItem<_Char, true>, _GroupSize, true>;
+	using _ItW=IndexIterator<_Id, StringItem<_Char, true>, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<_Id, StringItem<_Char, true>, _GroupSize, false>;
+	using _IndexItem=IndexItem<_Id, StringItem<_Char, true>>;
+	using _IndexGroup=IndexGroup<_Id, StringItem<_Char, true>>;
+	using _IndexItemGroup=IndexItemGroup<_Id, StringItem<_Char, true>, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<_Id, StringItem<_Char, true>, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -425,18 +425,18 @@ public:
 
 // Iterator Index with Shared Strings Read-Only
 template <class _Id, class _Char, UINT _GroupSize>
-class IndexIterator<_Id, String<_Char, false>, _GroupSize, true>: public IndexIteratorBase<_Id, String<_Char, false>, _GroupSize, true>
+class IndexIterator<_Id, StringItem<_Char, false>, _GroupSize, true>: public IndexIteratorBase<_Id, StringItem<_Char, false>, _GroupSize, true>
 {
 private:
 	// Using
-	using _It=IndexIterator<_Id, String<_Char, false>, _GroupSize, true>;
-	using _ItR=IndexIterator<_Id, String<_Char, false>, _GroupSize, true>;
-	using _ItW=IndexIterator<_Id, String<_Char, false>, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<_Id, String<_Char, false>, _GroupSize, true>;
-	using _IndexItem=IndexItem<_Id, String<_Char, false>>;
-	using _IndexGroup=IndexGroup<_Id, String<_Char, false>>;
-	using _IndexItemGroup=IndexItemGroup<_Id, String<_Char, false>, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<_Id, String<_Char, false>, _GroupSize>;
+	using _It=IndexIterator<_Id, StringItem<_Char, false>, _GroupSize, true>;
+	using _ItR=IndexIterator<_Id, StringItem<_Char, false>, _GroupSize, true>;
+	using _ItW=IndexIterator<_Id, StringItem<_Char, false>, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<_Id, StringItem<_Char, false>, _GroupSize, true>;
+	using _IndexItem=IndexItem<_Id, StringItem<_Char, false>>;
+	using _IndexGroup=IndexGroup<_Id, StringItem<_Char, false>>;
+	using _IndexItemGroup=IndexItemGroup<_Id, StringItem<_Char, false>, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<_Id, StringItem<_Char, false>, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -458,18 +458,18 @@ public:
 
 // Iterator Index with Shared Strings Read-Write
 template <class _Id, class _Char, UINT _GroupSize>
-class IndexIterator<_Id, String<_Char, false>, _GroupSize, false>: public IndexIteratorBase<_Id, String<_Char, false>, _GroupSize, false>
+class IndexIterator<_Id, StringItem<_Char, false>, _GroupSize, false>: public IndexIteratorBase<_Id, StringItem<_Char, false>, _GroupSize, false>
 {
 private:
 	// Using
-	using _It=IndexIterator<_Id, String<_Char, false>, _GroupSize, false>;
-	using _ItR=IndexIterator<_Id, String<_Char, false>, _GroupSize, true>;
-	using _ItW=IndexIterator<_Id, String<_Char, false>, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<_Id, String<_Char, false>, _GroupSize, false>;
-	using _IndexItem=IndexItem<_Id, String<_Char, false>>;
-	using _IndexGroup=IndexGroup<_Id, String<_Char, false>>;
-	using _IndexItemGroup=IndexItemGroup<_Id, String<_Char, false>, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<_Id, String<_Char, false>, _GroupSize>;
+	using _It=IndexIterator<_Id, StringItem<_Char, false>, _GroupSize, false>;
+	using _ItR=IndexIterator<_Id, StringItem<_Char, false>, _GroupSize, true>;
+	using _ItW=IndexIterator<_Id, StringItem<_Char, false>, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<_Id, StringItem<_Char, false>, _GroupSize, false>;
+	using _IndexItem=IndexItem<_Id, StringItem<_Char, false>>;
+	using _IndexGroup=IndexGroup<_Id, StringItem<_Char, false>>;
+	using _IndexItemGroup=IndexItemGroup<_Id, StringItem<_Char, false>, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<_Id, StringItem<_Char, false>, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -764,18 +764,18 @@ public:
 
 // Iterator Pointer-Index with Strings Read-Only
 template <class _Id, class _Char, BOOL _AllocItem, UINT _GroupSize>
-class IndexIterator<_Id*, String<_Char, _AllocItem>, _GroupSize, true>: public IndexIteratorBase<_Id*, String<_Char, _AllocItem>, _GroupSize, true>
+class IndexIterator<_Id*, StringItem<_Char, _AllocItem>, _GroupSize, true>: public IndexIteratorBase<_Id*, StringItem<_Char, _AllocItem>, _GroupSize, true>
 {
 private:
 	// Using
-	using _It=IndexIterator<_Id*, String<_Char, _AllocItem>, _GroupSize, true>;
-	using _ItR=IndexIterator<_Id*, String<_Char, _AllocItem>, _GroupSize, true>;
-	using _ItW=IndexIterator<_Id*, String<_Char, _AllocItem>, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<_Id*, String<_Char, _AllocItem>, _GroupSize, true>;
-	using _IndexItem=IndexItem<_Id*, String<_Char, _AllocItem>>;
-	using _IndexGroup=IndexGroup<_Id*, String<_Char, _AllocItem>>;
-	using _IndexItemGroup=IndexItemGroup<_Id*, String<_Char, _AllocItem>, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<_Id*, String<_Char, _AllocItem>, _GroupSize>;
+	using _It=IndexIterator<_Id*, StringItem<_Char, _AllocItem>, _GroupSize, true>;
+	using _ItR=IndexIterator<_Id*, StringItem<_Char, _AllocItem>, _GroupSize, true>;
+	using _ItW=IndexIterator<_Id*, StringItem<_Char, _AllocItem>, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<_Id*, StringItem<_Char, _AllocItem>, _GroupSize, true>;
+	using _IndexItem=IndexItem<_Id*, StringItem<_Char, _AllocItem>>;
+	using _IndexGroup=IndexGroup<_Id*, StringItem<_Char, _AllocItem>>;
+	using _IndexItemGroup=IndexItemGroup<_Id*, StringItem<_Char, _AllocItem>, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<_Id*, StringItem<_Char, _AllocItem>, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -797,18 +797,18 @@ public:
 
 // Iterator Pointer-Index with Strings Read-Write
 template <class _Id, class _Char, UINT _GroupSize>
-class IndexIterator<_Id*, String<_Char, true>, _GroupSize, false>: public IndexIteratorBase<_Id*, String<_Char, true>, _GroupSize, false>
+class IndexIterator<_Id*, StringItem<_Char, true>, _GroupSize, false>: public IndexIteratorBase<_Id*, StringItem<_Char, true>, _GroupSize, false>
 {
 private:
 	// Using
-	using _It=IndexIterator<_Id*, String<_Char, true>, _GroupSize, false>;
-	using _ItR=IndexIterator<_Id*, String<_Char, true>, _GroupSize, true>;
-	using _ItW=IndexIterator<_Id*, String<_Char, true>, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<_Id*, String<_Char, true>, _GroupSize, false>;
-	using _IndexItem=IndexItem<_Id*, String<_Char, true>>;
-	using _IndexGroup=IndexGroup<_Id*, String<_Char, true>>;
-	using _IndexItemGroup=IndexItemGroup<_Id*, String<_Char, true>, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<_Id*, String<_Char, true>, _GroupSize>;
+	using _It=IndexIterator<_Id*, StringItem<_Char, true>, _GroupSize, false>;
+	using _ItR=IndexIterator<_Id*, StringItem<_Char, true>, _GroupSize, true>;
+	using _ItW=IndexIterator<_Id*, StringItem<_Char, true>, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<_Id*, StringItem<_Char, true>, _GroupSize, false>;
+	using _IndexItem=IndexItem<_Id*, StringItem<_Char, true>>;
+	using _IndexGroup=IndexGroup<_Id*, StringItem<_Char, true>>;
+	using _IndexItemGroup=IndexItemGroup<_Id*, StringItem<_Char, true>, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<_Id*, StringItem<_Char, true>, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -831,18 +831,18 @@ public:
 
 // Iterator Pointer-Index with Shared Strings Read-Only
 template <class _Id, class _Char, UINT _GroupSize>
-class IndexIterator<_Id*, String<_Char, false>, _GroupSize, true>: public IndexIteratorBase<_Id*, String<_Char, false>, _GroupSize, true>
+class IndexIterator<_Id*, StringItem<_Char, false>, _GroupSize, true>: public IndexIteratorBase<_Id*, StringItem<_Char, false>, _GroupSize, true>
 {
 private:
 	// Using
-	using _It=IndexIterator<_Id*, String<_Char, false>, _GroupSize, true>;
-	using _ItR=IndexIterator<_Id*, String<_Char, false>, _GroupSize, true>;
-	using _ItW=IndexIterator<_Id*, String<_Char, false>, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<_Id*, String<_Char, false>, _GroupSize, true>;
-	using _IndexItem=IndexItem<_Id*, String<_Char, false>>;
-	using _IndexGroup=IndexGroup<_Id*, String<_Char, false>>;
-	using _IndexItemGroup=IndexItemGroup<_Id*, String<_Char, false>, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<_Id*, String<_Char, false>, _GroupSize>;
+	using _It=IndexIterator<_Id*, StringItem<_Char, false>, _GroupSize, true>;
+	using _ItR=IndexIterator<_Id*, StringItem<_Char, false>, _GroupSize, true>;
+	using _ItW=IndexIterator<_Id*, StringItem<_Char, false>, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<_Id*, StringItem<_Char, false>, _GroupSize, true>;
+	using _IndexItem=IndexItem<_Id*, StringItem<_Char, false>>;
+	using _IndexGroup=IndexGroup<_Id*, StringItem<_Char, false>>;
+	using _IndexItemGroup=IndexItemGroup<_Id*, StringItem<_Char, false>, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<_Id*, StringItem<_Char, false>, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -864,18 +864,18 @@ public:
 
 // Iterator Pointer-Index with Shared Strings Read-Write
 template <class _Id, class _Char, UINT _GroupSize>
-class IndexIterator<_Id*, String<_Char, false>, _GroupSize, false>: public IndexIteratorBase<_Id*, String<_Char, false>, _GroupSize, false>
+class IndexIterator<_Id*, StringItem<_Char, false>, _GroupSize, false>: public IndexIteratorBase<_Id*, StringItem<_Char, false>, _GroupSize, false>
 {
 private:
 	// Using
-	using _It=IndexIterator<_Id*, String<_Char, false>, _GroupSize, false>;
-	using _ItR=IndexIterator<_Id*, String<_Char, false>, _GroupSize, true>;
-	using _ItW=IndexIterator<_Id*, String<_Char, false>, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<_Id*, String<_Char, false>, _GroupSize, false>;
-	using _IndexItem=IndexItem<_Id*, String<_Char, false>>;
-	using _IndexGroup=IndexGroup<_Id*, String<_Char, false>>;
-	using _IndexItemGroup=IndexItemGroup<_Id*, String<_Char, false>, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<_Id*, String<_Char, false>, _GroupSize>;
+	using _It=IndexIterator<_Id*, StringItem<_Char, false>, _GroupSize, false>;
+	using _ItR=IndexIterator<_Id*, StringItem<_Char, false>, _GroupSize, true>;
+	using _ItW=IndexIterator<_Id*, StringItem<_Char, false>, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<_Id*, StringItem<_Char, false>, _GroupSize, false>;
+	using _IndexItem=IndexItem<_Id*, StringItem<_Char, false>>;
+	using _IndexGroup=IndexGroup<_Id*, StringItem<_Char, false>>;
+	using _IndexItemGroup=IndexItemGroup<_Id*, StringItem<_Char, false>, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<_Id*, StringItem<_Char, false>, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -1168,18 +1168,18 @@ public:
 
 // Iterator Handle-Index with Strings Read-Only
 template <class _Id, class _Char, BOOL _AllocItem, UINT _GroupSize>
-class IndexIterator<_Id^, String<_Char, _AllocItem>, _GroupSize, true>: public IndexIteratorBase<_Id^, String<_Char, _AllocItem>, _GroupSize, true>
+class IndexIterator<_Id^, StringItem<_Char, _AllocItem>, _GroupSize, true>: public IndexIteratorBase<_Id^, StringItem<_Char, _AllocItem>, _GroupSize, true>
 {
 private:
 	// Using
-	using _It=IndexIterator<_Id^, String<_Char, _AllocItem>, _GroupSize, true>;
-	using _ItR=IndexIterator<_Id^, String<_Char, _AllocItem>, _GroupSize, true>;
-	using _ItW=IndexIterator<_Id^, String<_Char, _AllocItem>, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<_Id^, String<_Char, _AllocItem>, _GroupSize, true>;
-	using _IndexItem=IndexItem<_Id^, String<_Char, _AllocItem>>;
-	using _IndexGroup=IndexGroup<_Id^, String<_Char, _AllocItem>>;
-	using _IndexItemGroup=IndexItemGroup<_Id^, String<_Char, _AllocItem>, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<_Id^, String<_Char, _AllocItem>, _GroupSize>;
+	using _It=IndexIterator<_Id^, StringItem<_Char, _AllocItem>, _GroupSize, true>;
+	using _ItR=IndexIterator<_Id^, StringItem<_Char, _AllocItem>, _GroupSize, true>;
+	using _ItW=IndexIterator<_Id^, StringItem<_Char, _AllocItem>, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<_Id^, StringItem<_Char, _AllocItem>, _GroupSize, true>;
+	using _IndexItem=IndexItem<_Id^, StringItem<_Char, _AllocItem>>;
+	using _IndexGroup=IndexGroup<_Id^, StringItem<_Char, _AllocItem>>;
+	using _IndexItemGroup=IndexItemGroup<_Id^, StringItem<_Char, _AllocItem>, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<_Id^, StringItem<_Char, _AllocItem>, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -1201,18 +1201,18 @@ public:
 
 // Iterator Handle-Index with Strings Read-Write
 template <class _Id, class _Char, UINT _GroupSize>
-class IndexIterator<_Id^, String<_Char, true>, _GroupSize, false>: public IndexIteratorBase<_Id^, String<_Char, true>, _GroupSize, false>
+class IndexIterator<_Id^, StringItem<_Char, true>, _GroupSize, false>: public IndexIteratorBase<_Id^, StringItem<_Char, true>, _GroupSize, false>
 {
 private:
 	// Using
-	using _It=IndexIterator<_Id^, String<_Char, true>, _GroupSize, false>;
-	using _ItR=IndexIterator<_Id^, String<_Char, true>, _GroupSize, true>;
-	using _ItW=IndexIterator<_Id^, String<_Char, true>, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<_Id^, String<_Char, true>, _GroupSize, false>;
-	using _IndexItem=IndexItem<_Id^, String<_Char, true>>;
-	using _IndexGroup=IndexGroup<_Id^, String<_Char, true>>;
-	using _IndexItemGroup=IndexItemGroup<_Id^, String<_Char, true>, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<_Id^, String<_Char, true>, _GroupSize>;
+	using _It=IndexIterator<_Id^, StringItem<_Char, true>, _GroupSize, false>;
+	using _ItR=IndexIterator<_Id^, StringItem<_Char, true>, _GroupSize, true>;
+	using _ItW=IndexIterator<_Id^, StringItem<_Char, true>, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<_Id^, StringItem<_Char, true>, _GroupSize, false>;
+	using _IndexItem=IndexItem<_Id^, StringItem<_Char, true>>;
+	using _IndexGroup=IndexGroup<_Id^, StringItem<_Char, true>>;
+	using _IndexItemGroup=IndexItemGroup<_Id^, StringItem<_Char, true>, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<_Id^, StringItem<_Char, true>, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -1235,18 +1235,18 @@ public:
 
 // Iterator Handle-Index with Shared Strings Read-Only
 template <class _Id, class _Char, UINT _GroupSize>
-class IndexIterator<_Id^, String<_Char, false>, _GroupSize, true>: public IndexIteratorBase<_Id^, String<_Char, false>, _GroupSize, true>
+class IndexIterator<_Id^, StringItem<_Char, false>, _GroupSize, true>: public IndexIteratorBase<_Id^, StringItem<_Char, false>, _GroupSize, true>
 {
 private:
 	// Using
-	using _It=IndexIterator<_Id^, String<_Char, false>, _GroupSize, true>;
-	using _ItR=IndexIterator<_Id^, String<_Char, false>, _GroupSize, true>;
-	using _ItW=IndexIterator<_Id^, String<_Char, false>, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<_Id^, String<_Char, false>, _GroupSize, true>;
-	using _IndexItem=IndexItem<_Id^, String<_Char, false>>;
-	using _IndexGroup=IndexGroup<_Id^, String<_Char, false>>;
-	using _IndexItemGroup=IndexItemGroup<_Id^, String<_Char, false>, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<_Id^, String<_Char, false>, _GroupSize>;
+	using _It=IndexIterator<_Id^, StringItem<_Char, false>, _GroupSize, true>;
+	using _ItR=IndexIterator<_Id^, StringItem<_Char, false>, _GroupSize, true>;
+	using _ItW=IndexIterator<_Id^, StringItem<_Char, false>, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<_Id^, StringItem<_Char, false>, _GroupSize, true>;
+	using _IndexItem=IndexItem<_Id^, StringItem<_Char, false>>;
+	using _IndexGroup=IndexGroup<_Id^, StringItem<_Char, false>>;
+	using _IndexItemGroup=IndexItemGroup<_Id^, StringItem<_Char, false>, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<_Id^, StringItem<_Char, false>, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -1268,18 +1268,18 @@ public:
 
 // Iterator Handle-Index with Shared Strings Read-Write
 template <class _Id, class _Char, UINT _GroupSize>
-class IndexIterator<_Id^, String<_Char, false>, _GroupSize, false>: public IndexIteratorBase<_Id^, String<_Char, false>, _GroupSize, false>
+class IndexIterator<_Id^, StringItem<_Char, false>, _GroupSize, false>: public IndexIteratorBase<_Id^, StringItem<_Char, false>, _GroupSize, false>
 {
 private:
 	// Using
-	using _It=IndexIterator<_Id^, String<_Char, false>, _GroupSize, false>;
-	using _ItR=IndexIterator<_Id^, String<_Char, false>, _GroupSize, true>;
-	using _ItW=IndexIterator<_Id^, String<_Char, false>, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<_Id^, String<_Char, false>, _GroupSize, false>;
-	using _IndexItem=IndexItem<_Id^, String<_Char, false>>;
-	using _IndexGroup=IndexGroup<_Id^, String<_Char, false>>;
-	using _IndexItemGroup=IndexItemGroup<_Id^, String<_Char, false>, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<_Id^, String<_Char, false>, _GroupSize>;
+	using _It=IndexIterator<_Id^, StringItem<_Char, false>, _GroupSize, false>;
+	using _ItR=IndexIterator<_Id^, StringItem<_Char, false>, _GroupSize, true>;
+	using _ItW=IndexIterator<_Id^, StringItem<_Char, false>, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<_Id^, StringItem<_Char, false>, _GroupSize, false>;
+	using _IndexItem=IndexItem<_Id^, StringItem<_Char, false>>;
+	using _IndexGroup=IndexGroup<_Id^, StringItem<_Char, false>>;
+	using _IndexItemGroup=IndexItemGroup<_Id^, StringItem<_Char, false>, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<_Id^, StringItem<_Char, false>, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -1309,18 +1309,18 @@ public:
 
 // Iterator String-Index Read-Only
 template <class _Char, BOOL _AllocId, class _Item, UINT _GroupSize>
-class IndexIterator<String<_Char, _AllocId>, _Item, _GroupSize, true>: public IndexIteratorBase<String<_Char, true>, _Item, _GroupSize, true>
+class IndexIterator<StringItem<_Char, _AllocId>, _Item, _GroupSize, true>: public IndexIteratorBase<StringItem<_Char, true>, _Item, _GroupSize, true>
 {
 private:
 	// Using
-	using _It=IndexIterator<String<_Char, _AllocId>, _Item, _GroupSize, true>;
-	using _ItR=IndexIterator<String<_Char, _AllocId>, _Item, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_Char, _AllocId>, _Item, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<String<_Char, _AllocId>, _Item, _GroupSize, true>;
-	using _IndexItem=IndexItem<String<_Char, _AllocId>, _Item>;
-	using _IndexGroup=IndexGroup<String<_Char, _AllocId>, _Item>;
-	using _IndexItemGroup=IndexItemGroup<String<_Char, _AllocId>, _Item, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<String<_Char, _AllocId>, _Item, _GroupSize>;
+	using _It=IndexIterator<StringItem<_Char, _AllocId>, _Item, _GroupSize, true>;
+	using _ItR=IndexIterator<StringItem<_Char, _AllocId>, _Item, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_Char, _AllocId>, _Item, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<StringItem<_Char, _AllocId>, _Item, _GroupSize, true>;
+	using _IndexItem=IndexItem<StringItem<_Char, _AllocId>, _Item>;
+	using _IndexGroup=IndexGroup<StringItem<_Char, _AllocId>, _Item>;
+	using _IndexItemGroup=IndexItemGroup<StringItem<_Char, _AllocId>, _Item, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<StringItem<_Char, _AllocId>, _Item, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -1342,18 +1342,18 @@ public:
 
 // Iterator String-Index Read-Write
 template <class _Char, BOOL _AllocId, class _Item, UINT _GroupSize>
-class IndexIterator<String<_Char, _AllocId>, _Item, _GroupSize, false>: public IndexIteratorBase<String<_Char, _AllocId>, _Item, _GroupSize, false>
+class IndexIterator<StringItem<_Char, _AllocId>, _Item, _GroupSize, false>: public IndexIteratorBase<StringItem<_Char, _AllocId>, _Item, _GroupSize, false>
 {
 private:
 	// Using
-	using _It=IndexIterator<String<_Char, _AllocId>, _Item, _GroupSize, false>;
-	using _ItR=IndexIterator<String<_Char, _AllocId>, _Item, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_Char, _AllocId>, _Item, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<String<_Char, _AllocId>, _Item, _GroupSize, false>;
-	using _IndexItem=IndexItem<String<_Char, _AllocId>, _Item>;
-	using _IndexGroup=IndexGroup<String<_Char, _AllocId>, _Item>;
-	using _IndexItemGroup=IndexItemGroup<String<_Char, _AllocId>, _Item, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<String<_Char, _AllocId>, _Item, _GroupSize>;
+	using _It=IndexIterator<StringItem<_Char, _AllocId>, _Item, _GroupSize, false>;
+	using _ItR=IndexIterator<StringItem<_Char, _AllocId>, _Item, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_Char, _AllocId>, _Item, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<StringItem<_Char, _AllocId>, _Item, _GroupSize, false>;
+	using _IndexItem=IndexItem<StringItem<_Char, _AllocId>, _Item>;
+	using _IndexGroup=IndexGroup<StringItem<_Char, _AllocId>, _Item>;
+	using _IndexItemGroup=IndexItemGroup<StringItem<_Char, _AllocId>, _Item, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<StringItem<_Char, _AllocId>, _Item, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -1376,18 +1376,18 @@ public:
 
 // Iterator String-Index without Items Read-Only
 template <class _Char, BOOL _AllocId, UINT _GroupSize>
-class IndexIterator<String<_Char, _AllocId>, VOID, _GroupSize, true>: public IndexIteratorBase<String<_Char, _AllocId>, VOID, _GroupSize, true>
+class IndexIterator<StringItem<_Char, _AllocId>, VOID, _GroupSize, true>: public IndexIteratorBase<StringItem<_Char, _AllocId>, VOID, _GroupSize, true>
 {
 private:
 	// Using
-	using _It=IndexIterator<String<_Char, _AllocId>, VOID, _GroupSize, true>;
-	using _ItR=IndexIterator<String<_Char, _AllocId>, VOID, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_Char, _AllocId>, VOID, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<String<_Char, _AllocId>, VOID, _GroupSize, true>;
-	using _IndexItem=IndexItem<String<_Char, _AllocId>, VOID>;
-	using _IndexGroup=IndexGroup<String<_Char, _AllocId>, VOID>;
-	using _IndexItemGroup=IndexItemGroup<String<_Char, _AllocId>, VOID, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<String<_Char, _AllocId>, VOID, _GroupSize>;
+	using _It=IndexIterator<StringItem<_Char, _AllocId>, VOID, _GroupSize, true>;
+	using _ItR=IndexIterator<StringItem<_Char, _AllocId>, VOID, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_Char, _AllocId>, VOID, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<StringItem<_Char, _AllocId>, VOID, _GroupSize, true>;
+	using _IndexItem=IndexItem<StringItem<_Char, _AllocId>, VOID>;
+	using _IndexGroup=IndexGroup<StringItem<_Char, _AllocId>, VOID>;
+	using _IndexItemGroup=IndexItemGroup<StringItem<_Char, _AllocId>, VOID, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<StringItem<_Char, _AllocId>, VOID, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -1408,18 +1408,18 @@ public:
 
 // Iterator String-Index without Items Read-Write
 template <class _Char, BOOL _AllocId, UINT _GroupSize>
-class IndexIterator<String<_Char, _AllocId>, VOID, _GroupSize, false>: public IndexIteratorBase<String<_Char, _AllocId>, VOID, _GroupSize, false>
+class IndexIterator<StringItem<_Char, _AllocId>, VOID, _GroupSize, false>: public IndexIteratorBase<StringItem<_Char, _AllocId>, VOID, _GroupSize, false>
 {
 private:
 	// Using
-	using _It=IndexIterator<String<_Char, _AllocId>, VOID, _GroupSize, false>;
-	using _ItR=IndexIterator<String<_Char, _AllocId>, VOID, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_Char, _AllocId>, VOID, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<String<_Char, _AllocId>, VOID, _GroupSize, false>;
-	using _IndexItem=IndexItem<String<_Char, _AllocId>, VOID>;
-	using _IndexGroup=IndexGroup<String<_Char, _AllocId>, VOID>;
-	using _IndexItemGroup=IndexItemGroup<String<_Char, _AllocId>, VOID, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<String<_Char, _AllocId>, VOID, _GroupSize>;
+	using _It=IndexIterator<StringItem<_Char, _AllocId>, VOID, _GroupSize, false>;
+	using _ItR=IndexIterator<StringItem<_Char, _AllocId>, VOID, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_Char, _AllocId>, VOID, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<StringItem<_Char, _AllocId>, VOID, _GroupSize, false>;
+	using _IndexItem=IndexItem<StringItem<_Char, _AllocId>, VOID>;
+	using _IndexGroup=IndexGroup<StringItem<_Char, _AllocId>, VOID>;
+	using _IndexItemGroup=IndexItemGroup<StringItem<_Char, _AllocId>, VOID, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<StringItem<_Char, _AllocId>, VOID, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -1438,18 +1438,18 @@ public:
 
 // Iterator String-Index with Pointers Read-Only
 template <class _Char, BOOL _AllocId, class _Item, UINT _GroupSize>
-class IndexIterator<String<_Char, _AllocId>, _Item*, _GroupSize, true>: public IndexIteratorBase<String<_Char, _AllocId>, _Item*, _GroupSize, true>
+class IndexIterator<StringItem<_Char, _AllocId>, _Item*, _GroupSize, true>: public IndexIteratorBase<StringItem<_Char, _AllocId>, _Item*, _GroupSize, true>
 {
 private:
 	// Using
-	using _It=IndexIterator<String<_Char, _AllocId>, _Item*, _GroupSize, true>;
-	using _ItR=IndexIterator<String<_Char, _AllocId>, _Item*, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_Char, _AllocId>, _Item*, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<String<_Char, _AllocId>, _Item*, _GroupSize, true>;
-	using _IndexItem=IndexItem<String<_Char, _AllocId>, _Item*>;
-	using _IndexGroup=IndexGroup<String<_Char, _AllocId>, _Item*>;
-	using _IndexItemGroup=IndexItemGroup<String<_Char, _AllocId>, _Item*, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<String<_Char, _AllocId>, _Item*, _GroupSize>;
+	using _It=IndexIterator<StringItem<_Char, _AllocId>, _Item*, _GroupSize, true>;
+	using _ItR=IndexIterator<StringItem<_Char, _AllocId>, _Item*, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_Char, _AllocId>, _Item*, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<StringItem<_Char, _AllocId>, _Item*, _GroupSize, true>;
+	using _IndexItem=IndexItem<StringItem<_Char, _AllocId>, _Item*>;
+	using _IndexGroup=IndexGroup<StringItem<_Char, _AllocId>, _Item*>;
+	using _IndexItemGroup=IndexItemGroup<StringItem<_Char, _AllocId>, _Item*, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<StringItem<_Char, _AllocId>, _Item*, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -1471,18 +1471,18 @@ public:
 
 // Iterator String-Index with Pointers Read-Write
 template <class _Char, BOOL _AllocId, class _Item, UINT _GroupSize>
-class IndexIterator<String<_Char, _AllocId>, _Item*, _GroupSize, false>: public IndexIteratorBase<String<_Char, _AllocId>, _Item*, _GroupSize, false>
+class IndexIterator<StringItem<_Char, _AllocId>, _Item*, _GroupSize, false>: public IndexIteratorBase<StringItem<_Char, _AllocId>, _Item*, _GroupSize, false>
 {
 private:
 	// Using
-	using _It=IndexIterator<String<_Char, _AllocId>, _Item*, _GroupSize, false>;
-	using _ItR=IndexIterator<String<_Char, _AllocId>, _Item*, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_Char, _AllocId>, _Item*, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<String<_Char, _AllocId>, _Item*, _GroupSize, false>;
-	using _IndexItem=IndexItem<String<_Char, _AllocId>, _Item*>;
-	using _IndexGroup=IndexGroup<String<_Char, _AllocId>, _Item*>;
-	using _IndexItemGroup=IndexItemGroup<String<_Char, _AllocId>, _Item*, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<String<_Char, _AllocId>, _Item*, _GroupSize>;
+	using _It=IndexIterator<StringItem<_Char, _AllocId>, _Item*, _GroupSize, false>;
+	using _ItR=IndexIterator<StringItem<_Char, _AllocId>, _Item*, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_Char, _AllocId>, _Item*, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<StringItem<_Char, _AllocId>, _Item*, _GroupSize, false>;
+	using _IndexItem=IndexItem<StringItem<_Char, _AllocId>, _Item*>;
+	using _IndexGroup=IndexGroup<StringItem<_Char, _AllocId>, _Item*>;
+	using _IndexItemGroup=IndexItemGroup<StringItem<_Char, _AllocId>, _Item*, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<StringItem<_Char, _AllocId>, _Item*, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -1506,18 +1506,18 @@ public:
 #ifdef __cplusplus_winrt
 // Iterator String-Index with Handles Read-Only
 template <class _Char, BOOL _AllocId, class _Item, UINT _GroupSize>
-class IndexIterator<String<_Char, _AllocId>, _Item^, _GroupSize, true>: public IndexIteratorBase<String<_Char, _AllocId>, _Item^, _GroupSize, true>
+class IndexIterator<StringItem<_Char, _AllocId>, _Item^, _GroupSize, true>: public IndexIteratorBase<StringItem<_Char, _AllocId>, _Item^, _GroupSize, true>
 {
 private:
 	// Using
-	using _It=IndexIterator<String<_Char, _AllocId>, _Item^, _GroupSize, true>;
-	using _ItR=IndexIterator<String<_Char, _AllocId>, _Item^, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_Char, _AllocId>, _Item^, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<String<_Char, _AllocId>, _Item^, _GroupSize, true>;
-	using _IndexItem=IndexItem<String<_Char, _AllocId>, _Item^>;
-	using _IndexGroup=IndexGroup<String<_Char, _AllocId>, _Item^>;
-	using _IndexItemGroup=IndexItemGroup<String<_Char, _AllocId>, _Item^, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<String<_Char, _AllocId>, _Item^, _GroupSize>;
+	using _It=IndexIterator<StringItem<_Char, _AllocId>, _Item^, _GroupSize, true>;
+	using _ItR=IndexIterator<StringItem<_Char, _AllocId>, _Item^, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_Char, _AllocId>, _Item^, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<StringItem<_Char, _AllocId>, _Item^, _GroupSize, true>;
+	using _IndexItem=IndexItem<StringItem<_Char, _AllocId>, _Item^>;
+	using _IndexGroup=IndexGroup<StringItem<_Char, _AllocId>, _Item^>;
+	using _IndexItemGroup=IndexItemGroup<StringItem<_Char, _AllocId>, _Item^, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<StringItem<_Char, _AllocId>, _Item^, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -1541,18 +1541,18 @@ public:
 #ifdef __cplusplus_winrt
 // Iterator String-Index with Handles Read-Write
 template <class _Char, BOOL _AllocId, class _Item, UINT _GroupSize>
-class IndexIterator<String<_Char, _AllocId>, _Item^, _GroupSize, false>: public IndexIteratorBase<String<_Char, _AllocId>, _Item^, _GroupSize, false>
+class IndexIterator<StringItem<_Char, _AllocId>, _Item^, _GroupSize, false>: public IndexIteratorBase<StringItem<_Char, _AllocId>, _Item^, _GroupSize, false>
 {
 private:
 	// Using
-	using _It=IndexIterator<String<_Char, _AllocId>, _Item^, _GroupSize, false>;
-	using _ItR=IndexIterator<String<_Char, _AllocId>, _Item^, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_Char, _AllocId>, _Item^, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<String<_Char, _AllocId>, _Item^, _GroupSize, false>;
-	using _IndexItem=IndexItem<String<_Char, _AllocId>, _Item^>;
-	using _IndexGroup=IndexGroup<String<_Char, _AllocId>, _Item^>;
-	using _IndexItemGroup=IndexItemGroup<String<_Char, _AllocId>, _Item^, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<String<_Char, _AllocId>, _Item^, _GroupSize>;
+	using _It=IndexIterator<StringItem<_Char, _AllocId>, _Item^, _GroupSize, false>;
+	using _ItR=IndexIterator<StringItem<_Char, _AllocId>, _Item^, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_Char, _AllocId>, _Item^, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<StringItem<_Char, _AllocId>, _Item^, _GroupSize, false>;
+	using _IndexItem=IndexItem<StringItem<_Char, _AllocId>, _Item^>;
+	using _IndexGroup=IndexGroup<StringItem<_Char, _AllocId>, _Item^>;
+	using _IndexItemGroup=IndexItemGroup<StringItem<_Char, _AllocId>, _Item^, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<StringItem<_Char, _AllocId>, _Item^, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -1574,20 +1574,20 @@ public:
 };
 #endif
 
-// Iterator String-Index with Strings Read-Only
+// Iterator String-Index with String-Items Read-Only
 template <class _CharId, BOOL _AllocId, class _CharItem, UINT _GroupSize>
-class IndexIterator<String<_CharId, _AllocId>, String<_CharItem, true>, _GroupSize, true>: public IndexIteratorBase<String<_CharId, _AllocId>, String<_CharItem, true>, _GroupSize, true>
+class IndexIterator<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>, _GroupSize, true>: public IndexIteratorBase<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>, _GroupSize, true>
 {
 private:
 	// Using
-	using _It=IndexIterator<String<_CharId, _AllocId>, String<_CharItem, true>, _GroupSize, true>;
-	using _ItR=IndexIterator<String<_CharId, _AllocId>, String<_CharItem, true>, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_CharId, _AllocId>, String<_CharItem, true>, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<String<_CharId, _AllocId>, String<_CharItem, true>, _GroupSize, true>;
-	using _IndexItem=IndexItem<String<_CharId, _AllocId>, String<_CharItem, true>>;
-	using _IndexGroup=IndexGroup<String<_CharId, _AllocId>, String<_CharItem, true>>;
-	using _IndexItemGroup=IndexItemGroup<String<_CharId, _AllocId>, String<_CharItem, true>, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<String<_CharId, _AllocId>, String<_CharItem, true>, _GroupSize>;
+	using _It=IndexIterator<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>, _GroupSize, true>;
+	using _ItR=IndexIterator<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>, _GroupSize, true>;
+	using _IndexItem=IndexItem<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>>;
+	using _IndexGroup=IndexGroup<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>>;
+	using _IndexItemGroup=IndexItemGroup<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -1607,20 +1607,20 @@ public:
 	inline _It& operator=(_ItW const& It) { this->template Assign<_ItW>(It); return *this; }
 };
 
-// Iterator String-Index with Strings Read-Write
+// Iterator String-Index with String-Items Read-Write
 template <class _CharId, BOOL _AllocId, class _CharItem, UINT _GroupSize>
-class IndexIterator<String<_CharId, _AllocId>, String<_CharItem, true>, _GroupSize, false>: public IndexIteratorBase<String<_CharId, _AllocId>, String<_CharItem, true>, _GroupSize, false>
+class IndexIterator<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>, _GroupSize, false>: public IndexIteratorBase<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>, _GroupSize, false>
 {
 private:
 	// Using
-	using _It=IndexIterator<String<_CharId, _AllocId>, String<_CharItem, true>, _GroupSize, false>;
-	using _ItR=IndexIterator<String<_CharId, _AllocId>, String<_CharItem, true>, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_CharId, _AllocId>, String<_CharItem, true>, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<String<_CharId, _AllocId>, String<_CharItem, true>, _GroupSize, false>;
-	using _IndexItem=IndexItem<String<_CharId, _AllocId>, String<_CharItem, true>>;
-	using _IndexGroup=IndexGroup<String<_CharId, _AllocId>, String<_CharItem, true>>;
-	using _IndexItemGroup=IndexItemGroup<String<_CharId, _AllocId>, String<_CharItem, true>, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<String<_CharId, _AllocId>, String<_CharItem, true>, _GroupSize>;
+	using _It=IndexIterator<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>, _GroupSize, false>;
+	using _ItR=IndexIterator<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>, _GroupSize, false>;
+	using _IndexItem=IndexItem<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>>;
+	using _IndexGroup=IndexGroup<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>>;
+	using _IndexItemGroup=IndexItemGroup<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<StringItem<_CharId, _AllocId>, StringItem<_CharItem, true>, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -1641,20 +1641,20 @@ public:
 	inline UINT SetCurrentItem(_CharItem const* Value, UINT Length=0) { return this->pCurrent->SetItem(Value, Length); }
 };
 
-// Iterator String-Index with Shared Strings Read-Only
+// Iterator String-Index with Shared String-Items Read-Only
 template <class _CharId, BOOL _AllocId, class _CharItem, UINT _GroupSize>
-class IndexIterator<String<_CharId, _AllocId>, String<_CharItem, false>, _GroupSize, true>: public IndexIteratorBase<String<_CharId, _AllocId>, String<_CharItem, false>, _GroupSize, true>
+class IndexIterator<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>, _GroupSize, true>: public IndexIteratorBase<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>, _GroupSize, true>
 {
 private:
 	// Using
-	using _It=IndexIterator<String<_CharId, _AllocId>, String<_CharItem, false>, _GroupSize, true>;
-	using _ItR=IndexIterator<String<_CharId, _AllocId>, String<_CharItem, false>, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_CharId, _AllocId>, String<_CharItem, false>, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<String<_CharId, _AllocId>, String<_CharItem, false>, _GroupSize, true>;
-	using _IndexItem=IndexItem<String<_CharId, _AllocId>, String<_CharItem, false>>;
-	using _IndexGroup=IndexGroup<String<_CharId, _AllocId>, String<_CharItem, false>>;
-	using _IndexItemGroup=IndexItemGroup<String<_CharId, _AllocId>, String<_CharItem, false>, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<String<_CharId, _AllocId>, String<_CharItem, false>, _GroupSize>;
+	using _It=IndexIterator<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>, _GroupSize, true>;
+	using _ItR=IndexIterator<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>, _GroupSize, true>;
+	using _IndexItem=IndexItem<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>>;
+	using _IndexGroup=IndexGroup<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>>;
+	using _IndexItemGroup=IndexItemGroup<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:
@@ -1674,20 +1674,20 @@ public:
 	inline _It& operator=(_ItW const& It) { this->template Assign<_ItW>(It); return *this; }
 };
 
-// Iterator String-Index with Shared Strings Read-Write
+// Iterator String-Index with Shared String-Items Read-Write
 template <class _CharId, BOOL _AllocId, class _CharItem, UINT _GroupSize>
-class IndexIterator<String<_CharId, _AllocId>, String<_CharItem, false>, _GroupSize, false>: public IndexIteratorBase<String<_CharId, _AllocId>, String<_CharItem, false>, _GroupSize, false>
+class IndexIterator<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>, _GroupSize, false>: public IndexIteratorBase<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>, _GroupSize, false>
 {
 private:
 	// Using
-	using _It=IndexIterator<String<_CharId, _AllocId>, String<_CharItem, false>, _GroupSize, false>;
-	using _ItR=IndexIterator<String<_CharId, _AllocId>, String<_CharItem, false>, _GroupSize, true>;
-	using _ItW=IndexIterator<String<_CharId, _AllocId>, String<_CharItem, false>, _GroupSize, false>;
-	using _IndexIteratorBase=IndexIteratorBase<String<_CharId, _AllocId>, String<_CharItem, false>, _GroupSize, false>;
-	using _IndexItem=IndexItem<String<_CharId, _AllocId>, String<_CharItem, false>>;
-	using _IndexGroup=IndexGroup<String<_CharId, _AllocId>, String<_CharItem, false>>;
-	using _IndexItemGroup=IndexItemGroup<String<_CharId, _AllocId>, String<_CharItem, false>, _GroupSize>;
-	using _IndexParentGroup=IndexParentGroup<String<_CharId, _AllocId>, String<_CharItem, false>, _GroupSize>;
+	using _It=IndexIterator<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>, _GroupSize, false>;
+	using _ItR=IndexIterator<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>, _GroupSize, true>;
+	using _ItW=IndexIterator<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>, _GroupSize, false>;
+	using _IndexIteratorBase=IndexIteratorBase<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>, _GroupSize, false>;
+	using _IndexItem=IndexItem<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>>;
+	using _IndexGroup=IndexGroup<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>>;
+	using _IndexItemGroup=IndexItemGroup<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>, _GroupSize>;
+	using _IndexParentGroup=IndexParentGroup<StringItem<_CharId, _AllocId>, StringItem<_CharItem, false>, _GroupSize>;
 	using _Cluster=::Clusters::Templates::Details::Cluster::Cluster<_IndexItem, _IndexGroup, _IndexItemGroup, _IndexParentGroup, _ItR, _ItW>;
 
 public:

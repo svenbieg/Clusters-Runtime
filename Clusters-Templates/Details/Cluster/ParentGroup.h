@@ -58,8 +58,7 @@ public:
 			if(ucountat+ppChildren[Position-1]->GetChildCount()<=_GroupSize)
 				{
 				MoveChildren(Position, Position-1, ucountat);
-				MoveMemory(&ppChildren[Position], &ppChildren[Position+1], (uChildCount-Position-1)*sizeof(VOID*));
-				uChildCount--;
+				RemoveInternal(Position);
 				return true;
 				}
 			}
@@ -68,8 +67,7 @@ public:
 			if(ucountat+ppChildren[Position+1]->GetChildCount()<=_GroupSize)
 				{
 				MoveChildren(Position, Position+1, ucountat);
-				MoveMemory(&ppChildren[Position], &ppChildren[Position+1], (uChildCount-Position-1)*sizeof(VOID*));
-				uChildCount--;
+				RemoveInternal(Position);
 				return true;
 				}
 			}
@@ -94,16 +92,6 @@ public:
 		ASSERT(Source!=Destination);
 		if(Count==0)
 			return;
-		while(Source>Destination+1)
-			{
-			MoveChildren(Destination+1, Destination, Count);
-			Destination++;
-			}
-		while(Source+1<Destination)
-			{
-			MoveChildren(Destination-1, Destination, Count);
-			Destination--;
-			}
 		_Group* psrc=ppChildren[Source];
 		ASSERT(Count<=psrc->GetChildCount());
 		_Group* pdst=ppChildren[Destination];
@@ -142,6 +130,19 @@ public:
 				pdsti->InsertAt(0, &pitems[usrccount-Count], Count, true);
 				psrci->RemoveAt(usrccount-Count, Count, true);
 				}
+			}
+		}
+	VOID MoveEmptySlot(UINT Source, UINT Destination)
+		{
+		if(Source<Destination)
+			{
+			for(UINT u=Source; u<Destination; u++)
+				MoveChildren(u+1, u, 1);
+			}
+		else
+			{
+			for(UINT u=Source; u>Destination; u--)
+				MoveChildren(u-1, u, 1);
 			}
 		}
 	virtual VOID RemoveAt(SIZE_T Position)override
@@ -272,6 +273,13 @@ protected:
 		CombineChildren(ugroup);
 		return pitem;
 		}
+	VOID RemoveInternal(UINT Position)
+		{
+		delete ppChildren[Position];
+		if(Position+1<uChildCount)
+			MoveMemory(&ppChildren[Position], &ppChildren[Position+1], (uChildCount-Position-1)*sizeof(VOID*));
+		uChildCount--;
+		}
 	_Group* ppChildren[_GroupSize];
 	UINT uChildCount;
 	SIZE_T uItemCount;
@@ -342,11 +350,11 @@ protected:
 
 // Parent-Group String-Cluster
 template <class _Char, BOOL _Alloc, class _Group, class _ItemGroup, class _ParentGroup, UINT _GroupSize>
-class ParentGroup<String<_Char, _Alloc>, _Group, _ItemGroup, _ParentGroup, _GroupSize>: public ParentGroupBase<String<_Char, _Alloc>, _Group, _ItemGroup, _ParentGroup, _GroupSize>
+class ParentGroup<StringItem<_Char, _Alloc>, _Group, _ItemGroup, _ParentGroup, _GroupSize>: public ParentGroupBase<StringItem<_Char, _Alloc>, _Group, _ItemGroup, _ParentGroup, _GroupSize>
 {
 private:
 	// Using
-	using _ParentGroupBase=ParentGroupBase<String<_Char, _Alloc>, _Group, _ItemGroup, _ParentGroup, _GroupSize>;
+	using _ParentGroupBase=ParentGroupBase<StringItem<_Char, _Alloc>, _Group, _ItemGroup, _ParentGroup, _GroupSize>;
 
 public:
 	// Access

@@ -2,7 +2,7 @@
 // StringHelper.cpp
 //==================
 
-#include "StringHelper.h"
+#include "pch.h"
 
 
 //=======
@@ -10,6 +10,7 @@
 //=======
 
 #include "CharHelper.h"
+#include "StringHelper.h"
 
 
 //========
@@ -993,4 +994,145 @@ return (INT64)StringToFloat<CHAR, DOUBLE>(pstr, plen);
 INT64 StringToInt64(LPCWSTR pstr, UINT* plen)
 {
 return (INT64)StringToFloat<WCHAR, DOUBLE>(pstr, plen);
+}
+
+
+//============
+// Formatting
+//============
+
+UINT StringPrintf(LPSTR pstr, UINT usize, LPCSTR pformat, ...)
+{
+va_list lst;
+va_start(lst, pformat);
+UINT ulen=StringVPrintf(pstr, usize, pformat, lst);
+va_end(lst);
+return ulen;
+}
+
+UINT StringPrintf(LPSTR* ppstr, UINT* psize, LPCSTR pformat, ...)
+{
+va_list lst;
+va_start(lst, pformat);
+UINT ulen=StringVPrintfLength(pformat, lst);
+if(ulen+1>*psize)
+	{
+	if(*ppstr!=nullptr)
+		delete *ppstr;
+	*ppstr=new CHAR[ulen+1];
+	*psize=ulen+1;
+	}
+ulen=StringVPrintf(*ppstr, *psize, pformat, lst);
+va_end(lst);
+return ulen;
+}
+
+UINT StringPrintf(LPWSTR pstr, UINT usize, LPCWSTR pformat, ...)
+{
+va_list lst;
+va_start(lst, pformat);
+UINT ulen=StringVPrintf(pstr, usize, pformat, lst);
+va_end(lst);
+return ulen;
+}
+
+UINT StringPrintf(LPWSTR* ppstr, UINT* psize, LPCWSTR pformat, ...)
+{
+va_list lst;
+va_start(lst, pformat);
+UINT ulen=StringVPrintfLength(pformat, lst);
+if(ulen+1>*psize)
+	{
+	if(*ppstr!=nullptr)
+		delete *ppstr;
+	*ppstr=new WCHAR[ulen+1];
+	*psize=ulen+1;
+	}
+ulen=StringVPrintf(*ppstr, *psize, pformat, lst);
+va_end(lst);
+return ulen;
+}
+
+UINT StringPrintfLength(LPCSTR pformat, ...)
+{
+va_list lst;
+va_start(lst, pformat);
+UINT ulen=StringVPrintfLength(pformat, lst);
+va_end(lst);
+return ulen;
+}
+
+UINT StringPrintfLength(LPCWSTR pformat, ...)
+{
+va_list lst;
+va_start(lst, pformat);
+UINT ulen=StringVPrintfLength(pformat, lst);
+va_end(lst);
+return ulen;
+}
+
+UINT StringVPrintf(LPSTR pstr, UINT usize, LPCSTR pformat, va_list lst)
+{
+ASSERT(pstr&&usize&&pformat&&pformat[0]);
+INT i=vsnprintf(pstr, usize, pformat, lst);
+if(i<0)
+	throw(Exception::InvalidArgument);
+return i;
+}
+
+UINT StringVPrintf(LPSTR* ppstr, UINT* psize, LPCSTR pformat, va_list lst)
+{
+ASSERT(ppstr&&psize);
+UINT ulen=StringVPrintfLength(pformat, lst);
+if(ulen+1>*psize)
+	{
+	if(*ppstr!=nullptr)
+		delete *ppstr;
+	*ppstr=new CHAR[ulen+1];
+	*psize=ulen+1;
+	}
+return StringVPrintf(*ppstr, *psize, pformat, lst);
+}
+
+UINT StringVPrintf(LPWSTR pstr, UINT usize, LPCWSTR pformat, va_list lst)
+{
+ASSERT(pstr&&usize&&pformat&&pformat[0]);
+INT i=vswprintf(pstr, usize, pformat, lst);
+if(i<0)
+	throw(Exception::InvalidArgument);
+return i;
+}
+
+UINT StringVPrintf(LPWSTR* ppstr, UINT* psize, LPCWSTR pformat, va_list lst)
+{
+ASSERT(ppstr&&psize);
+UINT ulen=StringVPrintfLength(pformat, lst);
+if(ulen+1>*psize)
+	{
+	if(*ppstr!=nullptr)
+		delete *ppstr;
+	*ppstr=new WCHAR[ulen+1];
+	*psize=ulen+1;
+	}
+return StringVPrintf(*ppstr, *psize, pformat, lst);
+}
+
+UINT StringVPrintfLength(LPCSTR pformat, va_list lst)
+{
+ASSERT(pformat&&pformat[0]);
+CHAR pstr[1024];
+INT i=vsnprintf(pstr, 1024, pformat, lst);
+if(i<0)
+	throw(Exception::InvalidArgument);
+return i;
+}
+
+UINT StringVPrintfLength(LPCWSTR pformat, va_list lst)
+{
+ASSERT(pformat&&pformat[0]);
+WCHAR pstr[1024];
+INT i=vswprintf(pstr, 1024, pformat, lst);
+if(i<0)
+	throw(Exception::InvalidArgument);
+return i;
 }

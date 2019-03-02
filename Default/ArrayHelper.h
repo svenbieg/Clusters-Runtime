@@ -10,8 +10,6 @@
 //=======
 
 #include <utility>
-#include "MemoryHelper.h"
-#include "TypeHelper.h"
 
 
 //=========================
@@ -379,7 +377,7 @@ public:
 		ucount-=RemoveCount;
 		*Count=ucount;
 		if(DoShrink)
-			Shrink(Items, Size, Count, BlockSize);
+			Shrink(Items, Size, *Count, BlockSize);
 		return ucount;
 		}
 	static BOOL RemoveItem(T** Items, S* Size, S* Count, UINT BlockSize, T const* Remove)
@@ -415,7 +413,7 @@ public:
 					}
 				}
 			}
-		Shrink(Items, Size, Count, BlockSize);
+		Shrink(Items, Size, *Count, BlockSize);
 		return ucount;
 		}
 	static VOID SetCount(T** Items, S* Size, S* Count, UINT BlockSize, S NewCount)
@@ -469,15 +467,14 @@ public:
 		*Size=unewsize;
 		*Count=unewcount;
 		}
-	static VOID Shrink(T** Items, S* Size, S* Count, UINT BlockSize)
+	static VOID Shrink(T** Items, S* Size, S Count, UINT BlockSize)
 		{
 		S usize=*Size;
-		S ucount=*Count;
-		S unewsize=BlockAlign(ucount, BlockSize);
+		S unewsize=BlockAlign(Count, BlockSize);
 		if(unewsize==usize)
 			return;
 		T* pitems=(T*)operator new(unewsize*sizeof(T));
-		_ArrayHelperTyped::MoveItems(pitems, *Items, ucount);
+		_ArrayHelperTyped::MoveItems(pitems, *Items, Count);
 		operator delete(*Items);
 		*Items=pitems;
 		*Size=unewsize;
@@ -510,27 +507,21 @@ public:
 		T pitem=pitems[Position];
 		_ArrayHelperTyped::MoveItems(&pitems[Position], &pitems[Position+1], ucount-Position-1);
 		*Count--;
-		Shrink(Items, Size, Count, BlockSize);
+		Shrink(Items, Size, *Count, BlockSize);
 		return pitem;
 		}
-	static BOOL ReleaseItem(T* Items, S* Count, T* Item)
+	static T ReleaseItem(T* Items, S* Count, T* Item)
 		{
 		S upos=0;
-		if(_ArrayHelperBase::GetItemPos(Items, *Count, Item, &upos))
-			{
-			ReleaseAt(Items, Count, upos);
-			return true;
-			}
-		return false;
+		if(_ArrayHelperBase::GetPosition(Items, *Count, Item, &upos))
+			return ReleaseAt(Items, Count, upos);
+		return nullptr;
 		}
-	static BOOL ReleaseItem(T** Items, S* Size, S* Count, T* Item, UINT BlockSize)
+	static T ReleaseItem(T** Items, S* Size, S* Count, UINT BlockSize, T Item)
 		{
 		S upos=0;
-		if(_ArrayHelperBase::GetItemPos(*Items, Count, Item, &upos))
-			{
-			ReleaseAt(Items, Size, Count, BlockSize, upos);
-			return true;
-			}
-		return false;
+		if(_ArrayHelperBase::GetPosition(*Items, *Count, Item, &upos))
+			return ReleaseAt(Items, Size, Count, BlockSize, upos);
+		return nullptr;
 		}
 };

@@ -158,11 +158,11 @@ protected:
 
 // Group String-Index
 template <class _Char, BOOL _AllocId, class _Item>
-class IndexGroup<String<_Char, _AllocId>, _Item>: public IndexGroupBase<String<_Char, _AllocId>, _Item>
+class IndexGroup<StringItem<_Char, _AllocId>, _Item>: public IndexGroupBase<StringItem<_Char, _AllocId>, _Item>
 {
 private:
 	// Using
-	using _IndexItem=IndexItem<String<_Char, _AllocId>, _Item>;
+	using _IndexItem=IndexItem<StringItem<_Char, _AllocId>, _Item>;
 
 public:
 	// Access

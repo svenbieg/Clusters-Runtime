@@ -55,9 +55,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Details\Index\StringIndex.h">
       <Filter>Details\Index</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Details\StringClass.h">
-      <Filter>Details</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)List.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Details\List\List.h">
       <Filter>Details\List</Filter>
@@ -79,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Details\List\StringList.h">
       <Filter>Details\List</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Details\StringItem.h">
+      <Filter>Details</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

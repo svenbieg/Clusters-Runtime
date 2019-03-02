@@ -1,16 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup Label="SharedProjectFile_SccProperties">
-    <HasSharedItems>true</HasSharedItems>
-    <ItemsProjectGuid>{2FD72078-80A4-442E-862F-7DC75DA783FB}</ItemsProjectGuid>
-  </PropertyGroup>
   <PropertyGroup Label="Globals">
     <HasSharedItems>true</HasSharedItems>
-    <ItemsProjectGuid>{9997C0B0-5248-4573-877D-185CE6CEE621}</ItemsProjectGuid>
-    <ItemsSccProjectName>$/Clusters/Clusters-Templates</ItemsSccProjectName>
-    <ItemsSccAuxPath>https://svenbieg.visualstudio.com</ItemsSccAuxPath>
-    <ItemsSccLocalPath>.</ItemsSccLocalPath>
-    <ItemsSccProvider>{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}</ItemsSccProvider>
+    <ItemsProjectGuid>{2FD72078-80A4-442E-862F-7DC75DA783FB}</ItemsProjectGuid>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
   <ItemDefinitionGroup>
@@ -42,7 +34,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Details\List\ListIterator.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Details\List\ListParentGroup.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Details\List\StringList.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Details\StringClass.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Details\StringItem.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Index.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)List.h" />
   </ItemGroup>

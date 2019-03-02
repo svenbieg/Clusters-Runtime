@@ -11,7 +11,7 @@
 
 namespace Details
 {
-template <BOOL _Condition, class _True, class _False>
+template <bool _Condition, class _True, class _False>
 struct Conditional
 	{
 	using T=_True;
@@ -28,5 +28,5 @@ struct Conditional<false, _True, _False>
 // Conditional
 //=============
 
-template <BOOL _Condition, class _True, class _False>
+template <bool _Condition, class _True, class _False>
 using Conditional=typename ::Details::Conditional<_Condition, _True, _False>::T;

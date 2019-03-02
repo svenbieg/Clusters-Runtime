@@ -110,11 +110,11 @@ public:
 
 // Item-Group String-Cluster
 template <class _Char, BOOL _Alloc, class _Group, UINT _GroupSize>
-class ItemGroup<String<_Char, _Alloc>, _Group, _GroupSize>: public ItemGroupBase<String<_Char, _Alloc>, _Group, _GroupSize>
+class ItemGroup<StringItem<_Char, _Alloc>, _Group, _GroupSize>: public ItemGroupBase<StringItem<_Char, _Alloc>, _Group, _GroupSize>
 {
 private:
 	// Using
-	using _ArrayHelper=ArrayHelper<String<_Char, _Alloc>, UINT>;
+	using _ArrayHelper=ArrayHelper<StringItem<_Char, _Alloc>, UINT>;
 
 public:
 	// Access

@@ -124,13 +124,13 @@ public:
 
 // Index with String-Items
 template<class _Id, class _Char, UINT _GroupSize>
-class Index<_Id, String<_Char, true>, _GroupSize>: public IndexBase<_Id, String<_Char, true>, _GroupSize>
+class Index<_Id, StringItem<_Char, true>, _GroupSize>: public IndexBase<_Id, StringItem<_Char, true>, _GroupSize>
 {
 private:
 	// Using
-	using _IndexBase=IndexBase<_Id, String<_Char, true>, _GroupSize>;
-	using _ItR=IndexIterator<_Id, String<_Char, true>, _GroupSize, true>;
-	using _ItW=IndexIterator<_Id, String<_Char, true>, _GroupSize, false>;
+	using _IndexBase=IndexBase<_Id, StringItem<_Char, true>, _GroupSize>;
+	using _ItR=IndexIterator<_Id, StringItem<_Char, true>, _GroupSize, true>;
+	using _ItW=IndexIterator<_Id, StringItem<_Char, true>, _GroupSize, false>;
 
 public:
 	// Access
@@ -148,13 +148,13 @@ public:
 
 // Index with Shared String-Items
 template<class _Id, class _Char, UINT _GroupSize>
-class Index<_Id, String<_Char, false>, _GroupSize>: public IndexBase<_Id, String<_Char, false>, _GroupSize>
+class Index<_Id, StringItem<_Char, false>, _GroupSize>: public IndexBase<_Id, StringItem<_Char, false>, _GroupSize>
 {
 private:
 	// Using
-	using _IndexBase=IndexBase<_Id, String<_Char, false>, _GroupSize>;
-	using _ItR=IndexIterator<_Id, String<_Char, false>, _GroupSize, true>;
-	using _ItW=IndexIterator<_Id, String<_Char, false>, _GroupSize, false>;
+	using _IndexBase=IndexBase<_Id, StringItem<_Char, false>, _GroupSize>;
+	using _ItR=IndexIterator<_Id, StringItem<_Char, false>, _GroupSize, true>;
+	using _ItW=IndexIterator<_Id, StringItem<_Char, false>, _GroupSize, false>;
 
 public:
 	// Access
@@ -273,13 +273,13 @@ public:
 
 // Pointer-Index with String-Items
 template<class _Id, class _Char, UINT _GroupSize>
-class Index<_Id*, String<_Char, true>, _GroupSize>: public IndexBase<_Id*, String<_Char, true>, _GroupSize>
+class Index<_Id*, StringItem<_Char, true>, _GroupSize>: public IndexBase<_Id*, StringItem<_Char, true>, _GroupSize>
 {
 private:
 	// Using
-	using _IndexBase=IndexBase<_Id*, String<_Char, true>, _GroupSize>;
-	using _ItR=IndexIterator<_Id*, String<_Char, true>, _GroupSize, true>;
-	using _ItW=IndexIterator<_Id*, String<_Char, true>, _GroupSize, false>;
+	using _IndexBase=IndexBase<_Id*, StringItem<_Char, true>, _GroupSize>;
+	using _ItR=IndexIterator<_Id*, StringItem<_Char, true>, _GroupSize, true>;
+	using _ItW=IndexIterator<_Id*, StringItem<_Char, true>, _GroupSize, false>;
 
 public:
 	// Access
@@ -297,13 +297,13 @@ public:
 
 // Pointer-Index with Shared String-Items
 template<class _Id, class _Char, UINT _GroupSize>
-class Index<_Id*, String<_Char, false>, _GroupSize>: public IndexBase<_Id*, String<_Char, false>, _GroupSize>
+class Index<_Id*, StringItem<_Char, false>, _GroupSize>: public IndexBase<_Id*, StringItem<_Char, false>, _GroupSize>
 {
 private:
 	// Using
-	using _IndexBase=IndexBase<_Id*, String<_Char, false>, _GroupSize>;
-	using _ItR=IndexIterator<_Id*, String<_Char, false>, _GroupSize, true>;
-	using _ItW=IndexIterator<_Id*, String<_Char, false>, _GroupSize, false>;
+	using _IndexBase=IndexBase<_Id*, StringItem<_Char, false>, _GroupSize>;
+	using _ItR=IndexIterator<_Id*, StringItem<_Char, false>, _GroupSize, true>;
+	using _ItW=IndexIterator<_Id*, StringItem<_Char, false>, _GroupSize, false>;
 
 public:
 	// Access
@@ -422,13 +422,13 @@ public:
 
 // Handle-Index with String-Items
 template<class _Id, class _Char, UINT _GroupSize>
-class Index<_Id^, String<_Char, true>, _GroupSize>: public IndexBase<_Id^, String<_Char, true>, _GroupSize>
+class Index<_Id^, StringItem<_Char, true>, _GroupSize>: public IndexBase<_Id^, StringItem<_Char, true>, _GroupSize>
 {
 private:
 	// Using
-	using _IndexBase=IndexBase<_Id^, String<_Char, true>, _GroupSize>;
-	using _ItR=IndexIterator<_Id^, String<_Char, true>, _GroupSize, true>;
-	using _ItW=IndexIterator<_Id^, String<_Char, true>, _GroupSize, false>;
+	using _IndexBase=IndexBase<_Id^, StringItem<_Char, true>, _GroupSize>;
+	using _ItR=IndexIterator<_Id^, StringItem<_Char, true>, _GroupSize, true>;
+	using _ItW=IndexIterator<_Id^, StringItem<_Char, true>, _GroupSize, false>;
 
 public:
 	// Access
@@ -446,13 +446,13 @@ public:
 
 // Handle-Index with Shared String-Items
 template<class _Id, class _Char, UINT _GroupSize>
-class Index<_Id^, String<_Char, false>, _GroupSize>: public IndexBase<_Id^, String<_Char, false>, _GroupSize>
+class Index<_Id^, StringItem<_Char, false>, _GroupSize>: public IndexBase<_Id^, StringItem<_Char, false>, _GroupSize>
 {
 private:
 	// Using
-	using _IndexBase=IndexBase<_Id^, String<_Char, false>, _GroupSize>;
-	using _ItR=IndexIterator<_Id^, String<_Char, false>, _GroupSize, true>;
-	using _ItW=IndexIterator<_Id^, String<_Char, false>, _GroupSize, false>;
+	using _IndexBase=IndexBase<_Id^, StringItem<_Char, false>, _GroupSize>;
+	using _ItR=IndexIterator<_Id^, StringItem<_Char, false>, _GroupSize, true>;
+	using _ItW=IndexIterator<_Id^, StringItem<_Char, false>, _GroupSize, false>;
 
 public:
 	// Access
@@ -481,10 +481,10 @@ template <class _Item, UINT _GroupSize> class Index<char*, _Item*, _GroupSize>: 
 #ifdef __cplusplus_winrt
 template <class _Item, UINT _GroupSize> class Index<char*, _Item^, _GroupSize>: public StringIndex<char, true, _Item^, _GroupSize> {}; // Ansi-Index with Handle-Items
 #endif
-template <UINT _GroupSize> class Index<char*, char*, _GroupSize>: public StringIndex<char, true, String<char, true>, _GroupSize> {}; // Ansi-Index with Ansi-Items
-template <UINT _GroupSize> class Index<char*, char const*, _GroupSize>: public StringIndex<char, true, String<char, false>, _GroupSize> {}; // Ansi-Index with Shared Ansi-Items
-template <UINT _GroupSize> class Index<char*, wchar_t*, _GroupSize>: public StringIndex<char, true, String<wchar_t, true>, _GroupSize> {}; // Ansi-Index with Unicode-Items
-template <UINT _GroupSize> class Index<char*, wchar_t const*, _GroupSize>: public StringIndex<char, true, String<wchar_t, false>, _GroupSize> {}; // Ansi-Index with Shared Unicode-Items
+template <UINT _GroupSize> class Index<char*, char*, _GroupSize>: public StringIndex<char, true, StringItem<char, true>, _GroupSize> {}; // Ansi-Index with Ansi-Items
+template <UINT _GroupSize> class Index<char*, char const*, _GroupSize>: public StringIndex<char, true, StringItem<char, false>, _GroupSize> {}; // Ansi-Index with Shared Ansi-Items
+template <UINT _GroupSize> class Index<char*, wchar_t*, _GroupSize>: public StringIndex<char, true, StringItem<wchar_t, true>, _GroupSize> {}; // Ansi-Index with Unicode-Items
+template <UINT _GroupSize> class Index<char*, wchar_t const*, _GroupSize>: public StringIndex<char, true, StringItem<wchar_t, false>, _GroupSize> {}; // Ansi-Index with Shared Unicode-Items
 
 
 //===================
@@ -497,10 +497,10 @@ template <class _Item, UINT _GroupSize> class Index<char const*, _Item*, _GroupS
 #ifdef __cplusplus_winrt
 template <class _Item, UINT _GroupSize> class Index<char const*, _Item^, _GroupSize>: public StringIndex<char, false, _Item^, _GroupSize> {}; // Shared Ansi-Index with Handle-Items
 #endif
-template <UINT _GroupSize> class Index<char const*, char*, _GroupSize>: public StringIndex<char, false, String<char, true>, _GroupSize> {}; // Shared Ansi-Index with Ansi-Items
-template <UINT _GroupSize> class Index<char const*, char const*, _GroupSize>: public StringIndex<char, false, String<char, false>, _GroupSize> {}; // Shared Ansi-Index with Shared Ansi-Items
-template <UINT _GroupSize> class Index<char const*, wchar_t*, _GroupSize>: public StringIndex<char, false, String<wchar_t, true>, _GroupSize> {}; // Shared Ansi-Index with Unicode-Items
-template <UINT _GroupSize> class Index<char const*, wchar_t const*, _GroupSize>: public StringIndex<char, false, String<wchar_t, false>, _GroupSize> {}; // Shared Ansi-Index with Shared Unicode-Items
+template <UINT _GroupSize> class Index<char const*, char*, _GroupSize>: public StringIndex<char, false, StringItem<char, true>, _GroupSize> {}; // Shared Ansi-Index with Ansi-Items
+template <UINT _GroupSize> class Index<char const*, char const*, _GroupSize>: public StringIndex<char, false, StringItem<char, false>, _GroupSize> {}; // Shared Ansi-Index with Shared Ansi-Items
+template <UINT _GroupSize> class Index<char const*, wchar_t*, _GroupSize>: public StringIndex<char, false, StringItem<wchar_t, true>, _GroupSize> {}; // Shared Ansi-Index with Unicode-Items
+template <UINT _GroupSize> class Index<char const*, wchar_t const*, _GroupSize>: public StringIndex<char, false, StringItem<wchar_t, false>, _GroupSize> {}; // Shared Ansi-Index with Shared Unicode-Items
 
 
 //===============
@@ -513,10 +513,10 @@ template <class _Item, UINT _GroupSize> class Index<wchar_t*, _Item*, _GroupSize
 #ifdef __cplusplus_winrt
 template <class _Item, UINT _GroupSize> class Index<wchar_t*, _Item^, _GroupSize>: public StringIndex<wchar_t, true, _Item^, _GroupSize> {}; // Unicode-Index with Handle-Items
 #endif
-template <UINT _GroupSize> class Index<wchar_t*, char*, _GroupSize>: public StringIndex<wchar_t, true, String<char, true>, _GroupSize> {}; // Unicode-Index with Ansi-Items
-template <UINT _GroupSize> class Index<wchar_t*, char const*, _GroupSize>: public StringIndex<wchar_t, true, String<char, false>, _GroupSize> {}; // Unicode-Index with Shared Ansi-Items
-template <UINT _GroupSize> class Index<wchar_t*, wchar_t*, _GroupSize>: public StringIndex<wchar_t, true, String<wchar_t, true>, _GroupSize> {}; // Unicode-Index with Unicode-Items
-template <UINT _GroupSize> class Index<wchar_t*, wchar_t const*, _GroupSize>: public StringIndex<wchar_t, true, String<wchar_t, false>, _GroupSize> {}; // Unicode-Index with Shared Unicode-Items
+template <UINT _GroupSize> class Index<wchar_t*, char*, _GroupSize>: public StringIndex<wchar_t, true, StringItem<char, true>, _GroupSize> {}; // Unicode-Index with Ansi-Items
+template <UINT _GroupSize> class Index<wchar_t*, char const*, _GroupSize>: public StringIndex<wchar_t, true, StringItem<char, false>, _GroupSize> {}; // Unicode-Index with Shared Ansi-Items
+template <UINT _GroupSize> class Index<wchar_t*, wchar_t*, _GroupSize>: public StringIndex<wchar_t, true, StringItem<wchar_t, true>, _GroupSize> {}; // Unicode-Index with Unicode-Items
+template <UINT _GroupSize> class Index<wchar_t*, wchar_t const*, _GroupSize>: public StringIndex<wchar_t, true, StringItem<wchar_t, false>, _GroupSize> {}; // Unicode-Index with Shared Unicode-Items
 
 
 //======================
@@ -529,9 +529,9 @@ template <class _Item, UINT _GroupSize> class Index<wchar_t const*, _Item*, _Gro
 #ifdef __cplusplus_winrt
 template <class _Item, UINT _GroupSize> class Index<wchar_t const*, _Item^, _GroupSize>: public StringIndex<wchar_t, false, _Item^, _GroupSize> {}; // Shared Unicode-Index with Handle-Items
 #endif
-template <UINT _GroupSize> class Index<wchar_t const*, char*, _GroupSize>: public StringIndex<wchar_t, false, String<char, true>, _GroupSize> {}; // Shared Unicode-Index with Ansi-Items
-template <UINT _GroupSize> class Index<wchar_t const*, char const*, _GroupSize>: public StringIndex<wchar_t, false, String<char, false>, _GroupSize> {}; // Shared Unicode-Index with Shared Ansi-Items
-template <UINT _GroupSize> class Index<wchar_t const*, wchar_t*, _GroupSize>: public StringIndex<wchar_t, false, String<wchar_t, true>, _GroupSize> {}; // Shared Unicode-Index with Unicode-Items
-template <UINT _GroupSize> class Index<wchar_t const*, wchar_t const*, _GroupSize>: public StringIndex<wchar_t, false, String<wchar_t, false>, _GroupSize> {}; // Shared Unicode-Index with Shared Unicode-Items
+template <UINT _GroupSize> class Index<wchar_t const*, char*, _GroupSize>: public StringIndex<wchar_t, false, StringItem<char, true>, _GroupSize> {}; // Shared Unicode-Index with Ansi-Items
+template <UINT _GroupSize> class Index<wchar_t const*, char const*, _GroupSize>: public StringIndex<wchar_t, false, StringItem<char, false>, _GroupSize> {}; // Shared Unicode-Index with Shared Ansi-Items
+template <UINT _GroupSize> class Index<wchar_t const*, wchar_t*, _GroupSize>: public StringIndex<wchar_t, false, StringItem<wchar_t, true>, _GroupSize> {}; // Shared Unicode-Index with Unicode-Items
+template <UINT _GroupSize> class Index<wchar_t const*, wchar_t const*, _GroupSize>: public StringIndex<wchar_t, false, StringItem<wchar_t, false>, _GroupSize> {}; // Shared Unicode-Index with Shared Unicode-Items
 
 }}}}

@@ -90,9 +90,8 @@ public:
 				{
 				pparent=(_ParentGroupPtr)pgroup;
 				pgroup=pparent->GetChild(pit->Position);
-				pit=&pIts[u];
-				pit->Group=pgroup;
-				pit->Position=0;
+				pIts[u].Group=pgroup;
+				pIts[u].Position=0;
 				}
 			pitems=(_ItemGroupPtr)pgroup;
 			pCurrent=pitems->AddressOfItemAt(0);

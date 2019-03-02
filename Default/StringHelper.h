@@ -10,7 +10,6 @@
 //=======
 
 #include <stdarg.h>
-#include "MemoryHelper.h"
 
 
 //========
@@ -121,9 +120,9 @@ UINT StringPrintf(LPWSTR Buffer, UINT Size, LPCWSTR Format, ...);
 UINT StringPrintf(LPWSTR* Buffer, UINT* Size, LPCWSTR Format, ...);
 UINT StringPrintfLength(LPCSTR Format, ...);
 UINT StringPrintfLength(LPCWSTR Format, ...);
-UINT StringVPrintf(LPSTR Buffer, UINT Size, LPCSTR Format, va_list List);
+UINT StringVPrintf(LPSTR Buffer, UINT Size, LPCSTR Format, va_list List); // Prototype
 UINT StringVPrintf(LPSTR* Buffer, UINT* Size, LPCSTR Format, va_list List);
-UINT StringVPrintf(LPWSTR Buffer, UINT Size, LPCWSTR Format, va_list List);
+UINT StringVPrintf(LPWSTR Buffer, UINT Size, LPCWSTR Format, va_list List); // Prototype
 UINT StringVPrintf(LPWSTR* Buffer, UINT* Size, LPCWSTR Format, va_list List);
-UINT StringVPrintfLength(LPCSTR Format, va_list List);
-UINT StringVPrintfLength(LPCWSTR Format, va_list List);
+UINT StringVPrintfLength(LPCSTR Format, va_list List); // Prototype
+UINT StringVPrintfLength(LPCWSTR Format, va_list List); // Prototype

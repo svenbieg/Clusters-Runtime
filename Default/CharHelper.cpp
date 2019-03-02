@@ -2,13 +2,14 @@
 // CharHelper.cpp
 //================
 
-#include "CharHelper.h"
+#include "pch.h"
 
 
 //=======
 // Using
 //=======
 
+#include "CharHelper.h"
 #include "MemoryHelper.h"
 
 

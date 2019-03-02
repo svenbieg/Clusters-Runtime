@@ -42,6 +42,20 @@ public:
 		new (pitem) _Item(Item);
 		return pitem;
 		}
+	VOID Append(_Item const* Items, UINT Count)
+		{
+		UINT upos=0;
+		while(Count>0)
+			{
+			UINT uwritten=this->pRoot->Append(&Items[upos], Count);
+			Count-=uwritten;
+			if(Count>0)
+				{
+				this->pRoot=new _ListParentGroup(this->pRoot);
+				upos+=uwritten;
+				}
+			}
+		}
 	inline _Item* InsertAt(SIZE_T Position, _Item const& Item)
 		{
 		_Item* pitem=this->InsertInternal(Position);
