@@ -347,6 +347,42 @@ public:
 		*Count=unewcount;
 		return unewcount;
 		}
+	static BOOL Remove(T** Items, S* Size, S* Count, UINT BlockSize, T const* Remove)
+		{
+		T* pitems=*Items;
+		S ucount=*Count;
+		for (S u=0; u<ucount; u++)
+			{
+			if(pitems[u]==*Remove)
+				{
+				RemoveAt(Items, Size, Count, u, 1, BlockSize, false);
+				return true;
+				}
+			}
+		return false;
+		}
+	static S Remove(T** Items, S* Size, S* Count, UINT BlockSize, T const* Remove, S RemoveCount)
+		{
+		T* pitems=*Items;
+		S ucount=*Count;
+		for (S uitem=0; uitem<RemoveCount; uitem++)
+			{
+			for (S u=0; u<ucount; )
+				{
+				if(pitems[u]==Remove[uitem])
+					{
+					RemoveAt(Items, Size, Count, u, 1, BlockSize, false);
+					ucount--;
+					}
+				else
+					{
+					u++;
+					}
+				}
+			}
+		Shrink(Items, Size, *Count, BlockSize);
+		return ucount;
+		}
 	static S RemoveAt(T* Items, S* Count, S Position, S RemoveCount=1, BOOL Moving=false)
 		{
 		S ucount=*Count;
@@ -378,42 +414,6 @@ public:
 		*Count=ucount;
 		if(DoShrink)
 			Shrink(Items, Size, *Count, BlockSize);
-		return ucount;
-		}
-	static BOOL RemoveItem(T** Items, S* Size, S* Count, UINT BlockSize, T const* Remove)
-		{
-		T* pitems=*Items;
-		S ucount=*Count;
-		for (S u=0; u<ucount; u++)
-			{
-			if(pitems[u]==*Remove)
-				{
-				RemoveAt(Items, Size, Count, u, 1, BlockSize, false);
-				return true;
-				}
-			}
-		return false;
-		}
-	static S RemoveItem(T** Items, S* Size, S* Count, UINT BlockSize, T const* Remove, S RemoveCount)
-		{
-		T* pitems=*Items;
-		S ucount=*Count;
-		for (S uitem=0; uitem<RemoveCount; uitem++)
-			{
-			for (S u=0; u<ucount; )
-				{
-				if(pitems[u]==Remove[uitem])
-					{
-					RemoveAt(Items, Size, Count, u, 1, BlockSize, false);
-					ucount--;
-					}
-				else
-					{
-					u++;
-					}
-				}
-			}
-		Shrink(Items, Size, *Count, BlockSize);
 		return ucount;
 		}
 	static VOID SetCount(T** Items, S* Size, S* Count, UINT BlockSize, S NewCount)

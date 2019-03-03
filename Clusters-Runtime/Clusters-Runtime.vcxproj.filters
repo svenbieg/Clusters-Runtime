@@ -35,6 +35,9 @@
     <ClInclude Include="Details\Guid.h">
       <Filter>Details</Filter>
     </ClInclude>
+    <ClInclude Include="Details\Handle.h">
+      <Filter>Details</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Details">

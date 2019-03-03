@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "Clusters-Templates\Index.h"
+#include "Clusters\index.h"
 #include "Details\Map\MapIterator.h"
 
 namespace WFM=Windows::Foundation::Metadata;
@@ -33,11 +33,7 @@ public ref class Map sealed
 {
 private:
 	// Using
-	using CriticalSection=Concurrency::critical_section;
 	using MapIterator=Details::Map::MapIterator;
-	using Object=Platform::Object;
-	using ScopedLock=Concurrency::critical_section::scoped_lock;
-	using String=Platform::String;
 
 internal:
 	// Friends
@@ -66,7 +62,7 @@ public:
 private:
 	// Common
 	CriticalSection cCriticalSection;
-	Templates::Index<String^, Object^> cIndex;
+	clusters::index<Handle<String>, Handle<Object>> cIndex;
 	UINT uItCount;
 };
 

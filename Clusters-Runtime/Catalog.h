@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "Clusters-Templates\Index.h"
+#include "Clusters\index.h"
 #include "Details\Catalog\CatalogIterator.h"
 #include "Details\Guid.h"
 
@@ -35,9 +35,6 @@ public ref class Catalog sealed
 private:
 	// Using
 	using CatalogIterator=Details::Catalog::CatalogIterator;
-	using CriticalSection=Concurrency::critical_section;
-	using Object=Platform::Object;
-	using ScopedLock=Concurrency::critical_section::scoped_lock;
 
 internal:
 	// Friends
@@ -66,7 +63,7 @@ public:
 private:
 	// Common
 	CriticalSection cCriticalSection;
-	Templates::Index<Details::Guid, Object^> cIndex;
+	clusters::index<Guid, Handle<Object>> cIndex;
 	UINT uItCount;
 };
 

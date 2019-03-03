@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "Clusters-Templates\Index.h"
+#include "Clusters\index.h"
 
 namespace WFM=Windows::Foundation::Metadata;
 
@@ -42,12 +42,6 @@ namespace Clusters {
 [WFM::WebHostHiddenAttribute]
 public ref class MapIterator sealed
 {
-private:
-	// Using
-	using Object=Platform::Object;
-	using ScopedLock=Concurrency::critical_section::scoped_lock;
-	using String=Platform::String;
-
 public:
 	// Access
 	property String^ CurrentKey { String^ get(); }
@@ -75,7 +69,7 @@ private:
 	~MapIterator();
 
 	// Common
-	Clusters::Templates::Index<String^, Object^>::Iterator cIt;
+	clusters::index<Handle<String>, Handle<Object>>::iterator cIt;
 	Clusters::Map^ hMap;
 };
 

@@ -2,7 +2,7 @@
 // MapIterator.cpp
 //=================
 
-#include "MapIterator.h"
+#include "pch.h"
 
 
 //=======
@@ -40,7 +40,7 @@ hMap->uItCount++;
 }
 
 MapIterator::MapIterator(Clusters::Map^ hmap, String^ hkey):
-cIt(&hmap->cIndex, hkey),
+cIt(&hmap->cIndex, 0, hkey),
 hMap(hmap)
 {
 hMap->uItCount++;
@@ -54,25 +54,25 @@ hMap->uItCount++;
 Platform::String^ MapIterator::CurrentKey::get()
 {
 ScopedLock lock(hMap->cCriticalSection);
-return cIt.GetCurrentId();
+return cIt.get_current_id();
 }
 
 Platform::Object^ MapIterator::CurrentValue::get()
 {
 ScopedLock lock(hMap->cCriticalSection);
-return cIt.GetCurrentItem();
+return cIt.get_current_item();
 }
 
 VOID MapIterator::CurrentValue::set(Object^ hvalue)
 {
 ScopedLock lock(hMap->cCriticalSection);
-cIt.SetCurrentItem(hvalue);
+cIt.set_current_item(hvalue);
 }
 
 bool MapIterator::HasCurrent::get()
 {
 ScopedLock lock(hMap->cCriticalSection);
-return cIt.HasCurrent();
+return cIt.has_current();
 }
 
 
@@ -85,7 +85,7 @@ VOID MapIterator::RemoveCurrent()
 ScopedLock lock(hMap->cCriticalSection);
 if(hMap->uItCount>1)
 	throw ref new Platform::AccessDeniedException();
-cIt.RemoveCurrent();
+cIt.remove_current();
 }
 
 
@@ -96,31 +96,31 @@ cIt.RemoveCurrent();
 bool MapIterator::Find(String^ hkey)
 {
 ScopedLock lock(hMap->cCriticalSection);
-return cIt.Find(hkey);
+return cIt.find(hkey);
 }
 
 bool MapIterator::MoveNext()
 {
 ScopedLock lock(hMap->cCriticalSection);
-return cIt.MoveNext();
+return cIt.move_next();
 }
 
 bool MapIterator::MovePrevious()
 {
 ScopedLock lock(hMap->cCriticalSection);
-return cIt.MovePrevious();
+return cIt.move_previous();
 }
 
 UINT64 MapIterator::Position::get()
 {
 ScopedLock lock(hMap->cCriticalSection);
-return cIt.GetPosition();
+return cIt.get_position();
 }
 
 VOID MapIterator::Position::set(UINT64 upos)
 {
 ScopedLock lock(hMap->cCriticalSection);
-cIt.SetPosition(ToSIZET(upos));
+cIt.set_position(ToSIZET(upos));
 }
 
 

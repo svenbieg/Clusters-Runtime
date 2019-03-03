@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "Clusters-Templates\List.h"
+#include "Clusters\list.h"
 #include "Details\List\ListIterator.h"
 
 namespace WFM=Windows::Foundation::Metadata;
@@ -33,10 +33,7 @@ public ref class List sealed
 {
 private:
 	// Using
-	using CriticalSection=Concurrency::critical_section;
 	using ListIterator=Details::List::ListIterator;
-	using Object=Platform::Object;
-	using ScopedLock=Concurrency::critical_section::scoped_lock;
 
 internal:
 	// Friends
@@ -63,7 +60,7 @@ public:
 private:
 	// Common
 	CriticalSection cCriticalSection;
-	Templates::List<Object^> cList;
+	clusters::list<Handle<Object>> cList;
 	UINT uItCount;
 };
 

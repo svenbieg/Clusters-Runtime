@@ -5,14 +5,6 @@
 #include "Guid.h"
 
 
-//===========
-// Namespace
-//===========
-
-namespace Clusters {
-	namespace Details {
-
-
 //========
 // Common
 //========
@@ -64,5 +56,3 @@ for(UINT u=0; u<8; u++)
 	}
 return equal;
 }
-
-}}

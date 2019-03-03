@@ -2,7 +2,7 @@
 // ListIterator.cpp
 //==================
 
-#include "ListIterator.h"
+#include "pch.h"
 
 
 //=======
@@ -10,8 +10,6 @@
 //=======
 
 #include "List.h"
-
-using Object=Platform::Object;
 
 
 //===========
@@ -49,13 +47,13 @@ hList->uItCount++;
 Object^ ListIterator::Current::get()
 {
 ScopedLock lock(hList->cCriticalSection);
-return cIt.GetCurrent();
+return cIt.get_current();
 }
 
 bool ListIterator::HasCurrent::get()
 {
 ScopedLock lock(hList->cCriticalSection);
-return cIt.HasCurrent();
+return cIt.has_current();
 }
 
 
@@ -68,7 +66,7 @@ VOID ListIterator::RemoveCurrent()
 ScopedLock lock(hList->cCriticalSection);
 if(hList->uItCount>1)
 	throw ref new Platform::AccessDeniedException();
-cIt.RemoveCurrent();
+cIt.remove_current();
 }
 
 
@@ -79,25 +77,25 @@ cIt.RemoveCurrent();
 bool ListIterator::MoveNext()
 {
 ScopedLock lock(hList->cCriticalSection);
-return cIt.MoveNext();
+return cIt.move_next();
 }
 
 bool ListIterator::MovePrevious()
 {
 ScopedLock lock(hList->cCriticalSection);
-return cIt.MovePrevious();
+return cIt.move_previous();
 }
 
 UINT64 ListIterator::Position::get()
 {
 ScopedLock lock(hList->cCriticalSection);
-return cIt.GetPosition();
+return cIt.get_position();
 }
 
 VOID ListIterator::Position::set(UINT64 upos)
 {
 ScopedLock lock(hList->cCriticalSection);
-cIt.SetPosition(ToSIZET(upos));
+cIt.set_position(ToSIZET(upos));
 }
 
 

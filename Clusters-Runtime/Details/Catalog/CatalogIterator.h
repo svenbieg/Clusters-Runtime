@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "Clusters-Templates\Index.h"
+#include "Clusters\index.h"
 #include "..\Guid.h"
 
 namespace WFM=Windows::Foundation::Metadata;
@@ -43,11 +43,6 @@ namespace Clusters {
 [WFM::WebHostHiddenAttribute]
 public ref class CatalogIterator sealed
 {
-private:
-	// Using
-	using Object=Platform::Object;
-	using ScopedLock=Concurrency::critical_section::scoped_lock;
-
 public:
 	// Access
 	property Platform::Guid CurrentId { Platform::Guid get(); }
@@ -75,7 +70,7 @@ private:
 	~CatalogIterator();
 
 	// Common
-	Clusters::Templates::Index<Guid, Object^>::Iterator cIt;
+	clusters::index<Guid, Handle<Object>>::iterator cIt;
 	Clusters::Catalog^ hCatalog;
 };
 

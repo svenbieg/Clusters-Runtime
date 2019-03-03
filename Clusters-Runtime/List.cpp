@@ -32,7 +32,7 @@ return ref new ListIterator(this, upos);
 UINT64 List::Count::get()
 {
 ScopedLock lock(cCriticalSection);
-return cList.GetCount();
+return cList.get_count();
 }
 
 ListIterator^ List::First()
@@ -44,13 +44,13 @@ return ref new ListIterator(this);
 Platform::Object^ List::GetAt(UINT64 upos)
 {
 ScopedLock lock(cCriticalSection);
-return cList.GetAt(ToSIZET(upos));
+return cList.get_at(ToSIZET(upos));
 }
 
 ListIterator^ List::Last()
 {
 ScopedLock lock(cCriticalSection);
-UINT64 ucount=cList.GetCount();
+UINT64 ucount=cList.get_count();
 if(ucount==0)
 	throw ref new Platform::OutOfBoundsException();
 return ref new ListIterator(this, ucount-1);
@@ -66,7 +66,7 @@ VOID List::Append(Object^ hobj)
 ScopedLock lock(cCriticalSection);
 if(uItCount>0)
 	throw ref new Platform::AccessDeniedException();
-cList.Append(hobj);
+cList.append(hobj);
 }
 
 VOID List::Clear()
@@ -74,7 +74,7 @@ VOID List::Clear()
 ScopedLock lock(cCriticalSection);
 if(uItCount>0)
 	throw ref new Platform::AccessDeniedException();
-cList.Clear();
+cList.clear();
 }
 
 VOID List::InsertAt(UINT64 upos, Object^ hobj)
@@ -82,7 +82,7 @@ VOID List::InsertAt(UINT64 upos, Object^ hobj)
 ScopedLock lock(cCriticalSection);
 if(uItCount>0)
 	throw ref new Platform::AccessDeniedException();
-cList.InsertAt(ToSIZET(upos), hobj);
+cList.insert_at(ToSIZET(upos), hobj);
 }
 
 VOID List::RemoveAt(UINT64 upos)
@@ -90,7 +90,7 @@ VOID List::RemoveAt(UINT64 upos)
 ScopedLock lock(cCriticalSection);
 if(uItCount>0)
 	throw ref new Platform::AccessDeniedException();
-cList.RemoveAt(ToSIZET(upos));
+cList.remove_at(ToSIZET(upos));
 }
 
 }

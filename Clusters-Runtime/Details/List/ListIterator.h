@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "Clusters-Templates\List.h"
+#include "Clusters\list.h"
 
 namespace WFM=Windows::Foundation::Metadata;
 
@@ -37,11 +37,6 @@ namespace Clusters {
 [WFM::WebHostHiddenAttribute]
 public ref class ListIterator sealed
 {
-private:
-	// Using
-	using Object=Platform::Object;
-	using ScopedLock=Concurrency::critical_section::scoped_lock;
-
 public:
 	// Access
 	property Object^ Current { Object^ get(); }
@@ -66,7 +61,7 @@ private:
 	~ListIterator();
 
 	// Common
-	Clusters::Templates::List<Object^>::Iterator cIt;
+	clusters::list<Handle<Object>>::iterator cIt;
 	Clusters::List^ hList;
 };
 

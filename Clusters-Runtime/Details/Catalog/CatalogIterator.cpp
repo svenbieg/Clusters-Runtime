@@ -2,7 +2,7 @@
 // CatalogIterator.cpp
 //=====================
 
-#include "CatalogIterator.h"
+#include "pch.h"
 
 
 //=======
@@ -54,25 +54,25 @@ hCatalog->uItCount++;
 Platform::Guid CatalogIterator::CurrentId::get()
 {
 ScopedLock lock(hCatalog->cCriticalSection);
-return cIt.GetCurrentId();
+return cIt.get_current_id();
 }
 
 Platform::Object^ CatalogIterator::CurrentItem::get()
 {
 ScopedLock lock(hCatalog->cCriticalSection);
-return cIt.GetCurrentItem();
+return cIt.get_current_item();
 }
 
 VOID CatalogIterator::CurrentItem::set(Object^ hitem)
 {
 ScopedLock lock(hCatalog->cCriticalSection);
-cIt.SetCurrentItem(hitem);
+cIt.set_current_item(hitem);
 }
 
 bool CatalogIterator::HasCurrent::get()
 {
 ScopedLock lock(hCatalog->cCriticalSection);
-return cIt.HasCurrent();
+return cIt.has_current();
 }
 
 
@@ -85,7 +85,7 @@ VOID CatalogIterator::RemoveCurrent()
 ScopedLock lock(hCatalog->cCriticalSection);
 if(hCatalog->uItCount>1)
 	throw ref new Platform::AccessDeniedException();
-cIt.RemoveCurrent();
+cIt.remove_current();
 }
 
 
@@ -96,31 +96,31 @@ cIt.RemoveCurrent();
 bool CatalogIterator::Find(Platform::Guid uid)
 {
 ScopedLock lock(hCatalog->cCriticalSection);
-return cIt.Find(uid);
+return cIt.find(uid);
 }
 
 bool CatalogIterator::MoveNext()
 {
 ScopedLock lock(hCatalog->cCriticalSection);
-return cIt.MoveNext();
+return cIt.move_next();
 }
 
 bool CatalogIterator::MovePrevious()
 {
 ScopedLock lock(hCatalog->cCriticalSection);
-return cIt.MovePrevious();
+return cIt.move_previous();
 }
 
 UINT64 CatalogIterator::Position::get()
 {
 ScopedLock lock(hCatalog->cCriticalSection);
-return cIt.GetPosition();
+return cIt.get_position();
 }
 
 VOID CatalogIterator::Position::set(UINT64 upos)
 {
 ScopedLock lock(hCatalog->cCriticalSection);
-cIt.SetPosition(ToSIZET(upos));
+cIt.set_position(ToSIZET(upos));
 }
 
 

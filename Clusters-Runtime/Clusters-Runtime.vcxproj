@@ -57,8 +57,8 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared">
+    <Import Project="..\Clusters\Clusters.vcxitems" Label="Shared" />
     <Import Project="..\Default\Default.vcxitems" Label="Shared" />
-    <Import Project="..\Clusters-Templates\Clusters-Templates.vcxitems" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -138,6 +138,7 @@
     <ClInclude Include="Catalog.h" />
     <ClInclude Include="Details\Catalog\CatalogIterator.h" />
     <ClInclude Include="Details\Guid.h" />
+    <ClInclude Include="Details\Handle.h" />
     <ClInclude Include="Details\List\ListIterator.h" />
     <ClInclude Include="Details\Map\MapIterator.h" />
     <ClInclude Include="List.h" />
