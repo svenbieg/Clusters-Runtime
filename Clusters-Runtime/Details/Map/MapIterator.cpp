@@ -33,9 +33,11 @@ hMap->uItCount++;
 }
 
 MapIterator::MapIterator(Clusters::Map^ hmap, UINT64 upos):
-cIt(&hmap->cIndex, ToSIZET(upos)),
+cIt(&hmap->cIndex, SIZE_T(upos)),
 hMap(hmap)
 {
+if(upos>MAXSIZE_T)
+	throw ref new Platform::InvalidArgumentException();
 hMap->uItCount++;
 }
 
@@ -119,8 +121,10 @@ return cIt.get_position();
 
 VOID MapIterator::Position::set(UINT64 upos)
 {
+if(upos>MAXSIZE_T)
+	throw ref new Platform::InvalidArgumentException();
 ScopedLock lock(hMap->cCriticalSection);
-cIt.set_position(ToSIZET(upos));
+cIt.set_position(SIZE_T(upos));
 }
 
 

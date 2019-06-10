@@ -33,9 +33,11 @@ hList->uItCount++;
 }
 
 ListIterator::ListIterator(Clusters::List^ hlist, UINT64 upos):
-cIt(&hlist->cList, ToSIZET(upos)),
+cIt(&hlist->cList, SIZE_T(upos)),
 hList(hlist)
 {
+if(upos>MAXSIZE_T)
+	throw ref new Platform::InvalidArgumentException();
 hList->uItCount++;
 }
 
@@ -94,8 +96,10 @@ return cIt.get_position();
 
 VOID ListIterator::Position::set(UINT64 upos)
 {
+if(upos>MAXSIZE_T)
+	throw ref new Platform::InvalidArgumentException();
 ScopedLock lock(hList->cCriticalSection);
-cIt.set_position(ToSIZET(upos));
+cIt.set_position(SIZE_T(upos));
 }
 
 

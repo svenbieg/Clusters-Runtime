@@ -41,6 +41,10 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <ProjectGuid>{7913F99B-79EE-4B4F-8552-9850FD8A65CD}</ProjectGuid>
     <RootNamespace>Clusters</RootNamespace>
+    <SccProjectName>$/Clusters/Clusters-Runtime/Clusters-Runtime</SccProjectName>
+    <SccAuxPath>https://svenbieg.visualstudio.com</SccAuxPath>
+    <SccLocalPath>.</SccLocalPath>
+    <SccProvider>{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}</SccProvider>
     <WindowsTargetPlatformMinVersion>10.0.10240.0</WindowsTargetPlatformMinVersion>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -48,7 +52,7 @@
   <PropertyGroup Label="Configuration">
     <CharacterSet>Unicode</CharacterSet>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <UseDebugLibraries Condition="'$(Configuration)'=='Debug'">true</UseDebugLibraries>
     <UseDebugLibraries Condition="'$(Configuration)'=='Release'">false</UseDebugLibraries>
     <WholeProgramOptimization Condition="'$(Configuration)'=='Release'">true</WholeProgramOptimization>
@@ -58,7 +62,6 @@
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared">
     <Import Project="..\Clusters\Clusters.vcxitems" Label="Shared" />
-    <Import Project="..\Default\Default.vcxitems" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -136,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Catalog.h" />
+    <ClInclude Include="CharHelper.h" />
     <ClInclude Include="Details\Catalog\CatalogIterator.h" />
     <ClInclude Include="Details\Guid.h" />
     <ClInclude Include="Details\Handle.h" />
@@ -144,9 +148,11 @@
     <ClInclude Include="List.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="StringHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Catalog.cpp" />
+    <ClCompile Include="CharHelper.cpp" />
     <ClCompile Include="Details\Catalog\CatalogIterator.cpp" />
     <ClCompile Include="Details\Guid.cpp" />
     <ClCompile Include="Details\List\ListIterator.cpp" />
@@ -156,6 +162,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="List.cpp" />
+    <ClCompile Include="StringHelper.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

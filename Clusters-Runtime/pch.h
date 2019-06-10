@@ -11,7 +11,6 @@
 
 #include <Windows.h>
 #include <concrt.h>
-#include "Default\Platform.h"
 
 
 //========

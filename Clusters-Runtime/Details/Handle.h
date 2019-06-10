@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "Default\StringHelper.h"
+#include "StringHelper.h"
 
 
 //========
@@ -63,12 +63,12 @@ public:
 	operator String^() { return hString; }
 
 	// Comparison
-	BOOL operator==(Handle<String> const& Handle)const { return StringCompare(hString->Begin(), Handle.hString->Begin(), 0, false)==0; }
-	BOOL operator!=(Handle<String> const& Handle)const { return StringCompare(hString->Begin(), Handle.hString->Begin(), 0, false)!=0; }
-	BOOL operator>(Handle<String> const& Handle)const { return StringCompare(hString->Begin(), Handle.hString->Begin(), 0, false)>0; }
-	BOOL operator>=(Handle<String> const& Handle)const { return StringCompare(hString->Begin(), Handle.hString->Begin(), 0, false)>=0; }
-	BOOL operator<(Handle<String> const& Handle)const { return StringCompare(hString->Begin(), Handle.hString->Begin(), 0, false)<0; }
-	BOOL operator<=(Handle<String> const& Handle)const { return StringCompare(hString->Begin(), Handle.hString->Begin(), 0, false)<=0; }
+	BOOL operator==(Handle<String> const& Handle)const { return StringCompare(hString->Begin(), Handle.hString->Begin())==0; }
+	BOOL operator!=(Handle<String> const& Handle)const { return StringCompare(hString->Begin(), Handle.hString->Begin())!=0; }
+	BOOL operator>(Handle<String> const& Handle)const { return StringCompare(hString->Begin(), Handle.hString->Begin())>0; }
+	BOOL operator>=(Handle<String> const& Handle)const { return StringCompare(hString->Begin(), Handle.hString->Begin())>=0; }
+	BOOL operator<(Handle<String> const& Handle)const { return StringCompare(hString->Begin(), Handle.hString->Begin())<0; }
+	BOOL operator<=(Handle<String> const& Handle)const { return StringCompare(hString->Begin(), Handle.hString->Begin())<=0; }
 
 private:
 	// Common

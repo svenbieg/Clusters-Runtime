@@ -33,9 +33,11 @@ hCatalog->uItCount++;
 }
 
 CatalogIterator::CatalogIterator(Clusters::Catalog^ hcatalog, UINT64 upos):
-cIt(&hcatalog->cIndex, ToSIZET(upos)),
+cIt(&hcatalog->cIndex, SIZE_T(upos)),
 hCatalog(hcatalog)
 {
+if(upos>MAXSIZE_T)
+	throw ref new Platform::InvalidArgumentException();
 hCatalog->uItCount++;
 }
 
@@ -119,8 +121,10 @@ return cIt.get_position();
 
 VOID CatalogIterator::Position::set(UINT64 upos)
 {
+if(upos>MAXSIZE_T)
+	throw ref new Platform::InvalidArgumentException();
 ScopedLock lock(hCatalog->cCriticalSection);
-cIt.set_position(ToSIZET(upos));
+cIt.set_position(SIZE_T(upos));
 }
 
 

@@ -17,6 +17,8 @@
     <ClCompile Include="Details\Guid.cpp">
       <Filter>Details</Filter>
     </ClCompile>
+    <ClCompile Include="StringHelper.cpp" />
+    <ClCompile Include="CharHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="List.h" />
@@ -38,6 +40,8 @@
     <ClInclude Include="Details\Handle.h">
       <Filter>Details</Filter>
     </ClInclude>
+    <ClInclude Include="StringHelper.h" />
+    <ClInclude Include="CharHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Details">
