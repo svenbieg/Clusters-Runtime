@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="List.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Catalog.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="StringHelper.cpp" />
+    <ClCompile Include="Guid.cpp" />
+    <ClCompile Include="CatalogIterator.cpp" />
+    <ClCompile Include="ListIterator.cpp" />
+    <ClCompile Include="MapIterator.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="List.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="Catalog.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="StringHelper.h" />
+    <ClInclude Include="Guid.h" />
+    <ClInclude Include="Handle.h" />
+    <ClInclude Include="CatalogIterator.h" />
+    <ClInclude Include="ListIterator.h" />
+    <ClInclude Include="MapIterator.h" />
+    <ClInclude Include="Clusters\index.h">
+      <Filter>clusters</Filter>
+    </ClInclude>
+    <ClInclude Include="Clusters\list.h">
+      <Filter>clusters</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="clusters">
+      <UniqueIdentifier>{7206ad0f-351d-4555-9a51-7bc781b7a0cd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
