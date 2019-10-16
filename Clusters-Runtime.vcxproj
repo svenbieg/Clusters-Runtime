@@ -109,7 +109,7 @@
   <ItemGroup>
     <ClInclude Include="Catalog.h" />
     <ClInclude Include="CatalogIterator.h" />
-    <ClInclude Include="Clusters\index.h" />
+    <ClInclude Include="Clusters\slist.h" />
     <ClInclude Include="Clusters\list.h" />
     <ClInclude Include="Guid.h" />
     <ClInclude Include="Handle.h" />

@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "clusters\index.h"
+#include "Clusters\slist.h"
 #include "MapIterator.h"
 
 namespace WFM=Windows::Foundation::Metadata;
@@ -38,7 +38,7 @@ internal:
 public:
 	// Con-/Destructors
 	Map(): uItCount(0) {}
-	Map(Map^ Map): cIndex(Map->cIndex), uItCount(0) {}
+	Map(Map^ Map): cList(Map->cList), uItCount(0) {}
 
 	// Access
 	MapIterator^ At(UINT64 Position);
@@ -58,7 +58,7 @@ public:
 private:
 	// Common
 	CriticalSection cCriticalSection;
-	clusters::index<Handle<String>, Handle<Object>> cIndex;
+	Clusters::slist<Handle<String>, Handle<Object>> cList;
 	UINT uItCount;
 };
 

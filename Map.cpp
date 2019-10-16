@@ -32,13 +32,13 @@ return ref new MapIterator(this, upos);
 bool Map::Contains(String^ hkey)
 {
 ScopedLock lock(cCriticalSection);
-return cIndex.contains(hkey);
+return cList.contains(hkey);
 }
 
 UINT64 Map::Count::get()
 {
 ScopedLock lock(cCriticalSection);
-return cIndex.get_count();
+return cList.get_count();
 }
 
 MapIterator^ Map::Find(String^ hkey)
@@ -56,13 +56,13 @@ return ref new MapIterator(this);
 Platform::Object^ Map::Get(String^ hkey)
 {
 ScopedLock lock(cCriticalSection);
-return cIndex.get(hkey);
+return cList.get(hkey);
 }
 
 MapIterator^ Map::Last()
 {
 ScopedLock lock(cCriticalSection);
-UINT64 ucount=cIndex.get_count();
+UINT64 ucount=cList.get_count();
 if(ucount==0)
 	throw ref new Platform::InvalidArgumentException();
 return ref new MapIterator(this, ucount-1);
@@ -78,7 +78,7 @@ bool Map::Add(String^ hkey, Object^ hvalue)
 ScopedLock lock(cCriticalSection);
 if(uItCount>0)
 	throw ref new Platform::AccessDeniedException();
-return cIndex.add(hkey, hvalue);
+return cList.add(hkey, hvalue);
 }
 
 VOID Map::Clear()
@@ -86,7 +86,7 @@ VOID Map::Clear()
 ScopedLock lock(cCriticalSection);
 if(uItCount>0)
 	throw ref new Platform::AccessDeniedException();
-cIndex.clear();
+cList.clear();
 }
 
 bool Map::Remove(String^ hkey)
@@ -94,7 +94,7 @@ bool Map::Remove(String^ hkey)
 ScopedLock lock(cCriticalSection);
 if(uItCount>0)
 	throw ref new Platform::AccessDeniedException();
-return cIndex.remove(hkey);
+return cList.remove(hkey);
 }
 
 VOID Map::Set(String^ hkey, Object^ hvalue)
@@ -102,7 +102,7 @@ VOID Map::Set(String^ hkey, Object^ hvalue)
 ScopedLock lock(cCriticalSection);
 if(uItCount>0)
 	throw ref new Platform::AccessDeniedException();
-cIndex.set(hkey, hvalue);
+cList.set(hkey, hvalue);
 }
 
 }

@@ -1,16 +1,16 @@
 //=========
-// index.h
+// slist.h
 //=========
 
-// Implementation of a sorted index.
-// Ids and can be inserted, removed and looked-up in real-time.
+// Implementation of a sorted list.
+// Items and can be inserted, removed and looked-up in real-time.
 
 // Copyright 2019, Sven Bieg (svenbieg@web.de)
 // http://github.com/svenbieg/clusters
 
 
-#ifndef _CLUSTERS_INDEX
-#define _CLUSTERS_INDEX
+#ifndef _CLUSTERS_SLIST
+#define _CLUSTERS_SLIST
 
 
 //=======
@@ -27,14 +27,14 @@
 // Namespace
 //===========
 
-namespace clusters {
+namespace Clusters {
 
 
 //======================
 // Forward-Declarations
 //======================
 
-template <typename _id_t, typename _item_t, unsigned int _group_size> class index;
+template <typename _id_t, typename _item_t, unsigned int _group_size> class slist;
 
 
 //======
@@ -42,14 +42,14 @@ template <typename _id_t, typename _item_t, unsigned int _group_size> class inde
 //======
 
 template <typename _id_t, typename _item_t>
-class _index_item
+class _slist_item
 {
 public:
-	_index_item()noexcept {}
-	_index_item(_index_item const& item): id(item.id), item(item.item) {}
-	_index_item(_index_item && item): id(std::move(item.id)), item(std::move(item.item)) {}
-	_index_item(_id_t const& id, _item_t const& item): id(id), item(item) {}
-	_index_item& operator=(_index_item const& ii)
+	_slist_item()noexcept {}
+	_slist_item(_slist_item const& item): id(item.id), item(item.item) {}
+	_slist_item(_slist_item && item): id(std::move(item.id)), item(std::move(item.item)) {}
+	_slist_item(_id_t const& id, _item_t const& item): id(id), item(item) {}
+	_slist_item& operator=(_slist_item const& ii)
 		{
 		id=ii.id;
 		item=ii.item;
@@ -60,14 +60,14 @@ public:
 };
 
 template <typename _id_t>
-class _index_item<_id_t, void>
+class _slist_item<_id_t, void>
 {
 public:
-	_index_item() {}
-	_index_item(_index_item const& item): id(item.id) {}
-	_index_item(_index_item && item): id(std::move(item.id)) {}
-	_index_item(_id_t const& id): id(id) {}
-	_index_item& operator=(_index_item const& item)
+	_slist_item() {}
+	_slist_item(_slist_item const& item): id(item.id) {}
+	_slist_item(_slist_item && item): id(std::move(item.id)) {}
+	_slist_item(_id_t const& id): id(id) {}
+	_slist_item& operator=(_slist_item const& item)
 		{
 		id=item.id;
 		return *this;
@@ -81,15 +81,15 @@ public:
 //=======
 
 template <typename _id_t, typename _item_t>
-class _index_group
+class _slist_group
 {
 private:
 	// Using 
-	using _item=_index_item<_id_t, _item_t>;
+	using _item=_slist_item<_id_t, _item_t>;
 
 public:
 	// Con-Destructors
-	virtual ~_index_group() {}
+	virtual ~_slist_group() {}
 
 	// Access
 	virtual bool contains(_id_t const& id)const noexcept=0;
@@ -118,23 +118,23 @@ public:
 //============
 
 template <typename _id_t, typename _item_t, unsigned int _group_size>
-class _index_item_group: public _index_group<_id_t, _item_t>
+class _slist_item_group: public _slist_group<_id_t, _item_t>
 {
 private:
 	// Using
-	using _item=_index_item<_id_t, _item_t>;
+	using _item=_slist_item<_id_t, _item_t>;
 
 public:
 	// Con-/Destructors
-	_index_item_group()noexcept: _m_item_count(0) {}
-	_index_item_group(_index_item_group const& group): _m_item_count(group._m_item_count)
+	_slist_item_group()noexcept: _m_item_count(0) {}
+	_slist_item_group(_slist_item_group const& group): _m_item_count(group._m_item_count)
 		{
 		_item* dst=get_items();
 		_item const* src=group.get_items();
 		for(unsigned int u=0; u<_m_item_count; u++)
 			new (&dst[u]) _item(src[u]);
 		}
-	~_index_item_group()override
+	~_slist_item_group()override
 		{
 		_item* items=get_items();
 		for(unsigned int u=0; u<_m_item_count; u++)
@@ -330,26 +330,26 @@ private:
 //==============
 
 template <typename _id_t, typename _item_t, unsigned int _group_size>
-class _index_parent_group: public _index_group<_id_t, _item_t>
+class _slist_parent_group: public _slist_group<_id_t, _item_t>
 {
 private:
 	// Using
-	using _item=_index_item<_id_t, _item_t>;
-	using _group=_index_group<_id_t, _item_t>;
-	using _item_group=_index_item_group<_id_t, _item_t, _group_size>;
-	using _parent_group=_index_parent_group<_id_t, _item_t, _group_size>;
+	using _item=_slist_item<_id_t, _item_t>;
+	using _group=_slist_group<_id_t, _item_t>;
+	using _item_group=_slist_item_group<_id_t, _item_t, _group_size>;
+	using _parent_group=_slist_parent_group<_id_t, _item_t, _group_size>;
 
 public:
 	// Con-Destructors
-	_index_parent_group(unsigned int level)noexcept:
+	_slist_parent_group(unsigned int level)noexcept:
 		_m_child_count(0), _m_first(nullptr), _m_item_count(0), _m_last(nullptr), _m_level(level) {}
-	_index_parent_group(_group* child)noexcept:
+	_slist_parent_group(_group* child)noexcept:
 		_m_child_count(1), _m_first(child->get_first()), _m_item_count(child->get_item_count()),
 		_m_last(child->get_last()), _m_level(child->get_level()+1)
 		{
 		_m_children[0]=child;
 		}
-	_index_parent_group(_parent_group const& group):
+	_slist_parent_group(_parent_group const& group):
 		_m_child_count(group._m_child_count), _m_item_count(group._m_item_count), _m_level(group._m_level)
 		{
 		if(_m_level>1)
@@ -365,7 +365,7 @@ public:
 		_m_first=_m_children[0]->get_first();
 		_m_last=_m_children[_m_child_count-1]->get_last();
 		}
-	~_index_parent_group()override
+	~_slist_parent_group()override
 		{
 		for(unsigned int u=0; u<_m_child_count; u++)
 				delete _m_children[u];
@@ -744,21 +744,21 @@ private:
 //=========
 
 // Forward-Declaration
-template <typename _id_t, typename _item_t, unsigned int _group_size, bool _is_const> class _index_iterator_base;
+template <typename _id_t, typename _item_t, unsigned int _group_size, bool _is_const> class _slist_iterator_base;
 
 template <typename _id_t, typename _item_t, unsigned int _group_size>
-class _index_cluster
+class _slist_cluster
 {
 private:
 	// Using
-	using _group=_index_group<_id_t, _item_t>;
-	using _item_group=_index_item_group<_id_t, _item_t, _group_size>;
-	using _parent_group=_index_parent_group<_id_t, _item_t, _group_size>;
+	using _group=_slist_group<_id_t, _item_t>;
+	using _item_group=_slist_item_group<_id_t, _item_t, _group_size>;
+	using _parent_group=_slist_parent_group<_id_t, _item_t, _group_size>;
 
 public:
 	// Friends
-	friend class _index_iterator_base<_id_t, _item_t, _group_size, true>;
-	friend class _index_iterator_base<_id_t, _item_t, _group_size, false>;
+	friend class _slist_iterator_base<_id_t, _item_t, _group_size, true>;
+	friend class _slist_iterator_base<_id_t, _item_t, _group_size, false>;
 
 		// Access
 	inline bool contains(_id_t const& id)const noexcept { return _m_root->contains(id); }
@@ -787,19 +787,19 @@ public:
 
 protected:
 	// Con-/Destructors
-	_index_cluster(): _m_root(new _item_group()) {}
-	_index_cluster(_index_cluster const& index)
+	_slist_cluster(): _m_root(new _item_group()) {}
+	_slist_cluster(_slist_cluster const& slist)
 		{
-		if(index._m_root->get_level()>0)
+		if(slist._m_root->get_level()>0)
 			{
-			_m_root=new _parent_group((_parent_group const&)*index._m_root);
+			_m_root=new _parent_group((_parent_group const&)*slist._m_root);
 			}
 		else
 			{
-			_m_root=new _item_group((_item_group const&)*index._m_root);
+			_m_root=new _item_group((_item_group const&)*slist._m_root);
 			}
 		}
-	~_index_cluster() { delete _m_root; }
+	~_slist_cluster() { delete _m_root; }
 
 	// Common
 	void update_root()
@@ -821,17 +821,17 @@ protected:
 //=====================
 
 template <typename _id_t, typename _item_t, unsigned int _group_size, bool _is_const>
-class _index_iterator_base
+class _slist_iterator_base
 {
 protected:
 	// Using
-	using _base=_index_iterator_base<_id_t, _item_t, _group_size, _is_const>;
-	using _item=_index_item<_id_t, _item_t>;
-	using _group=_index_group<_id_t, _item_t>;
-	using _index=_index_cluster<_id_t, _item_t, _group_size>;
-	using _index_ptr=typename std::conditional<_is_const, _index const*, _index*>::type;
-	using _item_group=_index_item_group<_id_t, _item_t, _group_size>;
-	using _parent_group=_index_parent_group<_id_t, _item_t, _group_size>;
+	using _base=_slist_iterator_base<_id_t, _item_t, _group_size, _is_const>;
+	using _item=_slist_item<_id_t, _item_t>;
+	using _group=_slist_group<_id_t, _item_t>;
+	using _slist=_slist_cluster<_id_t, _item_t, _group_size>;
+	using _slist_ptr=typename std::conditional<_is_const, _slist const*, _slist*>::type;
+	using _item_group=_slist_item_group<_id_t, _item_t, _group_size>;
+	using _parent_group=_slist_parent_group<_id_t, _item_t, _group_size>;
 
 public:
 	// Access
@@ -854,7 +854,7 @@ public:
 	_base& operator=(_base const& it)
 		{
 		_m_current=it._m_current;
-		_m_index=it._m_index;
+		_m_slist=it._m_slist;
 		set_level_count(it._m_level_count);
 		memcpy(_m_its, it._m_its, _m_level_count*sizeof(_it_struct));
 		return *this;
@@ -865,7 +865,7 @@ public:
 		{
 		_m_current=nullptr;
 		bool bfound=true;
-		_group* group=_m_index->_m_root;
+		_group* group=_m_slist->_m_root;
 		unsigned int levelcount=group->get_level()+1;
 		set_level_count(levelcount);
 		for(unsigned int u=0; u<levelcount-1; u++)
@@ -972,7 +972,7 @@ public:
 	void set_position(size_t position)
 		{
 		_m_current=nullptr;
-		_group* group=_m_index->_m_root;
+		_group* group=_m_slist->_m_root;
 		unsigned int levelcount=group->get_level()+1;
 		set_level_count(levelcount);
 		unsigned int pos=get_position_internal(group, &position);
@@ -995,15 +995,15 @@ public:
 
 protected:
 	// Con-/Destructors
-	_index_iterator_base(_base const& it):
-		_m_current(it._m_current), _m_index(it._m_index), _m_its(nullptr), _m_level_count(it._m_level_count)
+	_slist_iterator_base(_base const& it):
+		_m_current(it._m_current), _m_slist(it._m_slist), _m_its(nullptr), _m_level_count(it._m_level_count)
 		{
 		_m_its=(_it_struct*)operator new(_m_level_count*sizeof(_it_struct));
 		memcpy(_m_its, it._m_its, _m_level_count*sizeof(_it_struct));
 		}
-	_index_iterator_base(_index_ptr index):
-		_m_index(index), _m_its(nullptr), _m_level_count(0) {}
-	~_index_iterator_base() { if(_m_its!=nullptr)operator delete(_m_its); }
+	_slist_iterator_base(_slist_ptr slist):
+		_m_slist(slist), _m_its(nullptr), _m_level_count(0) {}
+	~_slist_iterator_base() { if(_m_its!=nullptr)operator delete(_m_its); }
 
 	// Helper-struct
 	typedef struct
@@ -1044,7 +1044,7 @@ protected:
 		_m_level_count=levelcount;
 		}
 	_item* _m_current;
-	_index_ptr _m_index;
+	_slist_ptr _m_slist;
 	_it_struct* _m_its;
 	unsigned int _m_level_count;
 };
@@ -1055,19 +1055,19 @@ protected:
 //==========
 
 template <typename _id_t, typename _item_t, unsigned int _group_size>
-class _index_iterator: public _index_iterator_base<_id_t, _item_t, _group_size, false>
+class _slist_iterator: public _slist_iterator_base<_id_t, _item_t, _group_size, false>
 {
 private:
 	// Using
-	using _base=_index_iterator_base<_id_t, _item_t, _group_size, false>;
-	using _index=_index_cluster<_id_t, _item_t, _group_size>;
-	using _it=_index_iterator<_id_t, _item_t, _group_size>;
+	using _base=_slist_iterator_base<_id_t, _item_t, _group_size, false>;
+	using _slist=_slist_cluster<_id_t, _item_t, _group_size>;
+	using _it=_slist_iterator<_id_t, _item_t, _group_size>;
 
 public:
 	// Con-/Destructors
-	_index_iterator(_it const& it): _base(it) {}
-	_index_iterator(_index* index, size_t position): _base(index) { this->set_position(position); }
-	_index_iterator(_index* index, size_t, _id_t const& id): _base(index) { this->find(id); }
+	_slist_iterator(_it const& it): _base(it) {}
+	_slist_iterator(_slist* slist, size_t position): _base(slist) { this->set_position(position); }
+	_slist_iterator(_slist* slist, size_t, _id_t const& id): _base(slist) { this->find(id); }
 
 	// Access
 	_id_t get_current_id()const
@@ -1089,7 +1089,7 @@ public:
 		if(this->_m_current==nullptr)
 			throw std::out_of_range("");
 		size_t pos=this->get_position();
-		this->_m_index->remove_at(pos);
+		this->_m_slist->remove_at(pos);
 		this->set_position(pos);
 		}
 	void set_current_item(_item_t const& item)
@@ -1101,19 +1101,19 @@ public:
 };
 
 template <typename _id_t, unsigned int _group_size>
-class _index_iterator<_id_t, void, _group_size>: public _index_iterator_base<_id_t, void, _group_size, false>
+class _slist_iterator<_id_t, void, _group_size>: public _slist_iterator_base<_id_t, void, _group_size, false>
 {
 private:
 	// Using
-	using _base=_index_iterator_base<_id_t, void, _group_size, false>;
-	using _index=_index_cluster<_id_t, void, _group_size>;
-	using _it=_index_iterator<_id_t, void, _group_size>;
+	using _base=_slist_iterator_base<_id_t, void, _group_size, false>;
+	using _slist=_slist_cluster<_id_t, void, _group_size>;
+	using _it=_slist_iterator<_id_t, void, _group_size>;
 
 public:
 	// Con-/Destructors
-	_index_iterator(_it const& it): _base(it) {}
-	_index_iterator(_index* index, size_t position): _base(index) { this->set_position(position); }
-	_index_iterator(_index* index, size_t, _id_t const& id): _base(index) { this->find(id); }
+	_slist_iterator(_it const& it): _base(it) {}
+	_slist_iterator(_slist* slist, size_t position): _base(slist) { this->set_position(position); }
+	_slist_iterator(_slist* slist, size_t, _id_t const& id): _base(slist) { this->find(id); }
 
 	// Access
 	inline _id_t get_current()const
@@ -1129,7 +1129,7 @@ public:
 		if(this->_m_current==nullptr)
 			throw std::out_of_range("");
 		size_t pos=this->get_position();
-		this->_m_index->remove_at(pos);
+		this->_m_slist->remove_at(pos);
 		this->set_position(pos);
 		}
 };
@@ -1140,19 +1140,19 @@ public:
 //================
 
 template <typename _id_t, typename _item_t, unsigned int _group_size>
-class _index_const_iterator: public _index_iterator_base<_id_t, _item_t, _group_size, true>
+class _slist_const_iterator: public _slist_iterator_base<_id_t, _item_t, _group_size, true>
 {
 private:
 	// Using
-	using _base=_index_iterator_base<_id_t, _item_t, _group_size, true>;
-	using _index=_index_cluster<_id_t, _item_t, _group_size>;
-	using _it=_index_const_iterator<_id_t, _item_t, _group_size>;
+	using _base=_slist_iterator_base<_id_t, _item_t, _group_size, true>;
+	using _slist=_slist_cluster<_id_t, _item_t, _group_size>;
+	using _it=_slist_const_iterator<_id_t, _item_t, _group_size>;
 
 public:
 	// Con-/Destructors
-	_index_const_iterator(_it const& it): _base(it) {}
-	_index_const_iterator(_index const* index, size_t position): _base(index) { this->set_position(position); }
-	_index_const_iterator(_index const* index, size_t, _id_t const& id): _base(index) { this->find(id); }
+	_slist_const_iterator(_it const& it): _base(it) {}
+	_slist_const_iterator(_slist const* slist, size_t position): _base(slist) { this->set_position(position); }
+	_slist_const_iterator(_slist const* slist, size_t, _id_t const& id): _base(slist) { this->find(id); }
 
 	// Access
 	inline _id_t get_current_id()const
@@ -1170,19 +1170,19 @@ public:
 };
 
 template <typename _id_t, unsigned int _group_size>
-class _index_const_iterator<_id_t, void, _group_size>: public _index_iterator_base<_id_t, void, _group_size, true>
+class _slist_const_iterator<_id_t, void, _group_size>: public _slist_iterator_base<_id_t, void, _group_size, true>
 {
 private:
 	// Using
-	using _base=_index_iterator_base<_id_t, void, _group_size, true>;
-	using _index=_index_cluster<_id_t, void, _group_size>;
-	using _it=_index_const_iterator<_id_t, void, _group_size>;
+	using _base=_slist_iterator_base<_id_t, void, _group_size, true>;
+	using _slist=_slist_cluster<_id_t, void, _group_size>;
+	using _it=_slist_const_iterator<_id_t, void, _group_size>;
 
 public:
 	// Con-/Destructors
-	_index_const_iterator(_it const& it): _base(it) {}
-	_index_const_iterator(_index const* index, size_t position): _base(index) { this->set_position(position); }
-	_index_const_iterator(_index const* index, size_t, _id_t const& id): _base(index) { this->find(id); }
+	_slist_const_iterator(_it const& it): _base(it) {}
+	_slist_const_iterator(_slist const* slist, size_t position): _base(slist) { this->set_position(position); }
+	_slist_const_iterator(_slist const* slist, size_t, _id_t const& id): _base(slist) { this->find(id); }
 
 	// Access
 	inline _id_t get_current()const
@@ -1195,21 +1195,21 @@ public:
 
 
 //==================
-// Index base-class
+// SList base-class
 //==================
 
 template <typename _id_t, typename _item_t, unsigned int _group_size>
-class _index_base: public _index_cluster<_id_t, _item_t, _group_size>
+class _slist_base: public _slist_cluster<_id_t, _item_t, _group_size>
 {
 private:
 	// Using
-	using _base=_index_cluster<_id_t, _item_t, _group_size>;
-	using _const_it=_index_const_iterator<_id_t, _item_t, _group_size>;
-	using _group=_index_group<_id_t, _item_t>;
-	using _it=_index_iterator<_id_t, _item_t, _group_size>;
-	using _item=_index_item<_id_t, _item_t>;
-	using _item_group=_index_item_group<_id_t, _item_t, _group_size>;
-	using _parent_group=_index_parent_group<_id_t, _item_t, _group_size>;
+	using _base=_slist_cluster<_id_t, _item_t, _group_size>;
+	using _const_it=_slist_const_iterator<_id_t, _item_t, _group_size>;
+	using _group=_slist_group<_id_t, _item_t>;
+	using _it=_slist_iterator<_id_t, _item_t, _group_size>;
+	using _item=_slist_item<_id_t, _item_t>;
+	using _item_group=_slist_item_group<_id_t, _item_t, _group_size>;
+	using _parent_group=_slist_parent_group<_id_t, _item_t, _group_size>;
 
 public:
 	// Iteration
@@ -1226,8 +1226,8 @@ public:
 
 protected:
 	// Con-/Destructors
-	_index_base() {}
-	_index_base(_index_base const& index): _base(index) {}
+	_slist_base() {}
+	_slist_base(_slist_base const& slist): _base(slist) {}
 
 	// Modification
 	bool add_internal(_item const& item)
@@ -1245,22 +1245,22 @@ protected:
 
 
 //=============
-// Index typed
+// SList typed
 //=============
 
 template <typename _id_t, typename _item_t, unsigned int _group_size>
-class _index_typed: public _index_base<_id_t, _item_t, _group_size>
+class _slist_typed: public _slist_base<_id_t, _item_t, _group_size>
 {
 private:
 	// Using
-	using _base=_index_base<_id_t, _item_t, _group_size>;
-	using _item=_index_item<_id_t, _item_t>;
-	using _parent_group=_index_parent_group<_id_t, _item_t, _group_size>;
+	using _base=_slist_base<_id_t, _item_t, _group_size>;
+	using _item=_slist_item<_id_t, _item_t>;
+	using _parent_group=_slist_parent_group<_id_t, _item_t, _group_size>;
 
 public:
 	// Con-/Destructors
-	_index_typed() {}
-	_index_typed(_base const& base): _base(base) {}
+	_slist_typed() {}
+	_slist_typed(_base const& base): _base(base) {}
 
 	// Access
 	inline _item_t operator[](_id_t const& id)const { return get(id); }
@@ -1299,18 +1299,18 @@ public:
 };
 
 template <typename _id_t, unsigned int _group_size>
-class _index_typed<_id_t, void, _group_size>: public _index_base<_id_t, void, _group_size>
+class _slist_typed<_id_t, void, _group_size>: public _slist_base<_id_t, void, _group_size>
 {
 private:
 	// Using
-	using _base=_index_base<_id_t, void, _group_size>;
-	using _item=_index_item<_id_t, void>;
-	using _parent_group=_index_parent_group<_id_t, void, _group_size>;
+	using _base=_slist_base<_id_t, void, _group_size>;
+	using _item=_slist_item<_id_t, void>;
+	using _parent_group=_slist_parent_group<_id_t, void, _group_size>;
 
 public:
 	// Con-/Destructors
-	_index_typed() {}
-	_index_typed(_base const& base): _base(base) {}
+	_slist_typed() {}
+	_slist_typed(_base const& base): _base(base) {}
 
 	// Access
 	inline _id_t operator[](size_t position)const { return this->_m_root->get_at(position)->id; }
@@ -1341,25 +1341,25 @@ public:
 
 
 //=======
-// Index
+// SList
 //=======
 
 template <typename _id_t, typename _item_t=void, unsigned int _group_size=100>
-class index: public _index_typed<_id_t, _item_t, _group_size>
+class slist: public _slist_typed<_id_t, _item_t, _group_size>
 {
 private:
 	// Using
-	using _base=_index_typed<_id_t, _item_t, _group_size>;
+	using _base=_slist_typed<_id_t, _item_t, _group_size>;
 
 public:
 	// Typedefs
-	typedef _index_iterator<_id_t, _item_t, _group_size> iterator;
+	typedef _slist_iterator<_id_t, _item_t, _group_size> iterator;
 
 	// Con-/Destructors
-	index() {}
-	index(index const& index): _base(index) {}
+	slist() {}
+	slist(slist const& slist): _base(slist) {}
 };
 
 } // namespace
 
-#endif // _CLUSTERS_INDEX
+#endif // _CLUSTERS_SLIST

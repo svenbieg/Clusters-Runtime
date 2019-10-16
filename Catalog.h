@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "clusters\index.h"
+#include "Clusters\slist.h"
 #include "CatalogIterator.h"
 #include "Guid.h"
 
@@ -39,7 +39,7 @@ internal:
 public:
 	// Con-/Destructors
 	Catalog(): uItCount(0) {}
-	Catalog(Catalog^ Catalog): cIndex(Catalog->cIndex), uItCount(0) {}
+	Catalog(Catalog^ Catalog): cList(Catalog->cList), uItCount(0) {}
 
 	// Access
 	CatalogIterator^ At(UINT64 Position);
@@ -59,7 +59,7 @@ public:
 private:
 	// Common
 	CriticalSection cCriticalSection;
-	clusters::index<Guid, Handle<Object>> cIndex;
+	Clusters::slist<Guid, Handle<Object>> cList;
 	UINT uItCount;
 };
 

@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "clusters\index.h"
+#include "Clusters\slist.h"
 #include "Guid.h"
 
 namespace WFM=Windows::Foundation::Metadata;
@@ -68,7 +68,7 @@ private:
 	~CatalogIterator();
 
 	// Common
-	clusters::index<Guid, Handle<Object>>::iterator cIt;
+	Clusters::slist<Guid, Handle<Object>>::iterator cIt;
 	Clusters::Catalog^ hCatalog;
 };
 

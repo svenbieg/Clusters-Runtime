@@ -24,14 +24,14 @@ namespace Clusters {
 //==================
 
 MapIterator::MapIterator(Clusters::Map^ hmap):
-cIt(&hmap->cIndex, 0),
+cIt(&hmap->cList, 0),
 hMap(hmap)
 {
 hMap->uItCount++;
 }
 
 MapIterator::MapIterator(Clusters::Map^ hmap, UINT64 upos):
-cIt(&hmap->cIndex, SIZE_T(upos)),
+cIt(&hmap->cList, SIZE_T(upos)),
 hMap(hmap)
 {
 if(upos>MAXSIZE_T)
@@ -40,7 +40,7 @@ hMap->uItCount++;
 }
 
 MapIterator::MapIterator(Clusters::Map^ hmap, String^ hkey):
-cIt(&hmap->cIndex, 0, hkey),
+cIt(&hmap->cList, 0, hkey),
 hMap(hmap)
 {
 hMap->uItCount++;

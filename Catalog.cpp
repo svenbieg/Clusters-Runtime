@@ -32,13 +32,13 @@ return ref new CatalogIterator(this, upos);
 bool Catalog::Contains(Platform::Guid uid)
 {
 ScopedLock lock(cCriticalSection);
-return cIndex.contains(uid);
+return cList.contains(uid);
 }
 
 UINT64 Catalog::Count::get()
 {
 ScopedLock lock(cCriticalSection);
-return cIndex.get_count();
+return cList.get_count();
 }
 
 CatalogIterator^ Catalog::Find(Platform::Guid uid)
@@ -56,13 +56,13 @@ return ref new CatalogIterator(this);
 Platform::Object^ Catalog::Get(Platform::Guid uid)
 {
 ScopedLock lock(cCriticalSection);
-return cIndex.get(uid);
+return cList.get(uid);
 }
 
 CatalogIterator^ Catalog::Last()
 {
 ScopedLock lock(cCriticalSection);
-UINT64 ucount=cIndex.get_count();
+UINT64 ucount=cList.get_count();
 if(ucount==0)
 	throw ref new Platform::InvalidArgumentException();
 return ref new CatalogIterator(this, ucount-1);
@@ -78,7 +78,7 @@ bool Catalog::Add(Platform::Guid uid, Object^ hvalue)
 ScopedLock lock(cCriticalSection);
 if(uItCount>0)
 	throw ref new Platform::AccessDeniedException();
-return cIndex.add(uid, hvalue);
+return cList.add(uid, hvalue);
 }
 
 VOID Catalog::Clear()
@@ -86,7 +86,7 @@ VOID Catalog::Clear()
 ScopedLock lock(cCriticalSection);
 if(uItCount>0)
 	throw ref new Platform::AccessDeniedException();
-cIndex.clear();
+cList.clear();
 }
 
 bool Catalog::Remove(Platform::Guid uid)
@@ -94,7 +94,7 @@ bool Catalog::Remove(Platform::Guid uid)
 ScopedLock lock(cCriticalSection);
 if(uItCount>0)
 	throw ref new Platform::AccessDeniedException();
-return cIndex.remove(uid);
+return cList.remove(uid);
 }
 
 VOID Catalog::Set(Platform::Guid uid, Object^ hvalue)
@@ -102,7 +102,7 @@ VOID Catalog::Set(Platform::Guid uid, Object^ hvalue)
 ScopedLock lock(cCriticalSection);
 if(uItCount>0)
 	throw ref new Platform::AccessDeniedException();
-cIndex.set(uid, hvalue);
+cList.set(uid, hvalue);
 }
 
 }

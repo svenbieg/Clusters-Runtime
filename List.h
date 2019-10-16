@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "clusters\list.h"
+#include "Clusters\list.h"
 #include "ListIterator.h"
 
 namespace WFM=Windows::Foundation::Metadata;
@@ -56,7 +56,7 @@ public:
 private:
 	// Common
 	CriticalSection cCriticalSection;
-	clusters::list<Handle<Object>> cList;
+	Clusters::list<Handle<Object>> cList;
 	UINT uItCount;
 };
 

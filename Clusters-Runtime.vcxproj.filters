@@ -22,15 +22,15 @@
     <ClInclude Include="CatalogIterator.h" />
     <ClInclude Include="ListIterator.h" />
     <ClInclude Include="MapIterator.h" />
-    <ClInclude Include="Clusters\index.h">
-      <Filter>clusters</Filter>
-    </ClInclude>
     <ClInclude Include="Clusters\list.h">
-      <Filter>clusters</Filter>
+      <Filter>Clusters</Filter>
+    </ClInclude>
+    <ClInclude Include="Clusters\slist.h">
+      <Filter>Clusters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="clusters">
+    <Filter Include="Clusters">
       <UniqueIdentifier>{7206ad0f-351d-4555-9a51-7bc781b7a0cd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

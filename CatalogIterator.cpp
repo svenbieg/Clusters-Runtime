@@ -24,14 +24,14 @@ namespace Clusters {
 //==================
 
 CatalogIterator::CatalogIterator(Clusters::Catalog^ hcatalog):
-cIt(&hcatalog->cIndex, 0),
+cIt(&hcatalog->cList, 0),
 hCatalog(hcatalog)
 {
 hCatalog->uItCount++;
 }
 
 CatalogIterator::CatalogIterator(Clusters::Catalog^ hcatalog, UINT64 upos):
-cIt(&hcatalog->cIndex, SIZE_T(upos)),
+cIt(&hcatalog->cList, SIZE_T(upos)),
 hCatalog(hcatalog)
 {
 if(upos>MAXSIZE_T)
@@ -40,7 +40,7 @@ hCatalog->uItCount++;
 }
 
 CatalogIterator::CatalogIterator(Clusters::Catalog^ hcatalog, Platform::Guid uid):
-cIt(&hcatalog->cIndex, 0, uid),
+cIt(&hcatalog->cList, 0, uid),
 hCatalog(hcatalog)
 {
 hCatalog->uItCount++;

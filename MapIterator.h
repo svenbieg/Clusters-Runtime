@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "clusters\index.h"
+#include "Clusters\slist.h"
 
 namespace WFM=Windows::Foundation::Metadata;
 
@@ -67,7 +67,7 @@ private:
 	~MapIterator();
 
 	// Common
-	clusters::index<Handle<String>, Handle<Object>>::iterator cIt;
+	Clusters::slist<Handle<String>, Handle<Object>>::iterator cIt;
 	Clusters::Map^ hMap;
 };
 

@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "clusters\list.h"
+#include "Clusters\list.h"
 
 namespace WFM=Windows::Foundation::Metadata;
 
@@ -59,7 +59,7 @@ private:
 	~ListIterator();
 
 	// Common
-	clusters::list<Handle<Object>>::iterator cIt;
+	Clusters::list<Handle<Object>>::iterator cIt;
 	Clusters::List^ hList;
 };
 
