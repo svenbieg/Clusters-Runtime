@@ -21,12 +21,13 @@ class Handle
 {
 public:
 	// Con-/Destructors
+	Handle(): hObject(nullptr) {}
 	Handle(T^ Object): hObject(Object) {}
 	Handle(Handle<T> const& Handle): hObject(Handle.hObject) {}
 	~Handle() { hObject=nullptr; }
 
 	// Acces
-	operator T^() { return hObject; }
+	operator T^()const { return hObject; }
 
 	// Comparison
 	BOOL operator==(Handle<T> const& Handle)const { return hObject==Handle.hObject; }
@@ -55,12 +56,13 @@ private:
 
 public:
 	// Con-/Destructors
+	Handle(): hString(nullptr) {}
 	Handle(String^ String): hString(String) {}
 	Handle(Handle<String> const& Handle): hString(Handle.hString) {}
 	~Handle() { hString=nullptr; }
 
 	// Acces
-	operator String^() { return hString; }
+	operator String^()const { return hString; }
 
 	// Comparison
 	BOOL operator==(Handle<String> const& Handle)const { return StringCompare(hString->Begin(), Handle.hString->Begin())==0; }
