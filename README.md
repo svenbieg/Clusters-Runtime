@@ -38,7 +38,7 @@ and that You know how to write a universal Windows application.
 
 2.)&emsp;Copy the files from GitHub into the solution-directory!<br />
 <br />
-<img src="https://user-images.githubusercontent.com/12587394/47256714-b14a2c80-d484-11e8-9a32-966c8909d696.jpg" /><br />
+<img src="https://user-images.githubusercontent.com/12587394/69481836-2b31af80-0e15-11ea-9649-2fe97612a81b.jpg" /><br />
 <br />
 
 3.)&emsp;Add the Clusters-Runtime project to the solution!<br />
