@@ -13,6 +13,7 @@ class Guid
 {
 public:
 	// Con-/Destructors
+	Guid(): uId({ 0, 0, 0, { 0, 0, 0, 0, 0, 0, 0, 0 }}) {}
 	Guid(GUID const& Id): uId(Id) {}
 	#ifdef __cplusplus_winrt
 	Guid(Platform::Guid Id): uId(Id) {}
