@@ -37,6 +37,9 @@ public:
 	BOOL operator<(Handle<T> const& Handle)const { return hObject<Handle.hObject; }
 	BOOL operator<=(Handle<T> const& Handle)const { return hObject<=Handle.hObject; }
 
+	// Assignment
+	Handle& operator=(Handle const& Handle) { hObject=Handle.hObject; return *this; }
+
 private:
 	// Common
 	T^ hObject;
@@ -72,8 +75,10 @@ public:
 	BOOL operator<(Handle<String> const& Handle)const { return StringCompare(hString->Begin(), Handle.hString->Begin())<0; }
 	BOOL operator<=(Handle<String> const& Handle)const { return StringCompare(hString->Begin(), Handle.hString->Begin())<=0; }
 
+	// Assignment
+	Handle& operator=(Handle const& Handle) { hString=Handle.hString; return *this; }
+
 private:
 	// Common
 	String^ hString;
 };
-
