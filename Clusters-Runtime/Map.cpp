@@ -47,7 +47,7 @@ ScopedLock lock(cCriticalSection);
 return ref new MapIterator(this, hkey);
 }
 
-MapIterator^ Map::First()
+IIterator<MapItem^>^ Map::First()
 {
 ScopedLock lock(cCriticalSection);
 return ref new MapIterator(this);
@@ -100,8 +100,6 @@ return cList.remove(hkey);
 VOID Map::Set(String^ hkey, Object^ hvalue)
 {
 ScopedLock lock(cCriticalSection);
-if(uItCount>0)
-	throw ref new Platform::AccessDeniedException();
 cList.set(hkey, hvalue);
 }
 

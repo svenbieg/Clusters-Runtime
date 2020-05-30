@@ -29,7 +29,7 @@ namespace Clusters {
 [Platform::MTAThreadAttribute]
 [WFM::MarshalingBehaviorAttribute(WFM::MarshalingType::Agile)]
 [WFM::WebHostHiddenAttribute]
-public ref class List sealed
+public ref class List sealed: public IIterable<Object^>
 {
 internal:
 	// Friends
@@ -43,7 +43,7 @@ public:
 	// Access
 	ListIterator^ At(UINT64 Position);
 	property UINT64 Count { UINT64 get(); }
-	ListIterator^ First();
+	virtual IIterator<Object^>^ First();
 	Object^ GetAt(UINT64 Position);
 	ListIterator^ Last();
 

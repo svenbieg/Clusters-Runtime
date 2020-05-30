@@ -33,18 +33,19 @@ namespace Clusters {
 [Platform::MTAThreadAttribute]
 [WFM::MarshalingBehaviorAttribute(WFM::MarshalingType::Agile)]
 [WFM::WebHostHiddenAttribute]
-public ref class ListIterator sealed
+public ref class ListIterator sealed: public IIterator<Object^>
 {
 public:
 	// Access
-	property Object^ Current { Object^ get(); }
-	property bool HasCurrent { bool get(); }
+	virtual property Object^ Current { Object^ get(); }
+	virtual UINT GetMany(Platform::WriteOnlyArray<Object^>^ items);
+	virtual property bool HasCurrent { bool get(); }
 
 	// Modification
 	VOID RemoveCurrent();
 
 	// Navigation
-	bool MoveNext();
+	virtual bool MoveNext();
 	bool MovePrevious();
 	property UINT64 Position { UINT64 get(); VOID set(UINT64 Position); }
 

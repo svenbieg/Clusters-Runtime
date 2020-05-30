@@ -10,6 +10,7 @@
 //=======
 
 #include "Clusters\slist.h"
+#include "CatalogItem.h"
 #include "Guid.h"
 
 namespace WFM=Windows::Foundation::Metadata;
@@ -39,20 +40,20 @@ namespace Clusters {
 [Platform::MTAThreadAttribute]
 [WFM::MarshalingBehaviorAttribute(WFM::MarshalingType::Agile)]
 [WFM::WebHostHiddenAttribute]
-public ref class CatalogIterator sealed
+public ref class CatalogIterator sealed: public IIterator<CatalogItem^>
 {
 public:
 	// Access
-	property Platform::Guid CurrentId { Platform::Guid get(); }
-	property Object^ CurrentItem { Object^ get(); VOID set(Object^ Item); }
-	property bool HasCurrent { bool get(); }
+	virtual property CatalogItem^ Current { CatalogItem^ get(); }
+	virtual UINT GetMany(Platform::WriteOnlyArray<CatalogItem^>^ items);
+	virtual property bool HasCurrent { bool get(); }
 
 	// Modification
 	VOID RemoveCurrent();
 
 	// Navigation
 	bool Find(Platform::Guid Id);
-	bool MoveNext();
+	virtual bool MoveNext();
 	bool MovePrevious();
 	property UINT64 Position { UINT64 get(); VOID set(UINT64 Position); }
 

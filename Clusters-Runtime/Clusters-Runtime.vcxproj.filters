@@ -2,14 +2,16 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="List.cpp" />
-    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Catalog.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="StringHelper.cpp" />
     <ClCompile Include="Guid.cpp" />
     <ClCompile Include="CatalogIterator.cpp" />
     <ClCompile Include="ListIterator.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapIterator.cpp" />
+    <ClCompile Include="MapItem.cpp" />
+    <ClCompile Include="CatalogItem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="List.h" />
@@ -28,6 +30,8 @@
     <ClInclude Include="Clusters\slist.h">
       <Filter>Clusters</Filter>
     </ClInclude>
+    <ClInclude Include="MapItem.h" />
+    <ClInclude Include="CatalogItem.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Clusters">

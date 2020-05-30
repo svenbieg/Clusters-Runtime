@@ -29,7 +29,7 @@ namespace Clusters {
 [Platform::MTAThreadAttribute]
 [WFM::MarshalingBehaviorAttribute(WFM::MarshalingType::Agile)]
 [WFM::WebHostHiddenAttribute]
-public ref class Map sealed
+public ref class Map sealed: public IIterable<MapItem^>
 {
 internal:
 	// Friends
@@ -45,7 +45,7 @@ public:
 	bool Contains(String^ Key);
 	property UINT64 Count { UINT64 get(); }
 	MapIterator^ Find(String^ Key);
-	MapIterator^ First();
+	virtual IIterator<MapItem^>^ First();
 	Object^ Get(String^ Key);
 	MapIterator^ Last();
 

@@ -50,6 +50,25 @@ ScopedLock lock(hList->cCriticalSection);
 return cIt.get_current();
 }
 
+UINT ListIterator::GetMany(Platform::WriteOnlyArray<Object^>^ hitems)
+{
+if(!hitems)
+	throw ref new Platform::InvalidArgumentException();
+ScopedLock lock(hList->cCriticalSection);
+UINT64 utotal=hList->Count;
+UINT ucount=hitems->Length;
+UINT64 uread=min(utotal, ucount);
+UINT upos=0;
+for(cIt.set_position(0); cIt.has_current(); cIt.move_next())
+	{
+	Object^ hobj=cIt.get_current();
+	hitems->set(upos++, hobj);
+	if(upos==uread)
+		break;
+	}
+return upos;
+}
+
 bool ListIterator::HasCurrent::get()
 {
 ScopedLock lock(hList->cCriticalSection);

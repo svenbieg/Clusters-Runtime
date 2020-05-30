@@ -47,7 +47,7 @@ ScopedLock lock(cCriticalSection);
 return ref new CatalogIterator(this, uid);
 }
 
-CatalogIterator^ Catalog::First()
+IIterator<CatalogItem^>^ Catalog::First()
 {
 ScopedLock lock(cCriticalSection);
 return ref new CatalogIterator(this);
@@ -100,8 +100,6 @@ return cList.remove(uid);
 VOID Catalog::Set(Platform::Guid uid, Object^ hvalue)
 {
 ScopedLock lock(cCriticalSection);
-if(uItCount>0)
-	throw ref new Platform::AccessDeniedException();
 cList.set(uid, hvalue);
 }
 

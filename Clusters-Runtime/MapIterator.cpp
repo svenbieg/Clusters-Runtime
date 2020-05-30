@@ -10,6 +10,7 @@
 //=======
 
 #include "Map.h"
+#include "MapItem.h"
 
 
 //===========
@@ -51,22 +52,33 @@ hMap->uItCount++;
 // Access
 //========
 
-Platform::String^ MapIterator::CurrentKey::get()
+MapItem^ MapIterator::Current::get()
 {
 ScopedLock lock(hMap->cCriticalSection);
-return cIt.get_current_id();
+String^ hkey=cIt.get_current_id();
+Object^ hvalue=cIt.get_current_item();
+return ref new MapItem(hMap, hkey, hvalue);
 }
 
-Platform::Object^ MapIterator::CurrentValue::get()
+UINT MapIterator::GetMany(Platform::WriteOnlyArray<MapItem^>^ hitems)
 {
+if(!hitems)
+	throw ref new Platform::InvalidArgumentException();
 ScopedLock lock(hMap->cCriticalSection);
-return cIt.get_current_item();
-}
-
-VOID MapIterator::CurrentValue::set(Object^ hvalue)
-{
-ScopedLock lock(hMap->cCriticalSection);
-cIt.set_current_item(hvalue);
+UINT64 utotal=hMap->Count;
+UINT ucount=hitems->Length;
+UINT64 uread=min(utotal, ucount);
+UINT upos=0;
+for(cIt.set_position(0); cIt.has_current(); cIt.move_next())
+	{
+	String^ hkey=cIt.get_current_id();
+	Object^ hvalue=cIt.get_current_item();
+	MapItem^ hitem=ref new MapItem(hMap, hkey, hvalue);
+	hitems->set(upos++, hitem);
+	if(upos==uread)
+		break;
+	}
+return upos;
 }
 
 bool MapIterator::HasCurrent::get()

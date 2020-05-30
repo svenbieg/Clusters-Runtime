@@ -35,7 +35,7 @@ ScopedLock lock(cCriticalSection);
 return cList.get_count();
 }
 
-ListIterator^ List::First()
+IIterator<Object^>^ List::First()
 {
 ScopedLock lock(cCriticalSection);
 return ref new ListIterator(this);

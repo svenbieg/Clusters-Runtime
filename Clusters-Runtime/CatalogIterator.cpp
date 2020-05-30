@@ -51,22 +51,33 @@ hCatalog->uItCount++;
 // Access
 //========
 
-Platform::Guid CatalogIterator::CurrentId::get()
+CatalogItem^ CatalogIterator::Current::get()
 {
 ScopedLock lock(hCatalog->cCriticalSection);
-return cIt.get_current_id();
+Platform::Guid uid=cIt.get_current_id();
+Object^ hvalue=cIt.get_current_item();
+return ref new CatalogItem(hCatalog, uid, hvalue);
 }
 
-Platform::Object^ CatalogIterator::CurrentItem::get()
+UINT CatalogIterator::GetMany(Platform::WriteOnlyArray<CatalogItem^>^ hitems)
 {
+if(!hitems)
+	throw ref new Platform::InvalidArgumentException();
 ScopedLock lock(hCatalog->cCriticalSection);
-return cIt.get_current_item();
-}
-
-VOID CatalogIterator::CurrentItem::set(Object^ hitem)
-{
-ScopedLock lock(hCatalog->cCriticalSection);
-cIt.set_current_item(hitem);
+UINT64 utotal=hCatalog->Count;
+UINT ucount=hitems->Length;
+UINT64 uread=min(utotal, ucount);
+UINT upos=0;
+for(cIt.set_position(0); cIt.has_current(); cIt.move_next())
+	{
+	Platform::Guid uid=cIt.get_current_id();
+	Object^ hvalue=cIt.get_current_item();
+	CatalogItem^ hitem=ref new CatalogItem(hCatalog, uid, hvalue);
+	hitems->set(upos++, hitem);
+	if(upos==uread)
+		break;
+	}
+return upos;
 }
 
 bool CatalogIterator::HasCurrent::get()

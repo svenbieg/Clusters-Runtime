@@ -30,7 +30,7 @@ namespace Clusters {
 [Platform::MTAThreadAttribute]
 [WFM::MarshalingBehaviorAttribute(WFM::MarshalingType::Agile)]
 [WFM::WebHostHiddenAttribute]
-public ref class Catalog sealed
+public ref class Catalog sealed: public IIterable<CatalogItem^>
 {
 internal:
 	// Friends
@@ -46,7 +46,7 @@ public:
 	bool Contains(Platform::Guid Id);
 	property UINT64 Count { UINT64 get(); }
 	CatalogIterator^ Find(Platform::Guid Id);
-	CatalogIterator^ First();
+	virtual IIterator<CatalogItem^>^ First();
 	Object^ Get(Platform::Guid Id);
 	CatalogIterator^ Last();
 
