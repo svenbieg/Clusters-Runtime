@@ -9,7 +9,6 @@
 // Using
 //=======
 
-#include "Clusters\slist.h"
 #include "MapIterator.h"
 
 namespace WFM=Windows::Foundation::Metadata;

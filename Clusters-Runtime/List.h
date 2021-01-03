@@ -9,7 +9,6 @@
 // Using
 //=======
 
-#include "Clusters\list.h"
 #include "ListIterator.h"
 
 namespace WFM=Windows::Foundation::Metadata;

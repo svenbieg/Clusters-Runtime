@@ -43,6 +43,10 @@
     <RootNamespace>Clusters</RootNamespace>
     <WindowsTargetPlatformMinVersion>10.0.10240.0</WindowsTargetPlatformMinVersion>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="Configuration">
@@ -109,8 +113,8 @@
     <ClInclude Include="Catalog.h" />
     <ClInclude Include="CatalogItem.h" />
     <ClInclude Include="CatalogIterator.h" />
-    <ClInclude Include="Clusters\slist.h" />
-    <ClInclude Include="Clusters\list.h" />
+    <ClInclude Include="Clusters\list.hpp" />
+    <ClInclude Include="Clusters\slist.hpp" />
     <ClInclude Include="Guid.h" />
     <ClInclude Include="Handle.h" />
     <ClInclude Include="List.h" />

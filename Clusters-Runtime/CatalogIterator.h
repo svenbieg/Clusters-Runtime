@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "Clusters\slist.h"
+#include "Clusters\slist.hpp"
 #include "CatalogItem.h"
 #include "Guid.h"
 

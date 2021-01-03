@@ -9,8 +9,8 @@
 // http://github.com/svenbieg/clusters
 
 
-#ifndef _CLUSTERS_LIST
-#define _CLUSTERS_LIST
+#ifndef _CLUSTERS_LIST_HPP
+#define _CLUSTERS_LIST_HPP
 
 
 //=======
@@ -114,7 +114,7 @@ public:
 			return 0;
 		unsigned int pos=(unsigned int)position;
 		unsigned int max=m_item_count-pos;
-		unsigned int copy=count>max? max: count;
+		unsigned int copy=count>max? max: (unsigned int)count;
 		_item_t const* src=get_items();
 		for(unsigned int u=0; u<copy; u++)
 			items[u]=src[pos+u];
@@ -204,7 +204,7 @@ public:
 		if(position>=m_item_count)
 			return 0;
 		unsigned int max=m_item_count-(unsigned int)position;
-		unsigned int copy=count>max? max: count;
+		unsigned int copy=count>max? max: (unsigned int)count;
 		_item_t* dst=get_items();
 		for(unsigned int u=0; u<copy; u++)
 			dst[position+u]=items[u];
@@ -609,7 +609,8 @@ private:
 			}
 		if(position>0)
 			{
-			if(count+m_children[position-1]->get_child_count()<=_group_size)
+			unsigned int before=m_children[position-1]->get_child_count();
+			if(count+before<=_group_size)
 				{
 				move_children(position, position-1, count);
 				remove_internal(position);
@@ -618,10 +619,11 @@ private:
 			}
 		if(position+1<m_child_count)
 			{
-			if(count+m_children[position+1]->get_child_count()<=_group_size)
+			unsigned int after=m_children[position+1]->get_child_count();
+			if(count+after<=_group_size)
 				{
-				move_children(position, position+1, count);
-				remove_internal(position);
+				move_children(position+1, position, after);
+				remove_internal(position+1);
 				return true;
 				}
 			}
@@ -1178,4 +1180,4 @@ public:
 
 } // namespace
 
-#endif // _CLUSTERS_LIST
+#endif // _CLUSTERS_LIST_HPP

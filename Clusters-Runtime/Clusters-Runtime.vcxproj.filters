@@ -24,14 +24,14 @@
     <ClInclude Include="CatalogIterator.h" />
     <ClInclude Include="ListIterator.h" />
     <ClInclude Include="MapIterator.h" />
-    <ClInclude Include="Clusters\list.h">
-      <Filter>Clusters</Filter>
-    </ClInclude>
-    <ClInclude Include="Clusters\slist.h">
-      <Filter>Clusters</Filter>
-    </ClInclude>
     <ClInclude Include="MapItem.h" />
     <ClInclude Include="CatalogItem.h" />
+    <ClInclude Include="Clusters\list.hpp">
+      <Filter>Clusters</Filter>
+    </ClInclude>
+    <ClInclude Include="Clusters\slist.hpp">
+      <Filter>Clusters</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Clusters">

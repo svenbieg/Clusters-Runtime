@@ -9,7 +9,6 @@
 // Using
 //=======
 
-#include "Clusters\slist.h"
 #include "CatalogIterator.h"
 #include "Guid.h"
 
